@@ -451,6 +451,22 @@ export const INTAKE: IntakeQuestion[] = [
     required: false,
   },
   {
+    field: "postSecondaryStudent",
+    group: G.work,
+    inputType: "yes-no",
+    required: false,
+    question: {
+      en: "Are you or a family member studying (or about to start) at a college or university?",
+      "zh-Hant": "你或家人是否正在（或即將）於學院或大學就讀？",
+      "zh-Hans": "你或家人是否正在（或即将）于学院或大学就读？",
+    },
+    helpText: {
+      en: "This helps us check student grants and education savings.",
+      "zh-Hant": "這有助我們查看學生助學金及教育儲蓄。",
+      "zh-Hans": "这有助我们查看学生助学金及教育储蓄。",
+    },
+  },
+  {
     field: "filedTaxes",
     group: G.work,
     inputType: "yes-no",

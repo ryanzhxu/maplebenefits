@@ -56,6 +56,7 @@ const en = {
     health: "Health & dental",
     "income-support": "Income support",
     "tax-credits": "Tax credits",
+    education: "Education & students",
   },
   levels: {
     federal: "Federal (Canada)",
@@ -233,6 +234,7 @@ const zhHant: Loose<Dict> = {
     health: "醫療與牙科",
     "income-support": "收入援助",
     "tax-credits": "稅務抵免",
+    education: "教育與學生",
   },
   levels: {
     federal: "聯邦（加拿大）",
@@ -392,6 +394,7 @@ const zhHans: Loose<Dict> = {
     health: "医疗与牙科",
     "income-support": "收入援助",
     "tax-credits": "税务抵免",
+    education: "教育与学生",
   },
   levels: {
     federal: "联邦（加拿大）",

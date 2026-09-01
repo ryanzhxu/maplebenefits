@@ -8,8 +8,8 @@ const ids = new Set(BENEFITS.map((b) => b.id));
 const intakeFields = new Set(INTAKE.map((q) => q.field));
 
 describe("benefit data integrity", () => {
-  it("has 29 benefits", () => {
-    expect(BENEFITS.length).toBe(29);
+  it("has 36 benefits", () => {
+    expect(BENEFITS.length).toBe(36);
   });
 
   it("has unique ids", () => {
@@ -126,6 +126,16 @@ describe("real scenario: working family with young kids (age 35)", () => {
     expect(statusFor("rap", ctx)).toBe("eligible");
   });
 
+  it("qualifies for family/education savings (Learning Bond, Affordable Child Care)", () => {
+    expect(statusFor("canada-learning-bond", ctx)).toBe("eligible");
+    expect(statusFor("bc-affordable-child-care", ctx)).toBe("eligible");
+  });
+
+  it("as a renter, may qualify for first-home programs", () => {
+    expect(statusFor("fhsa", ctx)).toBe("eligible");
+    expect(statusFor("home-buyers-amount", ctx)).toBe("eligible");
+  });
+
   it("CCB estimate is a positive dollar amount for 2 kids", () => {
     const r = evaluate(getBenefit("ccb")!, ctx);
     expect(r.estimate?.low).toBeGreaterThan(5000);
@@ -168,6 +178,32 @@ describe("real scenario: adult with severe disability and DTC (age 40)", () => {
 
   it("CDB is gated on DTC — without it, not eligible", () => {
     expect(statusFor("cdb", { ...ctx, hasDTC: false })).toBe("ineligible");
+  });
+});
+
+describe("real scenario: post-secondary student (age 22)", () => {
+  const ctx: AssessmentContext = {
+    age: 22,
+    province: "BC",
+    residency: "citizen",
+    maritalStatus: "single",
+    hasChildren: false,
+    employmentStatus: "unemployed",
+    annualIncome: 8000,
+    familyIncome: 40000,
+    isHomeowner: false,
+    postSecondaryStudent: true,
+    filedTaxes: true,
+  };
+
+  it("qualifies for the BC Access Grant", () => {
+    expect(statusFor("bc-access-grant", ctx)).toBe("eligible");
+  });
+
+  it("does not surface the Access Grant when not a student", () => {
+    expect(statusFor("bc-access-grant", { ...ctx, postSecondaryStudent: false })).toBe(
+      "ineligible",
+    );
   });
 });
 

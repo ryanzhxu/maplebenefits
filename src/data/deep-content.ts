@@ -719,4 +719,168 @@ export const DEEP: Record<string, DeepContent> = {
       ),
     ],
   },
+
+  fhsa: {
+    eligibilityDetails: [
+      tri(
+        "You must be a Canadian resident aged 18 to 71 and a first-time home buyer (you have not lived in a home you owned this year or the past 4 years).",
+        "你須為 18 至 71 歲的加拿大居民及首次置業者（本年及過去 4 年沒有自住擁有的住所）。",
+        "你须为 18 至 71 岁的加拿大居民及首次置业者（本年及过去 4 年没有自住拥有的住所）。",
+      ),
+      tri(
+        "You can hold an FHSA for up to 15 years or until age 71.",
+        "FHSA 最長可持有 15 年或至 71 歲。",
+        "FHSA 最长可持有 15 年或至 71 岁。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "You can combine the FHSA with the RRSP Home Buyers' Plan for the same purchase.",
+        "同一筆置業可同時使用 FHSA 及 RRSP 置業計劃。",
+        "同一笔置业可同时使用 FHSA 及 RRSP 置业计划。",
+      ),
+      tri(
+        "Unused contribution room carries forward, up to $8,000 extra.",
+        "未用的供款額度可結轉，最多額外 $8,000。",
+        "未用的供款额度可结转，最多额外 $8,000。",
+      ),
+    ],
+  },
+
+  "home-buyers-amount": {
+    eligibilityDetails: [
+      tri(
+        "You (or your spouse) bought a qualifying home and did not live in another home you owned in the year of purchase or the previous 4 years.",
+        "你（或配偶）購買了合資格住所，且在購買當年及之前 4 年沒有自住其他擁有的住所。",
+        "你（或配偶）购买了合资格住所，且在购买当年及之前 4 年没有自住其他拥有的住所。",
+      ),
+      tri(
+        "People eligible for the Disability Tax Credit can claim it without being a first-time buyer.",
+        "符合殘疾稅務抵免的人士無需是首次置業者亦可申索。",
+        "符合残疾税务抵免的人士无需是首次置业者亦可申索。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "The $10,000 credit can be split between you and your spouse, but the combined claim cannot exceed $10,000.",
+        "$10,000 抵免可與配偶分攤，但合計不可超過 $10,000。",
+        "$10,000 抵免可与配偶分摊，但合计不可超过 $10,000。",
+      ),
+    ],
+  },
+
+  "multigen-reno": {
+    eligibilityDetails: [
+      tri(
+        "The renovation must create a self-contained secondary unit for a related senior (65+) or an adult eligible for the Disability Tax Credit.",
+        "裝修須為相關長者（65 歲以上）或符合殘疾稅務抵免的成人建造獨立第二單位。",
+        "装修须为相关长者（65 岁以上）或符合残疾税务抵免的成人建造独立第二单位。",
+      ),
+      tri(
+        "The unit needs its own entrance, kitchen, bathroom, and sleeping area.",
+        "該單位須有獨立入口、廚房、浴室及睡眠空間。",
+        "该单位须有独立入口、厨房、浴室及睡眠空间。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is refundable — you get up to $7,500 back even if you owe no tax.",
+        "可退還 — 即使無稅可繳也可退回最多 $7,500。",
+        "可退还 — 即使无税可缴也可退回最多 $7,500。",
+      ),
+    ],
+  },
+
+  "canada-learning-bond": {
+    eligibilityDetails: [
+      tri(
+        "The child must be born in 2004 or later, be a Canadian resident, and be from a lower-income family (adjusted income roughly under $57,000).",
+        "子女須於 2004 年或之後出生、為加拿大居民，並來自較低收入家庭（經調整收入約 $57,000 以下）。",
+        "子女须于 2004 年或之后出生、为加拿大居民，并来自较低收入家庭（经调整收入约 $57,000 以下）。",
+      ),
+      tri(
+        "You need an RESP and Social Insurance Numbers for you and your child.",
+        "你需要 RESP，以及你和子女的社會保險號碼。",
+        "你需要 RESP，以及你和子女的社会保险号码。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "You can claim back-dated bond amounts for every past year the child was eligible, up to age 18.",
+        "可為子女過往每個合資格年度追溯申領債券，最多至 18 歲。",
+        "可为子女过往每个合资格年度追溯申领债券，最多至 18 岁。",
+      ),
+      tri(
+        "Some providers offer no-fee, no-minimum RESPs designed for the bond.",
+        "部分機構提供專為債券而設、免費且無最低要求的 RESP。",
+        "部分机构提供专为债券而设、免费且无最低要求的 RESP。",
+      ),
+    ],
+  },
+
+  "canada-training-credit": {
+    eligibilityDetails: [
+      tri(
+        "You accumulate $250 of room each year from age 26 to 65 if you have working income and file taxes.",
+        "如你有工作收入並報稅，26 至 65 歲每年累積 $250 額度。",
+        "如你有工作收入并报税，26 至 65 岁每年累积 $250 额度。",
+      ),
+      tri(
+        "When you pay eligible tuition, you can claim up to half of it, limited by your accumulated room.",
+        "當你支付合資格學費時，可申索最多一半，以累積額度為限。",
+        "当你支付合资格学费时，可申索最多一半，以累积额度为限。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is refundable and separate from the regular tuition tax credit — you can use both.",
+        "它可退還，且與一般學費稅務抵免分開 — 兩者可同時使用。",
+        "它可退还，且与一般学费税务抵免分开 — 两者可同时使用。",
+      ),
+    ],
+  },
+
+  "bc-access-grant": {
+    eligibilityDetails: [
+      tri(
+        "You must be a BC resident (citizen, PR, or protected person) studying at a BC public post-secondary school, from a low- or middle-income family.",
+        "你須為卑詩省居民（公民、永久居民或受保護人士），就讀卑詩省公立專上院校，並來自低至中等收入家庭。",
+        "你须为不列颠哥伦比亚省居民（公民、永久居民或受保护人士），就读不列颠哥伦比亚省公立专上院校，并来自低至中等收入家庭。",
+      ),
+      tri(
+        "You are assessed automatically when you apply for StudentAid BC — no separate application.",
+        "申請 StudentAid BC 時會自動評估 — 無需另行申請。",
+        "申请 StudentAid BC 时会自动评估 — 无需另行申请。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is a grant, not a loan — you never repay it.",
+        "這是助學金而非貸款 — 無需償還。",
+        "这是助学金而非贷款 — 无需偿还。",
+      ),
+    ],
+  },
+
+  "bc-affordable-child-care": {
+    eligibilityDetails: [
+      tri(
+        "Your family income is generally $111,000 or less (higher for larger families), and you use an eligible child care provider.",
+        "你的家庭收入一般為 $111,000 或以下（家庭人數較多則較高），並使用合資格託管機構。",
+        "你的家庭收入一般为 $111,000 或以下（家庭人数较多则较高），并使用合资格托管机构。",
+      ),
+      tri(
+        "There must be a reason for care, such as working, studying, looking for work, or a medical condition.",
+        "須有託管理由，例如工作、進修、求職或健康狀況。",
+        "须有托管理由，例如工作、进修、求职或健康状况。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Families earning about $45,000 or less usually get the maximum. It often stacks with the Child Care Fee Reduction at participating providers.",
+        "收入約 $45,000 或以下的家庭通常獲最高金額。在參與機構常可與託兒費減免疊加。",
+        "收入约 $45,000 或以下的家庭通常获最高金额。在参与机构常可与托儿费减免叠加。",
+      ),
+    ],
+  },
 };

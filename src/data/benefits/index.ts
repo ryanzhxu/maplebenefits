@@ -3,9 +3,12 @@ import { federalDisabilityBenefits } from "./federal-disability";
 import { federalSeniorsBenefits } from "./federal-seniors";
 import { federalFamilyTaxBenefits } from "./federal-family-tax";
 import { federalIncomeBenefits } from "./federal-income";
+import { federalHousingBenefits } from "./federal-housing";
+import { federalEducationBenefits } from "./federal-education";
 import { bcDisabilityIncomeBenefits } from "./bc-disability-income";
 import { bcHousingBenefits } from "./bc-housing";
 import { bcHealthSeniorsFamilyBenefits } from "./bc-health-seniors-family";
+import { bcEducationChildcareBenefits } from "./bc-education-childcare";
 
 /** Every benefit in the app. Order here is the default browse order. */
 export const BENEFITS: Benefit[] = [
@@ -13,9 +16,12 @@ export const BENEFITS: Benefit[] = [
   ...federalSeniorsBenefits,
   ...federalFamilyTaxBenefits,
   ...federalIncomeBenefits,
+  ...federalHousingBenefits,
+  ...federalEducationBenefits,
   ...bcDisabilityIncomeBenefits,
   ...bcHousingBenefits,
   ...bcHealthSeniorsFamilyBenefits,
+  ...bcEducationChildcareBenefits,
 ];
 
 /** Benefits that are still active (excludes discontinued programs). */
@@ -39,6 +45,7 @@ export const CATEGORIES: BenefitCategory[] = [
   "health",
   "income-support",
   "tax-credits",
+  "education",
 ];
 
 export const LEVELS: BenefitLevel[] = ["federal", "provincial-bc"];

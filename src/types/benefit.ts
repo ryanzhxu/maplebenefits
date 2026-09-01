@@ -31,7 +31,8 @@ export type BenefitCategory =
   | "housing"
   | "health"
   | "income-support"
-  | "tax-credits";
+  | "tax-credits"
+  | "education";
 
 export type BenefitLevel = "federal" | "provincial-bc";
 
@@ -160,6 +161,8 @@ export interface AssessmentContext {
   hasRecentCppContributions?: boolean;
   hasRecentEiHours?: boolean;
   filedTaxes?: boolean;
+  /** You or a family member is in, or about to start, post-secondary study. */
+  postSecondaryStudent?: boolean;
   [key: string]: unknown;
 }
 
