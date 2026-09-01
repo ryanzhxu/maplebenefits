@@ -1,0 +1,301 @@
+import type { Benefit } from "@/types/benefit";
+import { tri } from "@/data/tri";
+import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+
+export const oas: Benefit = {
+  id: "oas",
+  name: tri("Old Age Security", "老年保障金", "老年保障金"),
+  shortName: "OAS",
+  category: "seniors",
+  level: "federal",
+  description: tri(
+    "A monthly pension for most people aged 65 and older who have lived in Canada for at least 10 years. It is based on residence, not on work history.",
+    "為大部分 65 歲或以上、在加拿大居住滿 10 年人士提供的每月退休金。以居住年期計算，與工作紀錄無關。",
+    "为大部分 65 岁或以上、在加拿大居住满 10 年人士提供的每月退休金。以居住年期计算，与工作纪录无关。",
+  ),
+  estimatedValue: tri(
+    "Up to $751.97/month (age 65-74) or $827.17/month (75+)",
+    "最多每月 $751.97（65-74 歲）或 $827.17（75 歲以上）",
+    "最多每月 $751.97（65-74 岁）或 $827.17（75 岁以上）",
+  ),
+  contextFields: ["age", "residency", "annualIncome"],
+  check: buildCheck([
+    {
+      test: atLeast((c) => c.age, 65),
+      hard: true,
+      passReason: tri(
+        "You are 65 or older.",
+        "你已年滿 65 歲。",
+        "你已年满 65 岁。",
+      ),
+      failReason: tri(
+        "Old Age Security starts at age 65. You can apply up to 11 months before your 65th birthday.",
+        "老年保障金由 65 歲開始。你可在 65 歲生日前最多 11 個月申請。",
+        "老年保障金由 65 岁开始。你可在 65 岁生日前最多 11 个月申请。",
+      ),
+      missingField: "age",
+    },
+    {
+      test: oneOf((c) => c.residency, ["citizen", "pr"]),
+      hard: false,
+      passReason: tri(
+        "You are a citizen or permanent resident, and generally need 10+ years in Canada.",
+        "你是公民或永久居民，一般需在加拿大居住滿 10 年。",
+        "你是公民或永久居民，一般需在加拿大居住满 10 年。",
+      ),
+      missingField: "residency",
+    },
+    {
+      test: atMost((c) => c.annualIncome, 148451),
+      hard: false,
+      passReason: tri(
+        "Your income is below the level where OAS is fully clawed back.",
+        "你的收入低於老年保障金被全數收回的水平。",
+        "你的收入低于老年保障金被全数收回的水平。",
+      ),
+      missingField: "annualIncome",
+    },
+  ]),
+  estimateAmount: (ctx) => {
+    const high = ctx.age !== undefined && ctx.age >= 75 ? 827 : 752;
+    return { low: 0, high, period: "month" };
+  },
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri(
+        "Check if you were enrolled automatically",
+        "查看你是否已自動登記",
+        "查看你是否已自动登记",
+      ),
+      description: tri(
+        "Many people are enrolled automatically. Service Canada sends a letter. If you did not get one, you need to apply.",
+        "很多人會被自動登記，Service Canada 會寄信通知。如未收到，則須自行申請。",
+        "很多人会被自动登记，Service Canada 会寄信通知。如未收到，则须自行申请。",
+      ),
+    },
+    {
+      order: 2,
+      title: tri("Apply through Service Canada", "透過 Service Canada 申請", "通过 Service Canada 申请"),
+      description: tri(
+        "Apply online through My Service Canada Account or on paper, ideally 6 months before you want payments to start.",
+        "透過 My Service Canada Account 網上或紙本申請，最好在希望開始領取前 6 個月辦理。",
+        "通过 My Service Canada Account 网上或纸本申请，最好在希望开始领取前 6 个月办理。",
+      ),
+      actionUrl:
+        "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/apply.html",
+    },
+  ],
+  requiredDocuments: [
+    tri("Social Insurance Number", "社會保險號碼", "社会保险号码"),
+    tri("Banking information for direct deposit", "直接存款的銀行資料", "直接存款的银行资料"),
+  ],
+  applicationUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/apply.html",
+  officialInfoUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security.html",
+  processingTime: tri("Varies", "視情況而定", "视情况而定"),
+  paymentFrequency: tri("Monthly", "每月", "每月"),
+  tags: ["seniors", "65+", "pension", "retirement"],
+  relatedBenefits: ["gis", "bc-seniors-supplement", "safer", "cpp-retirement"],
+  lastUpdated: "2026-09-01",
+};
+
+export const gis: Benefit = {
+  id: "gis",
+  name: tri(
+    "Guaranteed Income Supplement",
+    "保證收入補助金",
+    "保证收入补助金",
+  ),
+  shortName: "GIS",
+  category: "seniors",
+  level: "federal",
+  description: tri(
+    "A monthly, non-taxable top-up for low-income seniors who already receive Old Age Security. File your taxes each year to keep getting it.",
+    "為已領取老年保障金的低收入長者提供的每月免稅補助。每年報稅以持續領取。",
+    "为已领取老年保障金的低收入长者提供的每月免税补助。每年报税以持续领取。",
+  ),
+  estimatedValue: tri(
+    "Up to about $1,108/month for a single senior",
+    "單身長者最多約每月 $1,108",
+    "单身长者最多约每月 $1,108",
+  ),
+  contextFields: ["age", "annualIncome", "familyIncome", "maritalStatus", "filedTaxes"],
+  prerequisites: ["oas"],
+  check: buildCheck([
+    {
+      test: atLeast((c) => c.age, 65),
+      hard: true,
+      passReason: tri("You are 65 or older.", "你已年滿 65 歲。", "你已年满 65 岁。"),
+      failReason: tri(
+        "GIS is for OAS recipients aged 65 and older.",
+        "保證收入補助金適用於 65 歲或以上的老年保障金領取者。",
+        "保证收入补助金适用于 65 岁或以上的老年保障金领取者。",
+      ),
+      missingField: "age",
+    },
+    {
+      test: atMost((c) => c.annualIncome, 22488),
+      hard: true,
+      passReason: tri(
+        "Your income is in the low-income range GIS is designed for.",
+        "你的收入屬於保證收入補助金針對的低收入範圍。",
+        "你的收入属于保证收入补助金针对的低收入范围。",
+      ),
+      failReason: tri(
+        "GIS is for seniors with low income (roughly under $22,500 for a single person).",
+        "保證收入補助金適用於低收入長者（單身約 $22,500 以下）。",
+        "保证收入补助金适用于低收入长者（单身约 $22,500 以下）。",
+      ),
+      missingField: "annualIncome",
+    },
+    {
+      test: isTrue((c) => c.filedTaxes),
+      hard: false,
+      passReason: tri(
+        "You file taxes, which keeps GIS flowing automatically.",
+        "你有報稅，可自動持續領取。",
+        "你有报税，可自动持续领取。",
+      ),
+      missingField: "filedTaxes",
+    },
+  ]),
+  estimateAmount: () => ({ low: 0, high: 1108, period: "month" }),
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Apply with or after your OAS", "與 OAS 一同或之後申請", "与 OAS 一同或之后申请"),
+      description: tri(
+        "You can apply for GIS at the same time as OAS. Many people are considered automatically once they file taxes.",
+        "你可與 OAS 同時申請保證收入補助金。很多人報稅後便會被自動考慮。",
+        "你可与 OAS 同时申请保证收入补助金。很多人报税后便会被自动考虑。",
+      ),
+      actionUrl:
+        "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/apply.html",
+    },
+    {
+      order: 2,
+      title: tri("File taxes every year", "每年報稅", "每年报税"),
+      description: tri(
+        "Filing on time each year is how the government recalculates your GIS. Miss it and payments can stop.",
+        "每年準時報稅是政府重新計算補助的方式，錯過可能令款項停止。",
+        "每年准时报税是政府重新计算补助的方式，错过可能令款项停止。",
+      ),
+    },
+  ],
+  requiredDocuments: [
+    tri("Social Insurance Number", "社會保險號碼", "社会保险号码"),
+    tri("Filed income tax return", "已報的所得稅表", "已报的所得税表"),
+  ],
+  applicationUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/apply.html",
+  officialInfoUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html",
+  processingTime: tri("Varies", "視情況而定", "视情况而定"),
+  paymentFrequency: tri("Monthly", "每月", "每月"),
+  tags: ["seniors", "65+", "low-income", "supplement"],
+  relatedBenefits: ["oas", "bc-seniors-supplement", "safer", "bc-bus-pass"],
+  lastUpdated: "2026-09-01",
+};
+
+export const cppRetirement: Benefit = {
+  id: "cpp-retirement",
+  name: tri(
+    "CPP Retirement Pension",
+    "CPP 退休金",
+    "CPP 退休金",
+  ),
+  shortName: "CPP",
+  category: "seniors",
+  level: "federal",
+  description: tri(
+    "A monthly pension you earned by paying into the Canada Pension Plan while working. You can start it as early as 60 or as late as 70.",
+    "你在工作時繳付加拿大退休金計劃而賺取的每月退休金。可最早 60 歲、最遲 70 歲開始領取。",
+    "你在工作时缴付加拿大退休金计划而赚取的每月退休金。可最早 60 岁、最迟 70 岁开始领取。",
+  ),
+  estimatedValue: tri(
+    "Up to $1,433/month (2025); average about $900/month for new pensioners",
+    "最多每月 $1,433（2025）；新領取者平均約 $900",
+    "最多每月 $1,433（2025）；新领取者平均约 $900",
+  ),
+  contextFields: ["age", "hasRecentCppContributions"],
+  check: buildCheck([
+    {
+      test: atLeast((c) => c.age, 60),
+      hard: true,
+      passReason: tri(
+        "You are old enough to start CPP (as early as 60).",
+        "你已達可開始領取 CPP 的年齡（最早 60 歲）。",
+        "你已达可开始领取 CPP 的年龄（最早 60 岁）。",
+      ),
+      failReason: tri(
+        "You can start the CPP retirement pension as early as age 60.",
+        "你可最早於 60 歲開始領取 CPP 退休金。",
+        "你可最早于 60 岁开始领取 CPP 退休金。",
+      ),
+      missingField: "age",
+    },
+    {
+      test: isTrue((c) => c.hasRecentCppContributions),
+      hard: false,
+      passReason: tri(
+        "You paid into CPP while working, so you have a pension to claim.",
+        "你工作時有繳付 CPP，因此有退休金可領取。",
+        "你工作时有缴付 CPP，因此有退休金可领取。",
+      ),
+      missingField: "hasRecentCppContributions",
+    },
+  ]),
+  estimateAmount: () => ({
+    low: 900,
+    high: 1433,
+    period: "month",
+    note: tri(
+      "Your amount depends on how much and how long you contributed.",
+      "金額取決於你的供款額與供款年期。",
+      "金额取决于你的供款额与供款年期。",
+    ),
+  }),
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri(
+        "Check your CPP statement of contributions",
+        "查看你的 CPP 供款紀錄",
+        "查看你的 CPP 供款纪录",
+      ),
+      description: tri(
+        "Sign in to My Service Canada Account to see your estimated pension at different ages.",
+        "登入 My Service Canada Account 查看不同年齡的預估退休金。",
+        "登入 My Service Canada Account 查看不同年龄的预估退休金。",
+      ),
+    },
+    {
+      order: 2,
+      title: tri("Apply about 6 months ahead", "約提前 6 個月申請", "约提前 6 个月申请"),
+      description: tri(
+        "CPP is not automatic — you must apply. Apply online or on paper, ideally 6 months before you want it to start.",
+        "CPP 並非自動發放 — 你必須申請。可網上或紙本申請，最好提前 6 個月。",
+        "CPP 并非自动发放 — 你必须申请。可网上或纸本申请，最好提前 6 个月。",
+      ),
+      actionUrl:
+        "https://www.canada.ca/en/services/benefits/publicpensions/cpp/cpp-benefit/apply.html",
+    },
+  ],
+  requiredDocuments: [
+    tri("Social Insurance Number", "社會保險號碼", "社会保险号码"),
+    tri("Banking information for direct deposit", "直接存款的銀行資料", "直接存款的银行资料"),
+  ],
+  applicationUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/cpp/cpp-benefit/apply.html",
+  officialInfoUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html",
+  processingTime: tri("Usually within 4 months", "通常 4 個月內", "通常 4 个月内"),
+  paymentFrequency: tri("Monthly", "每月", "每月"),
+  tags: ["seniors", "60+", "pension", "retirement", "cpp"],
+  relatedBenefits: ["oas", "gis"],
+  lastUpdated: "2026-09-01",
+};
+
+export const federalSeniorsBenefits: Benefit[] = [oas, gis, cppRetirement];

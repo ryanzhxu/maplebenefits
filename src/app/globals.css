@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/*
+ * MapleBenefits design tokens.
+ * Clean and trustworthy — think gov.uk meets Linear.
+ * Blues and white for trust; green = eligible, amber = maybe, gray = not.
+ */
+@theme {
+  --color-bg: #f6f8fb;
+  --color-surface: #ffffff;
+  --color-ink: #0f1b2d;
+  --color-muted: #5a6b82;
+  --color-line: #e3e9f2;
+
+  --color-brand: #1b4fd6;
+  --color-brand-dark: #163fab;
+  --color-brand-soft: #eaf1ff;
+
+  --color-maple: #d64545;
+
+  --color-eligible: #17864a;
+  --color-eligible-soft: #e6f6ec;
+  --color-possible: #b26a00;
+  --color-possible-soft: #fdf2e0;
+  --color-neutral: #64748b;
+  --color-neutral-soft: #eef1f6;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 14px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* Visible, consistent focus ring for keyboard users. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Respect reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Print: clean action plan, hide chrome. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #fff;
+  }
+  .print-block {
+    break-inside: avoid;
+  }
+  a[href]::after {
+    content: "";
+  }
+}
