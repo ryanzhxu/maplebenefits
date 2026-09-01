@@ -883,4 +883,153 @@ export const DEEP: Record<string, DeepContent> = {
       ),
     ],
   },
+
+  "ontario-trillium": {
+    eligibilityDetails: [
+      tri(
+        "You must be an Ontario resident who pays rent or property tax, or has home energy costs, and files a tax return.",
+        "你須為繳付租金或物業稅、或有家居能源費用並報稅的安大略居民。",
+        "你须为缴付租金或物业税、或有家居能源费用并报税的安大略居民。",
+      ),
+      tri(
+        "It combines the Energy and Property Tax Credit, the Sales Tax Credit, and (in the north) the Northern Ontario Energy Credit.",
+        "它結合能源及物業稅抵免、銷售稅抵免，以及（北部）安大略北部能源抵免。",
+        "它结合能源及物业税抵免、销售税抵免，以及（北部）安大略北部能源抵免。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Complete the ON-BEN form with your tax return — many people miss it and lose the credit.",
+        "隨報稅填寫 ON-BEN 表格 — 很多人遺漏而失去抵免。",
+        "随报税填写 ON-BEN 表格 — 很多人遗漏而失去抵免。",
+      ),
+      tri(
+        "If your benefit is over $360, you can choose a single yearly payment instead of monthly.",
+        "如你的福利超過 $360，可選擇一次性年度發放而非每月。",
+        "如你的福利超过 $360，可选择一次性年度发放而非每月。",
+      ),
+    ],
+  },
+
+  "ontario-works": {
+    eligibilityDetails: [
+      tri(
+        "You must live in Ontario, be in financial need, and be willing to take part in activities to find work.",
+        "你須居於安大略、有經濟需要，並願意參與求職活動。",
+        "你须居于安大略、有经济需要，并愿意参与求职活动。",
+      ),
+      tri(
+        "Both your income and your assets are considered.",
+        "你的收入及資產都會被考慮。",
+        "你的收入及资产都会被考虑。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It also provides health benefits, including drug and dental coverage, and help with employment.",
+        "它亦提供健康福利（包括藥物及牙科保障）及就業協助。",
+        "它亦提供健康福利（包括药物及牙科保障）及就业协助。",
+      ),
+    ],
+  },
+
+  odsp: {
+    eligibilityDetails: [
+      tri(
+        "You must be 18+, an Ontario resident in financial need, and have a substantial physical or mental impairment expected to last a year or more.",
+        "你須年滿 18 歲、為有經濟需要的安大略居民，並有預期持續一年或以上的嚴重身體或精神障礙。",
+        "你须年满 18 岁、为有经济需要的安大略居民，并有预期持续一年或以上的严重身体或精神障碍。",
+      ),
+      tri(
+        "Financial eligibility is checked first, then a Disability Determination confirms the disability.",
+        "先審核經濟資格，再由殘障評定確認殘障。",
+        "先审核经济资格，再由残障评定确认残障。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "ODSP includes drug, dental, and vision coverage, and you can keep more of your earnings than on Ontario Works.",
+        "ODSP 包括藥物、牙科及視力保障，且可比安大略工作援助保留更多工作收入。",
+        "ODSP 包括药物、牙科及视力保障，且可比安大略工作援助保留更多工作收入。",
+      ),
+      tri(
+        "People approved for ODSP are often also eligible for the federal Disability Tax Credit.",
+        "獲批 ODSP 的人士通常亦符合聯邦殘疾稅務抵免資格。",
+        "获批 ODSP 的人士通常亦符合联邦残疾税务抵免资格。",
+      ),
+    ],
+  },
+
+  "ontario-child-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must receive the Canada Child Benefit, live in Ontario, and file your taxes each year.",
+        "你須領取加拿大兒童福利、居於安大略，並每年報稅。",
+        "你须领取加拿大儿童福利、居于安大略，并每年报税。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "There is no separate application — it is paid together with the Canada Child Benefit.",
+        "無需另行申請 — 與加拿大兒童福利一併發放。",
+        "无需另行申请 — 与加拿大儿童福利一并发放。",
+      ),
+    ],
+  },
+
+  "ontario-gains": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you are 65+, live in Ontario, and receive the federal Guaranteed Income Supplement.",
+        "如你 65 歲以上、居於安大略並領取聯邦保證收入補助金即合資格。",
+        "如你 65 岁以上、居于安大略并领取联邦保证收入补助金即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "For most people it is automatic once you receive GIS and file your Ontario taxes.",
+        "對大多數人而言，一旦領取 GIS 並在安大略報稅便自動發放。",
+        "对大多数人而言，一旦领取 GIS 并在安大略报税便自动发放。",
+      ),
+    ],
+  },
+
+  "ontario-drug-benefit": {
+    eligibilityDetails: [
+      tri(
+        "Everyone 65+ is covered automatically the month after turning 65 (Ontario Drug Benefit).",
+        "所有 65 歲以上人士在 65 歲後翌月自動獲保障（安大略藥物福利）。",
+        "所有 65 岁以上人士在 65 岁后翌月自动获保障（安大略药物福利）。",
+      ),
+      tri(
+        "Under 65 without private insurance, the Trillium Drug Program helps when drug costs are high relative to income.",
+        "65 歲以下且無私人保險者，藥費相對收入偏高時可由延齡草藥物計劃協助。",
+        "65 岁以下且无私人保险者，药费相对收入偏高时可由延龄草药物计划协助。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Low-income seniors can join the Seniors Co-Payment Program to remove the deductible and lower the co-pay.",
+        "低收入長者可加入長者共付計劃，免除自付額並降低共付。",
+        "低收入长者可加入长者共付计划，免除自付额并降低共付。",
+      ),
+    ],
+  },
+
+  "ontario-senior-homeowner-grant": {
+    eligibilityDetails: [
+      tri(
+        "You must be 64+ by year end, own and live in your Ontario home, and have income under $50,000 (single) or $60,000 (couple).",
+        "你須在年底年滿 64 歲、擁有並居於安大略住所，收入低於 $50,000（單身）或 $60,000（夫婦）。",
+        "你须在年底年满 64 岁、拥有并居于安大略住所，收入低于 $50,000（单身）或 $60,000（夫妇）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Apply on your tax return each year — the grant is not automatic.",
+        "每年於報稅表申請 — 此津貼並非自動。",
+        "每年于报税表申请 — 此津贴并非自动。",
+      ),
+    ],
+  },
 };
