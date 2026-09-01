@@ -32,7 +32,7 @@ export const SITE = {
     "zh-Hans": "联邦 · 不列颠哥伦比亚省 · 安大略省",
   },
   /** Number of benefits covered — keep in sync with the data registry. */
-  benefitCount: 43,
+  benefitCount: 45,
   /** Contact / project links (optional). */
   githubUrl: "",
 } as const;

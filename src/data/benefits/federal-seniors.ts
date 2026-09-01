@@ -1,6 +1,6 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
 export const oas: Benefit = {
   id: "oas",
@@ -298,4 +298,198 @@ export const cppRetirement: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
-export const federalSeniorsBenefits: Benefit[] = [oas, gis, cppRetirement];
+export const allowance: Benefit = {
+  id: "oas-allowance",
+  name: tri("Allowance (for 60 to 64)", "津貼（60 至 64 歲）", "津贴（60 至 64 岁）"),
+  shortName: "Allowance",
+  category: "seniors",
+  level: "federal",
+  description: tri(
+    "A monthly payment for low-income people aged 60 to 64 whose spouse or partner receives the Guaranteed Income Supplement. It bridges the gap until you reach 65.",
+    "為 60 至 64 歲、配偶或伴侶領取保證收入補助金的低收入人士提供的每月款項，銜接至 65 歲。",
+    "为 60 至 64 岁、配偶或伴侣领取保证收入补助金的低收入人士提供的每月款项，衔接至 65 岁。",
+  ),
+  estimatedValue: tri(
+    "Up to about $1,411/month",
+    "最多約每月 $1,411",
+    "最多约每月 $1,411",
+  ),
+  contextFields: ["age", "maritalStatus", "familyIncome", "residency"],
+  check: buildCheck([
+    {
+      test: inRange((c) => c.age, 60, 64),
+      hard: true,
+      passReason: tri(
+        "You are aged 60 to 64.",
+        "你介乎 60 至 64 歲。",
+        "你介乎 60 至 64 岁。",
+      ),
+      failReason: tri(
+        "The Allowance is for people aged 60 to 64. At 65 you can apply for OAS and GIS instead.",
+        "此津貼適用於 60 至 64 歲人士。65 歲時可改為申請 OAS 及 GIS。",
+        "此津贴适用于 60 至 64 岁人士。65 岁时可改为申请 OAS 及 GIS。",
+      ),
+      missingField: "age",
+    },
+    {
+      test: oneOf((c) => c.maritalStatus, ["married", "common-law"]),
+      hard: true,
+      passReason: tri(
+        "You have a spouse or partner who may receive the GIS.",
+        "你有可能領取 GIS 的配偶或伴侶。",
+        "你有可能领取 GIS 的配偶或伴侣。",
+      ),
+      failReason: tri(
+        "Your spouse or common-law partner must receive the Guaranteed Income Supplement.",
+        "你的配偶或同居伴侶須領取保證收入補助金。",
+        "你的配偶或同居伴侣须领取保证收入补助金。",
+      ),
+      missingField: "maritalStatus",
+    },
+    {
+      test: atMost((c) => c.familyIncome, 41616),
+      hard: true,
+      passReason: tri(
+        "Your combined income is within the limit.",
+        "你的合計收入在上限之內。",
+        "你的合计收入在上限之内。",
+      ),
+      failReason: tri(
+        "Combined income must be under about $41,616.",
+        "合計收入須低於約 $41,616。",
+        "合计收入须低于约 $41,616。",
+      ),
+      missingField: "familyIncome",
+    },
+  ]),
+  estimateAmount: () => ({ low: 0, high: 1411, period: "month" }),
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Apply through Service Canada", "透過 Service Canada 申請", "通过 Service Canada 申请"),
+      description: tri(
+        "Apply on paper or online. Your spouse or partner should already receive OAS and the GIS.",
+        "以紙本或網上申請。你的配偶或伴侶應已領取 OAS 及 GIS。",
+        "以纸本或网上申请。你的配偶或伴侣应已领取 OAS 及 GIS。",
+      ),
+      actionUrl:
+        "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html",
+    },
+  ],
+  requiredDocuments: [
+    tri("Social Insurance Number", "社會保險號碼", "社会保险号码"),
+    tri("Your spouse's OAS/GIS details", "配偶的 OAS／GIS 資料", "配偶的 OAS／GIS 资料"),
+  ],
+  applicationUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html",
+  officialInfoUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html",
+  paymentFrequency: tri("Monthly", "每月", "每月"),
+  tags: ["seniors", "60+", "low-income", "spouse"],
+  relatedBenefits: ["gis", "oas", "allowance-survivor"],
+  lastUpdated: "2026-09-01",
+};
+
+export const allowanceSurvivor: Benefit = {
+  id: "allowance-survivor",
+  name: tri(
+    "Allowance for the Survivor",
+    "遺屬津貼",
+    "遗属津贴",
+  ),
+  shortName: "Survivor Allowance",
+  category: "seniors",
+  level: "federal",
+  description: tri(
+    "A monthly payment for low-income people aged 60 to 64 whose spouse or partner has died and who have not remarried.",
+    "為 60 至 64 歲、配偶或伴侶已離世且未再婚的低收入人士提供的每月款項。",
+    "为 60 至 64 岁、配偶或伴侣已离世且未再婚的低收入人士提供的每月款项。",
+  ),
+  estimatedValue: tri(
+    "Up to about $1,702/month",
+    "最多約每月 $1,702",
+    "最多约每月 $1,702",
+  ),
+  contextFields: ["age", "maritalStatus", "annualIncome"],
+  check: buildCheck([
+    {
+      test: inRange((c) => c.age, 60, 64),
+      hard: true,
+      passReason: tri(
+        "You are aged 60 to 64.",
+        "你介乎 60 至 64 歲。",
+        "你介乎 60 至 64 岁。",
+      ),
+      failReason: tri(
+        "This is for people aged 60 to 64. At 65 you can apply for OAS and GIS.",
+        "此津貼適用於 60 至 64 歲人士。65 歲時可申請 OAS 及 GIS。",
+        "此津贴适用于 60 至 64 岁人士。65 岁时可申请 OAS 及 GIS。",
+      ),
+      missingField: "age",
+    },
+    {
+      test: oneOf((c) => c.maritalStatus, ["widowed"]),
+      hard: true,
+      passReason: tri(
+        "Your spouse or partner has died and you have not remarried.",
+        "你的配偶或伴侶已離世，且你未再婚。",
+        "你的配偶或伴侣已离世，且你未再婚。",
+      ),
+      failReason: tri(
+        "This is for a widowed person who has not remarried or found a new common-law partner.",
+        "此津貼適用於喪偶且未再婚或未有新同居伴侶的人士。",
+        "此津贴适用于丧偶且未再婚或未有新同居伴侣的人士。",
+      ),
+      missingField: "maritalStatus",
+    },
+    {
+      test: atMost((c) => c.annualIncome, 28944),
+      hard: true,
+      passReason: tri(
+        "Your income is within the limit.",
+        "你的收入在上限之內。",
+        "你的收入在上限之内。",
+      ),
+      failReason: tri(
+        "Income must be under about $28,944.",
+        "收入須低於約 $28,944。",
+        "收入须低于约 $28,944。",
+      ),
+      missingField: "annualIncome",
+    },
+  ]),
+  estimateAmount: () => ({ low: 0, high: 1702, period: "month" }),
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Apply through Service Canada", "透過 Service Canada 申請", "通过 Service Canada 申请"),
+      description: tri(
+        "Apply on paper or online. You may need to provide proof of your spouse's death.",
+        "以紙本或網上申請。你可能需要提供配偶的死亡證明。",
+        "以纸本或网上申请。你可能需要提供配偶的死亡证明。",
+      ),
+      actionUrl:
+        "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html",
+    },
+  ],
+  requiredDocuments: [
+    tri("Social Insurance Number", "社會保險號碼", "社会保险号码"),
+    tri("Proof of your spouse's death (if asked)", "配偶死亡證明（如需要）", "配偶死亡证明（如需要）"),
+  ],
+  applicationUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html",
+  officialInfoUrl:
+    "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html",
+  paymentFrequency: tri("Monthly", "每月", "每月"),
+  tags: ["seniors", "60+", "low-income", "widowed", "survivor"],
+  relatedBenefits: ["gis", "oas", "oas-allowance"],
+  lastUpdated: "2026-09-01",
+};
+
+export const federalSeniorsBenefits: Benefit[] = [
+  oas,
+  gis,
+  cppRetirement,
+  allowance,
+  allowanceSurvivor,
+];
