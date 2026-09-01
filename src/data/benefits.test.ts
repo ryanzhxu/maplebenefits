@@ -8,8 +8,8 @@ const ids = new Set(BENEFITS.map((b) => b.id));
 const intakeFields = new Set(INTAKE.map((q) => q.field));
 
 describe("benefit data integrity", () => {
-  it("has 45 benefits", () => {
-    expect(BENEFITS.length).toBe(45);
+  it("has 50 benefits", () => {
+    expect(BENEFITS.length).toBe(50);
   });
 
   it("has unique ids", () => {
@@ -255,6 +255,33 @@ describe("real scenario: Ontario family with a child (age 33)", () => {
   it("qualifies for CCB and the Ontario Child Benefit", () => {
     expect(statusFor("ccb", ctx)).toBe("eligible");
     expect(statusFor("ontario-child-benefit", ctx)).toBe("eligible");
+  });
+});
+
+describe("real scenario: Alberta adult with a disability (age 45)", () => {
+  const ctx: AssessmentContext = {
+    age: 45,
+    province: "AB",
+    residency: "citizen",
+    maritalStatus: "single",
+    hasChildren: false,
+    employmentStatus: "unable-to-work",
+    annualIncome: 6000,
+    familyIncome: 6000,
+    isHomeowner: false,
+    hasDisability: true,
+    hasSevereDisability: true,
+    filedTaxes: true,
+  };
+
+  it("qualifies for AISH and Alberta Adult Health Benefit", () => {
+    expect(statusFor("aish", ctx)).toBe("eligible");
+    expect(statusFor("alberta-adult-health-benefit", ctx)).toBe("eligible");
+  });
+
+  it("does not surface BC or Ontario provincial benefits", () => {
+    expect(statusFor("pwd", ctx)).toBe("ineligible");
+    expect(statusFor("odsp", ctx)).toBe("ineligible");
   });
 });
 

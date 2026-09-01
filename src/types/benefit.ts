@@ -34,7 +34,11 @@ export type BenefitCategory =
   | "tax-credits"
   | "education";
 
-export type BenefitLevel = "federal" | "provincial-bc" | "provincial-on";
+export type BenefitLevel =
+  | "federal"
+  | "provincial-bc"
+  | "provincial-on"
+  | "provincial-ab";
 
 export type InputType =
   | "yes-no"

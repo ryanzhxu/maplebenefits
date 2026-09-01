@@ -1032,4 +1032,99 @@ export const DEEP: Record<string, DeepContent> = {
       ),
     ],
   },
+
+  aish: {
+    eligibilityDetails: [
+      tri(
+        "You must be 18-64, an Alberta resident, not yet eligible for OAS, and have a permanent medical condition that substantially limits your ability to earn a living.",
+        "你須為 18 至 64 歲的亞伯達居民、尚未符合 OAS 資格，並有永久且嚴重限制謀生能力的醫療狀況。",
+        "你须为 18 至 64 岁的阿尔伯塔居民、尚未符合 OAS 资格，并有永久且严重限制谋生能力的医疗状况。",
+      ),
+      tri(
+        "Your income and assets (generally under $100,000, with exemptions) are assessed, including a partner's.",
+        "你的收入及資產（一般低於 $100,000，有豁免）會被評估，包括伴侶的。",
+        "你的收入及资产（一般低于 $100,000，有豁免）会被评估，包括伴侣的。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "AISH includes a health benefits card (drugs, dental, optical) and can be combined with the federal DTC and Canada Disability Benefit.",
+        "AISH 包括健康福利卡（藥物、牙科、視光），並可與聯邦 DTC 及加拿大殘障福利並用。",
+        "AISH 包括健康福利卡（药物、牙科、视光），并可与联邦 DTC 及加拿大残障福利并用。",
+      ),
+    ],
+  },
+
+  "alberta-seniors-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be 65+, have lived in Alberta 3+ months, be a citizen or PR, and receive the Old Age Security pension.",
+        "你須年滿 65 歲、在亞伯達居住滿 3 個月、為公民或永久居民，並領取老年保障金。",
+        "你须年满 65 岁、在阿尔伯塔居住满 3 个月、为公民或永久居民，并领取老年保障金。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Apply once through Seniors Financial Assistance — after that it renews from your tax return each year.",
+        "透過長者財政援助申請一次 — 之後每年按報稅資料自動續期。",
+        "通过长者财政援助申请一次 — 之后每年按报税资料自动续期。",
+      ),
+    ],
+  },
+
+  acfb: {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you are an Alberta resident with a child under 18 and file your taxes; the amount depends on income and number of children.",
+        "如你是有 18 歲以下子女的亞伯達居民並報稅即合資格；金額視乎收入及子女數目。",
+        "如你是有 18 岁以下子女的阿尔伯塔居民并报税即合资格；金额视乎收入及子女数目。",
+      ),
+      tri(
+        "A working-income component adds more for families with employment income over about $2,760.",
+        "工作收入超過約 $2,760 的家庭可獲額外工作收入部分。",
+        "工作收入超过约 $2,760 的家庭可获额外工作收入部分。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "No separate application — it is paid quarterly with the Canada Child Benefit.",
+        "無需另行申請 — 每季與加拿大兒童福利一併發放。",
+        "无需另行申请 — 每季与加拿大儿童福利一并发放。",
+      ),
+    ],
+  },
+
+  "alberta-income-support": {
+    eligibilityDetails: [
+      tri(
+        "You must be an Alberta resident without enough income or assets to meet your basic needs, and willing to look for work if able.",
+        "你須為亞伯達居民、收入或資產不足以滿足基本需要，並在有能力時願意求職。",
+        "你须为阿尔伯塔居民、收入或资产不足以满足基本需要，并在有能力时愿意求职。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It includes a health benefits card and help with employment and training.",
+        "它包括健康福利卡及就業與培訓協助。",
+        "它包括健康福利卡及就业与培训协助。",
+      ),
+    ],
+  },
+
+  "alberta-adult-health-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if your household income is under the program limits — it is aimed at low-income adults and families, including those leaving Income Support or AISH for work.",
+        "如你的家庭收入低於計劃上限即合資格 — 面向低收入成人及家庭，包括因就業而離開收入援助或 AISH 的人士。",
+        "如你的家庭收入低于计划上限即合资格 — 面向低收入成人及家庭，包括因就业而离开收入援助或 AISH 的人士。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It covers prescription drugs, dental, optical, diabetic supplies, and emergency ambulance.",
+        "它涵蓋處方藥、牙科、視光、糖尿病用品及緊急救護車。",
+        "它涵盖处方药、牙科、视光、糖尿病用品及紧急救护车。",
+      ),
+    ],
+  },
 };

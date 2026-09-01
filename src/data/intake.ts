@@ -106,9 +106,9 @@ export const INTAKE: IntakeQuestion[] = [
       "zh-Hans": "你居住在哪个省或地区？",
     },
     helpText: {
-      en: "This version covers federal benefits, British Columbia, and Ontario. More provinces are coming.",
-      "zh-Hant": "此版本涵蓋聯邦福利、卑詩省及安大略省。將會加入更多省份。",
-      "zh-Hans": "此版本涵盖联邦福利、不列颠哥伦比亚省及安大略省。将会加入更多省份。",
+      en: "This version covers federal benefits, British Columbia, Ontario, and Alberta. More provinces are coming.",
+      "zh-Hant": "此版本涵蓋聯邦福利、卑詩省、安大略省及亞伯達省。將會加入更多省份。",
+      "zh-Hans": "此版本涵盖联邦福利、不列颠哥伦比亚省、安大略省及阿尔伯塔省。将会加入更多省份。",
     },
     options: [
       {
@@ -125,6 +125,14 @@ export const INTAKE: IntakeQuestion[] = [
           en: "Ontario",
           "zh-Hant": "安大略省 (ON)",
           "zh-Hans": "安大略省 (ON)",
+        },
+      },
+      {
+        value: "AB",
+        label: {
+          en: "Alberta",
+          "zh-Hant": "亞伯達省 (AB)",
+          "zh-Hans": "阿尔伯塔省 (AB)",
         },
       },
       {
@@ -412,16 +420,17 @@ export const INTAKE: IntakeQuestion[] = [
     group: G.money,
     inputType: "yes-no",
     question: {
-      en: "Do you currently receive provincial income or disability assistance (such as BC PWD or Ontario ODSP/OW)?",
-      "zh-Hant": "你目前是否領取省級收入或殘障援助（例如卑詩省 PWD 或安大略 ODSP／OW）？",
-      "zh-Hans": "你目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD 或安大略 ODSP／OW）？",
+      en: "Do you currently receive provincial income or disability assistance (such as BC PWD, Ontario ODSP/OW, or Alberta AISH/Income Support)?",
+      "zh-Hant": "你目前是否領取省級收入或殘障援助（例如卑詩省 PWD、安大略 ODSP／OW 或亞伯達 AISH／收入援助）？",
+      "zh-Hans": "你目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD、安大略 ODSP／OW 或阿尔伯塔 AISH／收入援助）？",
     },
     questionHelping: {
-      en: "Do they currently receive provincial income or disability assistance (such as BC PWD or Ontario ODSP/OW)?",
-      "zh-Hant": "他／她目前是否領取省級收入或殘障援助（例如卑詩省 PWD 或安大略 ODSP／OW）？",
-      "zh-Hans": "他／她目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD 或安大略 ODSP／OW）？",
+      en: "Do they currently receive provincial income or disability assistance (such as BC PWD, Ontario ODSP/OW, or Alberta AISH/Income Support)?",
+      "zh-Hant": "他／她目前是否領取省級收入或殘障援助（例如卑詩省 PWD、安大略 ODSP／OW 或亞伯達 AISH／收入援助）？",
+      "zh-Hans": "他／她目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD、安大略 ODSP／OW 或阿尔伯塔 AISH／收入援助）？",
     },
-    skipIf: (ctx) => ctx.province !== "BC" && ctx.province !== "ON",
+    skipIf: (ctx) =>
+      ctx.province !== "BC" && ctx.province !== "ON" && ctx.province !== "AB",
     required: false,
   },
   {

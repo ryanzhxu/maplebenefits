@@ -140,3 +140,10 @@ carries `lastUpdated: "2026-09-01"` and its official source URL.
 - **GAINS** — single up to ~$92/mo (Jul 2026); private income < $4,320; automatic with GIS.  https://www.ontario.ca/page/guaranteed-annual-income-system-payments-seniors
 - **Ontario prescription drug coverage** — ODB automatic at 65+; Trillium Drug Program for under-65 (deductible ~4% of income); Seniors Co-Payment Program for low-income 65+.  https://www.ontario.ca/page/get-coverage-prescription-drugs
 - **Ontario Senior Homeowners' Property Tax Grant** — up to $500/yr; 64+; income < $50,000 single / $60,000 couple; via ON-BEN.  https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant
+
+### Alberta (new province) — verified 2026-09-01
+- **AISH** — 18-64, permanent disability limiting earning, assets < $100k; ~$1,863/mo + health.  https://www.alberta.ca/aish
+- **Alberta Seniors Benefit** — 65+, on OAS, single income < $33,410; up to ~$322/mo single (varies).  https://www.alberta.ca/alberta-seniors-benefit
+- **Alberta Child and Family Benefit** — base $1,499 first child + $749 each next (to 4); + working component; reduced above $27,565 AFNI. Quarterly with CCB.  https://www.alberta.ca/alberta-child-and-family-benefit
+- **Alberta Income Support** — single employable ~$900+/mo; last resort; + health card.  https://www.alberta.ca/income-support
+- **Alberta Adult Health Benefit** — drug/dental/optical coverage for low-income adults/families.  https://www.alberta.ca/alberta-adult-health-benefit
