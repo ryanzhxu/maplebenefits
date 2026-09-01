@@ -1,0 +1,722 @@
+import type { DeepContent } from "@/types/benefit";
+import { tri } from "@/data/tri";
+
+/**
+ * Richer, plain-language detail per benefit, keyed by benefit id. Rendered as
+ * collapsible sections on the benefit page. Trilingual; English fallback.
+ * Verified against official sources on 2026-09-01 (see docs/research-notes.md).
+ */
+export const DEEP: Record<string, DeepContent> = {
+  dtc: {
+    eligibilityDetails: [
+      tri(
+        "A medical practitioner must certify that you have a severe and prolonged impairment (expected to last at least 12 months).",
+        "醫療人員須證明你有嚴重且長期的損傷（預期持續最少 12 個月）。",
+        "医疗人员须证明你有严重且长期的损伤（预期持续最少 12 个月）。",
+      ),
+      tri(
+        "The impairment must markedly restrict a basic activity of daily living (walking, dressing, feeding, mental functions, vision, hearing, elimination), or you need life-sustaining therapy.",
+        "損傷須明顯限制一項基本日常活動（行走、穿衣、進食、心智功能、視覺、聽覺、排泄），或你需要維生療法。",
+        "损伤须明显限制一项基本日常活动（行走、穿衣、进食、心智功能、视觉、听觉、排泄），或你需要维生疗法。",
+      ),
+      tri(
+        "You can transfer unused credit to a supporting spouse, parent, or other family member.",
+        "未用完的抵免可轉讓給供養你的配偶、父母或其他家人。",
+        "未用完的抵免可转让给供养你的配偶、父母或其他家人。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Being approved for the DTC can unlock the Canada Disability Benefit, the RDSP, the Child Disability Benefit, and the disability supplement of the Canada Workers Benefit.",
+        "獲批 DTC 可開啟加拿大殘障福利、RDSP、兒童殘障福利及加拿大工作福利的殘障補助。",
+        "获批 DTC 可开启加拿大残障福利、RDSP、儿童残障福利及加拿大工作福利的残障补助。",
+      ),
+      tri(
+        "If approved, ask the CRA to reassess up to 10 prior years — this can produce a large one-time refund.",
+        "如獲批，可要求稅務局重新評估最多過往 10 年 — 或可獲一筆可觀退稅。",
+        "如获批，可要求税务局重新评估最多过往 10 年 — 或可获一笔可观退税。",
+      ),
+      tri(
+        "The credit is non-refundable, so it reduces tax owing but does not pay out if you owe no tax — though the benefits it unlocks may.",
+        "此抵免不可退還，只能減少應繳稅款；若無稅可繳則不會發放 — 但它開啟的其他福利可能會。",
+        "此抵免不可退还，只能减少应缴税款；若无税可缴则不会发放 — 但它开启的其他福利可能会。",
+      ),
+    ],
+    faqs: [
+      {
+        q: tri(
+          "Do I need to have a job to get the DTC?",
+          "申請 DTC 需要有工作嗎？",
+          "申请 DTC 需要有工作吗？",
+        ),
+        a: tri(
+          "No. The DTC is about your medical condition, not your income or work. If you have little tax to reduce, you can transfer it to a supporting family member.",
+          "不需要。DTC 取決於你的醫療狀況，與收入或工作無關。如你應繳稅款很少，可轉讓給供養你的家人。",
+          "不需要。DTC 取决于你的医疗状况，与收入或工作无关。如你应缴税款很少，可转让给供养你的家人。",
+        ),
+      },
+    ],
+  },
+
+  cdb: {
+    eligibilityDetails: [
+      tri(
+        "You must be 18 to 64, approved for the Disability Tax Credit, and have filed your tax return for the previous year.",
+        "你須為 18 至 64 歲、已獲批殘疾稅務抵免，並已就上一年報稅。",
+        "你须为 18 至 64 岁、已获批残疾税务抵免，并已就上一年报税。",
+      ),
+      tri(
+        "You must be a resident of Canada for tax purposes.",
+        "你須為加拿大稅務居民。",
+        "你须为加拿大税务居民。",
+      ),
+      tri(
+        "If you have a spouse or partner, they must also file a tax return.",
+        "如你有配偶或伴侶，對方亦須報稅。",
+        "如你有配偶或伴侣，对方亦须报税。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "A working-income exemption ($10,000 single / $14,000 couple) means some earnings do not reduce your payment.",
+        "工作收入豁免（單身 $10,000／夫婦 $14,000）代表部分收入不會減少你的款項。",
+        "工作收入豁免（单身 $10,000／夫妇 $14,000）代表部分收入不会减少你的款项。",
+      ),
+      tri(
+        "The maximum rose to $204.20/month in July 2026. The payment is reduced as income rises above the threshold.",
+        "上限已於 2026 年 7 月升至每月 $204.20。收入超過門檻後款項會遞減。",
+        "上限已于 2026 年 7 月升至每月 $204.20。收入超过门槛后款项会递减。",
+      ),
+    ],
+  },
+
+  ccb: {
+    eligibilityDetails: [
+      tri(
+        "You must live with a child under 18 and be primarily responsible for their care.",
+        "你須與 18 歲以下子女同住，並主要負責照顧。",
+        "你须与 18 岁以下子女同住，并主要负责照顾。",
+      ),
+      tri(
+        "You must be a resident of Canada for tax purposes; at least one parent must meet a status requirement (citizen, PR, protected person, or certain temporary residents).",
+        "你須為加拿大稅務居民；至少一名家長須符合身份要求（公民、永久居民、受保護人士或某些臨時居民）。",
+        "你须为加拿大税务居民；至少一名家长须符合身份要求（公民、永久居民、受保护人士或某些临时居民）。",
+      ),
+      tri(
+        "The amount is based on adjusted family net income, number of children, and their ages.",
+        "金額按經調整家庭淨收入、子女數目及年齡計算。",
+        "金额按经调整家庭净收入、子女数目及年龄计算。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "If your child is approved for the Disability Tax Credit, the Child Disability Benefit (up to about $3,400/year) is added automatically.",
+        "如子女獲批殘疾稅務抵免，兒童殘障福利（最多約每年 $3,400）會自動加入。",
+        "如子女获批残疾税务抵免，儿童残障福利（最多约每年 $3,400）会自动加入。",
+      ),
+      tri(
+        "Both parents must file taxes every year — even with no income — or payments can stop.",
+        "父母雙方每年都必須報稅（即使沒有收入），否則款項可能停止。",
+        "父母双方每年都必须报税（即使没有收入），否则款项可能停止。",
+      ),
+      tri(
+        "In shared custody, each parent can receive 50% of the amount.",
+        "共同撫養下，每名家長可獲一半金額。",
+        "共同抚养下，每名家长可获一半金额。",
+      ),
+    ],
+  },
+
+  cgeb: {
+    eligibilityDetails: [
+      tri(
+        "You must be a resident of Canada for tax purposes and generally 19 or older (younger if you have a spouse or child).",
+        "你須為加拿大稅務居民，一般須年滿 19 歲（有配偶或子女則可較年輕）。",
+        "你须为加拿大税务居民，一般须年满 19 岁（有配偶或子女则可较年轻）。",
+      ),
+      tri(
+        "There is no separate application — filing your tax return is the application.",
+        "無需另行申請 — 報稅即為申請。",
+        "无需另行申请 — 报税即为申请。",
+      ),
+      tri(
+        "The amount depends on family net income, marital status, and number of children.",
+        "金額視乎家庭淨收入、婚姻狀況及子女數目。",
+        "金额视乎家庭净收入、婚姻状况及子女数目。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "New residents can apply with a one-time form (RC151) before filing their first Canadian tax return.",
+        "新移民可在首次報稅前以一次性表格（RC151）申請。",
+        "新移民可在首次报税前以一次性表格（RC151）申请。",
+      ),
+      tri(
+        "This is the program formerly known as the GST/HST credit, renamed for the 2025 tax year.",
+        "此計劃前稱 GST/HST 抵免，於 2025 稅務年度更名。",
+        "此计划前称 GST/HST 抵免，于 2025 税务年度更名。",
+      ),
+    ],
+  },
+
+  cdcp: {
+    eligibilityDetails: [
+      tri(
+        "You must not have access to any dental insurance (through work, a spouse, a pension, or a private plan you bought).",
+        "你不可有任何牙科保險（透過工作、配偶、退休金或自行購買的計劃）。",
+        "你不可有任何牙科保险（通过工作、配偶、退休金或自行购买的计划）。",
+      ),
+      tri(
+        "Your adjusted family net income must be under $90,000, and you must have filed last year's taxes.",
+        "你的經調整家庭淨收入須低於 $90,000，且已就上一年報稅。",
+        "你的经调整家庭净收入须低于 $90,000，且已就上一年报税。",
+      ),
+      tri(
+        "You must be a Canadian resident for tax purposes. All ages are now eligible.",
+        "你須為加拿大稅務居民。現已開放予所有年齡。",
+        "你须为加拿大税务居民。现已开放予所有年龄。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "If your family income is under $70,000, the plan covers the full eligible amount; between $70,000 and $90,000, you pay a co-payment.",
+        "如家庭收入低於 $70,000，計劃承擔全部合資格金額；$70,000 至 $90,000 則需共付。",
+        "如家庭收入低于 $70,000，计划承担全部合资格金额；$70,000 至 $90,000 则需共付。",
+      ),
+      tri(
+        "Having a workplace plan makes you ineligible even if you choose not to use it.",
+        "即使你選擇不使用職場計劃，擁有它亦會令你不符合資格。",
+        "即使你选择不使用职场计划，拥有它亦会令你不符合资格。",
+      ),
+    ],
+  },
+
+  "cpp-d": {
+    eligibilityDetails: [
+      tri(
+        "You must be under 65, have a severe and prolonged disability that regularly stops you from doing any substantially gainful work, and have contributed to CPP in 4 of the last 6 years (or 3 of the last 6 with 25+ years of contributions).",
+        "你須未滿 65 歲、有嚴重且長期殘障並經常令你無法從事任何實質有酬工作，並在過去 6 年中的 4 年供款 CPP（或供款 25 年以上者為過去 6 年中的 3 年）。",
+        "你须未满 65 岁、有严重且长期残障并经常令你无法从事任何实质有酬工作，并在过去 6 年中的 4 年供款 CPP（或供款 25 年以上者为过去 6 年中的 3 年）。",
+      ),
+      tri(
+        "'Severe' means you cannot regularly do any type of substantially gainful work, not only your last job.",
+        "「嚴重」指你無法定期從事任何實質有酬工作，而非僅你上一份工作。",
+        "「严重」指你无法定期从事任何实质有酬工作，而非仅你上一份工作。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Your dependent children may also receive a monthly children's benefit.",
+        "你的受養子女或可另獲每月子女福利。",
+        "你的受养子女或可另获每月子女福利。",
+      ),
+      tri(
+        "At 65 the disability pension automatically converts to a CPP retirement pension.",
+        "65 歲時傷殘退休金會自動轉為 CPP 退休金。",
+        "65 岁时伤残退休金会自动转为 CPP 退休金。",
+      ),
+      tri(
+        "If you are refused, you can ask for reconsideration and then appeal — many claims succeed on appeal.",
+        "如被拒，可要求重新考慮再上訴 — 很多申請在上訴階段成功。",
+        "如被拒，可要求重新考虑再上诉 — 很多申请在上诉阶段成功。",
+      ),
+    ],
+  },
+
+  "cpp-retirement": {
+    eligibilityDetails: [
+      tri(
+        "You must have made at least one valid CPP contribution from work in Canada.",
+        "你須至少有一次有效的加拿大工作 CPP 供款。",
+        "你须至少有一次有效的加拿大工作 CPP 供款。",
+      ),
+      tri(
+        "You can start as early as 60 (reduced 0.6% per month early) or as late as 70 (increased 0.7% per month after 65).",
+        "可最早 60 歲開始（每提早一個月減 0.6%）或最遲 70 歲（65 歲後每延一個月增 0.7%）。",
+        "可最早 60 岁开始（每提早一个月减 0.6%）或最迟 70 岁（65 岁后每延一个月增 0.7%）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Waiting longer means a larger monthly pension for life — worth considering if you have other income.",
+        "延遲領取代表終身每月退休金更高 — 如有其他收入值得考慮。",
+        "延迟领取代表终身每月退休金更高 — 如有其他收入值得考虑。",
+      ),
+      tri(
+        "CPP is separate from OAS; you can receive both. It is taxable income.",
+        "CPP 與 OAS 分開，可同時領取。屬應課稅收入。",
+        "CPP 与 OAS 分开，可同时领取。属应课税收入。",
+      ),
+    ],
+  },
+
+  oas: {
+    eligibilityDetails: [
+      tri(
+        "You must be 65 or older and have lived in Canada for at least 10 years after age 18 (20 years to receive it outside Canada).",
+        "你須年滿 65 歲，並在 18 歲後在加拿大居住最少 10 年（在加拿大以外領取則需 20 年）。",
+        "你须年满 65 岁，并在 18 岁后在加拿大居住最少 10 年（在加拿大以外领取则需 20 年）。",
+      ),
+      tri(
+        "Full OAS needs 40 years of residence after 18; fewer years give a partial pension.",
+        "全額 OAS 需 18 歲後居住 40 年；年期較短則獲部分退休金。",
+        "全额 OAS 需 18 岁后居住 40 年；年期较短则获部分退休金。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Higher-income seniors repay part of OAS (the 'recovery tax') starting around $90,997 of net income.",
+        "高收入長者須償還部分 OAS（「回收稅」），由淨收入約 $90,997 起。",
+        "高收入长者须偿还部分 OAS（「回收税」），由净收入约 $90,997 起。",
+      ),
+      tri(
+        "Delaying OAS past 65 (up to 70) increases it by 0.6% per month.",
+        "65 歲後延遲領取 OAS（最遲 70 歲）每月增加 0.6%。",
+        "65 岁后延迟领取 OAS（最迟 70 岁）每月增加 0.6%。",
+      ),
+      tri(
+        "At 75 the pension automatically increases by 10%.",
+        "75 歲時退休金自動增加 10%。",
+        "75 岁时退休金自动增加 10%。",
+      ),
+    ],
+  },
+
+  gis: {
+    eligibilityDetails: [
+      tri(
+        "You must receive Old Age Security and have income below the yearly limit for your marital status.",
+        "你須領取老年保障金，且收入低於按婚姻狀況的年度上限。",
+        "你须领取老年保障金，且收入低于按婚姻状况的年度上限。",
+      ),
+      tri(
+        "GIS is not taxable, and the limits are roughly $22,000 (single) to $53,000 (couple, both on OAS).",
+        "GIS 免稅，上限約 $22,000（單身）至 $53,000（夫婦，雙方領 OAS）。",
+        "GIS 免税，上限约 $22,000（单身）至 $53,000（夫妇，双方领 OAS）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "File your taxes on time every year or GIS can be interrupted.",
+        "每年準時報稅，否則 GIS 可能中斷。",
+        "每年准时报税，否则 GIS 可能中断。",
+      ),
+      tri(
+        "If your income dropped (for example, you stopped working), you can ask for an estimate based on this year's income.",
+        "如收入下降（例如停止工作），可要求按今年收入估算。",
+        "如收入下降（例如停止工作），可要求按今年收入估算。",
+      ),
+    ],
+  },
+
+  ei: {
+    eligibilityDetails: [
+      tri(
+        "You must have lost your job through no fault of your own (regular) or be unable to work due to illness or injury (sickness), and have paid EI premiums.",
+        "你須非因己過而失業（正常）或因病或受傷無法工作（疾病），並曾繳付 EI 保費。",
+        "你须非因己过而失业（正常）或因病或受伤无法工作（疾病），并曾缴付 EI 保费。",
+      ),
+      tri(
+        "You need enough insurable hours in the last 52 weeks — usually 420 to 700 depending on your region.",
+        "你須在過去 52 週有足夠可保工時 — 視地區通常為 420 至 700 小時。",
+        "你须在过去 52 周有足够可保工时 — 视地区通常为 420 至 700 小时。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Apply right away — do not wait for your Record of Employment. Waiting more than 4 weeks after your last day can cost you benefits.",
+        "立即申請 — 不要等就業紀錄。最後工作日後延遲超過 4 週可能損失福利。",
+        "立即申请 — 不要等就业纪录。最后工作日后延迟超过 4 周可能损失福利。",
+      ),
+      tri(
+        "Self-employed people can opt in for special benefits (sickness, maternity, parental) but not regular benefits.",
+        "自僱人士可自願加入特別福利（疾病、產假、育兒），但不包括正常福利。",
+        "自雇人士可自愿加入特别福利（疾病、产假、育儿），但不包括正常福利。",
+      ),
+    ],
+  },
+
+  cwb: {
+    eligibilityDetails: [
+      tri(
+        "You must have working income and be a resident of Canada, 19 or older at year end (or living with a spouse or child).",
+        "你須有工作收入、為加拿大居民，並在年底年滿 19 歲（或與配偶或子女同住）。",
+        "你须有工作收入、为加拿大居民，并在年底年满 19 岁（或与配偶或子女同住）。",
+      ),
+      tri(
+        "Full-time students without a dependant generally do not qualify.",
+        "沒有受養人的全日制學生一般不符合資格。",
+        "没有受养人的全日制学生一般不符合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is refundable — you receive it even if you owe no tax.",
+        "可退還 — 即使無稅可繳也可獲發。",
+        "可退还 — 即使无税可缴也可获发。",
+      ),
+      tri(
+        "Half is often paid in advance during the year (the Advanced Canada Workers Benefit) automatically.",
+        "通常一半會於年內自動預付（預付加拿大工作福利）。",
+        "通常一半会于年内自动预付（预付加拿大工作福利）。",
+      ),
+    ],
+  },
+
+  rdsp: {
+    eligibilityDetails: [
+      tri(
+        "The beneficiary must be approved for the Disability Tax Credit, a Canadian resident, under 60, and have a Social Insurance Number.",
+        "受益人須已獲批殘疾稅務抵免、為加拿大居民、未滿 60 歲並有社會保險號碼。",
+        "受益人须已获批残疾税务抵免、为加拿大居民、未满 60 岁并有社会保险号码。",
+      ),
+      tri(
+        "The government bond (up to $1,000/year) is paid to low-income beneficiaries even with no personal contributions.",
+        "政府債券（最多每年 $1,000）即使沒有個人供款，也會發給低收入受益人。",
+        "政府债券（最多每年 $1,000）即使没有个人供款，也会发给低收入受益人。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Grants and bonds can be claimed for up to 10 prior years if you were eligible then.",
+        "如當年合資格，補助金及債券可追溯最多過往 10 年申領。",
+        "如当年合资格，补助金及债券可追溯最多过往 10 年申领。",
+      ),
+      tri(
+        "RDSP savings generally do not affect provincial disability assistance like BC PWD.",
+        "RDSP 儲蓄一般不影響如卑詩省 PWD 的省級殘障援助。",
+        "RDSP 储蓄一般不影响如不列颠哥伦比亚省 PWD 的省级残障援助。",
+      ),
+    ],
+  },
+
+  "medical-expense": {
+    eligibilityDetails: [
+      tri(
+        "You can claim eligible medical expenses for yourself, your spouse, and dependent children paid in any 12-month period ending in the tax year.",
+        "你可申索自己、配偶及受養子女在稅務年度內任何 12 個月期間支付的合資格醫療開支。",
+        "你可申索自己、配偶及受养子女在税务年度内任何 12 个月期间支付的合资格医疗开支。",
+      ),
+      tri(
+        "Only the amount above the lesser of 3% of net income or about $2,834 (2025) counts.",
+        "只有超過「淨收入 3% 或約 $2,834（2025，以較低者為準）」的部分計算在內。",
+        "只有超过「净收入 3% 或约 $2,834（2025，以较低者为准）」的部分计算在内。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Eligible costs include prescriptions, dental, vision, many therapies, medical travel, and some home renovations for accessibility.",
+        "合資格開支包括處方藥、牙科、視力、多種治療、就醫交通及部分無障礙裝修。",
+        "合资格开支包括处方药、牙科、视力、多种治疗、就医交通及部分无障碍装修。",
+      ),
+      tri(
+        "It is usually best for the lower-income spouse to claim, because the 3% threshold is then smaller.",
+        "通常由收入較低的配偶申索較有利，因為 3% 門檻較低。",
+        "通常由收入较低的配偶申索较有利，因为 3% 门槛较低。",
+      ),
+    ],
+  },
+
+  "eligible-dependant": {
+    eligibilityDetails: [
+      tri(
+        "You must be single, separated, divorced, or widowed at some point in the year and have supported a dependant (often a child) who lived with you.",
+        "你在年內某時須為單身、分居、離婚或喪偶，並供養一位與你同住的受養人（常為子女）。",
+        "你在年内某时须为单身、分居、离婚或丧偶，并供养一位与你同住的受养人（常为子女）。",
+      ),
+      tri(
+        "You cannot claim it if you were living with and supported by a spouse or common-law partner.",
+        "如你與配偶或同居伴侶同住並由對方供養，則不可申索。",
+        "如你与配偶或同居伴侣同住并由对方供养，则不可申索。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "The amount is reduced by the dependant's net income, and only one person can claim per dependant.",
+        "金額按受養人淨收入遞減，每名受養人只可由一人申索。",
+        "金额按受养人净收入递减，每名受养人只可由一人申索。",
+      ),
+    ],
+  },
+
+  ccc: {
+    eligibilityDetails: [
+      tri(
+        "You support a spouse, partner, or family member (child, parent, grandparent, sibling, aunt/uncle, niece/nephew) who has a physical or mental impairment.",
+        "你供養一位有身體或精神障礙的配偶、伴侶或家人（子女、父母、祖父母、兄弟姊妹、姑姨叔舅、姪甥）。",
+        "你供养一位有身体或精神障碍的配偶、伴侣或家人（子女、父母、祖父母、兄弟姊妹、姑姨叔舅、侄甥）。",
+      ),
+      tri(
+        "The person does not need the Disability Tax Credit, but the CRA may ask for a signed medical statement.",
+        "該人不需要殘疾稅務抵免，但稅務局可能要求簽署的醫療聲明。",
+        "该人不需要残疾税务抵免，但税务局可能要求签署的医疗声明。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "The claim is reduced by the dependant's net income over about $20,197 (2025).",
+        "申索額按受養人淨收入超過約 $20,197（2025）的部分遞減。",
+        "申索额按受养人净收入超过约 $20,197（2025）的部分递减。",
+      ),
+    ],
+  },
+
+  pwd: {
+    eligibilityDetails: [
+      tri(
+        "You must be 18+ and have a severe mental or physical impairment expected to last 2 or more years that directly and significantly restricts daily activities.",
+        "你須年滿 18 歲，並有預期持續 2 年或以上、直接且顯著限制日常活動的嚴重精神或身體障礙。",
+        "你须年满 18 岁，并有预期持续 2 年或以上、直接且显著限制日常活动的严重精神或身体障碍。",
+      ),
+      tri(
+        "A prescribed professional must confirm you need help (from a person, an assistive device, or an assistance animal) with daily activities.",
+        "指定專業人員須確認你在日常活動上需要協助（來自他人、輔助器材或協助動物）。",
+        "指定专业人员须确认你在日常活动上需要协助（来自他人、辅助器材或协助动物）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "PWD includes extra supplements: a transportation supplement, medical/dental coverage, and access to the BC Bus Pass.",
+        "PWD 包括額外補助：交通補助、醫療／牙科保障及卑詩省巴士證。",
+        "PWD 包括额外补助：交通补助、医疗／牙科保障及不列颠哥伦比亚省巴士证。",
+      ),
+      tri(
+        "Having the federal Disability Tax Credit can make the PWD application easier.",
+        "持有聯邦殘疾稅務抵免可令 PWD 申請更順利。",
+        "持有联邦残疾税务抵免可令 PWD 申请更顺利。",
+      ),
+    ],
+  },
+
+  "bc-income-assistance": {
+    eligibilityDetails: [
+      tri(
+        "You must have very low income and few assets (generally under $5,000 for a single person), and be a BC resident able to accept work or an employment plan.",
+        "你須收入極低且資產甚少（單身一般低於 $5,000），並為能接受工作或就業計劃的卑詩省居民。",
+        "你须收入极低且资产甚少（单身一般低于 $5,000），并为能接受工作或就业计划的不列颠哥伦比亚省居民。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "A single person can keep up to $600/month of earnings without it reducing assistance.",
+        "單身人士每月最多可保留 $600 工作收入而不減少援助。",
+        "单身人士每月最多可保留 $600 工作收入而不减少援助。",
+      ),
+      tri(
+        "Extra supplements exist for crisis needs, moving, and some health costs.",
+        "另有危機需要、搬遷及部分健康開支的額外補助。",
+        "另有危机需要、搬迁及部分健康开支的额外补助。",
+      ),
+    ],
+  },
+
+  "fair-pharmacare": {
+    eligibilityDetails: [
+      tri(
+        "You must be a BC resident enrolled in the Medical Services Plan (MSP) and register once with income consent.",
+        "你須為已參加醫療服務計劃 (MSP) 的卑詩省居民，並以收入同意登記一次。",
+        "你须为已参加医疗服务计划 (MSP) 的不列颠哥伦比亚省居民，并以收入同意登记一次。",
+      ),
+      tri(
+        "Your deductible and family maximum are set by your family net income from two years ago.",
+        "你的自付額與家庭上限按兩年前的家庭淨收入釐定。",
+        "你的自付额与家庭上限按两年前的家庭净收入厘定。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Families with the lowest incomes can have a $0 deductible and higher coverage.",
+        "最低收入家庭可享 $0 自付額及更高保障。",
+        "最低收入家庭可享 $0 自付额及更高保障。",
+      ),
+      tri(
+        "If you do not register, your deductible defaults to $10,000 — registering is almost always worth it.",
+        "如不登記，自付額預設為 $10,000 — 登記幾乎總是值得。",
+        "如不登记，自付额默认为 $10,000 — 登记几乎总是值得。",
+      ),
+    ],
+  },
+
+  "msp-supplementary": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if your family income is low enough for MSP supplementary benefits (roughly under $42,000, adjusted for family size).",
+        "如你的家庭收入低至符合 MSP 補充福利（約 $42,000 以下，按家庭人數調整）即合資格。",
+        "如你的家庭收入低至符合 MSP 补充福利（约 $42,000 以下，按家庭人数调整）即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It pays a set amount per visit toward acupuncture, chiropractic, massage, naturopathy, physiotherapy, and podiatry (a limited number of visits per year).",
+        "它按次支付針灸、脊醫、按摩、自然療法、物理治療及足病診療的固定金額（每年次數有限）。",
+        "它按次支付针灸、脊医、按摩、自然疗法、物理治疗及足病诊疗的固定金额（每年次数有限）。",
+      ),
+    ],
+  },
+
+  safer: {
+    eligibilityDetails: [
+      tri(
+        "You must be 60+, a BC resident who has lived in Canada 12 months, renting your home, and not receiving BC income or disability assistance.",
+        "你須年滿 60 歲、為在加拿大居住 12 個月的卑詩省居民、租住居所，且沒有領取卑詩省收入或殘障援助。",
+        "你须年满 60 岁、为在加拿大居住 12 个月的不列颠哥伦比亚省居民、租住居所，且没有领取不列颠哥伦比亚省收入或残障援助。",
+      ),
+      tri(
+        "You must pay more than 30% of your gross monthly income on rent, and your income must be within the program limit.",
+        "你的租金須超過每月總收入的 30%，且收入須在計劃上限之內。",
+        "你的租金须超过每月总收入的 30%，且收入须在计划上限之内。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Payments start from the month a complete application is received, so apply early in the month.",
+        "款項由收到完整申請的月份起計，故請於月初申請。",
+        "款项由收到完整申请的月份起计，故请于月初申请。",
+      ),
+      tri(
+        "You must reconfirm your details each year to keep receiving SAFER.",
+        "你每年須重新確認資料以持續領取 SAFER。",
+        "你每年须重新确认资料以持续领取 SAFER。",
+      ),
+    ],
+  },
+
+  rap: {
+    eligibilityDetails: [
+      tri(
+        "You must be a working family with at least one dependent child, before-tax household income of $60,000 or less, and under $100,000 in assets.",
+        "你須為有至少一名受養子女的在職家庭，稅前家庭收入 $60,000 或以下，資產低於 $100,000。",
+        "你须为有至少一名受养子女的在职家庭，税前家庭收入 $60,000 或以下，资产低于 $100,000。",
+      ),
+      tri(
+        "You must have lived in BC for 12 months, be renting, pay more than 30% of income on rent, and have some employment income.",
+        "你須在卑詩省居住 12 個月、租住、租金超過收入 30%，並有部分工作收入。",
+        "你须在不列颠哥伦比亚省居住 12 个月、租住、租金超过收入 30%，并有部分工作收入。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Eligibility was expanded in 2025 (income limit raised to $60,000), so more families now qualify.",
+        "資格已於 2025 年放寬（收入上限升至 $60,000），更多家庭現符合資格。",
+        "资格已于 2025 年放宽（收入上限升至 $60,000），更多家庭现符合资格。",
+      ),
+    ],
+  },
+
+  "bc-housing-registry": {
+    eligibilityDetails: [
+      tri(
+        "One application places you on the waitlist for subsidized housing across many BC housing providers.",
+        "一份申請即可登記於卑詩省多個房屋機構的資助房屋輪候名單。",
+        "一份申请即可登记于不列颠哥伦比亚省多个房屋机构的资助房屋轮候名单。",
+      ),
+      tri(
+        "Your household income must be within the Housing Income Limits for the unit size you need.",
+        "你的家庭收入須在所需單位大小的房屋收入上限之內。",
+        "你的家庭收入须在所需单位大小的房屋收入上限之内。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Waitlists can be long — register early and keep your application updated so you keep your place.",
+        "輪候名單可能很長 — 盡早登記並保持申請更新，以保留排位。",
+        "轮候名单可能很长 — 尽早登记并保持申请更新，以保留排位。",
+      ),
+    ],
+  },
+
+  "bc-homeowner-grant": {
+    eligibilityDetails: [
+      tri(
+        "You must own and live in the home as your principal residence, and the assessed value must be at or below the yearly threshold ($2.075M for 2026).",
+        "你須擁有並以該住所為主要居所，評估價值須不超過年度門檻（2026 年為 $2.075M）。",
+        "你须拥有并以该住所为主要居所，评估价值须不超过年度门槛（2026 年为 $2.075M）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "You must apply every year — the grant is not automatic. Seniors (65+), veterans, and people with disabilities get a larger grant.",
+        "你每年都須申請 — 此津貼並非自動。長者（65 歲以上）、退伍軍人及殘障人士可獲更高津貼。",
+        "你每年都须申请 — 此津贴并非自动。长者（65 岁以上）、退伍军人及残障人士可获更高津贴。",
+      ),
+      tri(
+        "Above the threshold the grant is reduced by $5 for every $1,000 of assessed value.",
+        "超過門檻後，每 $1,000 評估價值減 $5 津貼。",
+        "超过门槛后，每 $1,000 评估价值减 $5 津贴。",
+      ),
+    ],
+  },
+
+  "bc-seniors-supplement": {
+    eligibilityDetails: [
+      tri(
+        "You automatically qualify if you are a BC resident receiving the federal Guaranteed Income Supplement (or the Allowance).",
+        "如你是領取聯邦保證收入補助金（或津貼）的卑詩省居民，即自動符合資格。",
+        "如你是领取联邦保证收入补助金（或津贴）的不列颠哥伦比亚省居民，即自动符合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "There is no application — it is added automatically to your monthly payment. Just keep filing taxes.",
+        "無需申請 — 會自動加入你的每月款項。只需持續報稅。",
+        "无需申请 — 会自动加入你的每月款项。只需持续报税。",
+      ),
+    ],
+  },
+
+  "bc-family-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you receive the Canada Child Benefit and are a BC resident — there is no separate application.",
+        "如你領取加拿大兒童福利且為卑詩省居民即合資格 — 無需另行申請。",
+        "如你领取加拿大儿童福利且为不列颠哥伦比亚省居民即合资格 — 无需另行申请。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Single parents receive an extra amount of up to $500/year.",
+        "單親父母可額外獲得最多每年 $500。",
+        "单亲父母可额外获得最多每年 $500。",
+      ),
+      tri(
+        "It is paid together with the Canada Child Benefit each month, based on your tax return.",
+        "它按你的報稅表，每月與加拿大兒童福利一併發放。",
+        "它按你的报税表，每月与加拿大儿童福利一并发放。",
+      ),
+    ],
+  },
+
+  "bc-bus-pass": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you receive BC disability or income assistance, or are a low-income senior receiving OAS and GIS (or 60+ on assistance).",
+        "如你領取卑詩省殘障或收入援助，或為領取 OAS 及 GIS 的低收入長者（或 60 歲以上領取援助）即合資格。",
+        "如你领取不列颠哥伦比亚省残障或收入援助，或为领取 OAS 及 GIS 的低收入长者（或 60 岁以上领取援助）即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "The annual fee is $45 and covers unlimited transit for the calendar year.",
+        "年費 $45，全年可無限次乘搭公共交通。",
+        "年费 $45，全年可无限次乘搭公共交通。",
+      ),
+    ],
+  },
+
+  "workbc-at": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you are a BC resident with a disability or health condition that affects your ability to get or keep a job.",
+        "如你是有殘障或健康狀況、影響找到或保住工作的卑詩省居民即合資格。",
+        "如你是有残障或健康状况、影响找到或保住工作的不列颠哥伦比亚省居民即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It can fund assistive devices, software, ergonomic equipment, and workplace changes after an assessment.",
+        "評估後可資助輔助器材、軟件、人體工學設備及工作間改動。",
+        "评估后可资助辅助器材、软件、人体工学设备及工作间改动。",
+      ),
+    ],
+  },
+};

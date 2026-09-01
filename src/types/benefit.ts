@@ -163,6 +163,16 @@ export interface AssessmentContext {
   [key: string]: unknown;
 }
 
+/** Optional richer detail shown on a benefit page (augmentation layer). */
+export interface DeepContent {
+  /** Detailed, plain-language eligibility criteria (bullet list). */
+  eligibilityDetails?: LocalizedString[];
+  /** Practical tips, nuances, retroactivity, common mistakes. */
+  goodToKnow?: LocalizedString[];
+  /** Common questions and answers. */
+  faqs?: { q: LocalizedString; a: LocalizedString }[];
+}
+
 /** A single question in the shared master intake. */
 export interface IntakeQuestion {
   /** Context field this question fills. */

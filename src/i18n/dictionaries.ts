@@ -44,6 +44,9 @@ const en = {
     close: "Close",
     all: "All",
     language: "Language",
+    whoQualifies: "Who qualifies",
+    goodToKnow: "Good to know",
+    commonQuestions: "Common questions",
   },
   categories: {
     disability: "Disability",
@@ -218,6 +221,9 @@ const zhHant: Loose<Dict> = {
     close: "關閉",
     all: "全部",
     language: "語言",
+    whoQualifies: "誰符合資格",
+    goodToKnow: "須知事項",
+    commonQuestions: "常見問題",
   },
   categories: {
     disability: "殘障",
@@ -374,6 +380,9 @@ const zhHans: Loose<Dict> = {
     close: "关闭",
     all: "全部",
     language: "语言",
+    whoQualifies: "谁符合资格",
+    goodToKnow: "须知事项",
+    commonQuestions: "常见问题",
   },
   categories: {
     disability: "残障",

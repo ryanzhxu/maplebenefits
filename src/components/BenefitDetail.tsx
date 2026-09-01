@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useI18n } from "@/i18n/LocaleProvider";
 import { getBenefit, getBenefits } from "@/data/benefits";
+import { DEEP } from "@/data/deep-content";
 import {
   CategoryBadge,
   FreshnessNote,
@@ -19,6 +20,7 @@ export function BenefitDetail({ id }: { id: string }) {
   const related = getBenefits(benefit.relatedBenefits).filter(
     (b) => !b.discontinued,
   );
+  const deep = DEEP[benefit.id];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -80,6 +82,25 @@ export function BenefitDetail({ id }: { id: string }) {
             </span>
           ))}
         </div>
+      )}
+
+      {/* Who qualifies (deep detail) */}
+      {deep?.eligibilityDetails && deep.eligibilityDetails.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-xl font-bold text-ink">
+            {t("common.whoQualifies")}
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {deep.eligibilityDetails.map((d, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-ink">
+                <span aria-hidden className="mt-0.5 text-eligible">
+                  ✓
+                </span>
+                <span className="leading-relaxed">{r(d)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {/* Application steps */}
@@ -164,6 +185,49 @@ export function BenefitDetail({ id }: { id: string }) {
           />
         )}
       </section>
+
+      {/* Good to know */}
+      {deep?.goodToKnow && deep.goodToKnow.length > 0 && (
+        <section className="mt-8 rounded-[var(--radius-card)] border border-line bg-brand-soft/50 p-5">
+          <h2 className="text-xl font-bold text-ink">
+            {t("common.goodToKnow")}
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {deep.goodToKnow.map((d, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-ink">
+                <span aria-hidden className="mt-0.5 text-brand">
+                  💡
+                </span>
+                <span className="leading-relaxed">{r(d)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* FAQs */}
+      {deep?.faqs && deep.faqs.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-xl font-bold text-ink">
+            {t("common.commonQuestions")}
+          </h2>
+          <div className="mt-3 space-y-3">
+            {deep.faqs.map((f, i) => (
+              <details
+                key={i}
+                className="rounded-xl border border-line bg-surface p-4"
+              >
+                <summary className="cursor-pointer font-medium text-ink">
+                  {r(f.q)}
+                </summary>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {r(f.a)}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Related */}
       {related.length > 0 && (
