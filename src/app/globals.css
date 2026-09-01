@@ -37,11 +37,24 @@
 html {
   background: var(--color-bg);
   color: var(--color-ink);
+  /* Never allow horizontal scroll on phones. */
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--color-bg);
   color: var(--color-ink);
+  overflow-x: hidden;
+}
+
+/* Honor iOS safe areas (notch / home indicator) when viewport-fit=cover. */
+@supports (padding: max(0px)) {
+  header .mx-auto,
+  footer .mx-auto {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
 }
 
 /* Visible, consistent focus ring for keyboard users. */

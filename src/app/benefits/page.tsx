@@ -117,7 +117,7 @@ function Filter({
             type="button"
             onClick={() => onChange(o.value)}
             aria-pressed={active}
-            className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`rounded-full border px-3.5 py-2 text-sm font-medium transition-colors ${
               active
                 ? "border-brand bg-brand text-white"
                 : "border-line bg-surface text-muted hover:text-ink"

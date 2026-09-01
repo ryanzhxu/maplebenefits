@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/config/site";
@@ -43,6 +43,13 @@ export const metadata: Metadata = {
     title: `${SITE.name} — ${SITE.tagline.en}`,
     description: SITE.description.en,
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({

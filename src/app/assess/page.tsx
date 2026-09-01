@@ -173,12 +173,12 @@ function AssessInner() {
         onChange={(v) => setAnswer(current.field, v)}
       />
 
-      <div className="mt-10 flex items-center justify-between">
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
         <button
           type="button"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0}
-          className="rounded-lg px-4 py-2 text-sm font-medium text-muted disabled:opacity-40"
+          className="rounded-lg px-4 py-2.5 text-sm font-medium text-muted disabled:opacity-40"
         >
           ← {t("common.previous")}
         </button>

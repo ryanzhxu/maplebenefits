@@ -20,7 +20,7 @@ export function LanguageSwitcher() {
             onClick={() => setLocale(l)}
             aria-pressed={active}
             title={LOCALE_LABELS[l]}
-            className={`px-2.5 py-1 text-sm font-medium rounded-full transition-colors ${
+            className={`min-h-[34px] px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
               active
                 ? "bg-brand text-white"
                 : "text-muted hover:text-ink"
