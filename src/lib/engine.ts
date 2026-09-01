@@ -46,9 +46,20 @@ export function assessAll(
   ctx: AssessmentContext,
 ): EvalResult[] {
   const results = benefits.map((b) => evaluate(b, ctx));
+
+  // A benefit is a "gateway" if another benefit in this set lists it as a
+  // prerequisite. Gateways should be acted on first, so they float to the top
+  // of their status group (e.g. apply for DTC before CDB / RDSP).
+  const gateways = new Set<string>();
+  for (const b of benefits) {
+    for (const pre of b.prerequisites ?? []) gateways.add(pre);
+  }
+
   return results.sort((a, b) => {
     const s = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
     if (s !== 0) return s;
+    const g = Number(gateways.has(b.benefitId)) - Number(gateways.has(a.benefitId));
+    if (g !== 0) return g;
     return annualMidpoint(b) - annualMidpoint(a);
   });
 }

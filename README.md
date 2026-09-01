@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MapleBenefits 🍁
 
-## Getting Started
+A free, private, non-commercial web app that helps people in Canada discover
+government benefits they may be eligible for, estimate the value, and learn how
+to apply. Covers **federal + British Columbia** benefits (29 in total).
 
-First, run the development server:
+Live: https://maplebenefits.pages.dev
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+> General guidance only — not legal, financial, or tax advice. Not affiliated
+> with any government. Every benefit links to its official source.
+
+## What it does
+
+- **Find what you qualify for** — a guided questionnaire (asked once), then a
+  results dashboard of every benefit you may qualify for, sorted by estimated
+  dollar value, with plain-language reasons and step-by-step how-to-apply
+  instructions. A printable action plan is included.
+- **Browse** — search and filter all 29 benefits by category and level.
+- **Check a single benefit** — a focused eligibility check on any benefit page.
+- **Three languages** — English, Traditional Chinese, Simplified Chinese, with
+  a language switcher. Any untranslated string falls back to English.
+- **Private by design** — no sign-up, no cookies, no tracking of answers. All
+  assessment data stays in the browser session.
+
+## Rename the app
+
+The name lives in one place: `src/config/site.ts` (or set
+`NEXT_PUBLIC_SITE_NAME` at build time). No component hard-codes it.
+
+## Tech
+
+- Next.js 16 (App Router), TypeScript strict, Tailwind CSS v4, React 19
+- Zustand for assessment state (persisted to `sessionStorage` only)
+- Static export (`output: "export"`), deployed to Cloudflare Pages
+- Vitest for the rule engine and scenario tests
+
+## Architecture
+
+```
+src/config/site.ts          App name, tagline, links (rename here)
+src/types/benefit.ts        Domain types (Benefit, CheckResult, AssessmentContext…)
+src/i18n/                    Locale resolver, dictionaries (en / zh-Hant / zh-Hans), provider
+src/lib/checks.ts           Small DSL for building eligibility checks
+src/lib/engine.ts           Pure rule engine: evaluate / assessAll
+src/lib/estimate helpers    Amount estimators (in each benefit file)
+src/data/intake.ts          Shared master intake questionnaire
+src/data/benefits/*.ts      29 benefits, grouped by category; index.ts is the registry
+src/components/              Header, Footer, cards, badges, question input, results
+src/app/                     Pages: / , /benefits , /benefits/[id] , /assess , /assess/results , /about
+docs/research-notes.md       Verified 2025-26 figures + official source URLs
+docs/superpowers/specs/      Design spec
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Eligibility model
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Each benefit is a **pure function** `check(context) -> { status, confidence,
+reasons, missing }`. There is one shared master intake (one question per context
+field). The full assessment answers every relevant question once and runs every
+benefit's `check`. A single-benefit check asks only the fields that benefit
+declares in `contextFields`. Every result lists its reasons — no black boxes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Develop
 
-## Learn More
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm test           # vitest
+npm run build      # static export to ./out
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy (Cloudflare Pages)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+npx wrangler pages deploy out --project-name=maplebenefits --branch=main
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Data accuracy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All figures were verified against official Government of Canada and Government
+of British Columbia sources on 2026-09-01 (see `docs/research-notes.md`). Each
+benefit carries a `lastUpdated` date; pages show a warning if data is older than
+6 months. The Canada Carbon Rebate and BC Climate Action Tax Credit ended in
+April 2025 and are shown as "Ended" rather than as something to apply for.
