@@ -106,9 +106,9 @@ export const INTAKE: IntakeQuestion[] = [
       "zh-Hans": "你居住在哪个省或地区？",
     },
     helpText: {
-      en: "This version covers federal benefits and British Columbia. More provinces are coming.",
-      "zh-Hant": "此版本涵蓋聯邦福利及卑詩省。將會加入更多省份。",
-      "zh-Hans": "此版本涵盖联邦福利及不列颠哥伦比亚省。将会加入更多省份。",
+      en: "This version covers federal benefits, British Columbia, and Ontario. More provinces are coming.",
+      "zh-Hant": "此版本涵蓋聯邦福利、卑詩省及安大略省。將會加入更多省份。",
+      "zh-Hans": "此版本涵盖联邦福利、不列颠哥伦比亚省及安大略省。将会加入更多省份。",
     },
     options: [
       {
@@ -117,6 +117,14 @@ export const INTAKE: IntakeQuestion[] = [
           en: "British Columbia",
           "zh-Hant": "卑詩省 (BC)",
           "zh-Hans": "不列颠哥伦比亚省 (BC)",
+        },
+      },
+      {
+        value: "ON",
+        label: {
+          en: "Ontario",
+          "zh-Hant": "安大略省 (ON)",
+          "zh-Hans": "安大略省 (ON)",
         },
       },
       {
@@ -404,16 +412,16 @@ export const INTAKE: IntakeQuestion[] = [
     group: G.money,
     inputType: "yes-no",
     question: {
-      en: "Do you currently receive BC income assistance or disability assistance (PWD)?",
-      "zh-Hant": "你目前是否領取卑詩省收入援助或殘障援助 (PWD)？",
-      "zh-Hans": "你目前是否领取不列颠哥伦比亚省收入援助或残障援助 (PWD)？",
+      en: "Do you currently receive provincial income or disability assistance (such as BC PWD or Ontario ODSP/OW)?",
+      "zh-Hant": "你目前是否領取省級收入或殘障援助（例如卑詩省 PWD 或安大略 ODSP／OW）？",
+      "zh-Hans": "你目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD 或安大略 ODSP／OW）？",
     },
     questionHelping: {
-      en: "Do they currently receive BC income assistance or disability assistance (PWD)?",
-      "zh-Hant": "他／她目前是否領取卑詩省收入援助或殘障援助 (PWD)？",
-      "zh-Hans": "他／她目前是否领取不列颠哥伦比亚省收入援助或残障援助 (PWD)？",
+      en: "Do they currently receive provincial income or disability assistance (such as BC PWD or Ontario ODSP/OW)?",
+      "zh-Hant": "他／她目前是否領取省級收入或殘障援助（例如卑詩省 PWD 或安大略 ODSP／OW）？",
+      "zh-Hans": "他／她目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD 或安大略 ODSP／OW）？",
     },
-    skipIf: (ctx) => ctx.province !== "BC",
+    skipIf: (ctx) => ctx.province !== "BC" && ctx.province !== "ON",
     required: false,
   },
   {

@@ -9,6 +9,7 @@ import { bcDisabilityIncomeBenefits } from "./bc-disability-income";
 import { bcHousingBenefits } from "./bc-housing";
 import { bcHealthSeniorsFamilyBenefits } from "./bc-health-seniors-family";
 import { bcEducationChildcareBenefits } from "./bc-education-childcare";
+import { ontarioBenefits } from "./ontario";
 
 /** Every benefit in the app. Order here is the default browse order. */
 export const BENEFITS: Benefit[] = [
@@ -22,6 +23,7 @@ export const BENEFITS: Benefit[] = [
   ...bcHousingBenefits,
   ...bcHealthSeniorsFamilyBenefits,
   ...bcEducationChildcareBenefits,
+  ...ontarioBenefits,
 ];
 
 /** Benefits that are still active (excludes discontinued programs). */
@@ -48,7 +50,11 @@ export const CATEGORIES: BenefitCategory[] = [
   "education",
 ];
 
-export const LEVELS: BenefitLevel[] = ["federal", "provincial-bc"];
+export const LEVELS: BenefitLevel[] = [
+  "federal",
+  "provincial-bc",
+  "provincial-on",
+];
 
 export function benefitsByCategory(category: BenefitCategory): Benefit[] {
   return BENEFITS.filter((b) => b.category === category);

@@ -8,8 +8,8 @@ const ids = new Set(BENEFITS.map((b) => b.id));
 const intakeFields = new Set(INTAKE.map((q) => q.field));
 
 describe("benefit data integrity", () => {
-  it("has 36 benefits", () => {
-    expect(BENEFITS.length).toBe(36);
+  it("has 43 benefits", () => {
+    expect(BENEFITS.length).toBe(43);
   });
 
   it("has unique ids", () => {
@@ -204,6 +204,57 @@ describe("real scenario: post-secondary student (age 22)", () => {
     expect(statusFor("bc-access-grant", { ...ctx, postSecondaryStudent: false })).toBe(
       "ineligible",
     );
+  });
+});
+
+describe("real scenario: Ontario low-income senior (age 70)", () => {
+  const ctx: AssessmentContext = {
+    age: 70,
+    province: "ON",
+    residency: "citizen",
+    maritalStatus: "single",
+    hasChildren: false,
+    employmentStatus: "retired",
+    annualIncome: 17000,
+    familyIncome: 17000,
+    isHomeowner: false,
+    filedTaxes: true,
+  };
+
+  it("qualifies for federal seniors + Ontario Trillium, GAINS, drug coverage", () => {
+    expect(statusFor("oas", ctx)).toBe("eligible");
+    expect(statusFor("gis", ctx)).toBe("eligible");
+    expect(statusFor("ontario-trillium", ctx)).toBe("eligible");
+    expect(statusFor("ontario-gains", ctx)).toBe("eligible");
+    expect(statusFor("ontario-drug-benefit", ctx)).toBe("eligible");
+  });
+
+  it("does not surface BC-only benefits for an Ontario resident", () => {
+    expect(statusFor("safer", ctx)).toBe("ineligible");
+    expect(statusFor("pwd", ctx)).toBe("ineligible");
+    expect(statusFor("bc-seniors-supplement", ctx)).toBe("ineligible");
+  });
+});
+
+describe("real scenario: Ontario family with a child (age 33)", () => {
+  const ctx: AssessmentContext = {
+    age: 33,
+    province: "ON",
+    residency: "pr",
+    maritalStatus: "married",
+    hasChildren: true,
+    numberOfChildren: 1,
+    youngestChildAge: 4,
+    employmentStatus: "employed",
+    annualIncome: 20000,
+    familyIncome: 35000,
+    isHomeowner: false,
+    filedTaxes: true,
+  };
+
+  it("qualifies for CCB and the Ontario Child Benefit", () => {
+    expect(statusFor("ccb", ctx)).toBe("eligible");
+    expect(statusFor("ontario-child-benefit", ctx)).toBe("eligible");
   });
 });
 
