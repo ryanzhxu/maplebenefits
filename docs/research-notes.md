@@ -112,3 +112,31 @@ carries `lastUpdated: "2026-09-01"` and its official source URL.
 - **BC Climate Action Tax Credit — DISCONTINUED.** Carbon tax repealed April 1
   2025; final credit payment April 2025. Flag as ended.
   https://www2.gov.bc.ca/gov/content/taxes/income-taxes/personal/credits/climate-action
+
+## Additions — verified 2026-09-01 (breadth + depth expansion)
+
+### Federal (new)
+- **FHSA** — $8,000/yr, $40,000 lifetime; first-time buyer, age 18-71, tax-deductible.
+  https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/first-home-savings-account.html
+- **Home Buyers' Amount (line 31270)** — $10,000 credit (~$1,500 relief); first-time buyer or DTC-eligible.
+- **Multigenerational Home Renovation Tax Credit** — 15% of up to $50,000 = up to $7,500, refundable; secondary unit for a 65+ or DTC-eligible relative.
+- **Canada Learning Bond** — up to $2,000/child into an RESP ($500 + $100/yr to 15); AFNI ≤ ~$57,375; no contribution needed.
+- **Canada Training Credit** — accumulate $250/yr (ages 26-65), refundable, covers up to half of eligible tuition.
+- **OAS Allowance** — 60-64, spouse on GIS, combined income < $41,616; max ~$1,411/mo (Apr-Jun 2026).
+- **Allowance for the Survivor** — 60-64, widowed, income < ~$28,944; max ~$1,702/mo (2026).
+
+### BC (new)
+- **BC Access Grant** — up to $4,000/8-mo year (short programs) / $1,000 (2+ yr); low/middle income; auto with StudentAid BC.
+  https://studentaidbc.ca/explore/grants-scholarships/bc-access-grant-full-time
+- **Affordable Child Care Benefit (ACCB)** — up to $1,250/child/mo; income up to $111,000 (max at ≤$45,000).
+  https://www2.gov.bc.ca/gov/content/family-social-supports/caring-for-young-children/childcarebc-programs/child-care-benefit
+
+### Ontario (new province)
+- **Ontario Trillium Benefit (OTB)** — OEPTC (~$1,309 / $1,490 senior) + OSTC ($378) + NOEC; combined ~$1,421/yr, monthly; via ON-BEN on tax return.
+  https://www.ontario.ca/page/ontario-trillium-benefit
+- **Ontario Works** — single $733/mo ($343 basic + $390 shelter).  https://www.ontario.ca/page/ontario-works
+- **ODSP** — single up to $1,408/mo (Jul 2025, +2.8%); + drug/dental/vision.  https://www.ontario.ca/page/ontario-disability-support-program
+- **Ontario Child Benefit (OCB)** — up to ~$1,727/yr per child; full ≤ $26,865 AFNI; requires CCB.  https://www.ontario.ca/page/ontario-child-benefit
+- **GAINS** — single up to ~$92/mo (Jul 2026); private income < $4,320; automatic with GIS.  https://www.ontario.ca/page/guaranteed-annual-income-system-payments-seniors
+- **Ontario prescription drug coverage** — ODB automatic at 65+; Trillium Drug Program for under-65 (deductible ~4% of income); Seniors Co-Payment Program for low-income 65+.  https://www.ontario.ca/page/get-coverage-prescription-drugs
+- **Ontario Senior Homeowners' Property Tax Grant** — up to $500/yr; 64+; income < $50,000 single / $60,000 couple; via ON-BEN.  https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant
