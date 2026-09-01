@@ -5,15 +5,22 @@ import { useMemo } from "react";
 import { useI18n } from "@/i18n/LocaleProvider";
 import { SITE } from "@/config/site";
 import { useAssessment } from "@/store/assessment";
-import { ACTIVE_BENEFITS, getBenefit } from "@/data/benefits";
+import { ACTIVE_BENEFITS, getBenefit, getBenefits } from "@/data/benefits";
 import { annualMidpoint, assessAll } from "@/lib/engine";
 import { formatMoney } from "@/lib/format";
 import { ResultCard } from "@/components/ResultCard";
 import type { EvalResult } from "@/types/benefit";
 
 export default function ResultsPage() {
-  const { t, locale } = useI18n();
+  const { t, r, locale } = useI18n();
   const { context, completed } = useAssessment();
+  const helping = context.helpingSomeoneElse === true;
+  const helperBenefits = getBenefits([
+    "ccc",
+    "medical-expense",
+    "eligible-dependant",
+    "dtc",
+  ]);
 
   const results = useMemo(() => assessAll(ACTIVE_BENEFITS, context), [context]);
 
@@ -108,6 +115,27 @@ export default function ResultsPage() {
       <Section title={t("results.likelyTitle")} results={eligible} />
       <Section title={t("results.possibleTitle")} results={possible} />
       <Section title={t("results.moreInfoTitle")} results={moreInfo} />
+
+      {/* Flow 4: benefits the helper can claim */}
+      {helping && (
+        <section className="mt-10 rounded-[var(--radius-card)] border border-brand/20 bg-brand-soft p-5">
+          <h2 className="text-lg font-bold text-brand">
+            {t("results.helperTitle")}
+          </h2>
+          <p className="mt-1 text-sm text-ink">{t("results.helperBody")}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {helperBenefits.map((b) => (
+              <Link
+                key={b.id}
+                href={`/benefits/${b.id}`}
+                className="rounded-full border border-brand/30 bg-surface px-3 py-1.5 text-sm font-medium text-brand hover:bg-brand hover:text-white"
+              >
+                {r(b.name)}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Disclaimer */}
       <p className="mt-10 rounded-lg border border-line bg-surface p-4 text-sm leading-relaxed text-muted">

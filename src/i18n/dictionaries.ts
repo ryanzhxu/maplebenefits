@@ -136,6 +136,9 @@ const en = {
     disclaimer:
       "These results are general guidance only, based on the answers you gave. They are not a decision or a promise of payment. Always confirm with the government agency listed for each benefit.",
     retake: "Change my answers",
+    helperTitle: "What you can claim as the person helping",
+    helperBody:
+      "Because you are helping someone, you may also be able to claim these on your own tax return:",
   },
   about: {
     title: "About this tool",
@@ -301,6 +304,8 @@ const zhHant: Loose<Dict> = {
     disclaimer:
       "這些結果僅為一般指引，根據你提供的答案而定，並非決定或付款承諾。請務必向每項福利所列的政府機構確認。",
     retake: "修改我的答案",
+    helperTitle: "作為協助者，你可以申索的項目",
+    helperBody: "由於你正在協助他人，你或可在自己的報稅表上申索以下項目：",
   },
   about: {
     title: "關於本工具",
@@ -455,6 +460,8 @@ const zhHans: Loose<Dict> = {
     disclaimer:
       "这些结果仅为一般指引，根据你提供的答案而定，并非决定或付款承诺。请务必向每项福利所列的政府机构确认。",
     retake: "修改我的答案",
+    helperTitle: "作为帮助者，你可以申索的项目",
+    helperBody: "由于你正在帮助他人，你或可在自己的报税表上申索以下项目：",
   },
   about: {
     title: "关于本工具",
