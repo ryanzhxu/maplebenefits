@@ -156,10 +156,10 @@ const en = {
       "This tool runs entirely in your browser. Your answers are never sent to a server, never stored beyond your session, and never used for tracking. There is no account and no advertising.",
     sourcesTitle: "Data sources",
     sourcesBody:
-      "Every benefit links to its official government source. Figures are verified against Government of Canada and Government of British Columbia pages. The date each benefit was last checked is shown on its page.",
+      "Every benefit links to its official government source. Figures are verified against Government of Canada, British Columbia, Ontario, and Alberta pages. The date each benefit was last checked is shown on its page.",
     accuracyTitle: "Accuracy and limits",
     accuracyBody:
-      "Benefit rules and amounts change. We show the date each benefit was last verified and warn you when information may be out of date. Some content is being translated — untranslated text is shown in English.",
+      "Benefit rules and amounts change. We show the date each benefit was last verified and warn you when information may be out of date. The tool is available in English, Traditional Chinese, and Simplified Chinese; any untranslated text falls back to English.",
     disclaimerTitle: "Important disclaimer",
     disclaimerBody:
       "This tool provides general information only. It is not legal, financial, or tax advice, and it is not affiliated with any government. Always verify your eligibility and application details with the relevant government agency before you rely on this information.",
@@ -329,10 +329,10 @@ const zhHant: Loose<Dict> = {
       "本工具完全在你的瀏覽器內運行。你的答案不會傳送到伺服器，不會在工作階段以外儲存，也不會用於追蹤。沒有帳戶，沒有廣告。",
     sourcesTitle: "資料來源",
     sourcesBody:
-      "每項福利都連結到政府官方來源。金額對照加拿大政府及卑詩省政府的網頁核實。每項福利的最後核實日期會顯示在其頁面上。",
+      "每項福利都連結到政府官方來源。金額對照加拿大、卑詩省、安大略省及亞伯達省政府的網頁核實。每項福利的最後核實日期會顯示在其頁面上。",
     accuracyTitle: "準確性與限制",
     accuracyBody:
-      "福利規則與金額會變動。我們會顯示每項福利的最後核實日期，並在資訊可能過時時提醒你。部分內容仍在翻譯中 — 未翻譯的文字會以英文顯示。",
+      "福利規則與金額會變動。我們會顯示每項福利的最後核實日期，並在資訊可能過時時提醒你。本工具提供英文、繁體中文及簡體中文；未翻譯的文字會以英文顯示。",
     disclaimerTitle: "重要聲明",
     disclaimerBody:
       "本工具僅提供一般資訊，並非法律、財務或稅務意見，亦與任何政府沒有關聯。在依賴本資訊之前，請務必向相關政府機構核實你的資格及申請細節。",
@@ -491,10 +491,10 @@ const zhHans: Loose<Dict> = {
       "本工具完全在你的浏览器内运行。你的答案不会传送到服务器，不会在会话以外存储，也不会用于追踪。没有账户，没有广告。",
     sourcesTitle: "数据来源",
     sourcesBody:
-      "每项福利都链接到政府官方来源。金额对照加拿大政府及不列颠哥伦比亚省政府的网页核实。每项福利的最后核实日期会显示在其页面上。",
+      "每项福利都链接到政府官方来源。金额对照加拿大、不列颠哥伦比亚省、安大略省及阿尔伯塔省政府的网页核实。每项福利的最后核实日期会显示在其页面上。",
     accuracyTitle: "准确性与限制",
     accuracyBody:
-      "福利规则与金额会变动。我们会显示每项福利的最后核实日期，并在信息可能过时时提醒你。部分内容仍在翻译中 — 未翻译的文字会以英文显示。",
+      "福利规则与金额会变动。我们会显示每项福利的最后核实日期，并在信息可能过时时提醒你。本工具提供英文、繁体中文及简体中文；未翻译的文字会以英文显示。",
     disclaimerTitle: "重要声明",
     disclaimerBody:
       "本工具仅提供一般信息，并非法律、财务或税务意见，亦与任何政府没有关联。在依赖本信息之前，请务必向相关政府机构核实你的资格及申请细节。",
