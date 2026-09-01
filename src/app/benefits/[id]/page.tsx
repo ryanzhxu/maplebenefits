@@ -30,5 +30,34 @@ export default async function BenefitPage({
   const { id } = await params;
   const benefit = getBenefit(id);
   if (!benefit) notFound();
-  return <BenefitDetail id={id} />;
+
+  const name = resolve(benefit.name, "en");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Browse benefits",
+        item: "https://maplebenefits.pages.dev/benefits",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name,
+        item: `https://maplebenefits.pages.dev/benefits/${benefit.id}`,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BenefitDetail id={id} />
+    </>
+  );
 }

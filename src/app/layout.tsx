@@ -12,13 +12,37 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://maplebenefits.pages.dev"),
   title: {
     default: `${SITE.name} — ${SITE.tagline.en}`,
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description.en,
   applicationName: SITE.name,
+  keywords: [
+    "Canadian benefits",
+    "government benefits Canada",
+    "British Columbia benefits",
+    "am I eligible",
+    "Disability Tax Credit",
+    "Canada Child Benefit",
+    "GIS",
+    "benefits finder",
+  ],
   robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: `${SITE.name} — ${SITE.tagline.en}`,
+    description: SITE.description.en,
+    locale: "en_CA",
+    url: "https://maplebenefits.pages.dev",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} — ${SITE.tagline.en}`,
+    description: SITE.description.en,
+  },
 };
 
 export default function RootLayout({
