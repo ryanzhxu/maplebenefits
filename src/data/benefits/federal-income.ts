@@ -1,7 +1,44 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { figures, fmt } from "@/lib/figures";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+
+// Canada Groceries and Essentials Benefit (formerly the GST/HST credit).
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html
+//
+// The benefit cited only the old GST/HST credit page, which states no amounts,
+// so all three figures went unchecked and fell a full year behind: $533/$698/
+// $184 against the current $679/$890/$234. That understated a single person's
+// entitlement by 27%.
+const CGEB_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html";
+const CGEB_SENTENCE =
+  "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19";
+
+const CGEB = figures({
+  maxSingle: {
+    current: { value: 679, from: "2026-07-01", source: CGEB_URL, quote: CGEB_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per year, single",
+  },
+  maxCouple: {
+    current: { value: 890, from: "2026-07-01", source: CGEB_URL, quote: CGEB_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per year, married or common-law",
+  },
+  perChild: {
+    current: { value: 234, from: "2026-07-01", source: CGEB_URL, quote: CGEB_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per year, per child under 19",
+  },
+});
 
 const cgebEstimate = (ctx: {
   maritalStatus?: string;
@@ -11,8 +48,8 @@ const cgebEstimate = (ctx: {
 }): AmountEstimate => {
   const couple =
     ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
-  let base = couple ? 698 : 533;
-  if (ctx.hasChildren) base += 184 * (ctx.numberOfChildren ?? 1);
+  let base = couple ? val(CGEB.maxCouple) : val(CGEB.maxSingle);
+  if (ctx.hasChildren) base += val(CGEB.perChild) * (ctx.numberOfChildren ?? 1);
   const income = ctx.familyIncome;
   if (income === undefined) return { low: 0, high: base, period: "year" };
   const reduce = Math.max(0, income - 45521) * 0.05;
@@ -45,10 +82,11 @@ export const cgeb: Benefit = {
     "为低收入及中等收入人士提供的免税季度款项，帮助抵销销售税。前称 GST/HST 抵免。只需报税即可获得。",
   ),
   estimatedValue: tri(
-    "Up to $533/year single, $698/year couple, plus $184/year per child",
-    "單身最多每年 $533、夫婦 $698，另每名子女每年 $184",
-    "单身最多每年 $533、夫妇 $698，另每名子女每年 $184",
+    `Up to ${fmt(CGEB.maxSingle)}/year single, ${fmt(CGEB.maxCouple)}/year couple, plus ${fmt(CGEB.perChild)}/year per child`,
+    `單身最多每年 ${fmt(CGEB.maxSingle)}、夫婦 ${fmt(CGEB.maxCouple)}，另每名子女每年 ${fmt(CGEB.perChild)}`,
+    `单身最多每年 ${fmt(CGEB.maxSingle)}、夫妇 ${fmt(CGEB.maxCouple)}，另每名子女每年 ${fmt(CGEB.perChild)}`,
   ),
+  figures: CGEB,
   contextFields: ["annualIncome", "familyIncome", "maritalStatus", "hasChildren", "numberOfChildren", "filedTaxes", "age"],
   check: buildCheck([
     {
