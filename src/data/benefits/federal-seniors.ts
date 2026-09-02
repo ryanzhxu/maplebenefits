@@ -1,7 +1,7 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, atMostOf, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
 export const oas: Benefit = {
   id: "oas",
@@ -109,12 +109,14 @@ export const oas: Benefit = {
 // copy, $1,097 in the estimator, and the real figure of $1,123.17 on the page.
 // Declaring it once is the point.
 //
-// Not yet sourced: the income cutoff, written as 22488 in the rule and
-// "$22,500" in the copy. The real cutoff varies by marital status and is not
-// on this page, so fixing it needs marital-status tiers -- the same shape as
-// the Manitoba family-size bug. Left as-is and flagged rather than half-fixed.
+// The income cutoff was a single 22488 applied to everyone, with the copy
+// saying "$22,500". Service Canada publishes four thresholds by household
+// situation, from $22,800 single to $54,624 for a couple whose spouse does not
+// receive OAS -- so couples were being excluded far too early.
 const GIS_URL =
   "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html";
+const GIS_ELIGIBILITY_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html";
 
 const GIS = figures({
   maxMonthlySingle: {
@@ -141,7 +143,80 @@ const GIS = figures({
     format: "currency-cents",
     label: "Maximum monthly GIS, spouse receives full OAS",
   },
+  // Income thresholds. Service Canada publishes FOUR, by household situation.
+  // Source: .../guaranteed-income-supplement/eligibility.html
+  incomeMaxSingle: {
+    current: {
+      value: 22800,
+      from: "2026-07-01",
+      source: GIS_ELIGIBILITY_URL,
+      quote: "I am single, divorced, or widowed. Less than $22,800",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income limit, single",
+  },
+  incomeMaxSpouseOnFullOas: {
+    current: {
+      value: 30096,
+      from: "2026-07-01",
+      source: GIS_ELIGIBILITY_URL,
+      quote:
+        "I have a spouse or common-law partner who receives the full OAS pension. Less than $30,096 (combined annual income of couple)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Combined income limit, spouse receives full OAS",
+  },
+  incomeMaxSpouseOnAllowance: {
+    current: {
+      value: 42144,
+      from: "2026-07-01",
+      source: GIS_ELIGIBILITY_URL,
+      quote:
+        "I have a spouse or common-law partner who receives the Allowance. Less than $42,144 (combined annual income of couple)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Combined income limit, spouse receives the Allowance",
+  },
+  incomeMaxSpouseWithoutOas: {
+    current: {
+      value: 54624,
+      from: "2026-07-01",
+      source: GIS_ELIGIBILITY_URL,
+      quote:
+        "I have a spouse or common-law partner who does not receive OAS. Less than $54,624 (combined annual income of couple)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Combined income limit, spouse does not receive OAS",
+  },
 });
+
+/** A couple's COMBINED income is measured against the couple thresholds. */
+const gisIsCouple = (c: { maritalStatus?: string }) =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law";
+
+/**
+ * Income ceiling for this household.
+ *
+ * Which of the three couple thresholds applies depends on whether the spouse
+ * receives OAS or the Allowance -- something the intake does not ask, and
+ * adding a question is out of scope. So a couple is measured against the
+ * WIDEST couple threshold.
+ *
+ * That is deliberate. It can suggest checking a benefit someone turns out not
+ * to qualify for, which costs them a few minutes. The opposite error tells
+ * someone they do not qualify when they do, and they never apply.
+ */
+const gisIncomeCeiling = (c: { maritalStatus?: string }) =>
+  gisIsCouple(c) ? val(GIS.incomeMaxSpouseWithoutOas) : val(GIS.incomeMaxSingle);
+
 
 export const gis: Benefit = {
   id: "gis",
@@ -179,7 +254,10 @@ export const gis: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 22488),
+      test: atMostOf(
+        (c) => (gisIsCouple(c) ? c.familyIncome : c.annualIncome),
+        gisIncomeCeiling,
+      ),
       hard: true,
       passReason: tri(
         "Your income is in the low-income range GIS is designed for.",
@@ -187,9 +265,9 @@ export const gis: Benefit = {
         "你的收入属于保证收入补助金针对的低收入范围。",
       ),
       failReason: tri(
-        "GIS is for seniors with low income (roughly under $22,500 for a single person).",
-        "保證收入補助金適用於低收入長者（單身約 $22,500 以下）。",
-        "保证收入补助金适用于低收入长者（单身约 $22,500 以下）。",
+        `GIS is for seniors with low income: under ${fmt(GIS.incomeMaxSingle)} if you are single, or up to ${fmt(GIS.incomeMaxSpouseWithoutOas)} combined for a couple, depending on whether your spouse receives OAS.`,
+        `保證收入補助金適用於低收入長者：單身須低於 ${fmt(GIS.incomeMaxSingle)}；夫婦合計最高可達 ${fmt(GIS.incomeMaxSpouseWithoutOas)}，視配偶是否領取 OAS 而定。`,
+        `保证收入补助金适用于低收入长者：单身须低于 ${fmt(GIS.incomeMaxSingle)}；夫妇合计最高可达 ${fmt(GIS.incomeMaxSpouseWithoutOas)}，视配偶是否领取 OAS 而定。`,
       ),
       missingField: "annualIncome",
     },
