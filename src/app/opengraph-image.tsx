@@ -23,26 +23,9 @@ export default function OpengraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
-          <div
-            style={{
-              display: "flex",
-              width: 76,
-              height: 76,
-              borderRadius: 18,
-              background: "#d64545",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 40,
-              fontWeight: 800,
-              color: "#ffffff",
-            }}
-          >
-            MB
-          </div>
-          <div style={{ fontSize: 46, fontWeight: 700, color: "#0f1b2d" }}>
-            {SITE.name}
-          </div>
+        <div style={{ display: "flex", alignItems: "baseline", fontSize: 62, fontWeight: 800, letterSpacing: -1 }}>
+          <span style={{ color: "#d64545" }}>maple</span>
+          <span style={{ color: "#1b4fd6" }}>benefits</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -65,7 +48,7 @@ export default function OpengraphImage() {
               maxWidth: 960,
             }}
           >
-            {`Free and private. ${SITE.benefitCount} federal and BC benefits, in three languages.`}
+            Free and private. Federal and provincial benefits, in three languages.
           </div>
         </div>
 

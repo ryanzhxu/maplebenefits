@@ -6,17 +6,7 @@ import { useEffect, useState } from "react";
 import { SITE } from "@/config/site";
 import { useI18n } from "@/i18n/LocaleProvider";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-
-function MapleMark() {
-  return (
-    <span
-      aria-hidden
-      className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-maple text-white text-lg leading-none"
-    >
-      🍁
-    </span>
-  );
-}
+import { Wordmark } from "./Wordmark";
 
 export function Header() {
   const { t } = useI18n();
@@ -42,12 +32,10 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
         <Link
           href="/"
-          className="flex min-w-0 items-center gap-2 font-semibold text-ink"
+          aria-label={SITE.name}
+          className="flex min-w-0 items-center"
         >
-          <MapleMark />
-          <span className="truncate text-base tracking-tight sm:text-lg">
-            {SITE.name}
-          </span>
+          <Wordmark className="truncate text-lg sm:text-xl" />
         </Link>
 
         {/* Desktop nav */}

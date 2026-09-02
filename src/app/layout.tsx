@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Manrope } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/config/site";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
@@ -9,6 +9,13 @@ import { Footer } from "@/components/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+// Manrope powers only the logo wordmark; the rest of the app stays Geist.
+const manrope = Manrope({
+  variable: "--font-wordmark",
+  subsets: ["latin"],
+  weight: ["800"],
 });
 
 export const metadata: Metadata = {
@@ -58,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-CA" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="en-CA" className={`${geistSans.variable} ${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink">
         <LocaleProvider>
           <a
