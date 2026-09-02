@@ -77,7 +77,7 @@ export const pwd: Benefit = {
         "向部门索取 PWD 申请表，包括自述、医生的医疗报告及评估报告（护士、社工等）。",
       ),
       actionUrl:
-        "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance",
+        "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance",
       estimatedTime: tri("Requires medical reports", "需要醫療報告", "需要医疗报告"),
     },
     {
@@ -103,7 +103,7 @@ export const pwd: Benefit = {
     tri("Assessor report", "評估報告", "评估报告"),
   ],
   applicationUrl:
-    "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance",
+    "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance",
   officialInfoUrl:
     "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance",
   processingTime: tri("Varies", "視情況而定", "视情况而定"),
@@ -379,14 +379,14 @@ export const workbcAt: Benefit = {
         "聯絡 WorkBC 輔助科技服務。評估會找出你工作所需的設備或支援。",
         "联系 WorkBC 辅助科技服务。评估会找出你工作所需的设备或支援。",
       ),
-      actionUrl: "https://www.workbc.ca/employment-services/assistive-technology-services",
+      actionUrl: "https://www.workbc.ca/get-support/assistive-technology-pwd",
     },
   ],
   requiredDocuments: [
     tri("Information about your work goal", "有關你工作目標的資料", "有关你工作目标的资料"),
   ],
-  applicationUrl: "https://www.workbc.ca/employment-services/assistive-technology-services",
-  officialInfoUrl: "https://www.workbc.ca/employment-services/assistive-technology-services",
+  applicationUrl: "https://www.workbc.ca/get-support/assistive-technology-pwd",
+  officialInfoUrl: "https://www.workbc.ca/get-support/assistive-technology-pwd",
   processingTime: tri("Varies", "視情況而定", "视情况而定"),
   paymentFrequency: tri("As needed", "按需要", "按需要"),
   tags: ["disability", "work", "bc", "assistive-technology"],

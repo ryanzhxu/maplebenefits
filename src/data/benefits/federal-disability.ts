@@ -90,7 +90,7 @@ export const dtc: Benefit = {
         "填写 T2201 表格（残疾税务抵免证明）的申请人部分，由医疗人员填写医疗部分。可通过 CRA My Account 网上办理或使用纸本。",
       ),
       actionUrl:
-        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html",
+        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply-dtc.html",
       estimatedTime: tri(
         "Requires a doctor visit",
         "需要看醫生",
@@ -135,7 +135,7 @@ export const dtc: Benefit = {
     ),
   ],
   applicationUrl:
-    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html",
+    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply-dtc.html",
   officialInfoUrl:
     "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit.html",
   processingTime: tri("Usually 8 weeks", "通常 8 星期", "通常 8 星期"),

@@ -221,14 +221,14 @@ export const multigenReno: Benefit = {
         "于装修完成当年申索。此抵免可退还，即使无税可缴也可获发。",
       ),
       actionUrl:
-        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html",
+        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html",
     },
   ],
   requiredDocuments: [
     tri("Renovation receipts and contracts", "裝修收據及合約", "装修收据及合约"),
   ],
   officialInfoUrl:
-    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html",
+    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html",
   paymentFrequency: tri("One-time refundable credit", "一次性可退還抵免", "一次性可退还抵免"),
   tags: ["housing", "seniors", "disability", "renovation", "tax"],
   relatedBenefits: ["dtc", "ccc"],

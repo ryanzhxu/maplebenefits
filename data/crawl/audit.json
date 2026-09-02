@@ -4,11 +4,9 @@
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit.html",
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply-dtc.html"
     ],
-    "fetchErrors": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [
       {
         "value": 1900,
@@ -596,16 +594,15 @@
     "benefitId": "multigen-reno",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
     ],
-    "fetchErrors": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [
       {
         "value": 50000,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
       },
       {
         "value": 7500,
@@ -615,11 +612,12 @@
       {
         "value": 45355,
         "where": "code",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 3
+    "confirmed": 2,
+    "unconfirmed": 1
   },
   {
     "benefitId": "canada-learning-bond",
@@ -671,31 +669,33 @@
     "benefitId": "canada-training-credit",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html"
     ],
-    "fetchErrors": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [
       {
         "value": 250,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html"
+      },
+      {
+        "value": 45350,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 1
+    "confirmed": 2,
+    "unconfirmed": 0
   },
   {
     "benefitId": "pwd",
     "level": "provincial-bc",
     "urls": [
-      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance",
-      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance"
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance"
     ],
-    "fetchErrors": [
-      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [
       {
         "value": 1483.5,
@@ -761,11 +761,9 @@
     "benefitId": "workbc-at",
     "level": "provincial-bc",
     "urls": [
-      "https://www.workbc.ca/employment-services/assistive-technology-services"
+      "https://www.workbc.ca/get-support/assistive-technology-pwd"
     ],
-    "fetchErrors": [
-      "https://www.workbc.ca/employment-services/assistive-technology-services (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
     "unconfirmed": 0
@@ -1104,12 +1102,9 @@
     "benefitId": "ontario-works",
     "level": "provincial-on",
     "urls": [
-      "https://www.ontario.ca/page/ontario-works",
-      "https://www.ontario.ca/page/apply-ontario-works"
+      "https://www.ontario.ca/page/ontario-works"
     ],
-    "fetchErrors": [
-      "https://www.ontario.ca/page/apply-ontario-works (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [
       {
         "value": 733,
@@ -1199,25 +1194,25 @@
     "benefitId": "ontario-senior-homeowner-grant",
     "level": "provincial-on",
     "urls": [
-      "https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant"
+      "https://www.ontario.ca/page/senior-homeowners-property-tax-grant"
     ],
-    "fetchErrors": [
-      "https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant (http-error)"
-    ],
+    "fetchErrors": [],
     "figures": [
       {
         "value": 500,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant"
       },
       {
         "value": 50000,
         "where": "code",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 2
+    "confirmed": 2,
+    "unconfirmed": 0
   },
   {
     "benefitId": "aish",

@@ -1,5 +1,5 @@
 audit: checking 73 benefits against their cited sources
-  [  1/73] FETCHFAIL  dtc  0 confirmed, 4 not: 1900, 2450, 32500, 23000  [https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html (http-error)]
+  [  1/73] UNCONFIRMED dtc  0 confirmed, 4 not: 1900, 2450, 32500, 23000
   [  2/73] UNCONFIRMED cdb  0 confirmed, 2 not: 204.2, 2450
   [  3/73] UNCONFIRMED cpp-d  0 confirmed, 3 not: 583, 1673, 1192
   [  4/73] UNCONFIRMED rdsp  0 confirmed, 4 not: 3500, 1000, 37487, 4500
@@ -18,13 +18,13 @@ audit: checking 73 benefits against their cited sources
   [ 17/73] UNCONFIRMED ei  0 confirmed, 3 not: 729, 700, 3157
   [ 18/73] UNCONFIRMED fhsa  1 confirmed, 1 not: 40000
   [ 19/73] UNCONFIRMED home-buyers-amount  2 confirmed, 1 not: 1500
-  [ 20/73] FETCHFAIL  multigen-reno  0 confirmed, 3 not: 50000, 7500, 45355  [https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html (http-error)]
+  [ 20/73] UNCONFIRMED multigen-reno  2 confirmed, 1 not: 7500
   [ 21/73] UNCONFIRMED canada-learning-bond  4 confirmed, 2 not: 57000, 57375
-  [ 22/73] FETCHFAIL  canada-training-credit  0 confirmed, 1 not: 250  [https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html (http-error)]
-  [ 23/73] FETCHFAIL  pwd  0 confirmed, 2 not: 1483.5, 1483  [https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance (http-error)]
+  [ 22/73] ok         canada-training-credit  2 confirmed, 0 not
+  [ 23/73] UNCONFIRMED pwd  0 confirmed, 2 not: 1483.5, 1483
   [ 24/73] UNCONFIRMED bc-income-assistance  1 confirmed, 1 not: 12000
   [ 25/73] UNCONFIRMED bc-bus-pass  0 confirmed, 2 not: 45, 24000
-  [ 26/73] FETCHFAIL  workbc-at  0 confirmed, 0 not  [https://www.workbc.ca/employment-services/assistive-technology-services (http-error)]
+  [ 26/73] ok         workbc-at  0 confirmed, 0 not
   [ 27/73] UNCONFIRMED safer  3 confirmed, 3 not: 752, 660, 1097
   [ 28/73] UNCONFIRMED rap  3 confirmed, 2 not: 5000, 1800
   [ 29/73] UNCONFIRMED bc-housing-registry  0 confirmed, 1 not: 70000
@@ -36,12 +36,12 @@ audit: checking 73 benefits against their cited sources
   [ 35/73] UNCONFIRMED bc-access-grant  2 confirmed, 1 not: 120000
   [ 36/73] UNCONFIRMED bc-affordable-child-care  0 confirmed, 2 not: 1250, 111000
   [ 37/73] UNCONFIRMED ontario-trillium  0 confirmed, 5 not: 1400, 1727, 26865, 55000, 1421
-  [ 38/73] FETCHFAIL  ontario-works  1 confirmed, 1 not: 12000  [https://www.ontario.ca/page/apply-ontario-works (http-error)]
+  [ 38/73] UNCONFIRMED ontario-works  1 confirmed, 1 not: 12000
   [ 39/73] UNCONFIRMED odsp  0 confirmed, 1 not: 1408
   [ 40/73] UNCONFIRMED ontario-child-benefit  0 confirmed, 1 not: 1727
   [ 41/73] UNCONFIRMED ontario-gains  1 confirmed, 1 not: 22488
   [ 42/73] ok         ontario-drug-benefit  0 confirmed, 0 not
-  [ 43/73] FETCHFAIL  ontario-senior-homeowner-grant  0 confirmed, 2 not: 500, 50000  [https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant (http-error)]
+  [ 43/73] ok         ontario-senior-homeowner-grant  2 confirmed, 0 not
   [ 44/73] UNCONFIRMED aish  0 confirmed, 4 not: 1863, 1499, 749, 27565
   [ 45/73] UNCONFIRMED alberta-seniors-benefit  0 confirmed, 2 not: 322, 33410
   [ 46/73] ok         acfb  1 confirmed, 0 not
@@ -73,5 +73,5 @@ audit: checking 73 benefits against their cited sources
   [ 72/73] ok         nl-seniors-benefit  2 confirmed, 0 not
   [ 73/73] UNCONFIRMED nl-income-supplement  3 confirmed, 1 not: 589
 
-audit complete: 11 fully confirmed, 61 with unconfirmed figures, 7 with fetch problems
+audit complete: 14 fully confirmed, 59 with unconfirmed figures, 0 with fetch problems
 report: /Users/ryan.xu/Developer/canadian-benefits/data/crawl/audit.json

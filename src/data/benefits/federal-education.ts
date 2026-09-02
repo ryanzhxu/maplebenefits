@@ -141,7 +141,7 @@ export const canadaTrainingCredit: Benefit = {
         "你的可用额度显示于 CRA My Account 及评税通知书上。",
       ),
       actionUrl:
-        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html",
+        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html",
     },
     {
       order: 2,
@@ -157,7 +157,7 @@ export const canadaTrainingCredit: Benefit = {
     tri("Tuition receipts (T2202)", "學費收據 (T2202)", "学费收据 (T2202)"),
   ],
   officialInfoUrl:
-    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html",
+    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html",
   paymentFrequency: tri("Refundable tax credit", "可退還稅務抵免", "可退还税务抵免"),
   tags: ["education", "training", "working", "tuition", "tax"],
   relatedBenefits: ["bc-access-grant"],
