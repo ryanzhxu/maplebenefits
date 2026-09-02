@@ -16,7 +16,16 @@ const cgebEstimate = (ctx: {
   if (income === undefined) return { low: 0, high: base, period: "year" };
   const reduce = Math.max(0, income - 45521) * 0.05;
   const amount = Math.max(0, Math.round(base - reduce));
-  return { low: amount, high: amount, period: "year" };
+  return {
+    low: amount,
+    high: amount,
+    period: "year",
+    note: tri(
+      "Estimated from your income, marital status, and number of children.",
+      "根據你的收入、婚姻狀況及子女人數估算。",
+      "根据你的收入、婚姻状况及子女人数估算。",
+    ),
+  };
 };
 
 export const cgeb: Benefit = {
@@ -165,15 +174,34 @@ export const cwb: Benefit = {
       ctx.maritalStatus === "common-law" ||
       ctx.hasChildren === true;
     const maxBasic = family ? 2813 : 1633;
-    const disability = ctx.hasDisability ? 843 : 0;
+    const maxDisab = ctx.hasDisability ? 843 : 0;
     const income = family ? ctx.familyIncome : ctx.annualIncome;
-    const threshold = family ? 30639 : 26855;
     if (income === undefined) {
-      return { low: 0, high: maxBasic + disability, period: "year" };
+      return { low: 0, high: maxBasic + maxDisab, period: "year" };
     }
-    const reduce = Math.max(0, income - threshold) * 0.15;
-    const amount = Math.max(0, Math.round(maxBasic - reduce)) + disability;
-    return { low: amount, high: amount, period: "year" };
+    // Basic amount phases out at 15% above the threshold.
+    const basicThreshold = family ? 30639 : 26855;
+    const basic = Math.max(
+      0,
+      maxBasic - Math.max(0, income - basicThreshold) * 0.15,
+    );
+    // Disability supplement phases out at 15% above its own threshold.
+    const disThreshold = family ? 49389 : 37740;
+    const disability =
+      maxDisab > 0
+        ? Math.max(0, maxDisab - Math.max(0, income - disThreshold) * 0.15)
+        : 0;
+    const amount = Math.round(basic + disability);
+    return {
+      low: amount,
+      high: amount,
+      period: "year",
+      note: tri(
+        "Estimated from your working income. Rates differ in Quebec, Alberta, and Nunavut.",
+        "根據你的工作收入估算。魁北克、亞伯達及努納武特的比率不同。",
+        "根据你的工作收入估算。魁北克、阿尔伯塔及努纳武特的比率不同。",
+      ),
+    };
   },
   applicationSteps: [
     {

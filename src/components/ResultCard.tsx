@@ -36,8 +36,15 @@ export function ResultCard({
       </div>
 
       {result.estimate && (
-        <div className="mt-3 text-lg font-semibold text-eligible">
-          {formatEstimate(result.estimate, locale)}
+        <div className="mt-3">
+          <div className="text-lg font-semibold text-eligible">
+            {formatEstimate(result.estimate, locale)}
+          </div>
+          {result.estimate.note && (
+            <div className="mt-0.5 text-xs text-muted">
+              {r(result.estimate.note)}
+            </div>
+          )}
         </div>
       )}
 
