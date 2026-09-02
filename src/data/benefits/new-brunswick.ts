@@ -1,5 +1,6 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const NB = oneOf((c: { province?: string }) => c.province, ["NB"]);
@@ -9,6 +10,27 @@ const nbFail = tri(
   "此计划适用于新不伦瑞克省居民。",
 );
 const nbPass = tri("You live in New Brunswick.", "你居住在新不倫瑞克省。", "你居住在新不伦瑞克省。");
+
+// New Brunswick Low-Income Seniors Benefit -- the province states the annual
+// amount for the current year on its own page. The app showed $616 (2025)
+// after the page moved to the 2026 figure.
+const NB_SENIORS_URL =
+  "https://www2.gnb.ca/content/gnb/en/corporate/promo/new-brunswick-low-income-seniors-benefit.html";
+
+const NB_SENIORS = figures({
+  annualBenefit: {
+    current: {
+      value: 629,
+      from: "2026-01-01",
+      source: NB_SENIORS_URL,
+      quote: "To qualify for the 2026 annual benefit of $629",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Annual benefit",
+  },
+});
 
 export const nbSeniorsBenefit: Benefit = {
   id: "nb-seniors-benefit",
@@ -26,10 +48,11 @@ export const nbSeniorsBenefit: Benefit = {
     "为领取联邦老年保障福利（如保证收入补助金或津贴）的新不伦瑞克低收入长者提供的年度款项。",
   ),
   estimatedValue: tri(
-    "$616 per year",
-    "每年 $616",
-    "每年 $616",
+    `${fmt(NB_SENIORS.annualBenefit)} per year`,
+    `每年 ${fmt(NB_SENIORS.annualBenefit)}`,
+    `每年 ${fmt(NB_SENIORS.annualBenefit)}`,
   ),
+  figures: NB_SENIORS,
   contextFields: ["province", "age", "annualIncome"],
   prerequisites: ["gis"],
   check: buildCheck([
@@ -65,7 +88,11 @@ export const nbSeniorsBenefit: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 616, high: 616, period: "year" }),
+  estimateAmount: () => ({
+    low: val(NB_SENIORS.annualBenefit),
+    high: val(NB_SENIORS.annualBenefit),
+    period: "year",
+  }),
   applicationSteps: [
     {
       order: 1,

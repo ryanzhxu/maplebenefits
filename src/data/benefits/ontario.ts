@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const ON = oneOf((c: { province?: string }) => c.province, ["ON"]);
@@ -10,6 +11,42 @@ const onFail = tri(
 );
 const onPass = tri("You live in Ontario.", "你居住在安大略省。", "你居住在安大略省。");
 
+// Ontario amounts verified against ontario.ca on 2026-09-02. The app was
+// showing the previous year's figures for both programs.
+const ODSP_URL = "https://www.ontario.ca/page/ontario-disability-support-program";
+const OCB_URL = "https://www.ontario.ca/page/ontario-child-benefit";
+
+const ODSP_FIGURES = figures({
+  maxMonthlySingle: {
+    current: {
+      value: 1436,
+      from: "2026-01-01",
+      source: ODSP_URL,
+      quote: "You could receive up to $1,436 a month for basic needs and shelter if you are single",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum monthly amount, single",
+  },
+});
+
+const OCB_FIGURES = figures({
+  maxPerChildPerYear: {
+    current: {
+      value: 1760,
+      from: "2026-07-01",
+      source: OCB_URL,
+      quote:
+        "Low-income to moderate-income families can get up to $1,760 per child each year through the Ontario Child Benefit",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per child per year",
+  },
+});
+
 const ocbEstimate = (ctx: {
   hasChildren?: boolean;
   numberOfChildren?: number;
@@ -17,7 +54,7 @@ const ocbEstimate = (ctx: {
 }): AmountEstimate | undefined => {
   if (ctx.hasChildren !== true) return undefined;
   const n = ctx.numberOfChildren ?? 1;
-  const max = 1727 * n;
+  const max = val(OCB_FIGURES.maxPerChildPerYear) * n;
   const income = ctx.familyIncome;
   if (income === undefined) return { low: 0, high: max, period: "year" };
   const over = Math.max(0, income - 26865);
@@ -179,10 +216,11 @@ export const odsp: Benefit = {
     "为安大略有经济需要的残障人士提供每月收入及福利，包括生活费、住房，以及药物和牙科保障。",
   ),
   estimatedValue: tri(
-    "Up to about $1,408/month for a single person, plus drug and dental coverage",
-    "單身人士最多約每月 $1,408，另加藥物及牙科保障",
-    "单身人士最多约每月 $1,408，另加药物及牙科保障",
+    `Up to ${fmt(ODSP_FIGURES.maxMonthlySingle)}/month for a single person, plus drug and dental coverage`,
+    `單身人士最多每月 ${fmt(ODSP_FIGURES.maxMonthlySingle)}，另加藥物及牙科保障`,
+    `单身人士最多每月 ${fmt(ODSP_FIGURES.maxMonthlySingle)}，另加药物及牙科保障`,
   ),
+  figures: ODSP_FIGURES,
   contextFields: ["province", "age", "hasSevereDisability"],
   check: buildCheck([
     { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
@@ -213,7 +251,7 @@ export const odsp: Benefit = {
       missingField: "hasSevereDisability",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1408, period: "month" }),
+  estimateAmount: () => ({ low: 0, high: val(ODSP_FIGURES.maxMonthlySingle), period: "month" }),
   applicationSteps: [
     {
       order: 1,
@@ -259,10 +297,11 @@ export const ontarioChildBenefit: Benefit = {
     "为安大略低至中等收入、有 18 岁以下子女家庭提供的免税每月款项，与加拿大儿童福利一并发放。",
   ),
   estimatedValue: tri(
-    "Up to about $1,727/year per child",
-    "每名子女最多約每年 $1,727",
-    "每名子女最多约每年 $1,727",
+    `Up to ${fmt(OCB_FIGURES.maxPerChildPerYear)}/year per child`,
+    `每名子女最多每年 ${fmt(OCB_FIGURES.maxPerChildPerYear)}`,
+    `每名子女最多每年 ${fmt(OCB_FIGURES.maxPerChildPerYear)}`,
   ),
+  figures: OCB_FIGURES,
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   prerequisites: ["ccb"],
   check: buildCheck([
