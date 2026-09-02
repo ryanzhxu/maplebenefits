@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const cgebEstimate = (ctx: {
@@ -231,6 +232,54 @@ export const cwb: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// EI regular benefits -- rate and weekly cap from the page that states them.
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html
+// The benefit previously cited only the EI overview page, which states no
+// dollar amounts, so none of its figures could be checked against anything.
+const EI_AMOUNT_URL =
+  "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html";
+
+const EI_FIGURES = figures({
+  maxWeekly: {
+    current: {
+      value: 729,
+      from: "2026-01-01",
+      source: EI_AMOUNT_URL,
+      quote:
+        "As of January 1, 2026, the maximum yearly insurable earnings amount is $68,900. This means that you can receive a maximum amount of $729 per week",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum weekly benefit",
+  },
+  maxInsurableEarnings: {
+    current: {
+      value: 68900,
+      from: "2026-01-01",
+      source: EI_AMOUNT_URL,
+      quote: "the maximum yearly insurable earnings amount is $68,900",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum yearly insurable earnings",
+  },
+  rate: {
+    current: {
+      value: 55,
+      from: "2026-01-01",
+      source: EI_AMOUNT_URL,
+      quote: "to 55% of your earnings",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Benefit rate",
+  },
+});
+
 export const ei: Benefit = {
   id: "ei",
   name: tri("Employment Insurance", "就業保險", "就业保险"),
@@ -243,10 +292,11 @@ export const ei: Benefit = {
     "在你非因己过而失业（正常福利）或因病或受伤而无法工作（疾病福利）时提供临时收入。你必须曾缴付 EI。",
   ),
   estimatedValue: tri(
-    "55% of earnings, up to $729/week (2026), for up to 45 weeks (regular) or 26 weeks (sickness)",
-    "收入的 55%，最多每週 $729（2026），正常福利最多 45 週、疾病福利最多 26 週",
-    "收入的 55%，最多每周 $729（2026），正常福利最多 45 周、疾病福利最多 26 周",
+    `${fmt(EI_FIGURES.rate)} of earnings, up to ${fmt(EI_FIGURES.maxWeekly)}/week (2026), for up to 45 weeks (regular) or 26 weeks (sickness)`,
+    `收入的 ${fmt(EI_FIGURES.rate)}，最多每週 ${fmt(EI_FIGURES.maxWeekly)}（2026），正常福利最多 45 週、疾病福利最多 26 週`,
+    `收入的 ${fmt(EI_FIGURES.rate)}，最多每周 ${fmt(EI_FIGURES.maxWeekly)}（2026），正常福利最多 45 周、疾病福利最多 26 周`,
   ),
+  figures: EI_FIGURES,
   contextFields: ["hasRecentEiHours", "employmentStatus"],
   check: buildCheck([
     {
@@ -280,9 +330,9 @@ export const ei: Benefit = {
     high: 3157,
     period: "month",
     note: tri(
-      "About 55% of your usual pay, capped at $729/week, and temporary.",
-      "約為你平常薪金的 55%，上限每週 $729，屬臨時性質。",
-      "约为你平常薪金的 55%，上限每周 $729，属临时性质。",
+      `About ${fmt(EI_FIGURES.rate)} of your usual pay, capped at ${fmt(EI_FIGURES.maxWeekly)}/week, and temporary.`,
+      `約為你平常薪金的 ${fmt(EI_FIGURES.rate)}，上限每週 ${fmt(EI_FIGURES.maxWeekly)}，屬臨時性質。`,
+      `约为你平常薪金的 ${fmt(EI_FIGURES.rate)}，上限每周 ${fmt(EI_FIGURES.maxWeekly)}，属临时性质。`,
     ),
   }),
   applicationSteps: [
