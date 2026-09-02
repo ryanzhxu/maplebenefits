@@ -65,6 +65,8 @@ const en = {
     "provincial-ab": "Alberta",
     "provincial-mb": "Manitoba",
     "provincial-sk": "Saskatchewan",
+    "provincial-ns": "Nova Scotia",
+    "provincial-nb": "New Brunswick",
   },
   status: {
     eligible: "You likely qualify",
@@ -247,6 +249,8 @@ const zhHant: Loose<Dict> = {
     "provincial-ab": "亞伯達省",
     "provincial-mb": "緬尼托巴省",
     "provincial-sk": "薩斯喀徹溫省",
+    "provincial-ns": "新斯科舍省",
+    "provincial-nb": "新不倫瑞克省",
   },
   status: {
     eligible: "你很可能符合資格",
@@ -411,6 +415,8 @@ const zhHans: Loose<Dict> = {
     "provincial-ab": "阿尔伯塔省",
     "provincial-mb": "曼尼托巴省",
     "provincial-sk": "萨斯喀彻温省",
+    "provincial-ns": "新斯科舍省",
+    "provincial-nb": "新不伦瑞克省",
   },
   status: {
     eligible: "你很可能符合资格",

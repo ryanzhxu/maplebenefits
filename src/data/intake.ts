@@ -152,6 +152,22 @@ export const INTAKE: IntakeQuestion[] = [
         },
       },
       {
+        value: "NS",
+        label: {
+          en: "Nova Scotia",
+          "zh-Hant": "新斯科舍省 (NS)",
+          "zh-Hans": "新斯科舍省 (NS)",
+        },
+      },
+      {
+        value: "NB",
+        label: {
+          en: "New Brunswick",
+          "zh-Hant": "新不倫瑞克省 (NB)",
+          "zh-Hans": "新不伦瑞克省 (NB)",
+        },
+      },
+      {
         value: "other",
         label: {
           en: "Another province / territory",
@@ -446,7 +462,7 @@ export const INTAKE: IntakeQuestion[] = [
       "zh-Hans": "他／她目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD、安大略 ODSP／OW 或阿尔伯塔 AISH／收入援助）？",
     },
     skipIf: (ctx) =>
-      !["BC", "ON", "AB", "MB", "SK"].includes(ctx.province ?? ""),
+      !["BC", "ON", "AB", "MB", "SK", "NS", "NB"].includes(ctx.province ?? ""),
     required: false,
   },
   {

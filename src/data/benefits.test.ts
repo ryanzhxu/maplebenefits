@@ -8,8 +8,8 @@ const ids = new Set(BENEFITS.map((b) => b.id));
 const intakeFields = new Set(INTAKE.map((q) => q.field));
 
 describe("benefit data integrity", () => {
-  it("has 59 benefits", () => {
-    expect(BENEFITS.length).toBe(59);
+  it("has 66 benefits", () => {
+    expect(BENEFITS.length).toBe(66);
   });
 
   it("has unique ids", () => {

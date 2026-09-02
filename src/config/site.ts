@@ -32,7 +32,7 @@ export const SITE = {
     "zh-Hans": "联邦 + 各省",
   },
   /** Number of benefits covered — keep in sync with the data registry. */
-  benefitCount: 59,
+  benefitCount: 66,
   /** Contact / project links (optional). */
   githubUrl: "",
 } as const;
