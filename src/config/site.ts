@@ -31,8 +31,14 @@ export const SITE = {
     "zh-Hant": "聯邦 + 各省",
     "zh-Hans": "联邦 + 各省",
   },
-  /** Number of benefits covered — keep in sync with the data registry. */
-  benefitCount: 75,
+  /**
+   * Number of ACTIVE benefits covered. Must equal `ACTIVE_BENEFITS.length` —
+   * enforced by a test in src/data/benefits.test.ts, so the crawl automation
+   * cannot add a benefit without updating this. Kept as a literal rather than
+   * derived, because importing the registry here would pull all benefit data
+   * into every page's bundle via the layout.
+   */
+  benefitCount: 73,
   /** Contact / project links (optional). */
   githubUrl: "",
 } as const;

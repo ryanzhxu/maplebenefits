@@ -3,13 +3,26 @@ import { BENEFITS, ACTIVE_BENEFITS, getBenefit } from "@/data/benefits";
 import { INTAKE } from "@/data/intake";
 import { assessAll, evaluate } from "@/lib/engine";
 import type { AssessmentContext, EligibilityStatus } from "@/types/benefit";
+import { SITE } from "@/config/site";
+import { validateFigures } from "@/lib/figures";
 
 const ids = new Set(BENEFITS.map((b) => b.id));
 const intakeFields = new Set(INTAKE.map((q) => q.field));
 
 describe("benefit data integrity", () => {
-  it("has 75 benefits", () => {
-    expect(BENEFITS.length).toBe(75);
+  // Deliberately a floor, not an equality: the crawl automation adds benefits
+  // unattended, and a hard count would turn every addition into a red suite.
+  // The count that must stay exact is SITE.benefitCount, asserted below.
+  it("has at least 75 benefits", () => {
+    expect(BENEFITS.length).toBeGreaterThanOrEqual(75);
+  });
+
+  it("keeps SITE.benefitCount in sync with the registry", () => {
+    expect(SITE.benefitCount).toBe(ACTIVE_BENEFITS.length);
+  });
+
+  it("has sound sourced figures on every benefit", () => {
+    expect(BENEFITS.flatMap(validateFigures)).toEqual([]);
   });
 
   it("has unique ids", () => {

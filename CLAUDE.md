@@ -89,7 +89,12 @@ never throws). Locales: `en`, `zh-Hant`, `zh-Hans`. `LocaleProvider` +
 - Adding a benefit: add it to the right region file, then register the array in
   `src/data/benefits/index.ts` (import + spread). Declare its `contextFields`,
   an optional `estimateAmount`, and any `prerequisites`. Add deep content in
-  `deep-content.ts`. Keep `SITE.benefitCount` in sync.
+  `deep-content.ts`. Update `SITE.benefitCount` — it must equal
+  `ACTIVE_BENEFITS.length` (discontinued programs excluded) and a test enforces it.
+- Dollar amounts and thresholds are declared once per benefit as sourced
+  `figures` (see `src/lib/figures.ts`), each carrying its official source URL
+  and the verbatim quote stating it. Rules and copy read them via `val`/`fmt`
+  rather than restating literals, so one number never appears in six places.
 - Data accuracy: figures are verified against official federal / provincial
   sources — see `docs/research-notes.md`. Each benefit carries `lastUpdated`;
   pages warn when data is older than 6 months. Discontinued programs (Canada
