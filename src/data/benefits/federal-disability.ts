@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, inRange, isTrue } from "@/lib/checks";
 
 const cdbEstimate = (ctx: {
@@ -261,6 +262,53 @@ export const cdb: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// CPP disability -- 2026 amounts from Service Canada's own benefit-amount page.
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/benefit-amount.html
+// The app previously showed the 2025 figures ($583 basic, $1,673 maximum,
+// $1,192 average) while the page had moved on to 2026.
+const CPP_D_AMOUNTS_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/benefit-amount.html";
+
+const CPP_D = figures({
+  basicMonthly: {
+    current: {
+      value: 610.46,
+      from: "2026-01-01",
+      source: CPP_D_AMOUNTS_URL,
+      quote: "Basic monthly amount (2026): $610.46",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Basic monthly amount",
+  },
+  maxMonthly: {
+    current: {
+      value: 1741.2,
+      from: "2026-01-01",
+      source: CPP_D_AMOUNTS_URL,
+      quote: "Maximum monthly payment amount (2026) $1,741.20",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly payment",
+  },
+  averageMonthly: {
+    current: {
+      value: 1234.68,
+      from: "2025-10-01",
+      source: CPP_D_AMOUNTS_URL,
+      quote: "Average monthly amount for new beneficiaries (as of October 2025) $1,234.68",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Average monthly amount for new beneficiaries",
+  },
+});
+
 export const cppDisability: Benefit = {
   id: "cpp-d",
   name: tri(
@@ -277,10 +325,11 @@ export const cppDisability: Benefit = {
     "为 65 岁以下、因严重且长期残障而无法定期工作、并曾足额缴付加拿大退休金计划的人士提供的每月款项。",
   ),
   estimatedValue: tri(
-    "$583 to $1,673/month (2025); average about $1,192/month",
-    "每月 $583 至 $1,673（2025）；平均約 $1,192",
-    "每月 $583 至 $1,673（2025）；平均约 $1,192",
+    `${fmt(CPP_D.basicMonthly)} to ${fmt(CPP_D.maxMonthly)}/month (2026); average about ${fmt(CPP_D.averageMonthly)}/month`,
+    `每月 ${fmt(CPP_D.basicMonthly)} 至 ${fmt(CPP_D.maxMonthly)}（2026）；平均約 ${fmt(CPP_D.averageMonthly)}`,
+    `每月 ${fmt(CPP_D.basicMonthly)} 至 ${fmt(CPP_D.maxMonthly)}（2026）；平均约 ${fmt(CPP_D.averageMonthly)}`,
   ),
+  figures: CPP_D,
   contextFields: ["age", "hasSevereDisability", "hasRecentCppContributions"],
   check: buildCheck([
     {
@@ -329,7 +378,11 @@ export const cppDisability: Benefit = {
       missingField: "hasRecentCppContributions",
     },
   ]),
-  estimateAmount: () => ({ low: 583, high: 1673, period: "month" }),
+  estimateAmount: () => ({
+    low: val(CPP_D.basicMonthly),
+    high: val(CPP_D.maxMonthly),
+    period: "month",
+  }),
   applicationSteps: [
     {
       order: 1,

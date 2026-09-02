@@ -113,12 +113,28 @@ export function quoteSupports(f: Figure): boolean {
   return observationSupported(f.current) && f.history.every(observationSupported);
 }
 
+/**
+ * Regex source matching this number as written on a page.
+ *
+ * Two things it must get right:
+ *
+ * - trailing zeros. Pages write "$1,741.20" while the stored value is 1741.2,
+ *   so a plain match on "1741.2" is blocked by the following "0". Every CPP,
+ *   OAS, and GIS amount carries cents, so this is the common case, not an edge
+ *   one.
+ * - not matching a longer number. "5" must not match inside "45521", and 420
+ *   must not match "$420.50" -- that is a different amount.
+ */
+export function numberPattern(value: number): string {
+  const text = String(value);
+  const escaped = text.replace(".", "\\.");
+  // A decimal may carry extra trailing zeros; an integer may gain ".00".
+  const tail = text.includes(".") ? "0*" : "(?:\\.0+)?";
+  return `(?<![\\d.,])${escaped}${tail}(?![\\d])(?!\\.\\d)`;
+}
+
 function observationSupported(o: { value: number; quote: string }): boolean {
-  const haystack = normalizeNumbers(o.quote);
-  const needle = String(o.value);
-  // Reject a match that is part of a longer number: "5" must not match "45521".
-  const re = new RegExp(`(?<![\\d.,])${needle.replace(".", "\\.")}(?![\\d])`);
-  return re.test(haystack);
+  return new RegExp(numberPattern(o.value)).test(normalizeNumbers(o.quote));
 }
 
 export interface FigureProblem {

@@ -3,6 +3,7 @@ import type { Benefit, Figure } from "@/types/benefit";
 import {
   fmt,
   isOfficialUrl,
+  numberPattern,
   quoteSupports,
   val,
   validateFigures,
@@ -169,5 +170,29 @@ describe("the live registry", () => {
   it("has sound figures on every benefit", () => {
     const problems = BENEFITS.flatMap(validateFigures);
     expect(problems).toEqual([]);
+  });
+});
+
+describe("numberPattern — how a value is matched on a page", () => {
+  const matches = (value: number, text: string) =>
+    new RegExp(numberPattern(value)).test(text.replace(/(?<=\d),(?=\d)/g, ""));
+
+  it("matches a decimal written with extra trailing zeros", () => {
+    // Pages write $1,741.20; the stored value is 1741.2. Every CPP, OAS and
+    // GIS amount carries cents, so this is the common case.
+    expect(matches(1741.2, "Maximum CPP disability amount (2026): $1,741.20/month")).toBe(true);
+  });
+
+  it("matches an integer written with .00", () => {
+    expect(matches(420, "up to $420.00 per child")).toBe(true);
+  });
+
+  it("does not match a different amount sharing a prefix", () => {
+    expect(matches(420, "up to $420.50 per child")).toBe(false);
+    expect(matches(420, "up to $4205 per child")).toBe(false);
+  });
+
+  it("does not match inside a longer number", () => {
+    expect(matches(5, "phase-out from $45,521")).toBe(false);
   });
 });

@@ -16,6 +16,7 @@
 
 import type { Figure } from "../../src/types/benefit";
 import { comparable, htmlToText } from "./extract";
+import { numberPattern } from "../../src/lib/figures";
 
 export type Verdict =
   | { kind: "unchanged"; quote: string }
@@ -33,8 +34,15 @@ export type Verdict =
 /** Escape a string for literal use inside a RegExp. */
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-/** The number as it appears in comparable text (digit grouping removed). */
-const comparableValue = (v: number) => String(v);
+/**
+ * Locate a value inside text, tolerating the trailing zeros pages write
+ * ("1741.20" for 1741.2). Returns the matched span so callers can split around
+ * the number exactly as the page wrote it.
+ */
+function locateValue(text: string, value: number): { start: number; length: number } | undefined {
+  const m = new RegExp(numberPattern(value)).exec(text);
+  return m ? { start: m.index, length: m[0].length } : undefined;
+}
 
 export type MatchStrength = "exact" | "narrowed" | "leading";
 
@@ -67,12 +75,11 @@ function skeleton(
   tier: { before?: number; after?: number },
 ): RegExp | undefined {
   const q = comparable(quote);
-  const needle = comparableValue(value);
-  const at = q.indexOf(needle);
-  if (at === -1) return undefined;
+  const at = locateValue(q, value);
+  if (!at) return undefined;
 
-  let before = q.slice(0, at);
-  let after = q.slice(at + needle.length);
+  let before = q.slice(0, at.start);
+  let after = q.slice(at.start + at.length);
   if (tier.before !== undefined) before = before.slice(-tier.before);
   if (tier.after !== undefined) after = after.slice(0, tier.after);
 

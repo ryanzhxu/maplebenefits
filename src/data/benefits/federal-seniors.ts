@@ -1,5 +1,6 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
 export const oas: Benefit = {
@@ -218,6 +219,41 @@ export const gis: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// CPP retirement -- 2026 amounts from the program page.
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/services/benefits/publicpensions/cpp.html
+// The app showed the 2025 figures ($1,433 maximum, $900 average) after the
+// page had moved to 2026.
+const CPP_URL = "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html";
+
+const CPP_RETIREMENT = figures({
+  maxMonthlyAt65: {
+    current: {
+      value: 1507.65,
+      from: "2026-01-01",
+      source: CPP_URL,
+      quote: "Maximum CPP retirement pension at age 65 (January 2026): $1,507.65/month",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly pension at 65",
+  },
+  averageMonthlyAt65: {
+    current: {
+      value: 877.01,
+      from: "2026-07-01",
+      source: CPP_URL,
+      quote:
+        "Average CPP retirement pension at age 65 for new beneficiaries (July to September 2026): $877.01/month",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Average monthly pension at 65 for new beneficiaries",
+  },
+});
+
 export const cppRetirement: Benefit = {
   id: "cpp-retirement",
   name: tri(
@@ -234,10 +270,11 @@ export const cppRetirement: Benefit = {
     "你在工作时缴付加拿大退休金计划而赚取的每月退休金。可最早 60 岁、最迟 70 岁开始领取。",
   ),
   estimatedValue: tri(
-    "Up to $1,433/month (2025); average about $900/month for new pensioners",
-    "最多每月 $1,433（2025）；新領取者平均約 $900",
-    "最多每月 $1,433（2025）；新领取者平均约 $900",
+    `Up to ${fmt(CPP_RETIREMENT.maxMonthlyAt65)}/month (2026); average about ${fmt(CPP_RETIREMENT.averageMonthlyAt65)}/month for new pensioners`,
+    `最多每月 ${fmt(CPP_RETIREMENT.maxMonthlyAt65)}（2026）；新領取者平均約 ${fmt(CPP_RETIREMENT.averageMonthlyAt65)}`,
+    `最多每月 ${fmt(CPP_RETIREMENT.maxMonthlyAt65)}（2026）；新领取者平均约 ${fmt(CPP_RETIREMENT.averageMonthlyAt65)}`,
   ),
+  figures: CPP_RETIREMENT,
   contextFields: ["age", "hasRecentCppContributions"],
   check: buildCheck([
     {
@@ -267,8 +304,8 @@ export const cppRetirement: Benefit = {
     },
   ]),
   estimateAmount: () => ({
-    low: 900,
-    high: 1433,
+    low: val(CPP_RETIREMENT.averageMonthlyAt65),
+    high: val(CPP_RETIREMENT.maxMonthlyAt65),
     period: "month",
     note: tri(
       "Your amount depends on how much and how long you contributed.",
