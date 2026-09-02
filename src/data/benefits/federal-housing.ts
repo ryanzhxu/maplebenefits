@@ -1,5 +1,6 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, buildCheck, inRange, isFalse, isTrue } from "@/lib/checks";
 
 export const fhsa: Benefit = {
@@ -149,6 +150,53 @@ export const homeBuyersAmount: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Multigenerational home renovation tax credit -- rate and cap from the CRA
+// page. Source (fetched 2026-09-02): line-45355-mhrtc.html
+// The app said 15% and a $7,500 maximum. The CRA states 14.5% and $7,250, so
+// the headline amount was overstated by $250.
+const MHRTC_URL =
+  "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html";
+
+const MHRTC = figures({
+  expenditureCap: {
+    current: {
+      value: 50000,
+      from: "2026-01-01",
+      source: MHRTC_URL,
+      quote:
+        "You can claim up to $50,000 in qualifying expenditures for each qualifying renovation that is completed",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum qualifying expenditures",
+  },
+  rate: {
+    current: {
+      value: 14.5,
+      from: "2026-01-01",
+      source: MHRTC_URL,
+      quote: "14.5% of your costs, up to a maximum of $7,250",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Credit rate",
+  },
+  maxCredit: {
+    current: {
+      value: 7250,
+      from: "2026-01-01",
+      source: MHRTC_URL,
+      quote: "up to a maximum of $7,250, for each claim you are eligible to make",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum credit",
+  },
+});
+
 export const multigenReno: Benefit = {
   id: "multigen-reno",
   name: tri(
@@ -165,10 +213,11 @@ export const multigenReno: Benefit = {
     "为建造第二住宅单位以让长者（65 岁以上）或符合残疾税务抵免的成人与家人同住的费用提供可退还税务抵免。",
   ),
   estimatedValue: tri(
-    "15% of costs up to $50,000 — up to $7,500 back",
-    "費用的 15%，上限 $50,000 — 最多退回 $7,500",
-    "费用的 15%，上限 $50,000 — 最多退回 $7,500",
+    `${fmt(MHRTC.rate)} of costs up to ${fmt(MHRTC.expenditureCap)} — up to ${fmt(MHRTC.maxCredit)} back`,
+    `費用的 ${fmt(MHRTC.rate)}，上限 ${fmt(MHRTC.expenditureCap)} — 最多退回 ${fmt(MHRTC.maxCredit)}`,
+    `费用的 ${fmt(MHRTC.rate)}，上限 ${fmt(MHRTC.expenditureCap)} — 最多退回 ${fmt(MHRTC.maxCredit)}`,
   ),
+  figures: MHRTC,
   contextFields: ["isHomeowner", "age", "hasDisability"],
   check: buildCheck([
     {
@@ -201,7 +250,7 @@ export const multigenReno: Benefit = {
       ),
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 7500, period: "one-time" }),
+  estimateAmount: () => ({ low: 0, high: val(MHRTC.maxCredit), period: "one-time" }),
   applicationSteps: [
     {
       order: 1,

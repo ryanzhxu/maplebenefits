@@ -407,7 +407,7 @@ describe("exact amount calculators", () => {
     expect(low).toBeLessThan(6883);
   });
 
-  it("GIS: single with $12k income → about $597/month", () => {
+  it("GIS: single with $12k income → about $623/month", () => {
     const r = evaluate(getBenefit("gis")!, {
       age: 70,
       maritalStatus: "single",
@@ -415,8 +415,11 @@ describe("exact amount calculators", () => {
       familyIncome: 12000,
     });
     expect(r.estimate?.period).toBe("month");
-    expect(r.estimate?.low).toBeGreaterThanOrEqual(590);
-    expect(r.estimate?.low).toBeLessThanOrEqual(600);
+    // 1123.17 (2026 single maximum) - 12000/24 = 623.17. The old range of
+    // 590-600 was pinned to a stale 1097 maximum that appeared nowhere on the
+    // GIS page.
+    expect(r.estimate?.low).toBeGreaterThanOrEqual(615);
+    expect(r.estimate?.low).toBeLessThanOrEqual(630);
   });
 
   it("GIS: very high income → $0", () => {

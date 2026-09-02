@@ -102,6 +102,47 @@ export const oas: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// GIS -- 2026 maximums from the program page.
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html
+// This benefit carried THREE different numbers for one amount: $1,108 in the
+// copy, $1,097 in the estimator, and the real figure of $1,123.17 on the page.
+// Declaring it once is the point.
+//
+// Not yet sourced: the income cutoff, written as 22488 in the rule and
+// "$22,500" in the copy. The real cutoff varies by marital status and is not
+// on this page, so fixing it needs marital-status tiers -- the same shape as
+// the Manitoba family-size bug. Left as-is and flagged rather than half-fixed.
+const GIS_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html";
+
+const GIS = figures({
+  maxMonthlySingle: {
+    current: {
+      value: 1123.17,
+      from: "2026-07-01",
+      source: GIS_URL,
+      quote: "Single, widowed, or divorced: up to $1,123.17/month",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly GIS, single",
+  },
+  maxMonthlyWithSpouseOnOas: {
+    current: {
+      value: 676.09,
+      from: "2026-07-01",
+      source: GIS_URL,
+      quote: "Spouse/common-law partner receives full OAS: up to $676.09/month",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly GIS, spouse receives full OAS",
+  },
+});
+
 export const gis: Benefit = {
   id: "gis",
   name: tri(
@@ -118,10 +159,11 @@ export const gis: Benefit = {
     "为已领取老年保障金的低收入长者提供的每月免税补助。每年报税以持续领取。",
   ),
   estimatedValue: tri(
-    "Up to about $1,108/month for a single senior",
-    "單身長者最多約每月 $1,108",
-    "单身长者最多约每月 $1,108",
+    `Up to ${fmt(GIS.maxMonthlySingle)}/month for a single senior`,
+    `單身長者最多每月 ${fmt(GIS.maxMonthlySingle)}`,
+    `单身长者最多每月 ${fmt(GIS.maxMonthlySingle)}`,
   ),
+  figures: GIS,
   contextFields: ["age", "annualIncome", "familyIncome", "maritalStatus", "filedTaxes"],
   prerequisites: ["oas"],
   check: buildCheck([
@@ -166,7 +208,9 @@ export const gis: Benefit = {
     // GIS is reduced by other income: ~$1 for every $2 (single) or $4 (couple).
     const couple =
       ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
-    const maxG = couple ? 660 : 1097; // monthly max, single vs each of a couple
+    const maxG = couple
+      ? val(GIS.maxMonthlyWithSpouseOnOas)
+      : val(GIS.maxMonthlySingle);
     const income = couple ? ctx.familyIncome : ctx.annualIncome;
     if (income === undefined) return { low: 0, high: maxG, period: "month" };
     const divisor = couple ? 48 : 24;
@@ -354,6 +398,28 @@ export const cppRetirement: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// OAS Allowance -- 2026 maximum from the program page.
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html
+// The app showed $1,411 (2025) after the page moved to $1,428.06.
+const ALLOWANCE_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html";
+
+const ALLOWANCE = figures({
+  maxMonthly: {
+    current: {
+      value: 1428.06,
+      from: "2026-07-01",
+      source: ALLOWANCE_URL,
+      quote: "Spouse/common-law partner receives GIS and full OAS: up to $1,428.06/month",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly Allowance",
+  },
+});
+
 export const allowance: Benefit = {
   id: "oas-allowance",
   name: tri("Allowance (for 60 to 64)", "津貼（60 至 64 歲）", "津贴（60 至 64 岁）"),
@@ -366,10 +432,11 @@ export const allowance: Benefit = {
     "为 60 至 64 岁、配偶或伴侣领取保证收入补助金的低收入人士提供的每月款项，衔接至 65 岁。",
   ),
   estimatedValue: tri(
-    "Up to about $1,411/month",
-    "最多約每月 $1,411",
-    "最多约每月 $1,411",
+    `Up to ${fmt(ALLOWANCE.maxMonthly)}/month`,
+    `最多每月 ${fmt(ALLOWANCE.maxMonthly)}`,
+    `最多每月 ${fmt(ALLOWANCE.maxMonthly)}`,
   ),
+  figures: ALLOWANCE,
   contextFields: ["age", "maritalStatus", "familyIncome", "residency"],
   check: buildCheck([
     {
@@ -418,7 +485,7 @@ export const allowance: Benefit = {
       missingField: "familyIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1411, period: "month" }),
+  estimateAmount: () => ({ low: 0, high: val(ALLOWANCE.maxMonthly), period: "month" }),
   applicationSteps: [
     {
       order: 1,
