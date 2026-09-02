@@ -71,6 +71,53 @@ const ocbEstimate = (ctx: {
   };
 };
 
+// Ontario Trillium Benefit -- the energy and property tax component publishes
+// the headline maximums. Source (fetched 2026-09-02):
+// https://www.ontario.ca/page/ontario-trillium-benefit
+// The app said "about $1,400+", which is vague and below the real senior
+// maximum of $1,488. Note that this page also carries a phishing EXAMPLE
+// quoting "$258.00"; nothing here is sourced from it.
+const OTB_URL = "https://www.ontario.ca/page/ontario-trillium-benefit";
+
+const OTB = figures({
+  energyPropertyMax18to64: {
+    current: {
+      value: 1307,
+      from: "2026-07-01",
+      source: OTB_URL,
+      quote: "$1,307 if you are between 18 and 64 years old",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Energy and property tax credit maximum, ages 18-64",
+  },
+  energyPropertyMax65Plus: {
+    current: {
+      value: 1488,
+      from: "2026-07-01",
+      source: OTB_URL,
+      quote: "$1,488 if you are 65 or older",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Energy and property tax credit maximum, 65 and over",
+  },
+  salesTaxCreditPerAdult: {
+    current: {
+      value: 378,
+      from: "2026-07-01",
+      source: OTB_URL,
+      quote: "You can receive up to $378",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Sales tax credit per adult",
+  },
+});
+
 export const ontarioTrillium: Benefit = {
   id: "ontario-trillium",
   name: tri("Ontario Trillium Benefit", "安大略延齡草福利", "安大略延龄草福利"),
@@ -83,10 +130,11 @@ export const ontarioTrillium: Benefit = {
     "结合三项安大略抵免（能源费用、物业税或租金、销售税）的每月款项。只需报税即可获得。",
   ),
   estimatedValue: tri(
-    "Up to about $1,400+/year, paid monthly (more for seniors)",
-    "最多約每年 $1,400 以上，每月發放（長者更多）",
-    "最多约每年 $1,400 以上，每月发放（长者更多）",
+    `Up to ${fmt(OTB.energyPropertyMax18to64)}/year (${fmt(OTB.energyPropertyMax65Plus)} at 65+) for energy and property tax, plus up to ${fmt(OTB.salesTaxCreditPerAdult)} sales tax credit per adult`,
+    `能源及物業稅最多每年 ${fmt(OTB.energyPropertyMax18to64)}（65 歲以上 ${fmt(OTB.energyPropertyMax65Plus)}），另加每名成人最多 ${fmt(OTB.salesTaxCreditPerAdult)} 銷售稅抵免`,
+    `能源及物业税最多每年 ${fmt(OTB.energyPropertyMax18to64)}（65 岁以上 ${fmt(OTB.energyPropertyMax65Plus)}），另加每名成人最多 ${fmt(OTB.salesTaxCreditPerAdult)} 销售税抵免`,
   ),
+  figures: OTB,
   contextFields: ["province", "filedTaxes", "familyIncome"],
   check: buildCheck([
     { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },

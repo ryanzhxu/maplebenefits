@@ -1,6 +1,7 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { atLeast, atMost, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
+import { figures, fmt, val } from "@/lib/figures";
+import { atLeast, atMost, atMostOf, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
 const AB = oneOf((c: { province?: string }) => c.province, ["AB"]);
 const abFail = tri(
@@ -109,6 +110,51 @@ export const aish: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Alberta Seniors Benefit -- thresholds and maximum from alberta.ca.
+// Source (fetched 2026-09-02): https://www.alberta.ca/alberta-seniors-benefit
+//
+// Alberta publishes a DIFFERENT income threshold for singles and couples. The
+// app applied one figure ($33,410) to everybody, so a senior couple with a
+// combined income of, say, $45,000 was told they did not qualify when the
+// province's couple threshold is $53,800. Under-promising excludes people who
+// should apply, which is the worse direction of this error.
+const ASB_URL = "https://www.alberta.ca/alberta-seniors-benefit";
+const ASB_THRESHOLD_SENTENCE =
+  "a single senior with an annual income of $32,690 or less, and senior couples with a combined annual income of $53,800 or less, may be eligible for a benefit";
+
+const ASB = figures({
+  incomeThresholdSingle: {
+    current: { value: 32690, from: "2026-07-01", source: ASB_URL, quote: ASB_THRESHOLD_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income guideline, single senior",
+  },
+  incomeThresholdCouple: {
+    current: { value: 53800, from: "2026-07-01", source: ASB_URL, quote: ASB_THRESHOLD_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income guideline, senior couple",
+  },
+  maxAnnualSingle: {
+    current: {
+      value: 3946,
+      from: "2026-07-01",
+      source: ASB_URL,
+      quote: "Homeowner, renter, lodge resident $3,946",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum annual benefit, single homeowner/renter/lodge resident",
+  },
+});
+
+/** Alberta counts a couple's combined income against a higher threshold. */
+const asbIsCouple = (c: { maritalStatus?: string }) =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law";
+
 export const albertaSeniorsBenefit: Benefit = {
   id: "alberta-seniors-benefit",
   name: tri("Alberta Seniors Benefit", "亞伯達長者福利", "阿尔伯塔长者福利"),
@@ -121,11 +167,12 @@ export const albertaSeniorsBenefit: Benefit = {
     "为领取老年保障金的低收入阿尔伯塔长者，在联邦 OAS 及 GIS 之上提供每月款项。",
   ),
   estimatedValue: tri(
-    "Up to about $322/month for a single senior (varies by living situation)",
-    "單身長者最多約每月 $322（視居住情況而定）",
-    "单身长者最多约每月 $322（视居住情况而定）",
+    `Up to ${fmt(ASB.maxAnnualSingle)}/year for a single senior (varies by living situation)`,
+    `單身長者最多每年 ${fmt(ASB.maxAnnualSingle)}（視居住情況而定）`,
+    `单身长者最多每年 ${fmt(ASB.maxAnnualSingle)}（视居住情况而定）`,
   ),
-  contextFields: ["province", "age", "annualIncome"],
+  figures: ASB,
+  contextFields: ["province", "age", "annualIncome", "familyIncome", "maritalStatus"],
   prerequisites: ["oas"],
   check: buildCheck([
     { test: AB, hard: true, passReason: abPass, failReason: abFail, missingField: "province" },
@@ -141,22 +188,28 @@ export const albertaSeniorsBenefit: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 33410),
+      // A couple's combined income is compared against the couple threshold,
+      // not the single one.
+      test: atMostOf(
+        (c) => (asbIsCouple(c) ? c.familyIncome : c.annualIncome),
+        (c) =>
+          asbIsCouple(c) ? val(ASB.incomeThresholdCouple) : val(ASB.incomeThresholdSingle),
+      ),
       hard: true,
       passReason: tri(
-        "Your income is within the single-senior threshold.",
-        "你的收入在單身長者門檻之內。",
-        "你的收入在单身长者门槛之内。",
+        "Your income is within the Alberta Seniors Benefit guideline for your household.",
+        "你的收入在你家庭情況對應的亞伯達長者福利指引之內。",
+        "你的收入在你家庭情况对应的阿尔伯塔长者福利指引之内。",
       ),
       failReason: tri(
-        "Income must be under about $33,410 (single); higher for couples.",
-        "收入須低於約 $33,410（單身）；夫婦較高。",
-        "收入须低于约 $33,410（单身）；夫妇较高。",
+        `Income must be under ${fmt(ASB.incomeThresholdSingle)} for a single senior, or ${fmt(ASB.incomeThresholdCouple)} combined for a senior couple.`,
+        `單身長者收入須低於 ${fmt(ASB.incomeThresholdSingle)}，長者夫婦合計須低於 ${fmt(ASB.incomeThresholdCouple)}。`,
+        `单身长者收入须低于 ${fmt(ASB.incomeThresholdSingle)}，长者夫妇合计须低于 ${fmt(ASB.incomeThresholdCouple)}。`,
       ),
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 322, period: "month" }),
+  estimateAmount: () => ({ low: 0, high: val(ASB.maxAnnualSingle), period: "year" }),
   applicationSteps: [
     {
       order: 1,
