@@ -89,6 +89,70 @@ export const manitobaChildBenefit: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Rent Assist (Non-EIA) -- exact 2025-26 formula.
+// Source: Province of Manitoba, "Rent Assist for Manitobans Not Receiving EIA"
+// https://www.gov.mb.ca/fs/eia/non_rentassist_facts.html and the official
+// online estimator https://www.gov.mb.ca/fs/eia/estimator.html (fetched
+// 2026-09-01). Both state: "Benefits are calculated based on the difference
+// between 80% of Median Market Rent and 30% of net household income."
+// Notably the official estimator itself does NOT ask for actual rent -- only
+// household size, income, and 55+/disability status -- so this mirrors that
+// and does not use monthlyRent.
+//
+// The 80%-of-MMR maximum monthly benefit for each household size is not
+// published directly, but the site publishes the annual net-income cutoff
+// where the benefit reaches $0 (2025-26 figures below). Since the benefit is
+// 0 exactly when 0.3 * (income / 12) equals 0.8 * MMR (the max benefit), the
+// max benefit for each tier equals 0.3 * cutoff / 12 -- derived directly
+// from the official cutoffs, not estimated separately.
+const MB_RENT_ASSIST_TIERS: { maxHouseholdSize: number; cutoffAnnual: number }[] = [
+  { maxHouseholdSize: 1, cutoffAnnual: 29120 }, // single, under 55, no DTC
+  { maxHouseholdSize: 2, cutoffAnnual: 38720 }, // 2 people
+  { maxHouseholdSize: 4, cutoffAnnual: 50240 }, // 3-4 people
+  { maxHouseholdSize: Infinity, cutoffAnnual: 60768 }, // 5+ people
+];
+const MB_RENT_ASSIST_SINGLE_55_OR_DTC_CUTOFF = 33920; // single, 55+ or claims DTC/CPPD
+
+const rentAssistEstimate = (ctx: {
+  maritalStatus?: string;
+  numberOfChildren?: number;
+  hasChildren?: boolean;
+  annualIncome?: number;
+  familyIncome?: number;
+  age?: number;
+  hasDTC?: boolean;
+}): AmountEstimate | undefined => {
+  const hasSpouse =
+    ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+  const children = ctx.numberOfChildren ?? (ctx.hasChildren ? 1 : 0);
+  const householdSize = 1 + (hasSpouse ? 1 : 0) + children;
+
+  const isSeniorOrDtc = (ctx.age !== undefined && ctx.age >= 55) || ctx.hasDTC === true;
+  const cutoffAnnual =
+    householdSize === 1 && isSeniorOrDtc
+      ? MB_RENT_ASSIST_SINGLE_55_OR_DTC_CUTOFF
+      : (MB_RENT_ASSIST_TIERS.find((t) => householdSize <= t.maxHouseholdSize) ??
+          MB_RENT_ASSIST_TIERS[MB_RENT_ASSIST_TIERS.length - 1]).cutoffAnnual;
+  const maxBenefit = Math.round((0.3 * cutoffAnnual) / 12);
+
+  // The estimator asks for "net annual income"; AssessmentContext only has
+  // pre-tax income, so this is used as the closest available approximation.
+  const income = hasSpouse ? (ctx.familyIncome ?? ctx.annualIncome) : ctx.annualIncome;
+  if (income === undefined) return { low: 0, high: maxBenefit, period: "month" };
+
+  const monthly = Math.max(0, Math.round(maxBenefit - (0.3 * income) / 12));
+  return {
+    low: monthly,
+    high: monthly,
+    period: "month",
+    note: tri(
+      "Calculated as 80% of median market rent minus 30% of your income, using the official Manitoba Rent Assist formula. Uses your before-tax income as an approximation for net income.",
+      "根據緬尼托巴租金援助的官方公式計算：市場租金中位數的 80% 減去你收入的 30%。以稅前收入近似淨收入。",
+      "根据曼尼托巴租金援助的官方公式计算：市场租金中位数的 80% 减去你收入的 30%。以税前收入近似净收入。",
+    ),
+  };
+};
+
 export const manitobaRentAssist: Benefit = {
   id: "manitoba-rent-assist",
   name: tri("Rent Assist (Manitoba)", "租金援助（緬尼托巴）", "租金援助（曼尼托巴）"),
@@ -131,16 +195,7 @@ export const manitobaRentAssist: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({
-    low: 0,
-    high: 350,
-    period: "month",
-    note: tri(
-      "A rough range; use the Manitoba Rent Assist estimator for a figure.",
-      "此為粗略範圍；可用緬尼托巴租金援助估算器。",
-      "此为粗略范围；可用曼尼托巴租金援助估算器。",
-    ),
-  }),
+  estimateAmount: (ctx) => rentAssistEstimate(ctx),
   applicationSteps: [
     {
       order: 1,

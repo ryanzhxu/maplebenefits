@@ -1,4 +1,4 @@
-import type { AssessmentContext, Benefit } from "@/types/benefit";
+import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import {
   atLeast,
@@ -21,6 +21,91 @@ const rentBurden = (ctx: AssessmentContext): RuleState => {
   return ctx.monthlyRent / monthlyIncome > 0.3 ? "pass" : "fail";
 };
 
+/**
+ * SAFER and RAP share the same BC Housing benefit formula (sliding scale):
+ *   Benefit = Rent Gap x sliding-scale percentage (90% down to 35%).
+ *   Rent Gap = Adjusted Rent (actual rent, capped at the program's rent
+ *              ceiling) minus 30% of gross monthly household income.
+ *   Percentage = 90% at or below "Base Income"; declines linearly to 35%
+ *              at "Maximum Income": 90 - (income - base) * 55 / (max - base).
+ * Sources: SAFER Program Framework, April 2025 --
+ * https://www.bchousing.org/sites/default/files/media/documents/SAFER-Program-Framework.pdf
+ * and Rental Assistance Program Framework, April 2025 --
+ * https://www.bchousing.org/sites/default/files/media/documents/Rental-Assistance-Program-Framework-April-2025.pdf
+ */
+const slidingScalePercent = (
+  monthlyIncome: number,
+  baseIncome: number,
+  maxIncome: number,
+): number => {
+  if (monthlyIncome <= baseIncome) return 90;
+  const pct =
+    90 - (monthlyIncome - baseIncome) * (55 / (maxIncome - baseIncome));
+  return Math.min(90, Math.max(35, pct));
+};
+
+// SAFER rent ceiling and income limit, effective April 2025 --
+// https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER
+// (same ceiling and income limit for singles and couples).
+const SAFER_MAX_RENT = 1150;
+const SAFER_MAX_INCOME_MONTHLY = 3333.34; // $40,000/year
+const SAFER_MIN_BENEFIT = 50; // official minimum monthly benefit
+
+/**
+ * SAFER's "Base Income" is officially defined (Program Framework, April 2025)
+ * as the maximum OAS + maximum GIS + maximum BC Senior's Supplement for the
+ * year (reset every August 1). AssessmentContext has no field carrying these
+ * program-parameter amounts directly, so we approximate Base Income from the
+ * current maximums, split by marital status where known (assume single if
+ * maritalStatus is unanswered):
+ *   OAS (age 65-74): $752/month -- matches the OAS estimator in
+ *     src/data/benefits/federal-seniors.ts (source: canada.ca OAS payments)
+ *   GIS max: single $1,097/month, couple $660/month each -- same source
+ *   BC Senior's Supplement: single $99.30/month, couple $60.10/month each --
+ *     https://www2.gov.bc.ca/gov/content/governments/policies-for-government/bcea-policy-and-procedure-manual/bc-employment-and-assistance-rate-tables/senior-s-supplement-rate-table
+ */
+const saferBaseIncomeMonthly = (ctx: AssessmentContext): number => {
+  const couple =
+    ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+  const oas = 752;
+  const gis = couple ? 660 : 1097;
+  const supplement = couple ? 60.1 : 99.3;
+  const perPerson = oas + gis + supplement;
+  return couple ? perPerson * 2 : perPerson;
+};
+
+const saferEstimate = (ctx: AssessmentContext): AmountEstimate => {
+  const rent = ctx.monthlyRent;
+  const income = householdIncome(ctx);
+  // Best-case theoretical ceiling (income near $0) while we are missing an
+  // input, matching how other exact calculators (e.g. GIS, CCB) fall back.
+  if (rent === undefined || income === undefined) {
+    return { low: 0, high: Math.round(SAFER_MAX_RENT * 0.9), period: "month" };
+  }
+  const monthlyIncome = income / 12;
+  const adjustedRent = Math.min(rent, SAFER_MAX_RENT);
+  const rentGap = adjustedRent - 0.3 * monthlyIncome;
+  if (rentGap <= 0) return { low: 0, high: 0, period: "month" };
+  const baseIncome = saferBaseIncomeMonthly(ctx);
+  const pct = slidingScalePercent(
+    monthlyIncome,
+    baseIncome,
+    SAFER_MAX_INCOME_MONTHLY,
+  );
+  const raw = rentGap * (pct / 100);
+  const amount = raw <= 0 ? 0 : Math.max(SAFER_MIN_BENEFIT, Math.round(raw));
+  return {
+    low: amount,
+    high: amount,
+    period: "month",
+    note: tri(
+      "Calculated from the SAFER formula: your rent (up to the $1,150 ceiling) minus 30% of your income, times a sliding-scale percentage.",
+      "根據 SAFER 公式計算：租金（上限 $1,150）減去收入的 30%，再乘以按收入遞減的百分比。",
+      "根据 SAFER 公式计算：租金（上限 $1,150）减去收入的 30%，再乘以按收入递减的百分比。",
+    ),
+  };
+};
+
 export const safer: Benefit = {
   id: "safer",
   name: tri(
@@ -41,7 +126,7 @@ export const safer: Benefit = {
     "視乎租金與收入而定 — 可用 BC Housing SAFER 計算器",
     "视乎租金与收入而定 — 可用 BC Housing SAFER 计算器",
   ),
-  contextFields: ["province", "age", "isHomeowner", "monthlyRent", "annualIncome", "familyIncome", "receivesProvincialAssistance", "yearsInProvince"],
+  contextFields: ["province", "age", "isHomeowner", "monthlyRent", "annualIncome", "familyIncome", "receivesProvincialAssistance", "yearsInProvince", "maritalStatus"],
   check: buildCheck([
     {
       test: oneOf((c) => c.province, ["BC"]),
@@ -114,16 +199,7 @@ export const safer: Benefit = {
       missingField: "receivesProvincialAssistance",
     },
   ]),
-  estimateAmount: () => ({
-    low: 0,
-    high: 400,
-    period: "month",
-    note: tri(
-      "A rough range. The exact amount comes from the SAFER formula.",
-      "此為粗略範圍。實際金額由 SAFER 公式計算。",
-      "此为粗略范围。实际金额由 SAFER 公式计算。",
-    ),
-  }),
+  estimateAmount: (ctx) => saferEstimate(ctx),
   applicationSteps: [
     {
       order: 1,
@@ -171,6 +247,68 @@ export const safer: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+/**
+ * RAP rent ceilings and income limit, effective April 2025 --
+ * https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP
+ * "Family of 3 or less": $1,950/month. "Family of 4 or more": $2,200/month.
+ */
+const RAP_MAX_RENT_SMALL = 1950; // core household of 3 or fewer
+const RAP_MAX_RENT_LARGE = 2200; // core household of 4 or more
+const RAP_MAX_INCOME_MONTHLY = 5000; // $60,000/year
+
+/**
+ * RAP's Base Income is fixed at $1,800/month ($21,600/year), effective April
+ * 2025 -- Rental Assistance Program Framework, April 2025 (see source above).
+ */
+const RAP_BASE_INCOME_MONTHLY = 1800;
+
+/**
+ * "Core Household" size (Applicant + Spouse + Dependent Children) sets the
+ * rent ceiling. AssessmentContext has no direct "household size" field, so we
+ * approximate it from maritalStatus (1 adult, or 2 for a couple) plus
+ * numberOfChildren (defaulting to 1, since RAP requires at least one child).
+ */
+const rapMaxRent = (ctx: AssessmentContext): number => {
+  const adults =
+    ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law"
+      ? 2
+      : 1;
+  const children = ctx.numberOfChildren ?? 1;
+  const coreHouseholdSize = adults + children;
+  return coreHouseholdSize >= 4 ? RAP_MAX_RENT_LARGE : RAP_MAX_RENT_SMALL;
+};
+
+const rapEstimate = (ctx: AssessmentContext): AmountEstimate => {
+  const rent = ctx.monthlyRent;
+  const income = householdIncome(ctx);
+  const maxRent = rapMaxRent(ctx);
+  // Best-case theoretical ceiling (income near $0) while we are missing an
+  // input, matching how other exact calculators (e.g. GIS, CCB) fall back.
+  if (rent === undefined || income === undefined) {
+    return { low: 0, high: Math.round(maxRent * 0.9), period: "month" };
+  }
+  const monthlyIncome = income / 12;
+  const adjustedRent = Math.min(rent, maxRent);
+  const rentGap = adjustedRent - 0.3 * monthlyIncome;
+  if (rentGap <= 0) return { low: 0, high: 0, period: "month" };
+  const pct = slidingScalePercent(
+    monthlyIncome,
+    RAP_BASE_INCOME_MONTHLY,
+    RAP_MAX_INCOME_MONTHLY,
+  );
+  const amount = Math.max(0, Math.round(rentGap * (pct / 100)));
+  return {
+    low: amount,
+    high: amount,
+    period: "month",
+    note: tri(
+      "Calculated from the RAP formula: your rent (up to the household rent ceiling) minus 30% of your income, times a sliding-scale percentage.",
+      "根據 RAP 公式計算：租金（上限為家庭租金上限）減去收入的 30%，再乘以按收入遞減的百分比。",
+      "根据 RAP 公式计算：租金（上限为家庭租金上限）减去收入的 30%，再乘以按收入递减的百分比。",
+    ),
+  };
+};
+
 export const rap: Benefit = {
   id: "rap",
   name: tri(
@@ -191,7 +329,7 @@ export const rap: Benefit = {
     "視乎租金、收入及家庭人數而定",
     "视乎租金、收入及家庭人数而定",
   ),
-  contextFields: ["province", "hasChildren", "isHomeowner", "monthlyRent", "annualIncome", "familyIncome", "employmentStatus"],
+  contextFields: ["province", "hasChildren", "isHomeowner", "monthlyRent", "annualIncome", "familyIncome", "employmentStatus", "maritalStatus", "numberOfChildren"],
   check: buildCheck([
     {
       test: oneOf((c) => c.province, ["BC"]),
@@ -263,16 +401,7 @@ export const rap: Benefit = {
       missingField: "employmentStatus",
     },
   ]),
-  estimateAmount: () => ({
-    low: 0,
-    high: 500,
-    period: "month",
-    note: tri(
-      "A rough range. The exact amount comes from the RAP formula.",
-      "此為粗略範圍。實際金額由 RAP 公式計算。",
-      "此为粗略范围。实际金额由 RAP 公式计算。",
-    ),
-  }),
+  estimateAmount: (ctx) => rapEstimate(ctx),
   applicationSteps: [
     {
       order: 1,
