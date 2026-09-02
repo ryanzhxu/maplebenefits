@@ -1,0 +1,2017 @@
+[
+  {
+    "benefitId": "dtc",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit.html",
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html"
+    ],
+    "fetchErrors": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html (http-error)"
+    ],
+    "figures": [
+      {
+        "value": 1900,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 2450,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 32500,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 23000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 4
+  },
+  {
+    "benefitId": "cdb",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 204.2,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 2450,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "cpp-d",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 583,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1673,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1192,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 3
+  },
+  {
+    "benefitId": "rdsp",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/employment-social-development/programs/disability/savings.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 3500,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1000,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 37487,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 4500,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 4
+  },
+  {
+    "benefitId": "oas",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 751.97,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security.html"
+      },
+      {
+        "value": 827.17,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security.html"
+      },
+      {
+        "value": 148451,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 827,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security.html"
+      },
+      {
+        "value": 752,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "gis",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1108,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 22500,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 22488,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 660,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 1097,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 5
+  },
+  {
+    "benefitId": "cpp-retirement",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/cpp/cpp-benefit/apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1433,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 900,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "oas-allowance",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1411,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 41616,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "allowance-survivor",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1702,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html"
+      },
+      {
+        "value": 28944,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ccb",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview.html",
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview/canada-child-benefit-apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 8157,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 6883,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 38237,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 81222,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 4
+  },
+  {
+    "benefitId": "ccc",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1700,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 8601,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
+      },
+      {
+        "value": 30425,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
+      },
+      {
+        "value": 30450,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "medical-expense",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/lines-33099-33199-eligible-medical-expenses-you-claim-on-your-tax-return.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 2834,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/lines-33099-33199-eligible-medical-expenses-you-claim-on-your-tax-return.html"
+      },
+      {
+        "value": 33099,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/lines-33099-33199-eligible-medical-expenses-you-claim-on-your-tax-return.html"
+      },
+      {
+        "value": 33199,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/lines-33099-33199-eligible-medical-expenses-you-claim-on-your-tax-return.html"
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "eligible-dependant",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30400-amount-eligible-dependant.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 3200,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 16129,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 30400,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30400-amount-eligible-dependant.html"
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "cdcp",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/dental/dental-care-plan.html",
+      "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 90000,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 89999,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "cgeb",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/goods-services-tax-harmonized-sales-tax-gst-hst-credit.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 533,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 698,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 184,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 56000,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 45521,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 65000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 6
+  },
+  {
+    "benefitId": "cwb",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1633,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 2813,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 843,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 37742,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 30639,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 26855,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 49389,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 37740,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 45300,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb.html"
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 8
+  },
+  {
+    "benefitId": "ei",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit.html",
+      "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/apply.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 729,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 700,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 3157,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 3
+  },
+  {
+    "benefitId": "fhsa",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/first-home-savings-account.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 8000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/first-home-savings-account.html"
+      },
+      {
+        "value": 40000,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "home-buyers-amount",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1500,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 10000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html"
+      },
+      {
+        "value": 31270,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html"
+      }
+    ],
+    "confirmed": 2,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "multigen-reno",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html"
+    ],
+    "fetchErrors": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html (http-error)"
+    ],
+    "figures": [
+      {
+        "value": 50000,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 7500,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 45355,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 3
+  },
+  {
+    "benefitId": "canada-learning-bond",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 2000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
+      },
+      {
+        "value": 500,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
+      },
+      {
+        "value": 100,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
+      },
+      {
+        "value": 57000,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 2004,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
+      },
+      {
+        "value": 57375,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 4,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "canada-training-credit",
+    "level": "federal",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html"
+    ],
+    "fetchErrors": [
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html (http-error)"
+    ],
+    "figures": [
+      {
+        "value": 250,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "pwd",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance",
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance"
+    ],
+    "fetchErrors": [
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance (http-error)"
+    ],
+    "figures": [
+      {
+        "value": 1483.5,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1483,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "bc-income-assistance",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/income-assistance/on-assistance",
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/income-assistance/apply-for-assistance"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1060,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/income-assistance/on-assistance"
+      },
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "bc-bus-pass",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/transportation/passenger-travel/buses-taxis-limos/bus-pass"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 45,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 24000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "workbc-at",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www.workbc.ca/employment-services/assistive-technology-services"
+    ],
+    "fetchErrors": [
+      "https://www.workbc.ca/employment-services/assistive-technology-services (http-error)"
+    ],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "safer",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1150,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
+      },
+      {
+        "value": 40000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
+      },
+      {
+        "value": 3333.34,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
+      },
+      {
+        "value": 752,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 660,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 1097,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 3
+  },
+  {
+    "benefitId": "rap",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 60000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP"
+      },
+      {
+        "value": 1950,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP"
+      },
+      {
+        "value": 2200,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP"
+      },
+      {
+        "value": 5000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 1800,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "bc-housing-registry",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www.bchousing.org/housing-assistance/rental-housing/subsidized-housing"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 70000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "bc-homeowner-grant",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant",
+      "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant/apply"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 570,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant"
+      },
+      {
+        "value": 770,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 845,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1045,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 3
+  },
+  {
+    "benefitId": "fair-pharmacare",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/pharmacare-for-bc-residents/who-we-cover/fair-pharmacare-plan"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 10000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/pharmacare-for-bc-residents/who-we-cover/fair-pharmacare-plan"
+      },
+      {
+        "value": 45000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "msp-supplementary",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/benefits/services-covered-by-msp/supplementary-benefits"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 42000,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/benefits/services-covered-by-msp/supplementary-benefits"
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "bc-seniors-supplement",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/seniors/financial-legal-matters/income-security-programs/seniors-supplement"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 99,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/seniors/financial-legal-matters/income-security-programs/seniors-supplement"
+      },
+      {
+        "value": 22488,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "bc-family-benefit",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1750,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 1100,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 900,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 500,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 30176,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      }
+    ],
+    "confirmed": 5,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "bc-access-grant",
+    "level": "provincial-bc",
+    "urls": [
+      "https://studentaidbc.ca/explore/grants-scholarships/bc-access-grant-full-time"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 4000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://studentaidbc.ca/explore/grants-scholarships/bc-access-grant-full-time"
+      },
+      {
+        "value": 1000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://studentaidbc.ca/explore/grants-scholarships/bc-access-grant-full-time"
+      },
+      {
+        "value": 120000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 2,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "bc-affordable-child-care",
+    "level": "provincial-bc",
+    "urls": [
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/caring-for-young-children/childcarebc-programs/child-care-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1250,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 111000,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "ontario-trillium",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-trillium-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1400,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1727,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 26865,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 55000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 1421,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 5
+  },
+  {
+    "benefitId": "ontario-works",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-works",
+      "https://www.ontario.ca/page/apply-ontario-works"
+    ],
+    "fetchErrors": [
+      "https://www.ontario.ca/page/apply-ontario-works (http-error)"
+    ],
+    "figures": [
+      {
+        "value": 733,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/ontario-works"
+      },
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "odsp",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-disability-support-program"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1408,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ontario-child-benefit",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-child-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1727,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ontario-gains",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/guaranteed-annual-income-system-payments-seniors"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 92,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/guaranteed-annual-income-system-payments-seniors"
+      },
+      {
+        "value": 22488,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ontario-drug-benefit",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/get-coverage-prescription-drugs",
+      "https://www.ontario.ca/page/get-help-high-prescription-drug-costs"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "ontario-senior-homeowner-grant",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant"
+    ],
+    "fetchErrors": [
+      "https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant (http-error)"
+    ],
+    "figures": [
+      {
+        "value": 500,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 50000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "aish",
+    "level": "provincial-ab",
+    "urls": [
+      "https://www.alberta.ca/aish"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1863,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1499,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 749,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 27565,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 4
+  },
+  {
+    "benefitId": "alberta-seniors-benefit",
+    "level": "provincial-ab",
+    "urls": [
+      "https://www.alberta.ca/alberta-seniors-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 322,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 33410,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "acfb",
+    "level": "provincial-ab",
+    "urls": [
+      "https://www.alberta.ca/alberta-child-and-family-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1499,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-child-and-family-benefit"
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "alberta-income-support",
+    "level": "provincial-ab",
+    "urls": [
+      "https://www.alberta.ca/income-support"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 900,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 950,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 3
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "level": "provincial-ab",
+    "urls": [
+      "https://www.alberta.ca/alberta-adult-health-benefit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 34000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/fs/eia/mcb.html",
+      "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 420,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb.html"
+      },
+      {
+        "value": 15000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb.html"
+      },
+      {
+        "value": 1260,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb.html"
+      },
+      {
+        "value": 15001,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 20435,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 1680,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 22242,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 2100,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 24052,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 2520,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      },
+      {
+        "value": 25864,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
+      }
+    ],
+    "confirmed": 11,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "manitoba-rent-assist",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/fs/eia/rent_assist.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 29120,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/rent_assist.html"
+      },
+      {
+        "value": 38720,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/rent_assist.html"
+      },
+      {
+        "value": 50240,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/rent_assist.html"
+      },
+      {
+        "value": 60768,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/rent_assist.html"
+      },
+      {
+        "value": 33920,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/fs/eia/rent_assist.html"
+      },
+      {
+        "value": 40000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 5,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "manitoba-55-plus",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/fs/eia/55plus.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 647,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 20000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "manitoba-eia",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/fs/eia/"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 900,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "manitoba-pharmacare",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/health/pharmacare/"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "said",
+    "level": "provincial-sk",
+    "urls": [
+      "https://www.saskatchewan.ca/residents/family-and-social-support/people-with-disabilities/income-support-for-people-with-disabilities"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1229,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 38588,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "sis",
+    "level": "provincial-sk",
+    "urls": [
+      "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 900,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "slitc",
+    "level": "provincial-sk",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1196,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 429,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 169,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 80058,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 4
+  },
+  {
+    "benefitId": "sip",
+    "level": "provincial-sk",
+    "urls": [
+      "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 360,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
+      },
+      {
+        "value": 22488,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ns-child-benefit",
+    "level": "provincial-ns",
+    "urls": [
+      "https://novascotia.ca/coms/families/ChildBenefit.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1525,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/families/ChildBenefit.html"
+      },
+      {
+        "value": 34000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/families/ChildBenefit.html"
+      },
+      {
+        "value": 26000,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/families/ChildBenefit.html"
+      },
+      {
+        "value": 762.5,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ns-affordable-living",
+    "level": "provincial-ns",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-nova-scotia.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 255,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-nova-scotia.html"
+      },
+      {
+        "value": 60,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-nova-scotia.html"
+      },
+      {
+        "value": 45000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 30000,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-nova-scotia.html"
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "ns-income-assistance",
+    "level": "provincial-ns",
+    "urls": [
+      "https://novascotia.ca/coms/employment/income_assistance/index.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 950,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "ns-disability-support",
+    "level": "provincial-ns",
+    "urls": [
+      "https://novascotia.ca/coms/disabilities/"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "nb-seniors-benefit",
+    "level": "provincial-nb",
+    "urls": [
+      "https://www2.gnb.ca/content/gnb/en/corporate/promo/new-brunswick-low-income-seniors-benefit.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 616,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 30000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "nb-social-assistance",
+    "level": "provincial-nb",
+    "urls": [
+      "https://www2.gnb.ca/content/gnb/en/departments/social_development/social_assistance.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 940,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "nb-child-tax-benefit",
+    "level": "provincial-nb",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 250,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 25000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "pei-sales-tax-credit",
+    "level": "provincial-pe",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 310,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+      },
+      {
+        "value": 365,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+      },
+      {
+        "value": 45000,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+      },
+      {
+        "value": 80000,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+      },
+      {
+        "value": 55000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 4,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "pei-child-benefit",
+    "level": "provincial-pe",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 410,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 45000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+      },
+      {
+        "value": 80000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html"
+      }
+    ],
+    "confirmed": 2,
+    "unconfirmed": 1
+  },
+  {
+    "benefitId": "pei-social-assistance",
+    "level": "provincial-pe",
+    "urls": [
+      "https://www.princeedwardisland.ca/en/information/social-development-and-seniors/social-assistance-program"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 12000,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 900,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "pei-accessability",
+    "level": "provincial-pe",
+    "urls": [
+      "https://www.princeedwardisland.ca/en/information/social-development-and-seniors/accessability-supports"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "nl-child-benefit",
+    "level": "provincial-nl",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1868,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 28990,
+        "where": "copy",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "nl-income-support",
+    "level": "provincial-nl",
+    "urls": [
+      "https://www.gov.nl.ca/sswb/"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 561,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 14000,
+        "where": "code",
+        "found": false
+      }
+    ],
+    "confirmed": 0,
+    "unconfirmed": 2
+  },
+  {
+    "benefitId": "nl-disability-benefit",
+    "level": "provincial-nl",
+    "urls": [
+      "https://www.gov.nl.ca/sswb/newfoundland-and-labrador-disability-benefit/"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 400,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/sswb/newfoundland-and-labrador-disability-benefit/"
+      },
+      {
+        "value": 29402,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/sswb/newfoundland-and-labrador-disability-benefit/"
+      }
+    ],
+    "confirmed": 2,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "nl-seniors-benefit",
+    "level": "provincial-nl",
+    "urls": [
+      "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1551,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      },
+      {
+        "value": 30078,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      }
+    ],
+    "confirmed": 2,
+    "unconfirmed": 0
+  },
+  {
+    "benefitId": "nl-income-supplement",
+    "level": "provincial-nl",
+    "urls": [
+      "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 520,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      },
+      {
+        "value": 589,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 231,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      },
+      {
+        "value": 40000,
+        "where": "code",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 1
+  }
+]

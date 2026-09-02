@@ -1,0 +1,77 @@
+audit: checking 73 benefits against their cited sources
+  [  1/73] FETCHFAIL  dtc  0 confirmed, 4 not: 1900, 2450, 32500, 23000  [https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply.html (http-error)]
+  [  2/73] UNCONFIRMED cdb  0 confirmed, 2 not: 204.2, 2450
+  [  3/73] UNCONFIRMED cpp-d  0 confirmed, 3 not: 583, 1673, 1192
+  [  4/73] UNCONFIRMED rdsp  0 confirmed, 4 not: 3500, 1000, 37487, 4500
+  [  5/73] UNCONFIRMED oas  3 confirmed, 2 not: 148451, 752
+  [  6/73] UNCONFIRMED gis  0 confirmed, 5 not: 1108, 22500, 22488, 660, 1097
+  [  7/73] UNCONFIRMED cpp-retirement  0 confirmed, 2 not: 1433, 900
+  [  8/73] UNCONFIRMED oas-allowance  0 confirmed, 2 not: 1411, 41616
+  [  9/73] UNCONFIRMED allowance-survivor  1 confirmed, 1 not: 28944
+  [ 10/73] UNCONFIRMED ccb  0 confirmed, 4 not: 8157, 6883, 38237, 81222
+  [ 11/73] UNCONFIRMED ccc  3 confirmed, 1 not: 1700
+  [ 12/73] ok         medical-expense  3 confirmed, 0 not
+  [ 13/73] UNCONFIRMED eligible-dependant  1 confirmed, 2 not: 3200, 16129
+  [ 14/73] UNCONFIRMED cdcp  0 confirmed, 2 not: 90000, 89999
+  [ 15/73] UNCONFIRMED cgeb  0 confirmed, 6 not: 533, 698, 184, 56000, 45521, 65000
+  [ 16/73] UNCONFIRMED cwb  1 confirmed, 8 not: 1633, 2813, 843, 37742, 30639, 26855, 49389, 37740
+  [ 17/73] UNCONFIRMED ei  0 confirmed, 3 not: 729, 700, 3157
+  [ 18/73] UNCONFIRMED fhsa  1 confirmed, 1 not: 40000
+  [ 19/73] UNCONFIRMED home-buyers-amount  2 confirmed, 1 not: 1500
+  [ 20/73] FETCHFAIL  multigen-reno  0 confirmed, 3 not: 50000, 7500, 45355  [https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-multigenerational-home-renovation-tax-credit.html (http-error)]
+  [ 21/73] UNCONFIRMED canada-learning-bond  4 confirmed, 2 not: 57000, 57375
+  [ 22/73] FETCHFAIL  canada-training-credit  0 confirmed, 1 not: 250  [https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-training-credit.html (http-error)]
+  [ 23/73] FETCHFAIL  pwd  0 confirmed, 2 not: 1483.5, 1483  [https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/apply-for-disability-assistance (http-error)]
+  [ 24/73] UNCONFIRMED bc-income-assistance  1 confirmed, 1 not: 12000
+  [ 25/73] UNCONFIRMED bc-bus-pass  0 confirmed, 2 not: 45, 24000
+  [ 26/73] FETCHFAIL  workbc-at  0 confirmed, 0 not  [https://www.workbc.ca/employment-services/assistive-technology-services (http-error)]
+  [ 27/73] UNCONFIRMED safer  3 confirmed, 3 not: 752, 660, 1097
+  [ 28/73] UNCONFIRMED rap  3 confirmed, 2 not: 5000, 1800
+  [ 29/73] UNCONFIRMED bc-housing-registry  0 confirmed, 1 not: 70000
+  [ 30/73] UNCONFIRMED bc-homeowner-grant  1 confirmed, 3 not: 770, 845, 1045
+  [ 31/73] UNCONFIRMED fair-pharmacare  1 confirmed, 1 not: 45000
+  [ 32/73] ok         msp-supplementary  1 confirmed, 0 not
+  [ 33/73] UNCONFIRMED bc-seniors-supplement  1 confirmed, 1 not: 22488
+  [ 34/73] ok         bc-family-benefit  5 confirmed, 0 not
+  [ 35/73] UNCONFIRMED bc-access-grant  2 confirmed, 1 not: 120000
+  [ 36/73] UNCONFIRMED bc-affordable-child-care  0 confirmed, 2 not: 1250, 111000
+  [ 37/73] UNCONFIRMED ontario-trillium  0 confirmed, 5 not: 1400, 1727, 26865, 55000, 1421
+  [ 38/73] FETCHFAIL  ontario-works  1 confirmed, 1 not: 12000  [https://www.ontario.ca/page/apply-ontario-works (http-error)]
+  [ 39/73] UNCONFIRMED odsp  0 confirmed, 1 not: 1408
+  [ 40/73] UNCONFIRMED ontario-child-benefit  0 confirmed, 1 not: 1727
+  [ 41/73] UNCONFIRMED ontario-gains  1 confirmed, 1 not: 22488
+  [ 42/73] ok         ontario-drug-benefit  0 confirmed, 0 not
+  [ 43/73] FETCHFAIL  ontario-senior-homeowner-grant  0 confirmed, 2 not: 500, 50000  [https://www.ontario.ca/page/ontario-senior-homeowners-property-tax-grant (http-error)]
+  [ 44/73] UNCONFIRMED aish  0 confirmed, 4 not: 1863, 1499, 749, 27565
+  [ 45/73] UNCONFIRMED alberta-seniors-benefit  0 confirmed, 2 not: 322, 33410
+  [ 46/73] ok         acfb  1 confirmed, 0 not
+  [ 47/73] UNCONFIRMED alberta-income-support  0 confirmed, 3 not: 900, 12000, 950
+  [ 48/73] UNCONFIRMED alberta-adult-health-benefit  0 confirmed, 1 not: 34000
+  [ 49/73] ok         manitoba-child-benefit  11 confirmed, 0 not
+  [ 50/73] UNCONFIRMED manitoba-rent-assist  5 confirmed, 1 not: 40000
+  [ 51/73] UNCONFIRMED manitoba-55-plus  0 confirmed, 2 not: 647, 20000
+  [ 52/73] UNCONFIRMED manitoba-eia  0 confirmed, 2 not: 12000, 900
+  [ 53/73] ok         manitoba-pharmacare  0 confirmed, 0 not
+  [ 54/73] UNCONFIRMED said  0 confirmed, 2 not: 1229, 38588
+  [ 55/73] UNCONFIRMED sis  0 confirmed, 2 not: 12000, 900
+  [ 56/73] UNCONFIRMED slitc  0 confirmed, 4 not: 1196, 429, 169, 80058
+  [ 57/73] UNCONFIRMED sip  1 confirmed, 1 not: 22488
+  [ 58/73] UNCONFIRMED ns-child-benefit  3 confirmed, 1 not: 762.5
+  [ 59/73] UNCONFIRMED ns-affordable-living  3 confirmed, 1 not: 45000
+  [ 60/73] UNCONFIRMED ns-income-assistance  0 confirmed, 2 not: 12000, 950
+  [ 61/73] ok         ns-disability-support  0 confirmed, 0 not
+  [ 62/73] UNCONFIRMED nb-seniors-benefit  0 confirmed, 2 not: 616, 30000
+  [ 63/73] UNCONFIRMED nb-social-assistance  0 confirmed, 2 not: 940, 12000
+  [ 64/73] UNCONFIRMED nb-child-tax-benefit  0 confirmed, 2 not: 250, 25000
+  [ 65/73] UNCONFIRMED pei-sales-tax-credit  4 confirmed, 1 not: 55000
+  [ 66/73] UNCONFIRMED pei-child-benefit  2 confirmed, 1 not: 410
+  [ 67/73] UNCONFIRMED pei-social-assistance  0 confirmed, 2 not: 12000, 900
+  [ 68/73] ok         pei-accessability  0 confirmed, 0 not
+  [ 69/73] UNCONFIRMED nl-child-benefit  0 confirmed, 2 not: 1868, 28990
+  [ 70/73] UNCONFIRMED nl-income-support  0 confirmed, 2 not: 561, 14000
+  [ 71/73] ok         nl-disability-benefit  2 confirmed, 0 not
+  [ 72/73] ok         nl-seniors-benefit  2 confirmed, 0 not
+  [ 73/73] UNCONFIRMED nl-income-supplement  3 confirmed, 1 not: 589
+
+audit complete: 11 fully confirmed, 61 with unconfirmed figures, 7 with fetch problems
+report: /Users/ryan.xu/Developer/canadian-benefits/data/crawl/audit.json

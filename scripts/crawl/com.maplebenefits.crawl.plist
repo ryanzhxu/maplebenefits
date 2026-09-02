@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd agent for the MapleBenefits crawl automation.
+
+  launchd rather than cron: cron is deprecated on macOS and does not survive
+  reboot registration cleanly, while launchd reloads the agent on login and
+  defers a missed run instead of dropping it.
+
+  Every 6 hours, matching the fetcher's disk-cache TTL. A shorter interval
+  would mostly serve cached pages and add nothing; a longer one delays
+  noticing that a government page changed. Four requests per page per day is
+  well inside polite crawling.
+
+  Install:   bash scripts/crawl/install-launchd.sh
+  Stop:      launchctl bootout gui/$(id -u)/com.maplebenefits.crawl
+  Logs:      data/crawl/logs/launchd.{out,err}.log
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.maplebenefits.crawl</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__REPO__/scripts/crawl/nightly.sh</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>__REPO__</string>
+
+  <key>StartInterval</key>
+  <integer>21600</integer>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <!-- Never let two runs overlap; a run can outlast a short interval. -->
+  <key>ThrottleInterval</key>
+  <integer>3600</integer>
+
+  <key>StandardOutPath</key>
+  <string>__REPO__/data/crawl/logs/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__REPO__/data/crawl/logs/launchd.err.log</string>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+
+  <!-- Do not keep the machine awake; run at the next opportunity instead. -->
+  <key>LowPriorityIO</key>
+  <true/>
+</dict>
+</plist>
