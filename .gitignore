@@ -42,3 +42,8 @@ next-env.d.ts
 
 # static export
 /out/
+
+# Crawl automation: fetched-page cache is disposable and large.
+# Evidence and logs ARE kept — they are the audit trail for changes that
+# merge without human review.
+/data/crawl/cache/
