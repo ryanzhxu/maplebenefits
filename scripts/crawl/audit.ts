@@ -94,6 +94,37 @@ export function benefitSourceBlocks(): Map<string, string> {
   return blocks;
 }
 
+/**
+ * Remove `figures({ ... })` declarations before auditing.
+ *
+ * Anchored figures are already checked, every run, by the freshness lane
+ * against the exact page that states them. Auditing them again here adds
+ * nothing and actively misleads: a figure block declared at the top of a file
+ * is attributed to the first benefit in that file, so ODSP's $1,436 surfaced
+ * as a drift candidate for the Ontario Trillium Benefit.
+ *
+ * The audit's job is the UNanchored remainder.
+ */
+export function stripFigureBlocks(source: string): string {
+  let out = "";
+  let i = 0;
+  for (;;) {
+    const start = source.indexOf("figures({", i);
+    if (start === -1) return out + source.slice(i);
+    out += source.slice(i, start);
+
+    // Walk braces from the "{" of "figures({" to its match.
+    let depth = 0;
+    let j = source.indexOf("{", start);
+    for (; j < source.length; j++) {
+      if (source[j] === "{") depth++;
+      else if (source[j] === "}" && --depth === 0) break;
+    }
+    if (j >= source.length) return out; // unbalanced; drop the rest
+    i = j + 1;
+  }
+}
+
 /** Drop line and block comments so prose about a figure is not audited as one. */
 export function stripComments(source: string): string {
   return source.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
@@ -110,7 +141,7 @@ export function extractFigures(source: string): { value: number; where: "copy" |
   const found = new Map<number, "copy" | "code">();
   // Comments explain a figure; they are not shown to anyone. Auditing them
   // flags every number a maintainer mentioned in passing.
-  const code = stripComments(source);
+  const code = stripFigureBlocks(stripComments(source));
 
   for (const m of code.matchAll(/\$\s?([\d,]+(?:\.\d{1,2})?)/g)) {
     const value = Number(m[1].replace(/,/g, ""));

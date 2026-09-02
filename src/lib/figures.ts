@@ -137,6 +137,11 @@ function observationSupported(o: { value: number; quote: string }): boolean {
   return new RegExp(numberPattern(o.value)).test(normalizeNumbers(o.quote));
 }
 
+/** Today as YYYY-MM-DD, for comparing against ISO date strings. */
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
 export interface FigureProblem {
   benefitId: string;
   figureKey: string;
@@ -162,8 +167,16 @@ export function validateFigures(benefit: Benefit): FigureProblem[] {
     if (f.current.to !== undefined) {
       add(key, "current observation must not have an end date");
     }
-    if (f.verifiedAt < f.current.from) {
-      add(key, `verifiedAt ${f.verifiedAt} precedes the value's start ${f.current.from}`);
+    // `from` may legitimately be in the FUTURE: governments announce next
+    // year's figures ahead of time, and BC published its January 2027 home
+    // owner grant amounts in 2026. Recording the real effective date matters
+    // more than keeping it behind verifiedAt -- the effective date is what
+    // makes the history a usable tax-year parameter table.
+    //
+    // What is genuinely impossible is verifying something that has not
+    // happened yet.
+    if (f.verifiedAt > todayIso()) {
+      add(key, `verifiedAt ${f.verifiedAt} is in the future`);
     }
     if (f.band !== undefined && (f.band <= 0 || f.band > 1)) {
       add(key, `band must be in (0, 1], got ${f.band}`);

@@ -1,5 +1,6 @@
 import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import {
   atLeast,
   atMost,
@@ -511,6 +512,47 @@ export const bcHousingRegistry: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// BC Home Owner Grant -- amounts from gov.bc.ca.
+// Sources (fetched 2026-09-02):
+//   .../home-owner-grant          regular grant
+//   .../home-owner-grant/senior   senior and disability grant
+//
+// The province ELIMINATED the $200 northern-and-rural supplement, and both
+// pages now say so explicitly. The app still showed the old ranges,
+// "$570-$770" and "$845-$1,045", whose upper bounds exist only because of
+// that supplement. There is one province-wide amount for each grant now.
+const BC_HOG_URL =
+  "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant";
+const BC_HOG_SENIOR_URL = `${BC_HOG_URL}/senior`;
+
+const BC_HOG = figures({
+  regularGrant: {
+    current: {
+      value: 570,
+      from: "2027-01-01",
+      source: BC_HOG_URL,
+      quote:
+        "Effective January 1, 2027, the regular grant amount is $570 for properties located in B.C., including properties located in northern and rural areas.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Regular grant",
+  },
+  seniorGrant: {
+    current: {
+      value: 845,
+      from: "2027-01-01",
+      source: BC_HOG_SENIOR_URL,
+      quote: "the total grant amount for seniors aged 65 or older is $845",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Grant for seniors and people with disabilities",
+  },
+});
+
 export const bcHomeownerGrant: Benefit = {
   id: "bc-homeowner-grant",
   name: tri("BC Home Owner Grant", "卑詩省業主津貼", "不列颠哥伦比亚省业主津贴"),
@@ -523,10 +565,11 @@ export const bcHomeownerGrant: Benefit = {
     "减少你在不列颠哥伦比亚省主要住所需缴的物业税。长者、退伍军人及残障人士可获更高津贴。",
   ),
   estimatedValue: tri(
-    "$570-$770/year, up to $845-$1,045 for seniors and people with disabilities",
-    "每年 $570-$770，長者及殘障人士最多 $845-$1,045",
-    "每年 $570-$770，长者及残障人士最多 $845-$1,045",
+    `${fmt(BC_HOG.regularGrant)}/year, or ${fmt(BC_HOG.seniorGrant)} for seniors and people with disabilities`,
+    `每年 ${fmt(BC_HOG.regularGrant)}，長者及殘障人士 ${fmt(BC_HOG.seniorGrant)}`,
+    `每年 ${fmt(BC_HOG.regularGrant)}，长者及残障人士 ${fmt(BC_HOG.seniorGrant)}`,
   ),
+  figures: BC_HOG,
   contextFields: ["province", "isHomeowner", "age", "hasDisability"],
   check: buildCheck([
     {
@@ -559,9 +602,8 @@ export const bcHomeownerGrant: Benefit = {
   estimateAmount: (ctx) => {
     const senior =
       (ctx.age !== undefined && ctx.age >= 65) || ctx.hasDisability === true;
-    return senior
-      ? { low: 845, high: 1045, period: "year" }
-      : { low: 570, high: 770, period: "year" };
+    const amount = senior ? val(BC_HOG.seniorGrant) : val(BC_HOG.regularGrant);
+    return { low: amount, high: amount, period: "year" };
   },
   applicationSteps: [
     {

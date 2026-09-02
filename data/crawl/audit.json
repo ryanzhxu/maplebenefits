@@ -59,40 +59,13 @@
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit.html",
-      "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/apply.html"
+      "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/apply.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/benefit-amount.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 583,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 1673,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1741.2,
-          "relative": 0.040765092647937866,
-          "sentence": "your tax slips Payment amounts Maximum CPP disability amount (2026): $1741.20/month Average CPP disability amount for new beneficiaries (Ap",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit.html"
-        }
-      },
-      {
-        "value": 1192,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1234.68,
-          "relative": 0.035805369127516834,
-          "sentence": "nth Average CPP disability amount for new beneficiaries (April 2026): $1234.68/month CPP pensions and benefits monthly amounts Next payment",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit.html"
-        }
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 3
+    "unconfirmed": 0
   },
   {
     "benefitId": "rdsp",
@@ -183,17 +156,6 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1108,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1123.17,
-          "relative": 0.013691335740072268,
-          "sentence": "efits could stop. Payment amounts Single, widowed, or divorced: up to $1123.17/month Spouse/common-law partner receives full OAS: up to $676",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html"
-        }
-      },
-      {
         "value": 22500,
         "where": "copy",
         "found": false
@@ -202,32 +164,10 @@
         "value": 22488,
         "where": "code",
         "found": false
-      },
-      {
-        "value": 660,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 676.09,
-          "relative": 0.024378787878787927,
-          "sentence": "to $1123.17/month Spouse/common-law partner receives full OAS: up to $676.09/month Spouse/common-law partner receives Allowance: up to $676",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html"
-        }
-      },
-      {
-        "value": 1097,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 1123.17,
-          "relative": 0.023855970829535163,
-          "sentence": "efits could stop. Payment amounts Single, widowed, or divorced: up to $1123.17/month Spouse/common-law partner receives full OAS: up to $676",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html"
-        }
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 5
+    "unconfirmed": 2
   },
   {
     "benefitId": "cpp-retirement",
@@ -237,32 +177,9 @@
       "https://www.canada.ca/en/services/benefits/publicpensions/cpp/cpp-benefit/apply.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 1433,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1507.65,
-          "relative": 0.0520935101186323,
-          "sentence": "ment amounts Maximum CPP retirement pension at age 65 (January 2026): $1507.65/month Average CPP retirement pension at age 65 for new benefi",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html"
-        }
-      },
-      {
-        "value": 900,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 877.01,
-          "relative": 0.025544444444444453,
-          "sentence": "ent pension at age 65 for new beneficiaries (July to September 2026): $877.01/month CPP pensions and benefits monthly amounts Next payment d",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html"
-        }
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 0
   },
   {
     "benefitId": "oas-allowance",
@@ -273,24 +190,13 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1411,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1428.06,
-          "relative": 0.012090715804394008,
-          "sentence": "nt amounts Spouse/common-law partner receives GIS and full OAS: up to $1428.06/month Allowance payment amounts Next payment date August 27,",
-          "url": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html"
-        }
-      },
-      {
         "value": 41616,
         "where": "copy",
         "found": false
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 1
   },
   {
     "benefitId": "allowance-survivor",
@@ -659,31 +565,14 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 50000,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
-      },
-      {
-        "value": 7500,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 7250,
-          "relative": 0.03333333333333333,
-          "sentence": "completed. The tax credit is 14.5% of your costs, up to a maximum of $7250, for each claim you are eligible to make. Sections Who can claim",
-          "url": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
-        }
-      },
-      {
         "value": 45355,
         "where": "code",
         "found": true,
         "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
       }
     ],
-    "confirmed": 2,
-    "unconfirmed": 1
+    "confirmed": 1,
+    "unconfirmed": 0
   },
   {
     "benefitId": "canada-learning-bond",
@@ -965,52 +854,13 @@
     "level": "provincial-bc",
     "urls": [
       "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant",
-      "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant/apply"
+      "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant/apply",
+      "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant/senior"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 570,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant"
-      },
-      {
-        "value": 770,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 570,
-          "relative": 0.2597402597402597,
-          "sentence": "Regular grant Effective January 1, 2027, the regular grant amount is $570 for properties located in B.C., including properties located in n",
-          "url": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant"
-        }
-      },
-      {
-        "value": 845,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1000,
-          "relative": 0.1834319526627219,
-          "sentence": "alify for a reduced grant amount. The grant is reduced by $5 for each $1000 of assessed value over $2075000. No grant amount The regular gra",
-          "url": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant"
-        }
-      },
-      {
-        "value": 1045,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1000,
-          "relative": 0.0430622009569378,
-          "sentence": "alify for a reduced grant amount. The grant is reduced by $5 for each $1000 of assessed value over $2075000. No grant amount The regular gra",
-          "url": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant"
-        }
-      }
-    ],
-    "confirmed": 1,
-    "unconfirmed": 3
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0
   },
   {
     "benefitId": "fair-pharmacare",
@@ -1184,28 +1034,6 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1400,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1488,
-          "relative": 0.06285714285714286,
-          "sentence": "could get a maximum of: $1307 if you are between 18 and 64 years old $1488 if you are 65 or older $290 if you live on a reserve or in a pub",
-          "url": "https://www.ontario.ca/page/ontario-trillium-benefit"
-        }
-      },
-      {
-        "value": 1727,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 1488,
-          "relative": 0.13839027214823393,
-          "sentence": "could get a maximum of: $1307 if you are between 18 and 64 years old $1488 if you are 65 or older $290 if you live on a reserve or in a pub",
-          "url": "https://www.ontario.ca/page/ontario-trillium-benefit"
-        }
-      },
-      {
         "value": 26865,
         "where": "code",
         "found": false
@@ -1228,7 +1056,7 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 5
+    "unconfirmed": 3
   },
   {
     "benefitId": "ontario-works",
@@ -1260,21 +1088,9 @@
       "https://www.ontario.ca/page/ontario-disability-support-program"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 1408,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1436,
-          "relative": 0.019886363636363636,
-          "sentence": "For example, if you are a single person, your payment could be up to $1436 for basic needs and shelter. Overview ODSP offers: money to help",
-          "url": "https://www.ontario.ca/page/ontario-disability-support-program"
-        }
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 0
   },
   {
     "benefitId": "ontario-child-benefit",
@@ -1283,21 +1099,9 @@
       "https://www.ontario.ca/page/ontario-child-benefit"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 1727,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1760,
-          "relative": 0.01910828025477707,
-          "sentence": "bout the benefit Low-income to moderate-income families can get up to $1760 per child each year through the Ontario Child Benefit ( OCB ) .",
-          "url": "https://www.ontario.ca/page/ontario-child-benefit"
-        }
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 0
   },
   {
     "benefitId": "ontario-gains",
@@ -1399,30 +1203,20 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 322,
+        "value": 32690,
         "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 373,
-          "relative": 0.15838509316770186,
-          "sentence": "for more information the monthly disposable income amount of at least $373 to assist with personal costs not included in the monthly accommo",
-          "url": "https://www.alberta.ca/alberta-seniors-benefit"
-        }
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-seniors-benefit"
       },
       {
-        "value": 33410,
+        "value": 53800,
         "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 32690,
-          "relative": 0.02155043400179587,
-          "sentence": "ned Effective July 1, 2026 , a single senior with an annual income of $32690 or less, and senior couples with a combined annual income of $5",
-          "url": "https://www.alberta.ca/alberta-seniors-benefit"
-        }
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-seniors-benefit"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 2
+    "confirmed": 2,
+    "unconfirmed": 0
   },
   {
     "benefitId": "acfb",
@@ -1500,75 +1294,8 @@
       "https://www.gov.mb.ca/fs/eia/mcb_table.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 420,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb.html"
-      },
-      {
-        "value": 15000,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb.html"
-      },
-      {
-        "value": 1260,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb.html"
-      },
-      {
-        "value": 15001,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 20435,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 1680,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 22242,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 2100,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 24052,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 2520,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      },
-      {
-        "value": 25864,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.gov.mb.ca/fs/eia/mcb_table.html"
-      }
-    ],
-    "confirmed": 11,
+    "figures": [],
+    "confirmed": 0,
     "unconfirmed": 0
   },
   {
@@ -1694,18 +1421,34 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1229,
+        "value": 460,
+        "where": "copy",
+        "found": false,
+        "drift": {
+          "pageValue": 500,
+          "relative": 0.08695652173913043,
+          "sentence": "les $9500 for families Note: Families with children earning more than $500 per month can apply for the Saskatchewan Employment Incentive . T",
+          "url": "https://www.saskatchewan.ca/residents/family-and-social-support/people-with-disabilities/income-support-for-people-with-disabilities"
+        }
+      },
+      {
+        "value": 181,
         "where": "copy",
         "found": false
       },
       {
-        "value": 38588,
-        "where": "code",
+        "value": 1282,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 1229,
+        "where": "copy",
         "found": false
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 4
   },
   {
     "benefitId": "sis",
@@ -1744,39 +1487,6 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1196,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 1282,
-          "relative": 0.07190635451505016,
-          "sentence": "181 per child (maximum of two children), or an annual credit of up to $1282 per family. The credit starts to be reduced when the adjusted fa",
-          "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html"
-        }
-      },
-      {
-        "value": 429,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 460,
-          "relative": 0.07226107226107226,
-          "sentence": "and modest incomes. For July 2026 to June 2027, this program provides $460 for an individual, $460 for a spouse or common-law partner (or fo",
-          "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html"
-        }
-      },
-      {
-        "value": 169,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 181,
-          "relative": 0.07100591715976332,
-          "sentence": "or a spouse or common-law partner (or for an eligible dependant), and $181 per child (maximum of two children), or an annual credit of up to",
-          "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html"
-        }
-      },
-      {
         "value": 80058,
         "where": "code",
         "found": false,
@@ -1789,7 +1499,7 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4
+    "unconfirmed": 1
   },
   {
     "benefitId": "sip",
@@ -1932,24 +1642,13 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 616,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 629,
-          "relative": 0.021103896103896104,
-          "sentence": "ing applicants. Eligibility To qualify for the 2026 annual benefit of $629 the applicant must have been a resident of New Brunswick on Decem",
-          "url": "https://www2.gnb.ca/content/gnb/en/corporate/promo/new-brunswick-low-income-seniors-benefit.html"
-        }
-      },
-      {
         "value": 30000,
         "where": "code",
         "found": false
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 1
   },
   {
     "benefitId": "nb-social-assistance",

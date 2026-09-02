@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { extractFigures, stripComments } from "../../scripts/crawl/audit";
+import { extractFigures, stripComments, stripFigureBlocks } from "../../scripts/crawl/audit";
 
 const values = (src: string) => extractFigures(src).map((f) => f.value).sort((a, b) => a - b);
 
@@ -45,5 +45,28 @@ describe("extractFigures", () => {
 
   it("keeps decimal amounts", () => {
     expect(values('max: "$1,673.24 per month"')).toEqual([1673.24]);
+  });
+});
+
+describe("stripFigureBlocks", () => {
+  it("removes an anchored figure declaration, keeping the rest", () => {
+    const src = `
+      const A = figures({ x: { current: { value: 1436, quote: "up to $1,436" } } });
+      estimatedValue: "unanchored $999 here"
+    `;
+    const out = stripFigureBlocks(src);
+    expect(out).not.toContain("1436");
+    expect(out).toContain("999");
+  });
+
+  it("handles nested braces without eating the following code", () => {
+    const src = 'const A = figures({ a: { b: { c: 1 } } }); const after = "$777";';
+    expect(stripFigureBlocks(src)).toContain("777");
+  });
+
+  it("keeps anchored values out of the audit entirely", () => {
+    // Anchored figures are the freshness lane's job, not the audit's.
+    const src = 'const A = figures({ x: { current: { value: 1436 } } }); const y = 22488;';
+    expect(extractFigures(src).map((f) => f.value)).toEqual([22488]);
   });
 });

@@ -139,9 +139,19 @@ describe("validateFigures", () => {
     expect(validateFigures(asBenefit({ cutoff: f }))[0].problem).toMatch(/must not have an end date/);
   });
 
-  it("flags verifiedAt earlier than the value's start date", () => {
-    const f = fig({ verifiedAt: "2024-01-01" });
-    expect(validateFigures(asBenefit({ cutoff: f }))[0].problem).toMatch(/precedes/);
+  it("accepts a value announced before it takes effect", () => {
+    // BC published its January 2027 grant amounts during 2026. Recording the
+    // real effective date is what makes history a usable tax-year table.
+    const f = fig({
+      current: { ...fig().current, from: "2027-01-01" },
+      verifiedAt: "2026-09-02",
+    });
+    expect(validateFigures(asBenefit({ cutoff: f }))).toEqual([]);
+  });
+
+  it("flags a verifiedAt in the future", () => {
+    const f = fig({ verifiedAt: "2099-01-01" });
+    expect(validateFigures(asBenefit({ cutoff: f }))[0].problem).toMatch(/in the future/);
   });
 
   it("flags history that overlaps the current value", () => {
