@@ -1,18 +1,78 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, val } from "@/lib/figures";
 import { atMost, buildCheck, isFalse, isTrue, oneOf } from "@/lib/checks";
 
-// Canada Child Benefit — accurate 2026-27 two-tier calculation.
-// Max: $8,157/yr (<6), $6,883/yr (6-17). Reduction begins at $38,237 AFNI
-// (tier 1) and $81,222 (tier 2), with rates by number of children.
+// Canada Child Benefit -- 2026-27 two-tier calculation.
+// Source (fetched 2026-09-02):
+// https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html
+//
+// The benefit cites the CCB overview page, which states no amounts at all --
+// they live on "How much you can get". That is why the second phase-out
+// threshold sat at $81,222 while the CRA had moved to $82,847: nothing was
+// pointing at the page that would have shown the difference.
+const CCB_AMOUNTS_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html";
+
+const CCB_FIGURES = figures({
+  maxUnder6: {
+    current: {
+      value: 8157,
+      from: "2026-07-01",
+      source: CCB_AMOUNTS_URL,
+      quote: "under 6 years of age: $8,157 per year",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per year, child under 6",
+  },
+  max6to17: {
+    current: {
+      value: 6883,
+      from: "2026-07-01",
+      source: CCB_AMOUNTS_URL,
+      quote: "6 to 17 years of age: $6,883 per year",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per year, child aged 6 to 17",
+  },
+  reductionStartsAt: {
+    current: {
+      value: 38237,
+      from: "2026-07-01",
+      source: CCB_AMOUNTS_URL,
+      quote: "If your AFNI is under $38,237, you get the maximum amount for each child",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "AFNI below which the maximum is paid",
+  },
+  secondTierStartsAt: {
+    current: {
+      value: 82847,
+      from: "2026-07-01",
+      source: CCB_AMOUNTS_URL,
+      quote:
+        "Greater than $82,847 Your benefit is reduced by a fixed amount plus an additional percentage of your income greater than $82,847",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "AFNI where the second reduction tier begins",
+  },
+});
+
+// Reduction rates by number of children, tier 1 then tier 2.
 const CCB_RATES: Record<number, [number, number]> = {
   1: [0.07, 0.032],
   2: [0.135, 0.057],
   3: [0.19, 0.08],
   4: [0.23, 0.095],
 };
-const CCB_T1 = 38237;
-const CCB_T2 = 81222;
 
 const ccbEstimate = (ctx: {
   hasChildren?: boolean;
@@ -29,16 +89,19 @@ const ccbEstimate = (ctx: {
       (ctx.youngestChildAge !== undefined && ctx.youngestChildAge < 6 ? 1 : 0),
   );
   const over6 = n - under6;
-  const maxAmt = 8157 * under6 + 6883 * over6;
+  const maxAmt =
+    val(CCB_FIGURES.maxUnder6) * under6 + val(CCB_FIGURES.max6to17) * over6;
   const income = ctx.familyIncome;
   if (income === undefined) return { low: 0, high: maxAmt, period: "year" };
 
+  const t1 = val(CCB_FIGURES.reductionStartsAt);
+  const t2 = val(CCB_FIGURES.secondTierStartsAt);
   const [r1, r2] = CCB_RATES[Math.min(n, 4)];
   let reduction = 0;
-  if (income > CCB_T1 && income <= CCB_T2) {
-    reduction = r1 * (income - CCB_T1);
-  } else if (income > CCB_T2) {
-    reduction = r1 * (CCB_T2 - CCB_T1) + r2 * (income - CCB_T2);
+  if (income > t1 && income <= t2) {
+    reduction = r1 * (income - t1);
+  } else if (income > t2) {
+    reduction = r1 * (t2 - t1) + r2 * (income - t2);
   }
   const amount = Math.max(0, Math.round(maxAmt - reduction));
   return {
@@ -55,6 +118,7 @@ const ccbEstimate = (ctx: {
 
 export const ccb: Benefit = {
   id: "ccb",
+  figures: CCB_FIGURES,
   name: tri("Canada Child Benefit", "加拿大兒童福利", "加拿大儿童福利"),
   shortName: "CCB",
   category: "family",

@@ -129,9 +129,10 @@ sentence before changing anything.
 
 ## Recurring bug shape: one tier applied to everyone
 
-Found three times in one night — Manitoba (family size), Alberta Seniors
-(single vs couple), GIS (still outstanding). A program publishes a different
-threshold per household type and the app hard-codes one of them.
+Found three times in one night, all now fixed — Manitoba (family size),
+Alberta Seniors (single vs couple), GIS (four thresholds by household
+situation). A program publishes a different threshold per household type and
+the app hard-codes one of them.
 
 Over-promising wastes an application. **Under-promising is worse**: it tells
 someone they do not qualify, and they never apply. Alberta's couple threshold
@@ -143,7 +144,7 @@ rather than picking one tier.
 ## Status (2026-09-02)
 
 - 21 of 73 benefits fully confirmed by their own sources
-- 32 sourced figures across 13 benefits, all verifying live
+- 36 sourced figures across 13 benefits, all verifying live
 - 0 broken official links (7 fixed)
 - 52 benefits still carry at least one figure their source does not state
 
