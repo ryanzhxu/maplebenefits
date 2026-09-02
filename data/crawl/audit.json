@@ -30,7 +30,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4
+    "unconfirmed": 4,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "cdb",
@@ -52,7 +53,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "cpp-d",
@@ -65,7 +67,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "rdsp",
@@ -97,7 +100,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4
+    "unconfirmed": 4,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "oas",
@@ -144,30 +148,22 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "gis",
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html",
-      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/apply.html"
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/apply.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 22500,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 22488,
-        "where": "code",
-        "found": false
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "cpp-retirement",
@@ -179,7 +175,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "oas-allowance",
@@ -196,7 +193,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "allowance-survivor",
@@ -219,40 +217,35 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ccb",
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview.html",
-      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview/canada-child-benefit-apply.html"
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview/canada-child-benefit-apply.html",
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
         "value": 8157,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html"
       },
       {
         "value": 6883,
         "where": "copy",
-        "found": false
-      },
-      {
-        "value": 38237,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 81222,
-        "where": "code",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 4
+    "confirmed": 2,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ccc",
@@ -287,7 +280,8 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "medical-expense",
@@ -317,7 +311,8 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "eligible-dependant",
@@ -351,7 +346,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "cdcp",
@@ -374,7 +370,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "cgeb",
@@ -416,7 +413,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 6
+    "unconfirmed": 6,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "cwb",
@@ -474,7 +472,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 8
+    "unconfirmed": 8,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "ei",
@@ -502,7 +501,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 3
+    "unconfirmed": 3,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "fhsa",
@@ -525,7 +525,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "home-buyers-amount",
@@ -554,7 +555,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "multigen-reno",
@@ -572,7 +574,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "canada-learning-bond",
@@ -618,7 +621,8 @@
       }
     ],
     "confirmed": 4,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "canada-training-credit",
@@ -642,7 +646,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "pwd",
@@ -664,7 +669,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-income-assistance",
@@ -688,7 +694,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-bus-pass",
@@ -710,7 +717,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "workbc-at",
@@ -721,7 +729,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "safer",
@@ -778,7 +787,8 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 3
+    "unconfirmed": 3,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "rap",
@@ -824,7 +834,8 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-housing-registry",
@@ -847,7 +858,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-homeowner-grant",
@@ -860,7 +872,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "fair-pharmacare",
@@ -883,7 +896,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "msp-supplementary",
@@ -901,7 +915,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-seniors-supplement",
@@ -924,7 +939,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-family-benefit",
@@ -966,7 +982,8 @@
       }
     ],
     "confirmed": 5,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-access-grant",
@@ -1001,7 +1018,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "bc-affordable-child-care",
@@ -1023,7 +1041,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "ontario-trillium",
@@ -1056,7 +1075,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 3
+    "unconfirmed": 3,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ontario-works",
@@ -1079,7 +1099,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "odsp",
@@ -1090,7 +1111,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ontario-child-benefit",
@@ -1101,7 +1123,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ontario-gains",
@@ -1124,7 +1147,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ontario-drug-benefit",
@@ -1136,7 +1160,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ontario-senior-homeowner-grant",
@@ -1160,7 +1185,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "aish",
@@ -1192,7 +1218,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4
+    "unconfirmed": 4,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "alberta-seniors-benefit",
@@ -1216,7 +1243,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "acfb",
@@ -1234,7 +1262,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "alberta-income-support",
@@ -1261,7 +1290,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 3
+    "unconfirmed": 3,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "alberta-adult-health-benefit",
@@ -1284,7 +1314,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "manitoba-child-benefit",
@@ -1296,7 +1327,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "manitoba-rent-assist",
@@ -1349,7 +1381,8 @@
       }
     ],
     "confirmed": 5,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "manitoba-55-plus",
@@ -1377,7 +1410,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "manitoba-eia",
@@ -1399,7 +1433,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "manitoba-pharmacare",
@@ -1410,7 +1445,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "said",
@@ -1448,7 +1484,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4
+    "unconfirmed": 4,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "sis",
@@ -1476,7 +1513,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "slitc",
@@ -1499,7 +1537,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "sip",
@@ -1522,7 +1561,8 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ns-child-benefit",
@@ -1557,7 +1597,8 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ns-affordable-living",
@@ -1598,7 +1639,8 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ns-income-assistance",
@@ -1620,7 +1662,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "ns-disability-support",
@@ -1631,7 +1674,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "nb-seniors-benefit",
@@ -1648,7 +1692,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "nb-social-assistance",
@@ -1670,7 +1715,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "nb-child-tax-benefit",
@@ -1704,7 +1750,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "pei-sales-tax-credit",
@@ -1751,7 +1798,8 @@
       }
     ],
     "confirmed": 4,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "pei-child-benefit",
@@ -1786,7 +1834,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "pei-social-assistance",
@@ -1808,7 +1857,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "pei-accessability",
@@ -1819,7 +1869,8 @@
     "fetchErrors": [],
     "figures": [],
     "confirmed": 0,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "nl-child-benefit",
@@ -1853,7 +1904,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "nl-income-support",
@@ -1875,7 +1927,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": true
   },
   {
     "benefitId": "nl-disability-benefit",
@@ -1899,7 +1952,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "nl-seniors-benefit",
@@ -1923,7 +1977,8 @@
       }
     ],
     "confirmed": 2,
-    "unconfirmed": 0
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "nl-income-supplement",
@@ -1964,6 +2019,7 @@
       }
     ],
     "confirmed": 3,
-    "unconfirmed": 1
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   }
 ]

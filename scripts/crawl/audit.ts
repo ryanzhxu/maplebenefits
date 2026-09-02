@@ -48,6 +48,16 @@ export interface BenefitAudit {
   figures: AuditedFigure[];
   confirmed: number;
   unconfirmed: number;
+  /**
+   * True when the benefit shows dollar amounts but not one of its cited pages
+   * states any amount at all.
+   *
+   * This is worse than a wrong figure, because nothing can ever confirm or
+   * correct it. The Canada Child Benefit cited its overview page, which
+   * mentions no money -- every amount lives on "How much you can get" -- so a
+   * $1,625 error in its phase-out threshold sat unnoticed and unnoticeable.
+   */
+  citesPageWithoutAmounts: boolean;
 }
 
 /**
@@ -246,6 +256,7 @@ export async function auditBenefit(b: Benefit, source: string): Promise<BenefitA
     return { value, where, found: false, drift: closestPageNumber(value, numbered) };
   });
 
+  const pagesStateAnyAmount = numbered.some((p) => p.numbers.length > 0);
   return {
     benefitId: b.id,
     level: b.level,
@@ -254,5 +265,7 @@ export async function auditBenefit(b: Benefit, source: string): Promise<BenefitA
     figures,
     confirmed: figures.filter((f) => f.found).length,
     unconfirmed: figures.filter((f) => !f.found).length,
+    citesPageWithoutAmounts:
+      figures.length > 0 && pages.length > 0 && !pagesStateAnyAmount,
   };
 }
