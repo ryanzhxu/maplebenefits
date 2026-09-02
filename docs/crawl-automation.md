@@ -108,6 +108,45 @@ this is the credential-free route. Every milestone is also written to
 To get real email instead, add a Gmail app password and an SMTP step; the
 notifier is a single function (`scripts/crawl/notify.ts`).
 
+## Reading a drift candidate
+
+The audit reports, for each figure its source does not state, the closest
+currency amount the page does state. **This is a lead, not a value to apply.**
+Three failure modes seen in practice:
+
+- **Shared pages.** One CRA page documents every program in a province, so the
+  Newfoundland child benefit was paired with the *seniors* benefit's $1,882 and
+  the *disability* benefit's $29,402. Always check the sentence.
+- **Adjacent-but-different figures.** BC's $1,045 was paired with the "$1,000
+  of assessed value" reduction rate. The real finding — that the $200
+  northern-rural supplement was eliminated — came from reading the sentence,
+  not from the number.
+- **Non-amounts.** Before drift was anchored to `$`, benefit amounts matched
+  toll-free numbers and "Date modified" years.
+
+Drift earns its keep by directing attention. Confirm every value against its
+sentence before changing anything.
+
+## Recurring bug shape: one tier applied to everyone
+
+Found three times in one night — Manitoba (family size), Alberta Seniors
+(single vs couple), GIS (still outstanding). A program publishes a different
+threshold per household type and the app hard-codes one of them.
+
+Over-promising wastes an application. **Under-promising is worse**: it tells
+someone they do not qualify, and they never apply. Alberta's couple threshold
+is $53,800 against the $33,410 the app was using for everyone.
+
+Use `atMostOf` from `src/lib/checks.ts` — a ceiling computed from context —
+rather than picking one tier.
+
+## Status (2026-09-02)
+
+- 21 of 73 benefits fully confirmed by their own sources
+- 32 sourced figures across 13 benefits, all verifying live
+- 0 broken official links (7 fixed)
+- 52 benefits still carry at least one figure their source does not state
+
 ## Scope
 
 In: federal, the nine covered provinces, and the three territories. A program
