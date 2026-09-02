@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const SK = oneOf((c: { province?: string }) => c.province, ["SK"]);
@@ -10,19 +11,69 @@ const skFail = tri(
 );
 const skPass = tri("You live in Saskatchewan.", "你居住在薩斯喀徹溫省。", "你居住在萨斯喀彻温省。");
 
+// SLITC -- July 2026 to June 2027 amounts, all from one CRA sentence.
+// Source (fetched 2026-09-02): province-saskatchewan.html
+// Every amount here was a year stale: $429/$429/$169/$1,196 against the
+// current $460/$460/$181/$1,282. The phase-out threshold was also stale
+// ($38,588 against $39,345).
+const SLITC_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html";
+const SLITC_SENTENCE =
+  "For July 2026 to June 2027, this program provides $460 for an individual, $460 for a spouse or common-law partner (or for an eligible dependant), and $181 per child (maximum of two children), or an annual credit of up to $1,282 per family.";
+
+const SLITC = figures({
+  perAdult: {
+    current: { value: 460, from: "2026-07-01", source: SLITC_URL, quote: SLITC_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Amount per adult",
+  },
+  perChild: {
+    current: { value: 181, from: "2026-07-01", source: SLITC_URL, quote: SLITC_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Amount per child (maximum two)",
+  },
+  familyMax: {
+    current: { value: 1282, from: "2026-07-01", source: SLITC_URL, quote: SLITC_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per family",
+  },
+  reductionStartsAt: {
+    current: {
+      value: 39345,
+      from: "2026-07-01",
+      source: SLITC_URL,
+      quote: "The credit starts to be reduced when the adjusted family net income is more than $39,345",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the credit starts to be reduced",
+  },
+});
+
 const slitcEstimate = (ctx: {
   maritalStatus?: string;
   hasChildren?: boolean;
   numberOfChildren?: number;
   familyIncome?: number;
 }): AmountEstimate => {
-  let amount = 429; // individual
+  let amount = val(SLITC.perAdult);
   if (ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law")
-    amount += 429;
-  if (ctx.hasChildren) amount += 169 * Math.min(ctx.numberOfChildren ?? 1, 2);
+    amount += val(SLITC.perAdult);
+  if (ctx.hasChildren)
+    amount += val(SLITC.perChild) * Math.min(ctx.numberOfChildren ?? 1, 2);
+  // The per-person amounts can exceed the published family maximum for a
+  // couple with two children, so cap at what the province actually pays.
+  amount = Math.min(amount, val(SLITC.familyMax));
   const income = ctx.familyIncome;
   if (income === undefined) return { low: 0, high: amount, period: "year" };
-  const over = Math.max(0, income - 38588);
+  const over = Math.max(0, income - val(SLITC.reductionStartsAt));
   const reduced = Math.max(0, Math.round(amount - over * 0.025));
   return { low: reduced, high: reduced, period: "year" };
 };
@@ -188,10 +239,11 @@ export const slitc: Benefit = {
     "为萨斯喀彻温低及中等收入居民提供的免税季度款项。报税即自动获得。",
   ),
   estimatedValue: tri(
-    "Up to $1,196/year for a family ($429 adult, $429 spouse, $169/child up to 2)",
-    "家庭最多每年 $1,196（成人 $429、配偶 $429、每名子女 $169，最多 2 名）",
-    "家庭最多每年 $1,196（成人 $429、配偶 $429、每名子女 $169，最多 2 名）",
+    `Up to ${fmt(SLITC.familyMax)}/year for a family (${fmt(SLITC.perAdult)} adult, ${fmt(SLITC.perAdult)} spouse, ${fmt(SLITC.perChild)}/child up to 2)`,
+    `家庭最多每年 ${fmt(SLITC.familyMax)}（成人 ${fmt(SLITC.perAdult)}、配偶 ${fmt(SLITC.perAdult)}、每名子女 ${fmt(SLITC.perChild)}，最多 2 名）`,
+    `家庭最多每年 ${fmt(SLITC.familyMax)}（成人 ${fmt(SLITC.perAdult)}、配偶 ${fmt(SLITC.perAdult)}、每名子女 ${fmt(SLITC.perChild)}，最多 2 名）`,
   ),
+  figures: SLITC,
   contextFields: ["province", "filedTaxes", "maritalStatus", "hasChildren", "numberOfChildren", "familyIncome"],
   check: buildCheck([
     { test: SK, hard: true, passReason: skPass, failReason: skFail, missingField: "province" },
