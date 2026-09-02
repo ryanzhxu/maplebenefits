@@ -47,3 +47,7 @@ next-env.d.ts
 # Evidence and logs ARE kept — they are the audit trail for changes that
 # merge without human review.
 /data/crawl/cache/
+# launchd runtime logs: appended on every run, so tracking them makes each
+# nightly commit conflict. Reports and milestones under data/crawl ARE tracked.
+/data/crawl/logs/launchd.out.log
+/data/crawl/logs/launchd.err.log
