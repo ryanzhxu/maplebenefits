@@ -29,6 +29,15 @@ export interface AuditedFigure {
   found: boolean;
   /** The page that confirmed it, when one did. */
   confirmedBy?: string;
+  /**
+   * For an unconfirmed figure: the closest number the page DOES state, when
+   * one is near enough to look like the same figure after an update.
+   *
+   * Government amounts are indexed, so a stale figure usually sits a few
+   * percent from its replacement. "App says 1673, page says 1741.20" is a
+   * strong drift signal; it is a lead to verify, not a value to apply.
+   */
+  drift?: { pageValue: number; relative: number; sentence: string; url: string };
 }
 
 export interface BenefitAudit {
@@ -133,6 +142,50 @@ export function benefitUrls(b: Benefit): string[] {
   return [...new Set(urls.filter((u): u is string => !!u && isOfficialUrl(u)))];
 }
 
+/**
+ * Every distinct CURRENCY amount the page states, with the sentence around it.
+ *
+ * Requiring a leading "$" is what makes drift detection usable. Without it the
+ * nearest number to a benefit amount is very often a toll-free phone number or
+ * a "Date modified" year -- pairing $1,196 with 1-800-387-1193 produced a
+ * 0.2% "match" that meant nothing.
+ */
+function pageNumbers(text: string): { value: number; sentence: string }[] {
+  const out = new Map<number, string>();
+  for (const m of text.matchAll(/\$\s?(\d{2,7}(?:\.\d{1,2})?)(?![\d])/g)) {
+    const value = Number(m[1]);
+    if (!Number.isFinite(value) || value < 100) continue;
+    if (out.has(value)) continue;
+    const at = m.index ?? 0;
+    out.set(value, text.slice(Math.max(0, at - 70), at + 70).trim());
+  }
+  return [...out].map(([value, sentence]) => ({ value, sentence }));
+}
+
+/**
+ * The page number closest to an app figure, if it is within `maxRelative`.
+ *
+ * Deliberately narrow. A 30% window catches indexation and rate changes while
+ * refusing to pair unrelated amounts that merely share a page.
+ */
+function closestPageNumber(
+  value: number,
+  pages: { url: string; numbers: { value: number; sentence: string }[] }[],
+  maxRelative = 0.3,
+): AuditedFigure["drift"] {
+  let best: AuditedFigure["drift"];
+  for (const page of pages) {
+    for (const n of page.numbers) {
+      const relative = Math.abs(n.value - value) / Math.abs(value || 1);
+      if (relative > maxRelative || relative === 0) continue;
+      if (!best || relative < best.relative) {
+        best = { pageValue: n.value, relative, sentence: n.sentence, url: page.url };
+      }
+    }
+  }
+  return best;
+}
+
 /** Is this number stated anywhere in the page text? */
 function statedIn(value: number, text: string): boolean {
   const re = new RegExp(`(?<![\\d.,])${String(value).replace(".", "\\.")}(?![\\d])`);
@@ -155,9 +208,11 @@ export async function auditBenefit(b: Benefit, source: string): Promise<BenefitA
     }
   }
 
+  const numbered = pages.map((p) => ({ url: p.url, numbers: pageNumbers(p.text) }));
   const figures: AuditedFigure[] = extractFigures(source).map(({ value, where }) => {
     const hit = pages.find((p) => statedIn(value, p.text));
-    return { value, where, found: !!hit, confirmedBy: hit?.url };
+    if (hit) return { value, where, found: true, confirmedBy: hit.url };
+    return { value, where, found: false, drift: closestPageNumber(value, numbered) };
   });
 
   return {
