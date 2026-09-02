@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { AssessmentContext } from "@/types/benefit";
-import { atLeast, atMost, buildCheck, isFalse, isTrue, oneOf } from "./checks";
+import { atLeast, atMost, atMostOf, buildCheck, isFalse, isTrue, oneOf } from "./checks";
 
 describe("check DSL", () => {
   it("returns eligible when all hard rules pass", () => {
@@ -69,5 +69,25 @@ describe("predicate helpers", () => {
   it("isFalse", () => {
     expect(isFalse((c) => c.isHomeowner)(ctx)).toBe("pass");
     expect(isFalse((c) => c.hasChildren)(ctx)).toBe("unknown");
+  });
+});
+
+describe("atMostOf", () => {
+  it("compares against a ceiling derived from the context", () => {
+    const p = atMostOf(
+      (c) => c.familyIncome as number | undefined,
+      (c) => ((c.numberOfChildren as number) >= 4 ? 22242 : 20435),
+    );
+    expect(p({ familyIncome: 21000, numberOfChildren: 1 })).toBe("fail");
+    expect(p({ familyIncome: 21000, numberOfChildren: 4 })).toBe("pass");
+  });
+
+  it("is unknown when the value or the ceiling is unavailable", () => {
+    const p = atMostOf(
+      (c) => c.familyIncome as number | undefined,
+      (c) => c.numberOfChildren as number | undefined,
+    );
+    expect(p({ numberOfChildren: 3 })).toBe("unknown");
+    expect(p({ familyIncome: 100 })).toBe("unknown");
   });
 });

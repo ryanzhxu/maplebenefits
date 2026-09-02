@@ -1,6 +1,7 @@
-import type { AmountEstimate, Benefit } from "@/types/benefit";
+import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { atLeast, atMost, buildCheck, isFalse, isTrue, oneOf } from "@/lib/checks";
+import { figures, fmt, val } from "@/lib/figures";
+import { atLeast, atMost, atMostOf, buildCheck, isFalse, isTrue, oneOf } from "@/lib/checks";
 
 const MB = oneOf((c: { province?: string }) => c.province, ["MB"]);
 const mbFail = tri(
@@ -10,14 +11,135 @@ const mbFail = tri(
 );
 const mbPass = tri("You live in Manitoba.", "你居住在緬尼托巴省。", "你居住在曼尼托巴省。");
 
-const mcbEstimate = (ctx: {
-  hasChildren?: boolean;
-  numberOfChildren?: number;
-  familyIncome?: number;
-}): AmountEstimate | undefined => {
+// Manitoba Child Benefit -- exact figures from the province's own benefit table.
+// Sources (fetched 2026-09-01):
+//   https://www.gov.mb.ca/fs/eia/mcb.html        program page ($420 per child)
+//   https://www.gov.mb.ca/fs/eia/mcb_table.html  "Benefit Levels and Allowable
+//                                                 Income Ranges"
+//
+// Manitoba publishes ONE cutoff PER FAMILY SIZE, not a single global cutoff:
+// full benefits at or below $15,000, partial benefits up to a ceiling that
+// rises with the number of children ($20,435 for 1-3, $22,242 for 4, $24,052
+// for 5, $25,864 for 6). This app previously applied the six-child ceiling of
+// $25,864 to every family, which told a one-child family earning $24,000 that
+// it qualified when the real limit is $20,435.
+//
+// The published table stops at six children. Larger families use the
+// six-child ceiling -- the highest figure the province actually states, so the
+// app never invents a number the source does not support.
+const MCB_PROGRAM_URL = "https://www.gov.mb.ca/fs/eia/mcb.html";
+const MCB_TABLE_URL = "https://www.gov.mb.ca/fs/eia/mcb_table.html";
+
+const MCB = figures({
+  perChild: {
+    current: {
+      value: 420,
+      from: "2026-09-01",
+      source: MCB_PROGRAM_URL,
+      quote: "Low-income families may be eligible for up to $420 tax free each year for every child.",
+    },
+    history: [],
+    verifiedAt: "2026-09-01",
+    format: "currency",
+    label: "Maximum per child per year",
+  },
+  fullBenefitIncome: {
+    current: {
+      value: 15000,
+      from: "2026-09-01",
+      source: MCB_PROGRAM_URL,
+      quote: "earning $15,000 or less, this totals $1,260",
+    },
+    history: [],
+    verifiedAt: "2026-09-01",
+    format: "currency",
+    label: "Income at or below which the full benefit is paid",
+  },
+  // Each cutoff quotes its own row of the official table, so the row's child
+  // count and benefit amount disambiguate it from the other rows.
+  cutoff1to3: {
+    current: {
+      value: 20435,
+      from: "2026-09-01",
+      source: MCB_TABLE_URL,
+      quote: "1 $420 $15,000 $15,001 to $20,435",
+    },
+    history: [],
+    verifiedAt: "2026-09-01",
+    format: "currency",
+    label: "Partial-benefit income ceiling, 1-3 children",
+  },
+  cutoff4: {
+    current: {
+      value: 22242,
+      from: "2026-09-01",
+      source: MCB_TABLE_URL,
+      quote: "4 $1,680 $15,000 $15,001 to $22,242",
+    },
+    history: [],
+    verifiedAt: "2026-09-01",
+    format: "currency",
+    label: "Partial-benefit income ceiling, 4 children",
+  },
+  cutoff5: {
+    current: {
+      value: 24052,
+      from: "2026-09-01",
+      source: MCB_TABLE_URL,
+      quote: "5 $2,100 $15,000 $15,001 to $24,052",
+    },
+    history: [],
+    verifiedAt: "2026-09-01",
+    format: "currency",
+    label: "Partial-benefit income ceiling, 5 children",
+  },
+  cutoff6: {
+    current: {
+      value: 25864,
+      from: "2026-09-01",
+      source: MCB_TABLE_URL,
+      quote: "6 $2,520 $15,000 $15,001 to $25,864",
+    },
+    history: [],
+    verifiedAt: "2026-09-01",
+    format: "currency",
+    label: "Partial-benefit income ceiling, 6 or more children",
+  },
+});
+
+/** Income ceiling for a family of this size, or undefined if size is unknown. */
+const mcbIncomeCeiling = (children: number | undefined): number | undefined => {
+  if (children === undefined || Number.isNaN(children) || children < 1) return undefined;
+  if (children <= 3) return val(MCB.cutoff1to3);
+  if (children === 4) return val(MCB.cutoff4);
+  if (children === 5) return val(MCB.cutoff5);
+  return val(MCB.cutoff6);
+};
+
+const mcbEstimate = (ctx: AssessmentContext): AmountEstimate | undefined => {
   if (ctx.hasChildren !== true) return undefined;
-  const n = ctx.numberOfChildren ?? 1;
-  return { low: 0, high: 420 * n, period: "year" };
+  const n = ctx.numberOfChildren;
+  if (n === undefined || n < 1) return undefined;
+
+  const max = val(MCB.perChild) * n;
+  if (ctx.familyIncome === undefined) return { low: 0, high: max, period: "year" };
+
+  const ceiling = mcbIncomeCeiling(n);
+  if (ceiling === undefined || ctx.familyIncome > ceiling) return undefined;
+
+  if (ctx.familyIncome <= val(MCB.fullBenefitIncome)) {
+    return { low: max, high: max, period: "year" };
+  }
+  return {
+    low: 0,
+    high: max,
+    period: "year",
+    note: tri(
+      `Partial benefit -- your family income is above the ${fmt(MCB.fullBenefitIncome)} level at which the full amount is paid.`,
+      `部分福利——你的家庭收入高於可領全額的 ${fmt(MCB.fullBenefitIncome)}。`,
+      `部分福利——你的家庭收入高于可领全额的 ${fmt(MCB.fullBenefitIncome)}。`,
+    ),
+  };
 };
 
 export const manitobaChildBenefit: Benefit = {
@@ -32,10 +154,11 @@ export const manitobaChildBenefit: Benefit = {
     "为已领取加拿大儿童福利、有 18 岁以下子女的曼尼托巴低收入家庭提供的免税年度款项。",
   ),
   estimatedValue: tri(
-    "Up to $420/year per child",
-    "每名子女最多每年 $420",
-    "每名子女最多每年 $420",
+    `Up to ${fmt(MCB.perChild)}/year per child`,
+    `每名子女最多每年 ${fmt(MCB.perChild)}`,
+    `每名子女最多每年 ${fmt(MCB.perChild)}`,
   ),
+  figures: MCB,
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   prerequisites: ["ccb"],
   check: buildCheck([
@@ -52,22 +175,24 @@ export const manitobaChildBenefit: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 25864),
+      // The ceiling depends on family size, so the rule reads it from context
+      // rather than applying one tier's number to everybody.
+      test: atMostOf((c) => c.familyIncome, (c) => mcbIncomeCeiling(c.numberOfChildren)),
       hard: true,
       passReason: tri(
-        "Your income is within the range for this benefit.",
-        "你的收入在此福利的範圍內。",
-        "你的收入在此福利的范围内。",
+        "Your family income is within the Manitoba Child Benefit limit for your family size.",
+        "你的家庭收入在你家庭人數對應的緬尼托巴兒童福利上限之內。",
+        "你的家庭收入在你家庭人数对应的曼尼托巴儿童福利上限之内。",
       ),
       failReason: tri(
-        "The Manitoba Child Benefit is for lower-income families (roughly under $25,864).",
-        "緬尼托巴兒童福利適用於較低收入家庭（約 $25,864 以下）。",
-        "曼尼托巴儿童福利适用于较低收入家庭（约 $25,864 以下）。",
+        `The income limit depends on family size -- from ${fmt(MCB.cutoff1to3)} for one to three children up to ${fmt(MCB.cutoff6)} for six. Your family income is above the limit for your family size.`,
+        `收入上限視家庭人數而定——一至三名子女為 ${fmt(MCB.cutoff1to3)}，六名子女為 ${fmt(MCB.cutoff6)}。你的家庭收入超出你家庭人數對應的上限。`,
+        `收入上限视家庭人数而定——一至三名子女为 ${fmt(MCB.cutoff1to3)}，六名子女为 ${fmt(MCB.cutoff6)}。你的家庭收入超出你家庭人数对应的上限。`,
       ),
       missingField: "familyIncome",
     },
   ]),
-  estimateAmount: (ctx) => mcbEstimate(ctx),
+  estimateAmount: mcbEstimate,
   applicationSteps: [
     {
       order: 1,
@@ -77,12 +202,12 @@ export const manitobaChildBenefit: Benefit = {
         "填寫申請表。你必須已領取加拿大兒童福利。",
         "填写申请表。你必须已领取加拿大儿童福利。",
       ),
-      actionUrl: "https://www.gov.mb.ca/fs/eia/mcb.html",
+      actionUrl: MCB_PROGRAM_URL,
     },
   ],
   requiredDocuments: [tri("Filed tax return", "已報稅表", "已报税表")],
-  applicationUrl: "https://www.gov.mb.ca/fs/eia/mcb.html",
-  officialInfoUrl: "https://www.gov.mb.ca/fs/eia/mcb.html",
+  applicationUrl: MCB_PROGRAM_URL,
+  officialInfoUrl: MCB_PROGRAM_URL,
   paymentFrequency: tri("Yearly", "每年", "每年"),
   tags: ["manitoba", "family", "children", "low-income"],
   relatedBenefits: ["ccb"],

@@ -63,6 +63,30 @@ export function atMost(
   };
 }
 
+/**
+ * Like `atMost`, but the ceiling is computed from the context.
+ *
+ * Many benefits scale their income cutoff with household or family size (the
+ * Manitoba Child Benefit publishes a different cutoff for 1-3, 4, 5, and 6
+ * children). A fixed ceiling forces one tier's number onto every applicant,
+ * which silently over- or under-promises for everyone else.
+ *
+ * Returns "unknown" when either the value or the ceiling is unavailable, so a
+ * missing answer asks a question rather than producing a wrong verdict.
+ */
+export function atMostOf(
+  get: (ctx: AssessmentContext) => number | undefined,
+  ceiling: (ctx: AssessmentContext) => number | undefined,
+): Predicate {
+  return (ctx) => {
+    const v = get(ctx);
+    const max = ceiling(ctx);
+    if (v === undefined || v === null || Number.isNaN(v)) return "unknown";
+    if (max === undefined || max === null || Number.isNaN(max)) return "unknown";
+    return v <= max ? "pass" : "fail";
+  };
+}
+
 export function inRange(
   get: (ctx: AssessmentContext) => number | undefined,
   min: number,

@@ -9,6 +9,8 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["src/**/*.test.ts"],
+    // The crawl automation writes to the live registry unattended, so its
+    // tests are part of the same gate, not a separate optional suite.
+    include: ["src/**/*.test.ts", "scripts/**/*.test.ts"],
   },
 });
