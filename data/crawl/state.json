@@ -1,20 +1,17 @@
 {
-  "lastRunAt": "2026-09-02T07:13:12.836Z",
+  "lastRunAt": "2026-09-02T12:54:37.818Z",
   "unconfirmed": {
     "dtc": 4,
     "cdb": 2,
     "rdsp": 4,
     "oas": 2,
-    "gis": 2,
     "oas-allowance": 1,
     "allowance-survivor": 1,
-    "ccb": 4,
     "ccc": 1,
     "eligible-dependant": 2,
     "cdcp": 2,
-    "cgeb": 6,
-    "cwb": 8,
-    "ei": 3,
+    "cgeb": 3,
+    "ei": 2,
     "fhsa": 1,
     "home-buyers-amount": 1,
     "canada-learning-bond": 2,
@@ -55,6 +52,6 @@
     "nl-income-supplement": 1
   },
   "figureSummary": {
-    "unchanged": 32
+    "unchanged": 54
   }
 }

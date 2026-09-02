@@ -50,6 +50,46 @@
     }
   },
   {
+    "benefitId": "gis",
+    "key": "incomeMaxSingle",
+    "label": "Income limit, single",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I am single, divorced, or widowed. Less than $22,800"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSpouseOnFullOas",
+    "label": "Combined income limit, spouse receives full OAS",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who receives the full OAS pension. Less than $30,096 (combined annual income of couple)"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSpouseOnAllowance",
+    "label": "Combined income limit, spouse receives the Allowance",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who receives the Allowance. Less than $42,144 (combined annual income of couple)"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSpouseWithoutOas",
+    "label": "Combined income limit, spouse does not receive OAS",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who does not receive OAS. Less than $54,624 (combined annual income of couple)"
+    }
+  },
+  {
     "benefitId": "cpp-retirement",
     "key": "maxMonthlyAt65",
     "label": "Maximum monthly pension at 65",
@@ -77,6 +117,186 @@
     "verdict": {
       "kind": "unchanged",
       "quote": "Spouse/common-law partner receives GIS and full OAS: up to $1,428.06/month"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "maxUnder6",
+    "label": "Maximum per year, child under 6",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "under 6 years of age: $8,157 per year"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "max6to17",
+    "label": "Maximum per year, child aged 6 to 17",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "6 to 17 years of age: $6,883 per year"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "reductionStartsAt",
+    "label": "AFNI below which the maximum is paid",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your AFNI is under $38,237, you get the maximum amount for each child"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "secondTierStartsAt",
+    "label": "AFNI where the second reduction tier begins",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Greater than $82,847 Your benefit is reduced by a fixed amount plus an additional percentage of your income greater than $82,847"
+    }
+  },
+  {
+    "benefitId": "cgeb",
+    "key": "maxSingle",
+    "label": "Maximum per year, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19"
+    }
+  },
+  {
+    "benefitId": "cgeb",
+    "key": "maxCouple",
+    "label": "Maximum per year, married or common-law",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19"
+    }
+  },
+  {
+    "benefitId": "cgeb",
+    "key": "perChild",
+    "label": "Maximum per year, per child under 19",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicMaxSingle",
+    "label": "Maximum basic amount, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum basic amount for the CWB for 2025 is: $1,633 for single individuals"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicMaxFamily",
+    "label": "Maximum basic amount, family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$2,813 for families"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "disabilitySupplement",
+    "label": "Maximum disability supplement",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum amount for the disability supplement is: $843 for single individuals"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicReductionSingle",
+    "label": "Income where the basic amount starts to be reduced, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The amount is gradually reduced if your adjusted net income is more than $26,855"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicReductionFamily",
+    "label": "Income where the basic amount starts to be reduced, family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The amount is gradually reduced if your adjusted family net income is more than $30,639"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicZeroSingle",
+    "label": "Income at which the basic amount reaches zero, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "No basic amount is paid if your adjusted net income is more than $37,742"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "disabilityReductionSingle",
+    "label": "Income where the disability supplement starts to be reduced, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The CWB disability supplement is gradually reduced if your adjusted net income is more than $37,740"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "disabilityReductionFamily",
+    "label": "Income where the disability supplement starts to be reduced, family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The CWB disability supplement is gradually reduced if your adjusted family net income is more than $49,389"
+    }
+  },
+  {
+    "benefitId": "ei",
+    "key": "maxWeekly",
+    "label": "Maximum weekly benefit",
+    "source": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "As of January 1, 2026, the maximum yearly insurable earnings amount is $68,900. This means that you can receive a maximum amount of $729 per week"
+    }
+  },
+  {
+    "benefitId": "ei",
+    "key": "maxInsurableEarnings",
+    "label": "Maximum yearly insurable earnings",
+    "source": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "the maximum yearly insurable earnings amount is $68,900"
+    }
+  },
+  {
+    "benefitId": "ei",
+    "key": "rate",
+    "label": "Benefit rate",
+    "source": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "to 55% of your earnings"
     }
   },
   {
