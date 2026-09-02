@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/i18n/LocaleProvider";
@@ -27,6 +27,13 @@ function AssessInner() {
 
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
+  const questionRef = useRef<HTMLDivElement>(null);
+
+  // Move focus to each new question so keyboard and screen-reader users
+  // track the step change. No-op on the intro/result screens (ref is null).
+  useEffect(() => {
+    questionRef.current?.focus();
+  }, [step]);
 
   const questions = useMemo(
     () =>
@@ -146,7 +153,11 @@ function AssessInner() {
     <div className="mx-auto max-w-2xl px-4 py-10">
       {/* Progress */}
       <div className="mb-8">
-        <div className="flex items-center justify-between text-sm text-muted">
+        <div
+          className="flex items-center justify-between text-sm text-muted"
+          role="status"
+          aria-live="polite"
+        >
           <span>
             {r(current.group)} · {t("assess.progress", { current: step + 1, total })}
           </span>
@@ -166,12 +177,14 @@ function AssessInner() {
         </div>
       </div>
 
-      <QuestionInput
-        question={current}
-        helping={helping}
-        value={value}
-        onChange={(v) => setAnswer(current.field, v)}
-      />
+      <div ref={questionRef} tabIndex={-1} className="outline-none">
+        <QuestionInput
+          question={current}
+          helping={helping}
+          value={value}
+          onChange={(v) => setAnswer(current.field, v)}
+        />
+      </div>
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
         <button

@@ -66,6 +66,12 @@ export default function ResultsPage() {
             {t("results.title")}
           </h1>
           <p className="mt-2 max-w-xl text-muted">{t("results.subtitle")}</p>
+          {eligible.length + possible.length + moreInfo.length > 0 && (
+            <p className="mt-1 text-sm font-medium text-brand">
+              {eligible.length + possible.length + moreInfo.length}{" "}
+              {t("browse.resultsCount")}
+            </p>
+          )}
         </div>
         <div className="no-print flex gap-2">
           <button
