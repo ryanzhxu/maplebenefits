@@ -369,6 +369,53 @@ describe("real scenario: Atlantic provinces", () => {
   });
 });
 
+describe("exact amount calculators", () => {
+  it("CCB: 2 kids (1 under 6), $42k income → accurate two-tier amount", () => {
+    const ctx: AssessmentContext = {
+      hasChildren: true,
+      numberOfChildren: 2,
+      childrenUnder6: 1,
+      familyIncome: 42000,
+    };
+    // max 8157 + 6883 = 15040; reduce 13.5% of (42000-38237)=508 → ~14532
+    const r = evaluate(getBenefit("ccb")!, ctx);
+    expect(r.estimate?.low).toBeGreaterThanOrEqual(14520);
+    expect(r.estimate?.low).toBeLessThanOrEqual(14540);
+  });
+
+  it("CCB: high income above tier-2 threshold reduces further", () => {
+    const low = evaluate(getBenefit("ccb")!, {
+      hasChildren: true,
+      numberOfChildren: 1,
+      childrenUnder6: 0,
+      familyIncome: 90000,
+    }).estimate?.low;
+    expect(low).toBeGreaterThan(0);
+    expect(low).toBeLessThan(6883);
+  });
+
+  it("GIS: single with $12k income → about $597/month", () => {
+    const r = evaluate(getBenefit("gis")!, {
+      age: 70,
+      maritalStatus: "single",
+      annualIncome: 12000,
+      familyIncome: 12000,
+    });
+    expect(r.estimate?.period).toBe("month");
+    expect(r.estimate?.low).toBeGreaterThanOrEqual(590);
+    expect(r.estimate?.low).toBeLessThanOrEqual(600);
+  });
+
+  it("GIS: very high income → $0", () => {
+    const r = evaluate(getBenefit("gis")!, {
+      age: 70,
+      maritalStatus: "single",
+      annualIncome: 40000,
+    });
+    expect(r.estimate?.low).toBe(0);
+  });
+});
+
 describe("assessAll ordering", () => {
   it("puts eligible results before ineligible and sorts by value", () => {
     const ctx: AssessmentContext = {

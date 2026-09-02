@@ -269,6 +269,24 @@ export const INTAKE: IntakeQuestion[] = [
     skipIf: (ctx) => ctx.hasChildren !== true,
   },
   {
+    field: "childrenUnder6",
+    group: G.family,
+    inputType: "number",
+    question: {
+      en: "How many of your children are under 6?",
+      "zh-Hant": "有多少名子女未滿 6 歲？",
+      "zh-Hans": "有多少名子女未满 6 岁？",
+    },
+    helpText: {
+      en: "Child benefits pay a higher rate for children under 6.",
+      "zh-Hant": "兒童福利對未滿 6 歲的子女發放較高金額。",
+      "zh-Hans": "儿童福利对未满 6 岁的子女发放较高金额。",
+    },
+    min: 0,
+    max: 20,
+    skipIf: (ctx) => ctx.hasChildren !== true,
+  },
+  {
     field: "youngestChildAge",
     group: G.family,
     inputType: "number",
@@ -281,6 +299,7 @@ export const INTAKE: IntakeQuestion[] = [
     min: 0,
     max: 17,
     skipIf: (ctx) => ctx.hasChildren !== true,
+    required: false,
   },
   {
     field: "employmentStatus",

@@ -2,31 +2,53 @@ import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { atMost, buildCheck, isFalse, isTrue, oneOf } from "@/lib/checks";
 
+// Canada Child Benefit — accurate 2026-27 two-tier calculation.
+// Max: $8,157/yr (<6), $6,883/yr (6-17). Reduction begins at $38,237 AFNI
+// (tier 1) and $81,222 (tier 2), with rates by number of children.
+const CCB_RATES: Record<number, [number, number]> = {
+  1: [0.07, 0.032],
+  2: [0.135, 0.057],
+  3: [0.19, 0.08],
+  4: [0.23, 0.095],
+};
+const CCB_T1 = 38237;
+const CCB_T2 = 81222;
+
 const ccbEstimate = (ctx: {
   hasChildren?: boolean;
   numberOfChildren?: number;
+  childrenUnder6?: number;
   youngestChildAge?: number;
   familyIncome?: number;
 }): AmountEstimate | undefined => {
   if (ctx.hasChildren !== true) return undefined;
-  const n = ctx.numberOfChildren ?? 1;
-  const perChild = (ctx.youngestChildAge ?? 8) < 6 ? 8157 : 6883;
-  const max = perChild * n;
+  const n = Math.max(1, ctx.numberOfChildren ?? 1);
+  const under6 = Math.min(
+    n,
+    ctx.childrenUnder6 ??
+      (ctx.youngestChildAge !== undefined && ctx.youngestChildAge < 6 ? 1 : 0),
+  );
+  const over6 = n - under6;
+  const maxAmt = 8157 * under6 + 6883 * over6;
   const income = ctx.familyIncome;
-  if (income === undefined) {
-    return { low: 0, high: max, period: "year" };
+  if (income === undefined) return { low: 0, high: maxAmt, period: "year" };
+
+  const [r1, r2] = CCB_RATES[Math.min(n, 4)];
+  let reduction = 0;
+  if (income > CCB_T1 && income <= CCB_T2) {
+    reduction = r1 * (income - CCB_T1);
+  } else if (income > CCB_T2) {
+    reduction = r1 * (CCB_T2 - CCB_T1) + r2 * (income - CCB_T2);
   }
-  const over = Math.max(0, income - 38237);
-  const rate = n === 1 ? 0.07 : n === 2 ? 0.135 : n === 3 ? 0.19 : 0.23;
-  const amount = Math.max(0, Math.round(max - over * rate));
+  const amount = Math.max(0, Math.round(maxAmt - reduction));
   return {
     low: amount,
     high: amount,
     period: "year",
     note: tri(
-      "Rough estimate. The exact amount depends on your family net income and each child's age.",
-      "粗略估算。實際金額視乎家庭淨收入及每名子女年齡。",
-      "粗略估算。实际金额视乎家庭净收入及每名子女年龄。",
+      "Calculated from your family income and how many children are under 6.",
+      "根據你的家庭收入及未滿 6 歲子女人數計算。",
+      "根据你的家庭收入及未满 6 岁子女人数计算。",
     ),
   };
 };
@@ -47,7 +69,7 @@ export const ccb: Benefit = {
     "每名 6 歲以下子女最多每年 $8,157，6-17 歲每年 $6,883",
     "每名 6 岁以下子女最多每年 $8,157，6-17 岁每年 $6,883",
   ),
-  contextFields: ["hasChildren", "numberOfChildren", "youngestChildAge", "familyIncome", "filedTaxes"],
+  contextFields: ["hasChildren", "numberOfChildren", "childrenUnder6", "youngestChildAge", "familyIncome", "filedTaxes"],
   check: buildCheck([
     {
       test: isTrue((c) => c.hasChildren),

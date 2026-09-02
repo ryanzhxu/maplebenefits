@@ -152,6 +152,7 @@ export interface AssessmentContext {
     | "widowed";
   hasChildren?: boolean;
   numberOfChildren?: number;
+  childrenUnder6?: number;
   youngestChildAge?: number;
   employmentStatus?:
     | "employed"

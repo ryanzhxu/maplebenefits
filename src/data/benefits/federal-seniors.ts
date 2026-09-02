@@ -161,7 +161,26 @@ export const gis: Benefit = {
       missingField: "filedTaxes",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1108, period: "month" }),
+  estimateAmount: (ctx) => {
+    // GIS is reduced by other income: ~$1 for every $2 (single) or $4 (couple).
+    const couple =
+      ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+    const maxG = couple ? 660 : 1097; // monthly max, single vs each of a couple
+    const income = couple ? ctx.familyIncome : ctx.annualIncome;
+    if (income === undefined) return { low: 0, high: maxG, period: "month" };
+    const divisor = couple ? 48 : 24;
+    const monthly = Math.max(0, Math.round(maxG - income / divisor));
+    return {
+      low: monthly,
+      high: monthly,
+      period: "month",
+      note: tri(
+        "Estimated from your income. GIS drops as other income rises.",
+        "根據你的收入估算。其他收入增加，GIS 會減少。",
+        "根据你的收入估算。其他收入增加，GIS 会减少。",
+      ),
+    };
+  },
   applicationSteps: [
     {
       order: 1,
