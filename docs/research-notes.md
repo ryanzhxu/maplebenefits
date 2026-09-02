@@ -160,3 +160,16 @@ carries `lastUpdated: "2026-09-01"` and its official source URL.
 - **SIS** — single basic $365/mo (2025) + shelter; last resort.  https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis
 - **SLITC** — $429 adult + $429 spouse + $169/child (max 2) = up to $1,196/family; reduce above $38,588 (to $80,058); auto with GST credit.
 - **Seniors Income Plan (SIP)** — single OAS/GIS recipient up to $360/mo ($4,560/yr).  https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan
+
+### PEI (new) — verified 2026-09-01
+- **PEI Sales Tax Credit** — up to $310 individual / $365 couple or single parent; auto via CRA. (Becomes PEI Essentials Benefit, min $175, Nov 2026.)
+- **PEI Child Benefit** — new 2025; $34.16/mo/child (<$45k), $24.16/mo ($45-80k); with CCB.
+- **PEI Social Assistance** — basic needs + shelter; last resort.  https://www.princeedwardisland.ca/en/information/social-development-and-seniors/social-assistance-program
+- **AccessAbility Supports** — assured income + disability supports.  https://www.princeedwardisland.ca/en/information/social-development-and-seniors/accessability-supports
+
+### Newfoundland & Labrador (new) — verified 2026-09-01
+- **NL Child Benefit** — ~$1,868/yr first child (more for additional; +Mother Baby Nutrition Supp); AFNI < $28,990; +300% in 2025.
+- **NL Income Support** — $561/mo per adult (Sept 2025); + health.  https://www.gov.nl.ca/sswb/
+- **NL Disability Benefit** — new Jul 2025; $400/mo; needs DTC; full income < $29,402; stacks with federal CDB ($200) = up to $600/mo.  https://www.gov.nl.ca/sswb/newfoundland-and-labrador-disability-benefit/
+- **NL Seniors' Benefit** — up to $1,551/yr; family income ≤ $30,078; auto via tax return.  https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/
+- **NL Income Supplement** — $520 single / $589 couple + $231/child; auto with GST credit.

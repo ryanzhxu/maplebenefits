@@ -319,6 +319,56 @@ describe("real scenario: Manitoba senior renter & Saskatchewan disability", () =
   });
 });
 
+describe("real scenario: Atlantic provinces", () => {
+  it("Newfoundland low-income family: CCB + NL Child Benefit", () => {
+    const nl: AssessmentContext = {
+      age: 30,
+      province: "NL",
+      hasChildren: true,
+      numberOfChildren: 1,
+      youngestChildAge: 2,
+      annualIncome: 12000,
+      familyIncome: 20000,
+      isHomeowner: false,
+      filedTaxes: true,
+    };
+    expect(statusFor("ccb", nl)).toBe("eligible");
+    expect(statusFor("nl-child-benefit", nl)).toBe("eligible");
+  });
+
+  it("Nova Scotia senior: OAS/GIS, not other provinces' benefits", () => {
+    const ns: AssessmentContext = {
+      age: 72,
+      province: "NS",
+      maritalStatus: "single",
+      hasChildren: false,
+      annualIncome: 16000,
+      familyIncome: 16000,
+      isHomeowner: false,
+      filedTaxes: true,
+    };
+    expect(statusFor("oas", ns)).toBe("eligible");
+    expect(statusFor("gis", ns)).toBe("eligible");
+    expect(statusFor("ontario-trillium", ns)).toBe("ineligible");
+    expect(statusFor("sip", ns)).toBe("ineligible");
+  });
+
+  it("PEI family: PEI Child Benefit + Sales Tax Credit", () => {
+    const pe: AssessmentContext = {
+      age: 34,
+      province: "PE",
+      maritalStatus: "married",
+      hasChildren: true,
+      numberOfChildren: 2,
+      annualIncome: 20000,
+      familyIncome: 40000,
+      filedTaxes: true,
+    };
+    expect(statusFor("pei-child-benefit", pe)).toBe("eligible");
+    expect(statusFor("pei-sales-tax-credit", pe)).toBe("eligible");
+  });
+});
+
 describe("assessAll ordering", () => {
   it("puts eligible results before ineligible and sorts by value", () => {
     const ctx: AssessmentContext = {

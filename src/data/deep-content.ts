@@ -1280,4 +1280,264 @@ export const DEEP: Record<string, DeepContent> = {
       ),
     ],
   },
+
+  "ns-child-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be a Nova Scotia resident receiving the Canada Child Benefit, with family income under $34,000 (full benefit under $26,000).",
+        "你須為領取加拿大兒童福利的新斯科舍居民，家庭收入低於 $34,000（$26,000 以下獲全額）。",
+        "你须为领取加拿大儿童福利的新斯科舍居民，家庭收入低于 $34,000（$26,000 以下获全额）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is paid automatically with the Canada Child Benefit — just keep filing your taxes.",
+        "它與加拿大兒童福利一併自動發放 — 只需持續報稅。",
+        "它与加拿大儿童福利一并自动发放 — 只需持续报税。",
+      ),
+    ],
+  },
+  "ns-affordable-living": {
+    eligibilityDetails: [
+      tri(
+        "Any Nova Scotia resident who files taxes with a modest income qualifies; the credit reduces above $30,000 of family income.",
+        "任何報稅且收入不高的新斯科舍居民即合資格；家庭收入超過 $30,000 後遞減。",
+        "任何报税且收入不高的新斯科舍居民即合资格；家庭收入超过 $30,000 后递减。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "No application — it is paid with the federal GST/HST credit.",
+        "無需申請 — 與聯邦 GST/HST 抵免一併發放。",
+        "无需申请 — 与联邦 GST/HST 抵免一并发放。",
+      ),
+    ],
+  },
+  "ns-income-assistance": {
+    eligibilityDetails: [
+      tri(
+        "You must be a Nova Scotia resident in financial need. A disability supplement is available for people with a disability.",
+        "你須為有經濟需要的新斯科舍居民。殘障人士可獲殘障補助。",
+        "你须为有经济需要的新斯科舍居民。残障人士可获残障补助。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It includes a Pharmacare card and other health benefits.",
+        "它包括藥物保障卡及其他健康福利。",
+        "它包括药物保障卡及其他健康福利。",
+      ),
+    ],
+  },
+  "ns-disability-support": {
+    eligibilityDetails: [
+      tri(
+        "For Nova Scotians with a disability who need support with daily living, housing, or community participation.",
+        "適用於在日常生活、住屋或社區參與上需要支援的新斯科舍殘障人士。",
+        "适用于在日常生活、住房或社区参与上需要支援的新斯科舍残障人士。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It offers several residential and community options, not only income support.",
+        "它提供多種居住及社區選項，不只是收入支援。",
+        "它提供多种居住及社区选项，不只是收入支援。",
+      ),
+    ],
+  },
+
+  "nb-seniors-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you were a New Brunswick resident on Dec 31 and receive the federal GIS, Allowance, or Allowance for the Survivor.",
+        "如你在 12 月 31 日為新不倫瑞克居民並領取聯邦 GIS、津貼或遺屬津貼即合資格。",
+        "如你在 12 月 31 日为新不伦瑞克居民并领取联邦 GIS、津贴或遗属津贴即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "You must reapply each year during the application period.",
+        "你每年須在申請期內重新申請。",
+        "你每年须在申请期内重新申请。",
+      ),
+    ],
+  },
+  "nb-social-assistance": {
+    eligibilityDetails: [
+      tri(
+        "The Transitional Assistance Program is for general need; the Extended Benefits Program is for people with a long-term disability.",
+        "過渡援助計劃適用於一般需要；延伸福利計劃適用於長期殘障人士。",
+        "过渡援助计划适用于一般需要；延伸福利计划适用于长期残障人士。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It includes a health card and prescription drug coverage.",
+        "它包括健康卡及處方藥保障。",
+        "它包括健康卡及处方药保障。",
+      ),
+    ],
+  },
+  "nb-child-tax-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be a New Brunswick resident receiving the Canada Child Benefit, with a low family income.",
+        "你須為領取加拿大兒童福利、家庭收入低的新不倫瑞克居民。",
+        "你须为领取加拿大儿童福利、家庭收入低的新不伦瑞克居民。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is paid automatically with the Canada Child Benefit.",
+        "它與加拿大兒童福利一併自動發放。",
+        "它与加拿大儿童福利一并自动发放。",
+      ),
+    ],
+  },
+
+  "pei-sales-tax-credit": {
+    eligibilityDetails: [
+      tri(
+        "Any Island resident who files taxes with a low or modest income qualifies.",
+        "任何報稅且收入低或中等的愛德華王子島居民即合資格。",
+        "任何报税且收入低或中等的爱德华王子岛居民即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "No application — it is paid with the federal GST/HST credit. It becomes the PEI Essentials Benefit in late 2026.",
+        "無需申請 — 與聯邦 GST/HST 抵免一併發放。2026 年底改為愛德華王子島必需品福利。",
+        "无需申请 — 与联邦 GST/HST 抵免一并发放。2026 年底改为爱德华王子岛必需品福利。",
+      ),
+    ],
+  },
+  "pei-child-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be a PEI resident receiving the Canada Child Benefit, with family income of $80,000 or less.",
+        "你須為領取加拿大兒童福利、家庭收入 $80,000 或以下的愛德華王子島居民。",
+        "你须为领取加拿大儿童福利、家庭收入 $80,000 或以下的爱德华王子岛居民。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "This benefit began in 2025 and is paid automatically with the Canada Child Benefit.",
+        "此福利於 2025 年開始，與加拿大兒童福利一併自動發放。",
+        "此福利于 2025 年开始，与加拿大儿童福利一并自动发放。",
+      ),
+    ],
+  },
+  "pei-social-assistance": {
+    eligibilityDetails: [
+      tri(
+        "For Islanders without enough income or assets to meet basic needs.",
+        "適用於收入或資產不足以應付基本需要的愛德華王子島居民。",
+        "适用于收入或资产不足以应付基本需要的爱德华王子岛居民。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It includes health benefits and help returning to work.",
+        "它包括健康福利及重投工作的協助。",
+        "它包括健康福利及重投工作的帮助。",
+      ),
+    ],
+  },
+  "pei-accessability": {
+    eligibilityDetails: [
+      tri(
+        "For Islanders with a disability who need an assured income or disability-related supports.",
+        "適用於需要保障收入或殘障相關支援的愛德華王子島殘障人士。",
+        "适用于需要保障收入或残障相关支援的爱德华王子岛残障人士。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Supports are tailored through an assessment of your needs.",
+        "支援會透過需要評估度身訂造。",
+        "支援会通过需要评估度身订造。",
+      ),
+    ],
+  },
+
+  "nl-child-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be a NL resident receiving the Canada Child Benefit, with family income under about $28,990.",
+        "你須為領取加拿大兒童福利、家庭收入約 $28,990 以下的紐芬蘭與拉布拉多居民。",
+        "你须为领取加拿大儿童福利、家庭收入约 $28,990 以下的纽芬兰与拉布拉多居民。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Amounts rose sharply in 2025 and include a Mother Baby Nutrition Supplement for young children.",
+        "金額於 2025 年大幅上升，並包括為幼兒而設的母嬰營養補助。",
+        "金额于 2025 年大幅上升，并包括为幼儿而设的母婴营养补助。",
+      ),
+    ],
+  },
+  "nl-income-support": {
+    eligibilityDetails: [
+      tri(
+        "For NL residents without enough income or assets to meet basic needs; each adult receives an individual benefit amount.",
+        "適用於收入或資產不足以應付基本需要的紐芬蘭與拉布拉多居民；每名成人獲個人福利金額。",
+        "适用于收入或资产不足以应付基本需要的纽芬兰与拉布拉多居民；每名成人获个人福利金额。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It includes drug coverage and other health benefits.",
+        "它包括藥物保障及其他健康福利。",
+        "它包括药物保障及其他健康福利。",
+      ),
+    ],
+  },
+  "nl-disability-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be approved for the federal Disability Tax Credit and have a lower income. It started in July 2025.",
+        "你須已獲批聯邦殘疾稅務抵免且收入較低。2025 年 7 月起實施。",
+        "你须已获批联邦残疾税务抵免且收入较低。2025 年 7 月起实施。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It stacks with the federal Canada Disability Benefit — together up to $600/month.",
+        "它可與聯邦加拿大殘障福利疊加 — 合共最多每月 $600。",
+        "它可与联邦加拿大残障福利叠加 — 合共最多每月 $600。",
+      ),
+    ],
+  },
+  "nl-seniors-benefit": {
+    eligibilityDetails: [
+      tri(
+        "For NL seniors (65+) with family income under about $30,078 for the full amount.",
+        "適用於家庭收入約 $30,078 以下、可獲全額的紐芬蘭與拉布拉多長者（65 歲以上）。",
+        "适用于家庭收入约 $30,078 以下、可获全额的纽芬兰与拉布拉多长者（65 岁以上）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "No application — it is paid automatically from your tax return.",
+        "無需申請 — 按你的報稅表自動發放。",
+        "无需申请 — 按你的报税表自动发放。",
+      ),
+    ],
+  },
+  "nl-income-supplement": {
+    eligibilityDetails: [
+      tri(
+        "For low-income NL individuals, seniors, and families who file taxes.",
+        "適用於報稅的紐芬蘭與拉布拉多低收入個人、長者及家庭。",
+        "适用于报税的纽芬兰与拉布拉多低收入个人、长者及家庭。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "No application — it is paid with the federal GST/HST credit each quarter.",
+        "無需申請 — 每季與聯邦 GST/HST 抵免一併發放。",
+        "无需申请 — 每季与联邦 GST/HST 抵免一并发放。",
+      ),
+    ],
+  },
 };
