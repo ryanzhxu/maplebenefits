@@ -152,6 +152,119 @@ export const cgeb: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Canada Workers Benefit -- 2025 amounts from the CRA's "How much you can get".
+// Source (fetched 2026-09-02): line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html
+//
+// Every figure here was already CORRECT. The problem was that the benefit
+// cited only the CWB landing page, which states no amounts, so nine values sat
+// unverifiable -- right today, and with nothing to notice when they index.
+// Anchoring them is the point: correctness that cannot be re-checked is
+// temporary.
+const CWB_URL =
+  "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html";
+
+const CWB = figures({
+  basicMaxSingle: {
+    current: {
+      value: 1633,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote: "The maximum basic amount for the CWB for 2025 is: $1,633 for single individuals",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum basic amount, single",
+  },
+  basicMaxFamily: {
+    current: {
+      value: 2813,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote: "$2,813 for families",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum basic amount, family",
+  },
+  disabilitySupplement: {
+    current: {
+      value: 843,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote: "The maximum amount for the disability supplement is: $843 for single individuals",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum disability supplement",
+  },
+  basicReductionSingle: {
+    current: {
+      value: 26855,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote: "The amount is gradually reduced if your adjusted net income is more than $26,855",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the basic amount starts to be reduced, single",
+  },
+  basicReductionFamily: {
+    current: {
+      value: 30639,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote:
+        "The amount is gradually reduced if your adjusted family net income is more than $30,639",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the basic amount starts to be reduced, family",
+  },
+  basicZeroSingle: {
+    current: {
+      value: 37742,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote: "No basic amount is paid if your adjusted net income is more than $37,742",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income at which the basic amount reaches zero, single",
+  },
+  disabilityReductionSingle: {
+    current: {
+      value: 37740,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote:
+        "The CWB disability supplement is gradually reduced if your adjusted net income is more than $37,740",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the disability supplement starts to be reduced, single",
+  },
+  disabilityReductionFamily: {
+    current: {
+      value: 49389,
+      from: "2025-01-01",
+      source: CWB_URL,
+      quote:
+        "The CWB disability supplement is gradually reduced if your adjusted family net income is more than $49,389",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the disability supplement starts to be reduced, family",
+  },
+});
+
 export const cwb: Benefit = {
   id: "cwb",
   name: tri("Canada Workers Benefit", "加拿大工作福利", "加拿大工作福利"),
@@ -164,10 +277,11 @@ export const cwb: Benefit = {
     "为在职但收入偏低人士补贴收入的可退还税务抵免。残障工作者可获额外款项。",
   ),
   estimatedValue: tri(
-    "Up to $1,633/year single or $2,813/year family, plus $843 disability supplement",
-    "單身最多每年 $1,633、家庭 $2,813，另殘障補助 $843",
-    "单身最多每年 $1,633、家庭 $2,813，另残障补助 $843",
+    `Up to ${fmt(CWB.basicMaxSingle)}/year single or ${fmt(CWB.basicMaxFamily)}/year family, plus ${fmt(CWB.disabilitySupplement)} disability supplement`,
+    `單身最多每年 ${fmt(CWB.basicMaxSingle)}、家庭 ${fmt(CWB.basicMaxFamily)}，另殘障補助 ${fmt(CWB.disabilitySupplement)}`,
+    `单身最多每年 ${fmt(CWB.basicMaxSingle)}、家庭 ${fmt(CWB.basicMaxFamily)}，另残障补助 ${fmt(CWB.disabilitySupplement)}`,
   ),
+  figures: CWB,
   contextFields: ["employmentStatus", "annualIncome", "familyIncome", "maritalStatus", "hasChildren", "hasDisability", "age"],
   check: buildCheck([
     {
@@ -197,7 +311,7 @@ export const cwb: Benefit = {
       missingField: "employmentStatus",
     },
     {
-      test: atMost((c) => c.annualIncome, 37742),
+      test: atMost((c) => c.annualIncome, val(CWB.basicZeroSingle)),
       hard: false,
       passReason: tri(
         "Your income is in the range that receives the benefit.",
@@ -212,20 +326,24 @@ export const cwb: Benefit = {
       ctx.maritalStatus === "married" ||
       ctx.maritalStatus === "common-law" ||
       ctx.hasChildren === true;
-    const maxBasic = family ? 2813 : 1633;
-    const maxDisab = ctx.hasDisability ? 843 : 0;
+    const maxBasic = family ? val(CWB.basicMaxFamily) : val(CWB.basicMaxSingle);
+    const maxDisab = ctx.hasDisability ? val(CWB.disabilitySupplement) : 0;
     const income = family ? ctx.familyIncome : ctx.annualIncome;
     if (income === undefined) {
       return { low: 0, high: maxBasic + maxDisab, period: "year" };
     }
     // Basic amount phases out at 15% above the threshold.
-    const basicThreshold = family ? 30639 : 26855;
+    const basicThreshold = family
+      ? val(CWB.basicReductionFamily)
+      : val(CWB.basicReductionSingle);
     const basic = Math.max(
       0,
       maxBasic - Math.max(0, income - basicThreshold) * 0.15,
     );
     // Disability supplement phases out at 15% above its own threshold.
-    const disThreshold = family ? 49389 : 37740;
+    const disThreshold = family
+      ? val(CWB.disabilityReductionFamily)
+      : val(CWB.disabilityReductionSingle);
     const disability =
       maxDisab > 0
         ? Math.max(0, maxDisab - Math.max(0, income - disThreshold) * 0.15)

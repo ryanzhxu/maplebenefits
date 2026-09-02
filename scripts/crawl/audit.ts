@@ -135,6 +135,18 @@ export function stripFigureBlocks(source: string): string {
   }
 }
 
+/**
+ * Drop URLs before auditing.
+ *
+ * Government URLs embed numbers that are not amounts. The Canada Workers
+ * Benefit lives at ".../line-45300-canada-workers-benefit-cwb.html", so 45300
+ * -- a tax line number -- was being audited as one of its dollar figures and
+ * reported as unconfirmed forever.
+ */
+export function stripUrls(source: string): string {
+  return source.replace(/https?:\/\/[^\s"'`)]+/g, " ");
+}
+
 /** Drop line and block comments so prose about a figure is not audited as one. */
 export function stripComments(source: string): string {
   return source.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
@@ -151,7 +163,7 @@ export function extractFigures(source: string): { value: number; where: "copy" |
   const found = new Map<number, "copy" | "code">();
   // Comments explain a figure; they are not shown to anyone. Auditing them
   // flags every number a maintainer mentioned in passing.
-  const code = stripFigureBlocks(stripComments(source));
+  const code = stripFigureBlocks(stripUrls(stripComments(source)));
 
   for (const m of code.matchAll(/\$\s?([\d,]+(?:\.\d{1,2})?)/g)) {
     const value = Number(m[1].replace(/,/g, ""));

@@ -302,15 +302,9 @@
         "where": "code",
         "found": true,
         "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/lines-33099-33199-eligible-medical-expenses-you-claim-on-your-tax-return.html"
-      },
-      {
-        "value": 33199,
-        "where": "code",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/lines-33099-33199-eligible-medical-expenses-you-claim-on-your-tax-return.html"
       }
     ],
-    "confirmed": 3,
+    "confirmed": 2,
     "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
@@ -377,24 +371,28 @@
     "benefitId": "cgeb",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/goods-services-tax-harmonized-sales-tax-gst-hst-credit.html"
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/goods-services-tax-harmonized-sales-tax-gst-hst-credit.html",
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
-        "value": 533,
+        "value": 679,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html"
       },
       {
-        "value": 698,
+        "value": 890,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html"
       },
       {
-        "value": 184,
+        "value": 234,
         "where": "copy",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html"
       },
       {
         "value": 56000,
@@ -412,87 +410,43 @@
         "found": false
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 6,
-    "citesPageWithoutAmounts": true
+    "confirmed": 3,
+    "unconfirmed": 3,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "cwb",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb.html",
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 1633,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 2813,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 843,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 37742,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 30639,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 26855,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 49389,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 37740,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 45300,
-        "where": "code",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb.html"
-      }
-    ],
-    "confirmed": 1,
-    "unconfirmed": 8,
-    "citesPageWithoutAmounts": true
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ei",
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit.html",
-      "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/apply.html"
+      "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/apply.html",
+      "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
-        "value": 729,
-        "where": "copy",
-        "found": false
-      },
-      {
         "value": 700,
         "where": "code",
-        "found": false
+        "found": false,
+        "drift": {
+          "pageValue": 729,
+          "relative": 0.041428571428571426,
+          "sentence": "amount is $68900. This means that you can receive a maximum amount of $729 per week. Insurable earnings include most of the different types",
+          "url": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html"
+        }
       },
       {
         "value": 3157,
@@ -501,8 +455,8 @@
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 3,
-    "citesPageWithoutAmounts": true
+    "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "fhsa",
@@ -565,15 +519,8 @@
       "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 45355,
-        "where": "code",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html"
-      }
-    ],
-    "confirmed": 1,
+    "figures": [],
+    "confirmed": 0,
     "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
@@ -637,15 +584,9 @@
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html"
-      },
-      {
-        "value": 45350,
-        "where": "code",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45350-canada-training-credit.html"
       }
     ],
-    "confirmed": 2,
+    "confirmed": 1,
     "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },

@@ -10,17 +10,17 @@ audit: checking 73 benefits against their cited sources
   [  9/73] UNCONFIRMED allowance-survivor  1 confirmed, 1 not: 28944
   [ 10/73] ok         ccb  2 confirmed, 0 not
   [ 11/73] UNCONFIRMED ccc  3 confirmed, 1 not: 1700
-  [ 12/73] ok         medical-expense  3 confirmed, 0 not
+  [ 12/73] ok         medical-expense  2 confirmed, 0 not
   [ 13/73] UNCONFIRMED eligible-dependant  1 confirmed, 2 not: 3200, 16129
   [ 14/73] UNCONFIRMED cdcp  0 confirmed, 2 not: 90000, 89999
-  [ 15/73] UNCONFIRMED cgeb  0 confirmed, 6 not: 533, 698, 184, 56000, 45521, 65000
-  [ 16/73] UNCONFIRMED cwb  1 confirmed, 8 not: 1633, 2813, 843, 37742, 30639, 26855, 49389, 37740
-  [ 17/73] UNCONFIRMED ei  0 confirmed, 3 not: 729, 700, 3157
+  [ 15/73] UNCONFIRMED cgeb  3 confirmed, 3 not: 56000, 45521, 65000
+  [ 16/73] ok         cwb  0 confirmed, 0 not
+  [ 17/73] UNCONFIRMED ei  0 confirmed, 2 not: 700, 3157
   [ 18/73] UNCONFIRMED fhsa  1 confirmed, 1 not: 40000
   [ 19/73] UNCONFIRMED home-buyers-amount  2 confirmed, 1 not: 1500
-  [ 20/73] ok         multigen-reno  1 confirmed, 0 not
+  [ 20/73] ok         multigen-reno  0 confirmed, 0 not
   [ 21/73] UNCONFIRMED canada-learning-bond  4 confirmed, 2 not: 57000, 57375
-  [ 22/73] ok         canada-training-credit  2 confirmed, 0 not
+  [ 22/73] ok         canada-training-credit  1 confirmed, 0 not
   [ 23/73] UNCONFIRMED pwd  0 confirmed, 2 not: 1483.5, 1483
   [ 24/73] UNCONFIRMED bc-income-assistance  1 confirmed, 1 not: 12000
   [ 25/73] UNCONFIRMED bc-bus-pass  0 confirmed, 2 not: 45, 24000
@@ -73,5 +73,5 @@ audit: checking 73 benefits against their cited sources
   [ 72/73] ok         nl-seniors-benefit  2 confirmed, 0 not
   [ 73/73] UNCONFIRMED nl-income-supplement  3 confirmed, 1 not: 589
 
-audit complete: 23 fully confirmed, 50 with unconfirmed figures, 0 with fetch problems
+audit complete: 24 fully confirmed, 49 with unconfirmed figures, 0 with fetch problems
 report: /Users/ryan.xu/Developer/canadian-benefits/data/crawl/audit.json
