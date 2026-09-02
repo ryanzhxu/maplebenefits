@@ -4,9 +4,10 @@ import Link from "next/link";
 import type { Benefit } from "@/types/benefit";
 import { useI18n } from "@/i18n/LocaleProvider";
 import { CategoryBadge, LevelBadge } from "./Badges";
+import { stripLevelPrefix } from "@/lib/format";
 
 export function BenefitCard({ benefit }: { benefit: Benefit }) {
-  const { t, r } = useI18n();
+  const { t, r, locale } = useI18n();
   return (
     <Link
       href={`/benefits/${benefit.id}`}
@@ -22,7 +23,7 @@ export function BenefitCard({ benefit }: { benefit: Benefit }) {
         )}
       </div>
       <h3 className="text-lg font-semibold text-ink group-hover:text-brand">
-        {r(benefit.name)}
+        {stripLevelPrefix(r(benefit.name), benefit.level, locale)}
       </h3>
       <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-muted">
         {r(benefit.description)}

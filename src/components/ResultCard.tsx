@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { Benefit, EvalResult } from "@/types/benefit";
 import { useI18n } from "@/i18n/LocaleProvider";
 import { getBenefits } from "@/data/benefits";
-import { formatEstimate } from "@/lib/format";
+import { formatEstimate, stripLevelPrefix } from "@/lib/format";
 import { StatusBadge, ConfidenceBadge, LevelBadge } from "@/components/Badges";
 import { INTAKE } from "@/data/intake";
 
@@ -30,7 +30,9 @@ export function ResultCard({
             <LevelBadge level={benefit.level} />
             <ConfidenceBadge confidence={result.confidence} />
           </div>
-          <h3 className="text-lg font-semibold text-ink">{r(benefit.name)}</h3>
+          <h3 className="text-lg font-semibold text-ink">
+            {stripLevelPrefix(r(benefit.name), benefit.level, locale)}
+          </h3>
         </div>
         <StatusBadge status={result.status} />
       </div>

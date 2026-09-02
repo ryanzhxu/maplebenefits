@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useI18n } from "@/i18n/LocaleProvider";
+import { stripLevelPrefix } from "@/lib/format";
 import { getBenefit, getBenefits } from "@/data/benefits";
 import { DEEP } from "@/data/deep-content";
 import {
@@ -12,7 +13,7 @@ import {
 } from "@/components/Badges";
 
 export function BenefitDetail({ id }: { id: string }) {
-  const { t, r } = useI18n();
+  const { t, r, locale } = useI18n();
   const benefit = getBenefit(id);
   if (!benefit) return null;
 
@@ -39,7 +40,7 @@ export function BenefitDetail({ id }: { id: string }) {
       </div>
 
       <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink">
-        {r(benefit.name)}
+        {stripLevelPrefix(r(benefit.name), benefit.level, locale)}
       </h1>
       <p className="mt-3 text-lg leading-relaxed text-muted">
         {r(benefit.description)}
