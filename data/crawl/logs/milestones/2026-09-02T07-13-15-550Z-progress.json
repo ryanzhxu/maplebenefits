@@ -1,0 +1,7 @@
+{
+  "kind": "progress",
+  "title": "6 benefit(s) changed provenance status",
+  "body": "Figures these benefits show are not stated on the source they cite:\n\n  gis: 2 unconfirmed\n  oas-allowance: 1 unconfirmed\n  ontario-trillium: 3 unconfirmed\n  said: 4 unconfirmed\n  slitc: 1 unconfirmed\n  nb-seniors-benefit: 1 unconfirmed\n\nFull report: data/crawl/audit.json",
+  "at": "2026-09-02T07:13:15.550Z",
+  "to": "ryan.xu282@gmail.com"
+}
