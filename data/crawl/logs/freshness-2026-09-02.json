@@ -1,0 +1,62 @@
+[
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "perChild",
+    "label": "Maximum per child per year",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Low-income families may be eligible for up to $420 tax free each year for every child."
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "fullBenefitIncome",
+    "label": "Income at or below which the full benefit is paid",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "earning $15,000 or less, this totals $1,260"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff1to3",
+    "label": "Partial-benefit income ceiling, 1-3 children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "1 $420 $15,000 $15,001 to $20,435"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff4",
+    "label": "Partial-benefit income ceiling, 4 children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "4 $1,680 $15,000 $15,001 to $22,242"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff5",
+    "label": "Partial-benefit income ceiling, 5 children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "5 $2,100 $15,000 $15,001 to $24,052"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff6",
+    "label": "Partial-benefit income ceiling, 6 or more children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "6 $2,520 $15,000 $15,001 to $25,864"
+    }
+  }
+]
