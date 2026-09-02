@@ -141,12 +141,30 @@ is $53,800 against the $33,410 the app was using for everyone.
 Use `atMostOf` from `src/lib/checks.ts` — a ceiling computed from context —
 rather than picking one tier.
 
+## Three reasons a figure stays unconfirmed
+
+Not every unconfirmed figure is a bug. Before changing one, work out which of
+these it is:
+
+1. **Stale** — the page states a different number. A real defect. Most of the
+   ones fixed on 2026-09-02 were this.
+2. **Uncheckable** — the benefit cites a page that states no amounts at all.
+   Reported as `citesPageWithoutAmounts`. Worse than stale, because nothing
+   could ever catch it. CCB, EI, CGEB and CWB were all in this state; the fix
+   is to cite the page that states the number.
+3. **Derived** — the value is computed, so no page states it. The DTC's
+   "$1,900/year combined" is federal (~$1,448) plus BC (~$491). Legitimately
+   unconfirmable as one number. There is no way yet to mark these, so they
+   stay in the unconfirmed count; a `derived` flag naming the input figures
+   would fix that.
+
 ## Status (2026-09-02)
 
-- 21 of 73 benefits fully confirmed by their own sources
-- 36 sourced figures across 13 benefits, all verifying live
+- 24 of 73 benefits fully confirmed by their own sources, up from 11
+- 54 sourced figures across 17 benefits, all verifying live
 - 0 broken official links (7 fixed)
-- 52 benefits still carry at least one figure their source does not state
+- 49 benefits still carry at least one figure their source does not state,
+  a mix of all three categories above
 
 ## Scope
 
