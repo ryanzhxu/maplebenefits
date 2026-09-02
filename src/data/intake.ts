@@ -106,9 +106,9 @@ export const INTAKE: IntakeQuestion[] = [
       "zh-Hans": "你居住在哪个省或地区？",
     },
     helpText: {
-      en: "This version covers federal benefits, British Columbia, Ontario, and Alberta. More provinces are coming.",
-      "zh-Hant": "此版本涵蓋聯邦福利、卑詩省、安大略省及亞伯達省。將會加入更多省份。",
-      "zh-Hans": "此版本涵盖联邦福利、不列颠哥伦比亚省、安大略省及阿尔伯塔省。将会加入更多省份。",
+      en: "Federal benefits apply everywhere in Canada. We also cover several provinces — choose yours. More are coming.",
+      "zh-Hant": "聯邦福利適用於全加拿大。我們亦涵蓋多個省份 — 請選擇你所在的省。將會加入更多。",
+      "zh-Hans": "联邦福利适用于全加拿大。我们亦涵盖多个省份 — 请选择你所在的省。将会加入更多。",
     },
     options: [
       {
@@ -133,6 +133,22 @@ export const INTAKE: IntakeQuestion[] = [
           en: "Alberta",
           "zh-Hant": "亞伯達省 (AB)",
           "zh-Hans": "阿尔伯塔省 (AB)",
+        },
+      },
+      {
+        value: "MB",
+        label: {
+          en: "Manitoba",
+          "zh-Hant": "緬尼托巴省 (MB)",
+          "zh-Hans": "曼尼托巴省 (MB)",
+        },
+      },
+      {
+        value: "SK",
+        label: {
+          en: "Saskatchewan",
+          "zh-Hant": "薩斯喀徹溫省 (SK)",
+          "zh-Hans": "萨斯喀彻温省 (SK)",
         },
       },
       {
@@ -430,7 +446,7 @@ export const INTAKE: IntakeQuestion[] = [
       "zh-Hans": "他／她目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD、安大略 ODSP／OW 或阿尔伯塔 AISH／收入援助）？",
     },
     skipIf: (ctx) =>
-      ctx.province !== "BC" && ctx.province !== "ON" && ctx.province !== "AB",
+      !["BC", "ON", "AB", "MB", "SK"].includes(ctx.province ?? ""),
     required: false,
   },
   {

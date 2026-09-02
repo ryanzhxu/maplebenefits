@@ -1127,4 +1127,157 @@ export const DEEP: Record<string, DeepContent> = {
       ),
     ],
   },
+
+  "manitoba-child-benefit": {
+    eligibilityDetails: [
+      tri(
+        "You must be a Manitoba resident, receive the Canada Child Benefit, and have a lower income (full benefit at or under about $15,000).",
+        "你須為緬尼托巴居民、領取加拿大兒童福利，並屬較低收入（約 $15,000 或以下可獲全額）。",
+        "你须为曼尼托巴居民、领取加拿大儿童福利，并属较低收入（约 $15,000 或以下可获全额）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "A partial benefit is paid up to about $25,864 depending on the number of children. There is also a benefit for the cost of children's eyeglasses.",
+        "按子女數目，收入約 $25,864 以下可獲部分福利。另有子女眼鏡費用福利。",
+        "按子女数目，收入约 $25,864 以下可获部分福利。另有子女眼镜费用福利。",
+      ),
+    ],
+  },
+
+  "manitoba-rent-assist": {
+    eligibilityDetails: [
+      tri(
+        "You must rent in the private market and have a low income. The benefit fills the gap between 80% of median market rent and 30% of your net income.",
+        "你須在私人市場租住且收入低。援助填補市場租金中位數 80% 與你淨收入 30% 之間的差額。",
+        "你须在私人市场租住且收入低。援助填补市场租金中位数 80% 与你净收入 30% 之间的差额。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "If you receive Employment and Income Assistance, Rent Assist is included automatically.",
+        "如你領取就業及收入援助，租金援助會自動包括。",
+        "如你领取就业及收入援助，租金援助会自动包括。",
+      ),
+    ],
+  },
+
+  "manitoba-55-plus": {
+    eligibilityDetails: [
+      tri(
+        "You must be 55+, a Manitoba resident, with income within the program limits (based on last year's tax return).",
+        "你須年滿 55 歲、為緬尼托巴居民，收入在計劃上限內（按去年報稅表）。",
+        "你须年满 55 岁、为曼尼托巴居民，收入在计划上限内（按去年报税表）。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "You cannot receive 55 PLUS at the same time as full Employment and Income Assistance.",
+        "你不能同時領取 55 PLUS 及全額就業及收入援助。",
+        "你不能同时领取 55 PLUS 及全额就业及收入援助。",
+      ),
+    ],
+  },
+
+  "manitoba-eia": {
+    eligibilityDetails: [
+      tri(
+        "You must be a Manitoba resident without enough income or assets for basic needs. There is a separate, higher rate category for people with a disability.",
+        "你須為緬尼托巴居民、收入或資產不足以應付基本需要。殘障人士有獨立且較高的標準。",
+        "你须为曼尼托巴居民、收入或资产不足以应付基本需要。残障人士有独立且较高的标准。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "EIA includes health benefits and the Rent Assist shelter benefit.",
+        "EIA 包括健康福利及租金援助住屋福利。",
+        "EIA 包括健康福利及租金援助住房福利。",
+      ),
+    ],
+  },
+
+  "manitoba-pharmacare": {
+    eligibilityDetails: [
+      tri(
+        "Any Manitoban with Manitoba Health coverage can register. Your deductible is a percentage of your family income, so lower incomes pay less.",
+        "任何有緬尼托巴健康保障的居民均可登記。自付額為家庭收入的百分比，收入越低付得越少。",
+        "任何有曼尼托巴健康保障的居民均可登记。自付额为家庭收入的百分比，收入越低付得越少。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Register each benefit year (April) to have your deductible tracked from your first purchase.",
+        "每個福利年度（4 月）登記，讓自付額由首次購藥起計算。",
+        "每个福利年度（4 月）登记，让自付额由首次购药起计算。",
+      ),
+    ],
+  },
+
+  said: {
+    eligibilityDetails: [
+      tri(
+        "You must be 18+, a Saskatchewan resident, and have a significant and enduring disability confirmed by a disability impact assessment.",
+        "你須年滿 18 歲、為薩斯喀徹溫居民，並有經殘障影響評估確認的重大且持久殘障。",
+        "你须年满 18 岁、为萨斯喀彻温居民，并有经残障影响评估确认的重大且持久残障。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "SAID lets you keep more of your employment earnings than general income support, and includes health benefits.",
+        "SAID 讓你比一般收入援助保留更多工作收入，並附健康福利。",
+        "SAID 让你比一般收入援助保留更多工作收入，并附健康福利。",
+      ),
+    ],
+  },
+
+  sis: {
+    eligibilityDetails: [
+      tri(
+        "You must be a Saskatchewan resident in financial need, without enough income or assets to meet basic needs.",
+        "你須為有經濟需要的薩斯喀徹溫居民，收入或資產不足以應付基本需要。",
+        "你须为有经济需要的萨斯喀彻温居民，收入或资产不足以应付基本需要。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "SIS pays a set shelter and basic amount; you manage the payments and pay your own landlord and utilities.",
+        "SIS 支付固定的住屋及基本金額；你自行管理款項並支付房東及水電。",
+        "SIS 支付固定的住房及基本金额；你自行管理款项并支付房东及水电。",
+      ),
+    ],
+  },
+
+  slitc: {
+    eligibilityDetails: [
+      tri(
+        "You must be a Saskatchewan resident and file a tax return; the credit is calculated automatically from your income and family size.",
+        "你須為薩斯喀徹溫居民並報稅；抵免按你的收入及家庭人數自動計算。",
+        "你须为萨斯喀彻温居民并报税；抵免按你的收入及家庭人数自动计算。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "It is paid together with the federal GST/HST credit — no separate application.",
+        "它與聯邦 GST/HST 抵免一併發放 — 無需另行申請。",
+        "它与联邦 GST/HST 抵免一并发放 — 无需另行申请。",
+      ),
+    ],
+  },
+
+  sip: {
+    eligibilityDetails: [
+      tri(
+        "You qualify if you are 65+, a Saskatchewan resident, and receive the federal Guaranteed Income Supplement.",
+        "如你 65 歲以上、為薩斯喀徹溫居民並領取聯邦保證收入補助金即合資格。",
+        "如你 65 岁以上、为萨斯喀彻温居民并领取联邦保证收入补助金即合资格。",
+      ),
+    ],
+    goodToKnow: [
+      tri(
+        "Your SIP amount moves with your GIS — the maximum GIS gives the maximum SIP.",
+        "SIP 金額隨 GIS 變動 — 最高 GIS 即最高 SIP。",
+        "SIP 金额随 GIS 变动 — 最高 GIS 即最高 SIP。",
+      ),
+    ],
+  },
 };

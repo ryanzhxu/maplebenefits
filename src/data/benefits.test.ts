@@ -8,8 +8,8 @@ const ids = new Set(BENEFITS.map((b) => b.id));
 const intakeFields = new Set(INTAKE.map((q) => q.field));
 
 describe("benefit data integrity", () => {
-  it("has 50 benefits", () => {
-    expect(BENEFITS.length).toBe(50);
+  it("has 59 benefits", () => {
+    expect(BENEFITS.length).toBe(59);
   });
 
   it("has unique ids", () => {
@@ -282,6 +282,40 @@ describe("real scenario: Alberta adult with a disability (age 45)", () => {
   it("does not surface BC or Ontario provincial benefits", () => {
     expect(statusFor("pwd", ctx)).toBe("ineligible");
     expect(statusFor("odsp", ctx)).toBe("ineligible");
+  });
+});
+
+describe("real scenario: Manitoba senior renter & Saskatchewan disability", () => {
+  const mb: AssessmentContext = {
+    age: 67,
+    province: "MB",
+    maritalStatus: "single",
+    hasChildren: false,
+    annualIncome: 16000,
+    familyIncome: 16000,
+    isHomeowner: false,
+    filedTaxes: true,
+  };
+  const sk: AssessmentContext = {
+    age: 40,
+    province: "SK",
+    hasDisability: true,
+    hasSevereDisability: true,
+    annualIncome: 6000,
+    familyIncome: 6000,
+    filedTaxes: true,
+  };
+
+  it("Manitoba senior: OAS/GIS + 55 PLUS + Rent Assist", () => {
+    expect(statusFor("oas", mb)).toBe("eligible");
+    expect(statusFor("manitoba-55-plus", mb)).toBe("eligible");
+    expect(statusFor("manitoba-rent-assist", mb)).toBe("eligible");
+  });
+
+  it("Saskatchewan disability: SAID; not the Manitoba/Ontario equivalents", () => {
+    expect(statusFor("said", sk)).toBe("eligible");
+    expect(statusFor("manitoba-eia", sk)).toBe("ineligible");
+    expect(statusFor("odsp", sk)).toBe("ineligible");
   });
 });
 

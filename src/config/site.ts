@@ -27,12 +27,12 @@ export const SITE = {
   },
   /** Region covered in the MVP. */
   region: {
-    en: "Federal · BC · Ontario · Alberta",
-    "zh-Hant": "聯邦 · 卑詩省 · 安大略省 · 亞伯達省",
-    "zh-Hans": "联邦 · 不列颠哥伦比亚省 · 安大略省 · 阿尔伯塔省",
+    en: "Federal + provinces",
+    "zh-Hant": "聯邦 + 各省",
+    "zh-Hans": "联邦 + 各省",
   },
   /** Number of benefits covered — keep in sync with the data registry. */
-  benefitCount: 50,
+  benefitCount: 59,
   /** Contact / project links (optional). */
   githubUrl: "",
 } as const;

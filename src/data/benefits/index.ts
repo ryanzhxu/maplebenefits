@@ -11,6 +11,8 @@ import { bcHealthSeniorsFamilyBenefits } from "./bc-health-seniors-family";
 import { bcEducationChildcareBenefits } from "./bc-education-childcare";
 import { ontarioBenefits } from "./ontario";
 import { albertaBenefits } from "./alberta";
+import { manitobaBenefits } from "./manitoba";
+import { saskatchewanBenefits } from "./saskatchewan";
 
 /** Every benefit in the app. Order here is the default browse order. */
 export const BENEFITS: Benefit[] = [
@@ -26,6 +28,8 @@ export const BENEFITS: Benefit[] = [
   ...bcEducationChildcareBenefits,
   ...ontarioBenefits,
   ...albertaBenefits,
+  ...manitobaBenefits,
+  ...saskatchewanBenefits,
 ];
 
 /** Benefits that are still active (excludes discontinued programs). */
@@ -57,6 +61,8 @@ export const LEVELS: BenefitLevel[] = [
   "provincial-bc",
   "provincial-on",
   "provincial-ab",
+  "provincial-mb",
+  "provincial-sk",
 ];
 
 export function benefitsByCategory(category: BenefitCategory): Benefit[] {

@@ -147,3 +147,16 @@ carries `lastUpdated: "2026-09-01"` and its official source URL.
 - **Alberta Child and Family Benefit** — base $1,499 first child + $749 each next (to 4); + working component; reduced above $27,565 AFNI. Quarterly with CCB.  https://www.alberta.ca/alberta-child-and-family-benefit
 - **Alberta Income Support** — single employable ~$900+/mo; last resort; + health card.  https://www.alberta.ca/income-support
 - **Alberta Adult Health Benefit** — drug/dental/optical coverage for low-income adults/families.  https://www.alberta.ca/alberta-adult-health-benefit
+
+### Manitoba (new province) — verified 2026-09-01
+- **Manitoba Child Benefit** — up to $420/yr per child; full ≤ $15,000, partial to ~$25,864; needs CCB.  https://www.gov.mb.ca/fs/eia/mcb.html
+- **Rent Assist** — shelter benefit = 80% median market rent − 30% net income; low-income private renters.  https://www.gov.mb.ca/fs/eia/rent_assist.html
+- **55 PLUS** — 55+, low income; max $161.80/qtr single, $173.90 couple/person (~$647/yr single).  https://www.gov.mb.ca/fs/eia/55plus.html
+- **Employment and Income Assistance (EIA)** — general + disability rate; + health + Rent Assist.  https://www.gov.mb.ca/fs/eia/
+- **Manitoba Pharmacare** — income-based deductible drug program.  https://www.gov.mb.ca/health/pharmacare/
+
+### Saskatchewan (new province) — verified 2026-09-01
+- **SAID** — 18+, significant enduring disability; ~$1,159/mo living income + $70 disability (2025); + health. (Sept 2026 restructure noted.)  https://www.saskatchewan.ca/residents/family-and-social-support/people-with-disabilities/income-support-for-people-with-disabilities
+- **SIS** — single basic $365/mo (2025) + shelter; last resort.  https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis
+- **SLITC** — $429 adult + $429 spouse + $169/child (max 2) = up to $1,196/family; reduce above $38,588 (to $80,058); auto with GST credit.
+- **Seniors Income Plan (SIP)** — single OAS/GIS recipient up to $360/mo ($4,560/yr).  https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan

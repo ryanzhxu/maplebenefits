@@ -63,6 +63,8 @@ const en = {
     "provincial-bc": "British Columbia",
     "provincial-on": "Ontario",
     "provincial-ab": "Alberta",
+    "provincial-mb": "Manitoba",
+    "provincial-sk": "Saskatchewan",
   },
   status: {
     eligible: "You likely qualify",
@@ -87,7 +89,7 @@ const en = {
       "Tell us about your situation. It takes a few minutes and stays on your device.",
     step2Title: "See what you may qualify for",
     step2Body:
-      "We check your answers against federal, BC, Ontario, and Alberta benefits and estimate what they are worth.",
+      "We check your answers against federal and provincial benefits and estimate what they are worth.",
     step3Title: "Learn how to apply",
     step3Body:
       "Get clear, step-by-step application instructions with links to the official forms.",
@@ -100,7 +102,7 @@ const en = {
   },
   browse: {
     title: "Browse benefits",
-    subtitle: "Explore federal, British Columbia, Ontario, and Alberta benefits by category.",
+    subtitle: "Explore federal and provincial government benefits by category.",
     searchPlaceholder: "Search benefits (e.g. rent, disability, child)",
     filterCategory: "Category",
     filterLevel: "Level",
@@ -129,7 +131,7 @@ const en = {
     moreInfoTitle: "Answer a bit more to check these",
     noneTitle: "No strong matches yet",
     noneBody:
-      "Your answers did not match our current benefits. This tool covers federal, BC, Ontario, and Alberta benefits only. Try browsing the full list, or check the official sources.",
+      "Your answers did not match our current benefits. This tool covers federal benefits and several provinces. Try browsing the full list, or check the official sources.",
     whyQualify: "Why you may qualify",
     estimatedTotal: "Estimated combined value",
     perYear: "per year",
@@ -156,7 +158,7 @@ const en = {
       "This tool runs entirely in your browser. Your answers are never sent to a server, never stored beyond your session, and never used for tracking. There is no account and no advertising.",
     sourcesTitle: "Data sources",
     sourcesBody:
-      "Every benefit links to its official government source. Figures are verified against Government of Canada, British Columbia, Ontario, and Alberta pages. The date each benefit was last checked is shown on its page.",
+      "Every benefit links to its official government source. Figures are verified against official Government of Canada and provincial government pages. The date each benefit was last checked is shown on its page.",
     accuracyTitle: "Accuracy and limits",
     accuracyBody:
       "Benefit rules and amounts change. We show the date each benefit was last verified and warn you when information may be out of date. The tool is available in English, Traditional Chinese, and Simplified Chinese; any untranslated text falls back to English.",
@@ -164,7 +166,7 @@ const en = {
     disclaimerBody:
       "This tool provides general information only. It is not legal, financial, or tax advice, and it is not affiliated with any government. Always verify your eligibility and application details with the relevant government agency before you rely on this information.",
     notAffiliated:
-      "Not affiliated with or endorsed by the Government of Canada, British Columbia, Ontario, or Alberta.",
+      "Not affiliated with or endorsed by any federal or provincial government in Canada.",
   },
   footer: {
     tagline: "Free, private, non-commercial.",
@@ -243,6 +245,8 @@ const zhHant: Loose<Dict> = {
     "provincial-bc": "卑詩省",
     "provincial-on": "安大略省",
     "provincial-ab": "亞伯達省",
+    "provincial-mb": "緬尼托巴省",
+    "provincial-sk": "薩斯喀徹溫省",
   },
   status: {
     eligible: "你很可能符合資格",
@@ -265,7 +269,7 @@ const zhHant: Loose<Dict> = {
     step1Title: "回答幾條問題",
     step1Body: "告訴我們你的情況。只需幾分鐘，資料留在你的裝置。",
     step2Title: "查看你可能符合的福利",
-    step2Body: "我們會用你的答案對照聯邦、卑詩省、安大略省及亞伯達省的福利，並估算金額。",
+    step2Body: "我們會用你的答案對照聯邦及各省福利，並估算金額。",
     step3Title: "了解如何申請",
     step3Body: "取得清晰的逐步申請指引，並附上官方表格連結。",
     trustTitle: "值得信賴",
@@ -276,7 +280,7 @@ const zhHant: Loose<Dict> = {
   },
   browse: {
     title: "瀏覽福利",
-    subtitle: "按類別探索聯邦、卑詩省、安大略省及亞伯達省的福利。",
+    subtitle: "按類別探索聯邦及各省政府福利。",
     searchPlaceholder: "搜尋福利（例如：租金、殘障、子女）",
     filterCategory: "類別",
     filterLevel: "層級",
@@ -303,7 +307,7 @@ const zhHant: Loose<Dict> = {
     moreInfoTitle: "多回答一些以查證這些福利",
     noneTitle: "暫時沒有明顯符合的福利",
     noneBody:
-      "你的答案未能對應目前的福利。本工具只涵蓋聯邦、卑詩省、安大略省及亞伯達省的福利。你可以瀏覽完整清單，或查看官方來源。",
+      "你的答案未能對應目前的福利。本工具涵蓋聯邦福利及多個省份。你可以瀏覽完整清單，或查看官方來源。",
     whyQualify: "你為何可能符合",
     estimatedTotal: "估計合計金額",
     perYear: "每年",
@@ -329,14 +333,14 @@ const zhHant: Loose<Dict> = {
       "本工具完全在你的瀏覽器內運行。你的答案不會傳送到伺服器，不會在工作階段以外儲存，也不會用於追蹤。沒有帳戶，沒有廣告。",
     sourcesTitle: "資料來源",
     sourcesBody:
-      "每項福利都連結到政府官方來源。金額對照加拿大、卑詩省、安大略省及亞伯達省政府的網頁核實。每項福利的最後核實日期會顯示在其頁面上。",
+      "每項福利都連結到政府官方來源。金額對照加拿大及各省政府的官方網頁核實。每項福利的最後核實日期會顯示在其頁面上。",
     accuracyTitle: "準確性與限制",
     accuracyBody:
       "福利規則與金額會變動。我們會顯示每項福利的最後核實日期，並在資訊可能過時時提醒你。本工具提供英文、繁體中文及簡體中文；未翻譯的文字會以英文顯示。",
     disclaimerTitle: "重要聲明",
     disclaimerBody:
       "本工具僅提供一般資訊，並非法律、財務或稅務意見，亦與任何政府沒有關聯。在依賴本資訊之前，請務必向相關政府機構核實你的資格及申請細節。",
-    notAffiliated: "本工具與加拿大政府、卑詩省、安大略省或亞伯達省政府沒有關聯，亦未獲其認可。",
+    notAffiliated: "本工具與任何加拿大聯邦或省級政府沒有關聯，亦未獲其認可。",
   },
   footer: {
     tagline: "免費、保護私隱、非牟利。",
@@ -405,6 +409,8 @@ const zhHans: Loose<Dict> = {
     "provincial-bc": "不列颠哥伦比亚省",
     "provincial-on": "安大略省",
     "provincial-ab": "阿尔伯塔省",
+    "provincial-mb": "曼尼托巴省",
+    "provincial-sk": "萨斯喀彻温省",
   },
   status: {
     eligible: "你很可能符合资格",
@@ -427,7 +433,7 @@ const zhHans: Loose<Dict> = {
     step1Title: "回答几个问题",
     step1Body: "告诉我们你的情况。只需几分钟，资料留在你的设备。",
     step2Title: "查看你可能符合的福利",
-    step2Body: "我们会用你的答案对照联邦、不列颠哥伦比亚省、安大略省及阿尔伯塔省的福利，并估算金额。",
+    step2Body: "我们会用你的答案对照联邦及各省福利，并估算金额。",
     step3Title: "了解如何申请",
     step3Body: "获得清晰的逐步申请指引，并附上官方表格链接。",
     trustTitle: "值得信赖",
@@ -438,7 +444,7 @@ const zhHans: Loose<Dict> = {
   },
   browse: {
     title: "浏览福利",
-    subtitle: "按类别探索联邦、不列颠哥伦比亚省、安大略省及阿尔伯塔省的福利。",
+    subtitle: "按类别探索联邦及各省政府福利。",
     searchPlaceholder: "搜索福利（例如：租金、残障、子女）",
     filterCategory: "类别",
     filterLevel: "层级",
@@ -465,7 +471,7 @@ const zhHans: Loose<Dict> = {
     moreInfoTitle: "多回答一些以查证这些福利",
     noneTitle: "暂时没有明显符合的福利",
     noneBody:
-      "你的答案未能对应目前的福利。本工具只涵盖联邦、不列颠哥伦比亚省、安大略省及阿尔伯塔省的福利。你可以浏览完整列表，或查看官方来源。",
+      "你的答案未能对应目前的福利。本工具涵盖联邦福利及多个省份。你可以浏览完整列表，或查看官方来源。",
     whyQualify: "你为何可能符合",
     estimatedTotal: "估计合计金额",
     perYear: "每年",
@@ -491,14 +497,14 @@ const zhHans: Loose<Dict> = {
       "本工具完全在你的浏览器内运行。你的答案不会传送到服务器，不会在会话以外存储，也不会用于追踪。没有账户，没有广告。",
     sourcesTitle: "数据来源",
     sourcesBody:
-      "每项福利都链接到政府官方来源。金额对照加拿大、不列颠哥伦比亚省、安大略省及阿尔伯塔省政府的网页核实。每项福利的最后核实日期会显示在其页面上。",
+      "每项福利都链接到政府官方来源。金额对照加拿大及各省政府的官方网页核实。每项福利的最后核实日期会显示在其页面上。",
     accuracyTitle: "准确性与限制",
     accuracyBody:
       "福利规则与金额会变动。我们会显示每项福利的最后核实日期，并在信息可能过时时提醒你。本工具提供英文、繁体中文及简体中文；未翻译的文字会以英文显示。",
     disclaimerTitle: "重要声明",
     disclaimerBody:
       "本工具仅提供一般信息，并非法律、财务或税务意见，亦与任何政府没有关联。在依赖本信息之前，请务必向相关政府机构核实你的资格及申请细节。",
-    notAffiliated: "本工具与加拿大政府、不列颠哥伦比亚省、安大略省或阿尔伯塔省政府没有关联，亦未获其认可。",
+    notAffiliated: "本工具与任何加拿大联邦或省级政府没有关联，亦未获其认可。",
   },
   footer: {
     tagline: "免费、保护隐私、非营利。",
