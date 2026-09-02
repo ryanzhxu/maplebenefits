@@ -67,6 +67,8 @@ const en = {
     "provincial-sk": "Saskatchewan",
     "provincial-ns": "Nova Scotia",
     "provincial-nb": "New Brunswick",
+    "provincial-pe": "Prince Edward Island",
+    "provincial-nl": "Newfoundland & Labrador",
   },
   status: {
     eligible: "You likely qualify",
@@ -251,6 +253,8 @@ const zhHant: Loose<Dict> = {
     "provincial-sk": "薩斯喀徹溫省",
     "provincial-ns": "新斯科舍省",
     "provincial-nb": "新不倫瑞克省",
+    "provincial-pe": "愛德華王子島省",
+    "provincial-nl": "紐芬蘭與拉布拉多省",
   },
   status: {
     eligible: "你很可能符合資格",
@@ -417,6 +421,8 @@ const zhHans: Loose<Dict> = {
     "provincial-sk": "萨斯喀彻温省",
     "provincial-ns": "新斯科舍省",
     "provincial-nb": "新不伦瑞克省",
+    "provincial-pe": "爱德华王子岛省",
+    "provincial-nl": "纽芬兰与拉布拉多省",
   },
   status: {
     eligible: "你很可能符合资格",

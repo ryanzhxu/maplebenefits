@@ -42,7 +42,9 @@ export type BenefitLevel =
   | "provincial-mb"
   | "provincial-sk"
   | "provincial-ns"
-  | "provincial-nb";
+  | "provincial-nb"
+  | "provincial-pe"
+  | "provincial-nl";
 
 export type InputType =
   | "yes-no"

@@ -168,6 +168,22 @@ export const INTAKE: IntakeQuestion[] = [
         },
       },
       {
+        value: "PE",
+        label: {
+          en: "Prince Edward Island",
+          "zh-Hant": "愛德華王子島省 (PE)",
+          "zh-Hans": "爱德华王子岛省 (PE)",
+        },
+      },
+      {
+        value: "NL",
+        label: {
+          en: "Newfoundland and Labrador",
+          "zh-Hant": "紐芬蘭與拉布拉多省 (NL)",
+          "zh-Hans": "纽芬兰与拉布拉多省 (NL)",
+        },
+      },
+      {
         value: "other",
         label: {
           en: "Another province / territory",
@@ -462,7 +478,7 @@ export const INTAKE: IntakeQuestion[] = [
       "zh-Hans": "他／她目前是否领取省级收入或残障援助（例如不列颠哥伦比亚省 PWD、安大略 ODSP／OW 或阿尔伯塔 AISH／收入援助）？",
     },
     skipIf: (ctx) =>
-      !["BC", "ON", "AB", "MB", "SK", "NS", "NB"].includes(ctx.province ?? ""),
+      !["BC", "ON", "AB", "MB", "SK", "NS", "NB", "PE", "NL"].includes(ctx.province ?? ""),
     required: false,
   },
   {

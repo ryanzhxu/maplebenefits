@@ -15,6 +15,8 @@ import { manitobaBenefits } from "./manitoba";
 import { saskatchewanBenefits } from "./saskatchewan";
 import { novaScotiaBenefits } from "./nova-scotia";
 import { newBrunswickBenefits } from "./new-brunswick";
+import { peiBenefits } from "./pei";
+import { newfoundlandBenefits } from "./newfoundland";
 
 /** Every benefit in the app. Order here is the default browse order. */
 export const BENEFITS: Benefit[] = [
@@ -34,6 +36,8 @@ export const BENEFITS: Benefit[] = [
   ...saskatchewanBenefits,
   ...novaScotiaBenefits,
   ...newBrunswickBenefits,
+  ...peiBenefits,
+  ...newfoundlandBenefits,
 ];
 
 /** Benefits that are still active (excludes discontinued programs). */
@@ -69,6 +73,8 @@ export const LEVELS: BenefitLevel[] = [
   "provincial-sk",
   "provincial-ns",
   "provincial-nb",
+  "provincial-pe",
+  "provincial-nl",
 ];
 
 export function benefitsByCategory(category: BenefitCategory): Benefit[] {
