@@ -19,11 +19,11 @@ export const SITE = {
   },
   /** Used in meta description / SEO. */
   description: {
-    en: "A free, private tool that helps people in Canada discover government benefits they may be eligible for, estimate the value, and learn how to apply.",
+    en: "Answer a few questions to see which federal and provincial benefits you may qualify for, what they're worth, and how to apply.",
     "zh-Hant":
-      "免費且保護私隱的工具，協助加拿大居民發掘他們可能符合資格的政府福利、估算金額，並了解申請方法。",
+      "回答幾條問題，即可看到你可能符合資格的聯邦及省級福利、金額估算，以及申請方法。",
     "zh-Hans":
-      "免费且保护隐私的工具，帮助加拿大居民发现他们可能符合资格的政府福利、估算金额，并了解申请方法。",
+      "回答几个问题，即可看到你可能符合资格的联邦及省级福利、金额估算，以及申请方法。",
   },
   /** Region covered in the MVP. */
   region: {

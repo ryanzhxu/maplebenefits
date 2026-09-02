@@ -27,7 +27,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-sm font-medium text-muted">
-              🍁 {r(SITE.region)} · {SITE.benefitCount} {t("home.statBenefits")}
+              {r(SITE.region)} · {SITE.benefitCount} {t("home.statBenefits")}
             </span>
             <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-ink sm:text-5xl">
               {r(SITE.tagline)}
@@ -48,10 +48,6 @@ export default function HomePage() {
               >
                 {t("home.heroCtaSecondary")}
               </Link>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
-              <span>🔒 {t("home.statPrivate")}</span>
-              <span>✓ {t("home.statFree")}</span>
             </div>
           </div>
         </div>
