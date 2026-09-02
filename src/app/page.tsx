@@ -3,7 +3,19 @@
 import Link from "next/link";
 import { SITE } from "@/config/site";
 import { useI18n } from "@/i18n/LocaleProvider";
-import { ACTIVE_BENEFITS } from "@/data/benefits";
+import { BENEFITS, CATEGORIES } from "@/data/benefits";
+import type { BenefitCategory } from "@/types/benefit";
+
+const CATEGORY_ICON: Record<BenefitCategory, string> = {
+  disability: "♿",
+  seniors: "👵",
+  family: "👪",
+  housing: "🏠",
+  health: "🩺",
+  "income-support": "💵",
+  "tax-credits": "🧾",
+  education: "🎓",
+};
 
 export default function HomePage() {
   const { t, r } = useI18n();
@@ -104,19 +116,29 @@ export default function HomePage() {
             {t("common.browseBenefits")} →
           </Link>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {ACTIVE_BENEFITS.slice(0, 6).map((b) => (
-            <Link
-              key={b.id}
-              href={`/benefits/${b.id}`}
-              className="rounded-xl border border-line bg-surface p-4 transition-shadow hover:shadow-md"
-            >
-              <div className="font-semibold text-ink">{r(b.name)}</div>
-              <div className="mt-1 text-sm text-eligible">
-                {r(b.estimatedValue)}
-              </div>
-            </Link>
-          ))}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {CATEGORIES.map((c) => {
+            const count = BENEFITS.filter((b) => b.category === c).length;
+            return (
+              <Link
+                key={c}
+                href={`/benefits?category=${c}`}
+                className="flex items-center gap-3 rounded-xl border border-line bg-surface p-4 transition-shadow hover:shadow-md"
+              >
+                <span aria-hidden className="text-2xl">
+                  {CATEGORY_ICON[c]}
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-semibold text-ink">
+                    {t(`categories.${c}`)}
+                  </span>
+                  <span className="text-sm text-muted">
+                    {count} {t("browse.resultsCount")}
+                  </span>
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>

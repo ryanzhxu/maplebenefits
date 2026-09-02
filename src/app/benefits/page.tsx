@@ -1,17 +1,29 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/i18n/LocaleProvider";
 import { BENEFITS, CATEGORIES, LEVELS } from "@/data/benefits";
 import { resolve } from "@/i18n/locale";
 import { BenefitCard } from "@/components/BenefitCard";
 import type { BenefitCategory, BenefitLevel } from "@/types/benefit";
 
-export default function BrowsePage() {
-  const { t, r, locale } = useI18n();
+function BrowseInner() {
+  const { t, locale } = useI18n();
+  const params = useSearchParams();
+  const initialCategory = (params.get("category") ?? "all") as
+    | BenefitCategory
+    | "all";
+  const initialLevel = (params.get("level") ?? "all") as BenefitLevel | "all";
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<BenefitCategory | "all">("all");
-  const [level, setLevel] = useState<BenefitLevel | "all">("all");
+  const [category, setCategory] = useState<BenefitCategory | "all">(
+    CATEGORIES.includes(initialCategory as BenefitCategory)
+      ? initialCategory
+      : "all",
+  );
+  const [level, setLevel] = useState<BenefitLevel | "all">(
+    LEVELS.includes(initialLevel as BenefitLevel) ? initialLevel : "all",
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -128,5 +140,13 @@ function Filter({
         );
       })}
     </div>
+  );
+}
+
+export default function BrowsePage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-6xl px-4 py-10" />}>
+      <BrowseInner />
+    </Suspense>
   );
 }
