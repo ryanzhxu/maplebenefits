@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const NL = oneOf((c: { province?: string }) => c.province, ["NL"]);
@@ -252,8 +253,50 @@ export const nlDisabilityBenefit: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// NL Seniors' Benefit -- Budget 2026 figures. The province's own page states
+// the change explicitly, so the old values are preserved as history rather
+// than discarded. Source (fetched 2026-09-02).
+const NL_SENIORS_URL =
+  "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/";
+const NL_SENIORS_SENTENCE =
+  "seniors with family net income of up to $30,409 (previously $30,078) are eligible to receive the maximum benefit of $1,882 (increased from $1,551).";
+
+const NL_SENIORS = figures({
+  maxBenefit: {
+    current: { value: 1882, from: "2026-07-01", source: NL_SENIORS_URL, quote: NL_SENIORS_SENTENCE },
+    history: [
+      {
+        value: 1551,
+        from: "2025-07-01",
+        to: "2026-06-30",
+        source: NL_SENIORS_URL,
+        quote: NL_SENIORS_SENTENCE,
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum annual benefit",
+  },
+  incomeLimit: {
+    current: { value: 30409, from: "2026-07-01", source: NL_SENIORS_URL, quote: NL_SENIORS_SENTENCE },
+    history: [
+      {
+        value: 30078,
+        from: "2025-07-01",
+        to: "2026-06-30",
+        source: NL_SENIORS_URL,
+        quote: NL_SENIORS_SENTENCE,
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Family net income for the maximum benefit",
+  },
+});
+
 export const nlSeniorsBenefit: Benefit = {
   id: "nl-seniors-benefit",
+  figures: NL_SENIORS,
   name: tri(
     "NL Seniors' Benefit",
     "紐芬蘭與拉布拉多長者福利",
@@ -268,9 +311,9 @@ export const nlSeniorsBenefit: Benefit = {
     "为纽芬兰与拉布拉多低收入长者提供的年度款项。报税即自动获得。",
   ),
   estimatedValue: tri(
-    "Up to about $1,551/year (family income under about $30,078)",
-    "最多約每年 $1,551（家庭收入約 $30,078 以下）",
-    "最多约每年 $1,551（家庭收入约 $30,078 以下）",
+    `Up to ${fmt(NL_SENIORS.maxBenefit)}/year (family income under about ${fmt(NL_SENIORS.incomeLimit)})`,
+    `最多約每年 ${fmt(NL_SENIORS.maxBenefit)}（家庭收入約 ${fmt(NL_SENIORS.incomeLimit)} 以下）`,
+    `最多约每年 ${fmt(NL_SENIORS.maxBenefit)}（家庭收入约 ${fmt(NL_SENIORS.incomeLimit)} 以下）`,
   ),
   contextFields: ["province", "age", "familyIncome"],
   check: buildCheck([
@@ -287,7 +330,7 @@ export const nlSeniorsBenefit: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.familyIncome, 30078),
+      test: atMost((c) => c.familyIncome, val(NL_SENIORS.incomeLimit)),
       hard: true,
       passReason: tri(
         "Your family income is within the range for the maximum benefit.",
@@ -295,14 +338,14 @@ export const nlSeniorsBenefit: Benefit = {
         "你的家庭收入在可获最高福利的范围内。",
       ),
       failReason: tri(
-        "The full benefit is for family income under about $30,078.",
-        "全額福利適用於家庭收入約 $30,078 以下。",
-        "全额福利适用于家庭收入约 $30,078 以下。",
+        `The full benefit is for family income under about ${fmt(NL_SENIORS.incomeLimit)}.`,
+        `全額福利適用於家庭收入約 ${fmt(NL_SENIORS.incomeLimit)} 以下。`,
+        `全额福利适用于家庭收入约 ${fmt(NL_SENIORS.incomeLimit)} 以下。`,
       ),
       missingField: "familyIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1551, period: "year" }),
+  estimateAmount: () => ({ low: 0, high: val(NL_SENIORS.maxBenefit), period: "year" }),
   applicationSteps: [
     {
       order: 1,

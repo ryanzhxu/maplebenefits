@@ -344,8 +344,52 @@ export const manitobaRentAssist: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// 55 PLUS -- income limits differ for singles and couples.
+// Source (fetched 2026-09-02): https://www.gov.mb.ca/fs/eia/55plus.html
+// The app used a flat $20,000 for everyone, which appears nowhere on the page.
+// That OVER-promised: a single person on $15,000 was told they qualified when
+// Manitoba's limit for a single person is $9,746.40.
+const MB55_URL = "https://www.gov.mb.ca/fs/eia/55plus.html";
+const MB55_LIMITS =
+  "Partial benefits are available to single people with an annual income up to $9,746.40 and couples with an annual family income up to $16,255.20.";
+
+const MB55 = figures({
+  incomeLimitSingle: {
+    current: { value: 9746.4, from: "2026-01-01", source: MB55_URL, quote: MB55_LIMITS },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Income limit, single person",
+  },
+  incomeLimitCouple: {
+    current: { value: 16255.2, from: "2026-01-01", source: MB55_URL, quote: MB55_LIMITS },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Combined income limit, couple",
+  },
+  quarterlySingle: {
+    current: {
+      value: 161.8,
+      from: "2026-01-01",
+      source: MB55_URL,
+      quote:
+        "Maximum quarterly benefits (every three months) have increased to $161.80 for a single person and $173.90 to each eligible person in a married or common law relationship.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum quarterly benefit, single person",
+  },
+});
+
+/** Manitoba measures a couple's combined income against a higher limit. */
+const mb55IsCouple = (c: { maritalStatus?: string }) =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law";
+
 export const manitoba55Plus: Benefit = {
   id: "manitoba-55-plus",
+  figures: MB55,
   name: tri("55 PLUS (Manitoba Income Supplement)", "55 PLUS（緬尼托巴收入補助）", "55 PLUS（曼尼托巴收入补助）"),
   shortName: "55 PLUS",
   category: "seniors",
@@ -375,7 +419,10 @@ export const manitoba55Plus: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 20000),
+      test: atMostOf(
+        (c) => (mb55IsCouple(c) ? c.familyIncome ?? c.annualIncome : c.annualIncome),
+        (c) => (mb55IsCouple(c) ? val(MB55.incomeLimitCouple) : val(MB55.incomeLimitSingle)),
+      ),
       hard: true,
       passReason: tri(
         "Your income is within the program limit.",
@@ -390,7 +437,12 @@ export const manitoba55Plus: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 647, period: "year" }),
+  // Four quarterly payments a year.
+  estimateAmount: () => ({
+    low: 0,
+    high: Math.round(val(MB55.quarterlySingle) * 4),
+    period: "year",
+  }),
   applicationSteps: [
     {
       order: 1,
