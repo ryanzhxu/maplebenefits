@@ -1,10 +1,19 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atMost, atMostOf, buildCheck, isTrue, oneOf } from "@/lib/checks";
 import { figures, fmt, val } from "@/lib/figures";
 
 const BC_ACCESS_GRANT_URL =
   "https://studentaidbc.ca/explore/grants-scholarships/bc-access-grant-full-time";
+
+// Income cut-off by family size, for the under-two-years program (the one
+// this benefit headlines as its "up to" amount). The app used one flat
+// $120,000 for every household -- StudentAid BC publishes a 7-row table
+// (family size 1 to 7+) ranging from $80,491 to $181,162, so $120,000
+// over-promised to small families (real cut-off as low as $80,491) and
+// under-promised to large ones (real cut-off up to $181,162).
+const BC_ACCESS_CUTOFF_TABLE =
+  "Income Thresholds for B.C. Access Grant for students enrolled in full-time programs of less than two years in length . Family size (number of people) For maximum grant (if gross family income is below the amount for family size, the student qualifies for the maximum grant) For grant cut-off (if gross family income is at or above these amounts for family size, the student does not qualify for the grant) 1 $38474 $80491 2 $54412 $112552 3 $66641 $134209 4 $76952 $147375 5 $86033 $159562 6 $94245 $171168 7+ $101797 $181162";
 
 const BC_ACCESS = figures({
   shorterMax: {
@@ -33,7 +42,77 @@ const BC_ACCESS = figures({
     format: "currency",
     label: "Maximum per school year, programs two years or longer",
   },
+  cutoffSize1: {
+    current: { value: 80491, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 1",
+  },
+  cutoffSize2: {
+    current: { value: 112552, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 2",
+  },
+  cutoffSize3: {
+    current: { value: 134209, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 3",
+  },
+  cutoffSize4: {
+    current: { value: 147375, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 4",
+  },
+  cutoffSize5: {
+    current: { value: 159562, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 5",
+  },
+  cutoffSize6: {
+    current: { value: 171168, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 6",
+  },
+  cutoffSize7Plus: {
+    current: { value: 181162, from: "2026-08-01", source: BC_ACCESS_GRANT_URL, quote: BC_ACCESS_CUTOFF_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Grant cut-off, family size 7 or more",
+  },
 });
+
+/** Income cut-off for this household, from StudentAid BC's published table. */
+const bcAccessCutoff = (c: {
+  maritalStatus?: string;
+  hasChildren?: boolean;
+  numberOfChildren?: number;
+}): number | undefined => {
+  const couple = c.maritalStatus === "married" || c.maritalStatus === "common-law";
+  const kids = c.hasChildren === true ? Math.max(0, c.numberOfChildren ?? 0) : 0;
+  const size = Math.min(1 + (couple ? 1 : 0) + kids, 7);
+  const table = [
+    BC_ACCESS.cutoffSize1,
+    BC_ACCESS.cutoffSize2,
+    BC_ACCESS.cutoffSize3,
+    BC_ACCESS.cutoffSize4,
+    BC_ACCESS.cutoffSize5,
+    BC_ACCESS.cutoffSize6,
+    BC_ACCESS.cutoffSize7Plus,
+  ];
+  return val(table[size - 1]);
+};
 
 export const bcAccessGrant: Benefit = {
   id: "bc-access-grant",
@@ -52,7 +131,14 @@ export const bcAccessGrant: Benefit = {
     `每学年最多 ${fmt(BC_ACCESS.shorterMax)}（较短课程）；较长课程最多 ${fmt(BC_ACCESS.longerMax)}`,
   ),
   figures: BC_ACCESS,
-  contextFields: ["province", "postSecondaryStudent", "familyIncome"],
+  contextFields: [
+    "province",
+    "postSecondaryStudent",
+    "familyIncome",
+    "maritalStatus",
+    "hasChildren",
+    "numberOfChildren",
+  ],
   check: buildCheck([
     {
       test: oneOf((c) => c.province, ["BC"]),
@@ -81,7 +167,7 @@ export const bcAccessGrant: Benefit = {
       missingField: "postSecondaryStudent",
     },
     {
-      test: atMost((c) => c.familyIncome, 120000),
+      test: atMostOf((c) => c.familyIncome, bcAccessCutoff),
       hard: false,
       passReason: tri(
         "Your income is in the low-to-middle range the grant targets.",
