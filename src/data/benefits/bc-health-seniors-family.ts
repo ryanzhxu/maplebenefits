@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 export const fairPharmacare: Benefit = {
@@ -260,8 +261,20 @@ const bcFamilyEstimate = (ctx: {
   if (income === undefined) {
     return { low: 0, high: max + lone, period: "year" };
   }
-  const over = Math.max(0, income - 30176);
-  const amount = Math.max(0, Math.round(max - over * 0.04));
+  const floor = bcfbFloor(n);
+  const taperStart = val(BCFB.reductionStartsAt);
+  const floorEnd = val(BCFB.floorResumesTaperAt);
+
+  let amount: number;
+  if (income <= taperStart) {
+    amount = max;
+  } else if (income <= floorEnd) {
+    // Reduced by 4% of income over the threshold, but never below the floor.
+    amount = Math.max(floor, Math.round(max - (income - taperStart) * 0.04));
+  } else {
+    // Above the upper threshold the floor itself tapers at 4%.
+    amount = Math.max(0, Math.round(floor - (income - floorEnd) * 0.04));
+  }
   return {
     low: amount > 0 ? amount + lone : 0,
     high: amount > 0 ? amount + lone : 0,
@@ -274,8 +287,72 @@ const bcFamilyEstimate = (ctx: {
   };
 };
 
+// BC Family Benefit -- BC's reduction has a FLOOR, which the app was missing.
+// Source (fetched 2026-09-02):
+// https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit
+//
+// The province reduces the maximum by 4% of income over $30,176 but never
+// below a guaranteed minimum of $775 / $750 / $725 per child, and only resumes
+// tapering above $96,562. The app applied the 4% straight down to zero, so a
+// one-child family on $70,000 was shown about $157 when they are entitled to
+// at least $775, and a family on $100,000 was shown $0 when they still receive
+// several hundred dollars. Under-promising, on a benefit reaching most BC
+// families with children.
+const BCFB_URL =
+  "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit";
+const BCFB_FLOOR_SENTENCE =
+  "If your adjusted family net income for the 2025 tax year is between $30,176 and $96,562, you'll receive a reduced amount of at least: $775 for your first child $750 for your second child $725 for each additional child";
+
+const BCFB = figures({
+  reductionStartsAt: {
+    current: { value: 30176, from: "2026-07-01", source: BCFB_URL, quote: BCFB_FLOOR_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the reduction begins",
+  },
+  floorResumesTaperAt: {
+    current: { value: 96562, from: "2026-07-01", source: BCFB_URL, quote: BCFB_FLOOR_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income above which the guaranteed minimum starts tapering",
+  },
+  floorFirstChild: {
+    current: { value: 775, from: "2026-07-01", source: BCFB_URL, quote: BCFB_FLOOR_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Guaranteed minimum, first child",
+  },
+  floorSecondChild: {
+    current: { value: 750, from: "2026-07-01", source: BCFB_URL, quote: BCFB_FLOOR_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Guaranteed minimum, second child",
+  },
+  floorAdditionalChild: {
+    current: { value: 725, from: "2026-07-01", source: BCFB_URL, quote: BCFB_FLOOR_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Guaranteed minimum, each additional child",
+  },
+});
+
+/** The guaranteed minimum for a family of this size. */
+const bcfbFloor = (children: number): number => {
+  if (children <= 0) return 0;
+  let floor = val(BCFB.floorFirstChild);
+  if (children >= 2) floor += val(BCFB.floorSecondChild);
+  if (children > 2) floor += (children - 2) * val(BCFB.floorAdditionalChild);
+  return floor;
+};
+
 export const bcFamilyBenefit: Benefit = {
   id: "bc-family-benefit",
+  figures: BCFB,
   name: tri("BC Family Benefit", "卑詩省家庭福利", "不列颠哥伦比亚省家庭福利"),
   shortName: "BC Family Benefit",
   category: "family",
