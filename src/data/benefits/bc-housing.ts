@@ -62,15 +62,18 @@ const SAFER_MIN_BENEFIT = 50; // official minimum monthly benefit
  *   OAS (age 65-74): $752/month -- matches the OAS estimator in
  *     src/data/benefits/federal-seniors.ts (source: canada.ca OAS payments)
  *   GIS max: single $1,097/month, couple $660/month each -- same source
- *   BC Senior's Supplement: single $99.30/month, couple $60.10/month each --
+ *   BC Senior's Supplement: single $99.30/month, couple $110.25/month each --
+ *   (the couple rate was $60.10 here, stale against the published table; the
+ *   GIS figures below were stale for the same reason and are now the current
+ *   ones, matching the corrections made in federal-seniors.ts)
  *     https://www2.gov.bc.ca/gov/content/governments/policies-for-government/bcea-policy-and-procedure-manual/bc-employment-and-assistance-rate-tables/senior-s-supplement-rate-table
  */
 const saferBaseIncomeMonthly = (ctx: AssessmentContext): number => {
   const couple =
     ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
-  const oas = 752;
-  const gis = couple ? 660 : 1097;
-  const supplement = couple ? 60.1 : 99.3;
+  const oas = 751.97;
+  const gis = couple ? 676.09 : 1123.17;
+  const supplement = couple ? 110.25 : 99.3;
   const perPerson = oas + gis + supplement;
   return couple ? perPerson * 2 : perPerson;
 };

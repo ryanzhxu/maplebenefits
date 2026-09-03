@@ -1,7 +1,7 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, atMostOf, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 export const fairPharmacare: Benefit = {
   id: "fair-pharmacare",
@@ -154,8 +154,50 @@ export const mspSupplementary: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// BC Seniors Supplement -- paid to GIS recipients, so its income test should
+// follow the GIS thresholds rather than a single flat number. The app used
+// $22,488 for everyone; Service Canada's limits run from $22,800 for a single
+// person to $54,624 for a couple whose spouse receives no OAS.
+const BCSS_GIS_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html";
+
+const BCSS = figures({
+  gisIncomeLimitSingle: {
+    current: {
+      value: 22800,
+      from: "2026-07-01",
+      source: BCSS_GIS_URL,
+      quote: "I am single, divorced, or widowed. Less than $22,800",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "GIS income limit, single",
+  },
+  gisIncomeLimitCoupleWidest: {
+    current: {
+      value: 54624,
+      from: "2026-07-01",
+      source: BCSS_GIS_URL,
+      quote:
+        "I have a spouse or common-law partner who does not receive OAS. Less than $54,624 (combined annual income of couple)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Widest GIS combined income limit for a couple",
+  },
+});
+
+/** Same widest-couple-threshold rule used for GIS itself, for the same reason. */
+const bcssIncomeCeiling = (c: { maritalStatus?: string }): number =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law"
+    ? val(BCSS.gisIncomeLimitCoupleWidest)
+    : val(BCSS.gisIncomeLimitSingle);
+
 export const bcSeniorsSupplement: Benefit = {
   id: "bc-seniors-supplement",
+  figures: BCSS,
   name: tri(
     "BC Seniors Supplement",
     "卑詩省長者補助金",
@@ -200,7 +242,10 @@ export const bcSeniorsSupplement: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 22488),
+      test: atMostOf(
+        (c) => (bcssIncomeCeiling(c) === val(BCSS.gisIncomeLimitSingle) ? c.annualIncome : c.familyIncome ?? c.annualIncome),
+        bcssIncomeCeiling,
+      ),
       hard: true,
       passReason: tri(
         "Your income is low enough to receive GIS, which triggers this supplement.",
