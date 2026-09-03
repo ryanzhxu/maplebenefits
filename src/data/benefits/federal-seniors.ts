@@ -268,7 +268,7 @@ export const GIS = figures({
 });
 
 /** A couple's COMBINED income is measured against the couple thresholds. */
-const gisIsCouple = (c: { maritalStatus?: string }) =>
+export const gisIsCouple = (c: { maritalStatus?: string }) =>
   c.maritalStatus === "married" || c.maritalStatus === "common-law";
 
 /**
@@ -283,7 +283,7 @@ const gisIsCouple = (c: { maritalStatus?: string }) =>
  * to qualify for, which costs them a few minutes. The opposite error tells
  * someone they do not qualify when they do, and they never apply.
  */
-const gisIncomeCeiling = (c: { maritalStatus?: string }) =>
+export const gisIncomeCeiling = (c: { maritalStatus?: string }) =>
   gisIsCouple(c) ? val(GIS.incomeMaxSpouseWithoutOas) : val(GIS.incomeMaxSingle);
 
 

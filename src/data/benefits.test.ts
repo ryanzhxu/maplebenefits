@@ -389,6 +389,29 @@ describe("real scenario: Atlantic provinces", () => {
     expect(statusFor("pei-child-benefit", pe)).toBe("eligible");
     expect(statusFor("pei-sales-tax-credit", pe)).toBe("eligible");
   });
+
+  it("NB Seniors' Benefit uses GIS's real tiered income ceiling, not a flat $30,000", () => {
+    // A married senior couple with $45,000 combined income is within GIS's
+    // real widest couple ceiling ($54,624) but was wrongly excluded by the
+    // old flat $30,000 cutoff.
+    const nbCouple: AssessmentContext = {
+      age: 66,
+      province: "NB",
+      maritalStatus: "married",
+      familyIncome: 45000,
+    };
+    expect(statusFor("nb-seniors-benefit", nbCouple)).toBe("eligible");
+
+    // A single senior with $25,000 income is above GIS's real single ceiling
+    // ($22,800) but was wrongly let through by the old flat $30,000 cutoff.
+    const nbSingle: AssessmentContext = {
+      age: 66,
+      province: "NB",
+      maritalStatus: "single",
+      annualIncome: 25000,
+    };
+    expect(statusFor("nb-seniors-benefit", nbSingle)).toBe("ineligible");
+  });
 });
 
 describe("exact amount calculators", () => {

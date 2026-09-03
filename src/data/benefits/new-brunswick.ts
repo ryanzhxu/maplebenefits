@@ -1,7 +1,8 @@
 import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, atMostOf, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { gisIncomeCeiling, gisIsCouple } from "./federal-seniors";
 
 const NB = oneOf((c: { province?: string }) => c.province, ["NB"]);
 const nbFail = tri(
@@ -53,7 +54,7 @@ export const nbSeniorsBenefit: Benefit = {
     `每年 ${fmt(NB_SENIORS.annualBenefit)}`,
   ),
   figures: NB_SENIORS,
-  contextFields: ["province", "age", "annualIncome"],
+  contextFields: ["province", "age", "annualIncome", "familyIncome", "maritalStatus"],
   prerequisites: ["gis"],
   check: buildCheck([
     { test: NB, hard: true, passReason: nbPass, failReason: nbFail, missingField: "province" },
@@ -73,7 +74,16 @@ export const nbSeniorsBenefit: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 30000),
+      // This benefit requires receiving federal GIS or the Allowance, both
+      // income-tested. It used a flat, unsourced $30,000 as a proxy for that,
+      // which cut couples off far below GIS's own real combined-income ceiling
+      // (up to $54,624) while letting singles pass above GIS's real single
+      // ceiling ($22,800). Reusing GIS's own already-anchored, tiered
+      // thresholds (see federal-seniors.ts) removes both errors.
+      test: atMostOf(
+        (c) => (gisIsCouple(c) ? c.familyIncome : c.annualIncome),
+        gisIncomeCeiling,
+      ),
       hard: true,
       passReason: tri(
         "Your income is low enough to receive a federal GIS or Allowance.",
