@@ -1,6 +1,39 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { figures, fmt, val } from "@/lib/figures";
+
+const BC_ACCESS_GRANT_URL =
+  "https://studentaidbc.ca/explore/grants-scholarships/bc-access-grant-full-time";
+
+const BC_ACCESS = figures({
+  shorterMax: {
+    current: {
+      value: 4000,
+      from: "2026-08-01",
+      source: BC_ACCESS_GRANT_URL,
+      quote:
+        "up to $4000 per eight-month school year (up to $117.65 per week of study) for students enrolled in undergraduate programs that are less than two years in length.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum per school year, programs under two years",
+  },
+  longerMax: {
+    current: {
+      value: 1000,
+      from: "2026-08-01",
+      source: BC_ACCESS_GRANT_URL,
+      quote:
+        "up to $1000 per eight-month school year (up to $29.41 per week of study) for students enrolled in undergraduate programs that are two or more years in length.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum per school year, programs two years or longer",
+  },
+});
 
 export const bcAccessGrant: Benefit = {
   id: "bc-access-grant",
@@ -14,10 +47,11 @@ export const bcAccessGrant: Benefit = {
     "为不列颠哥伦比亚省公立专上院校的低至中等收入学生提供的预先、无需偿还款项。申请学生资助时会自动评估。",
   ),
   estimatedValue: tri(
-    "Up to $4,000 per school year (shorter programs); up to $1,000 for longer programs",
-    "每學年最多 $4,000（較短課程）；較長課程最多 $1,000",
-    "每学年最多 $4,000（较短课程）；较长课程最多 $1,000",
+    `Up to ${fmt(BC_ACCESS.shorterMax)} per school year (shorter programs); up to ${fmt(BC_ACCESS.longerMax)} for longer programs`,
+    `每學年最多 ${fmt(BC_ACCESS.shorterMax)}（較短課程）；較長課程最多 ${fmt(BC_ACCESS.longerMax)}`,
+    `每学年最多 ${fmt(BC_ACCESS.shorterMax)}（较短课程）；较长课程最多 ${fmt(BC_ACCESS.longerMax)}`,
   ),
+  figures: BC_ACCESS,
   contextFields: ["province", "postSecondaryStudent", "familyIncome"],
   check: buildCheck([
     {
@@ -57,7 +91,7 @@ export const bcAccessGrant: Benefit = {
       missingField: "familyIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 4000, period: "year" }),
+  estimateAmount: () => ({ low: 0, high: val(BC_ACCESS.shorterMax), period: "year" }),
   applicationSteps: [
     {
       order: 1,
@@ -79,7 +113,7 @@ export const bcAccessGrant: Benefit = {
   paymentFrequency: tri("Per school year", "每學年", "每学年"),
   tags: ["education", "students", "bc", "low-income", "grant"],
   relatedBenefits: ["canada-training-credit"],
-  lastUpdated: "2026-09-01",
+  lastUpdated: "2026-09-03",
 };
 
 export const bcAffordableChildCare: Benefit = {
