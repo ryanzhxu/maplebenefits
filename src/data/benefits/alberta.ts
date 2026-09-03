@@ -38,6 +38,21 @@ const acfbEstimate = (ctx: {
   };
 };
 
+// AISH eligibility copy -- alberta.ca/aish-eligibility (fetched 2026-09-03).
+//
+// Alberta split disability income assistance in two as of July 2, 2026: AISH
+// now requires "a severe disability that permanently prevents employment"
+// (quoted verbatim), while a new program, ADAP, covers severely disabled
+// Albertans who are able to work. The app's copy still described the old,
+// broader pre-split bar ("substantially limits your ability to earn a
+// living"), which over-states who AISH itself now covers. The check still
+// gates on hasSevereDisability alone -- the intake has no field for whether
+// a disability prevents employment, and CPP-D uses the same proxy -- so only
+// the copy changed here. The $1,863/month estimate is left as-is: the only
+// official rate page currently linked from alberta.ca is off the crawler's
+// domain allowlist (humanservices.alberta.ca) and no longer shows a rate
+// table, so this pass could not find a verbatim, in-allowlist quote for a
+// replacement figure.
 export const aish: Benefit = {
   id: "aish",
   name: tri(
@@ -49,9 +64,9 @@ export const aish: Benefit = {
   category: "disability",
   level: "provincial-ab",
   description: tri(
-    "Monthly income, plus health and other benefits, for Alberta adults with a permanent disability that seriously limits their ability to earn a living.",
-    "為永久殘障且嚴重限制謀生能力的亞伯達成人提供每月收入，並附健康及其他福利。",
-    "为永久残障且严重限制谋生能力的阿尔伯塔成人提供每月收入，并附健康及其他福利。",
+    "Monthly income, plus health and other benefits, for Alberta adults with a severe disability that permanently prevents them from working. A related program, ADAP, now covers Albertans with a severe disability who are able to work.",
+    "為患有永久嚴重殘障、完全無法工作的亞伯達成人提供每月收入，並附健康及其他福利。另一相關計劃 ADAP 則適用於仍能工作的嚴重殘障人士。",
+    "为患有永久严重残障、完全无法工作的阿尔伯塔成人提供每月收入，并附健康及其他福利。另一相关计划 ADAP 则适用于仍能工作的严重残障人士。",
   ),
   estimatedValue: tri(
     "Up to about $1,863/month, plus health, dental, and other benefits",
@@ -76,14 +91,14 @@ export const aish: Benefit = {
       test: isTrue((c) => c.hasSevereDisability),
       hard: true,
       passReason: tri(
-        "Your permanent disability may seriously limit your ability to earn a living.",
-        "你的永久殘障或嚴重限制你的謀生能力。",
-        "你的永久残障或严重限制你的谋生能力。",
+        "Your permanent disability may prevent you from working.",
+        "你的永久殘障可能使你無法工作。",
+        "你的永久残障可能使你无法工作。",
       ),
       failReason: tri(
-        "AISH requires a permanent medical condition that substantially limits your ability to earn a living.",
-        "AISH 要求永久且嚴重限制謀生能力的醫療狀況。",
-        "AISH 要求永久且严重限制谋生能力的医疗状况。",
+        "Since July 2026, AISH requires a severe disability that permanently prevents employment; Albertans with a severe disability who are able to work may instead qualify for ADAP.",
+        "自 2026 年 7 月起，AISH 要求永久且完全無法工作的嚴重殘障；仍能工作的嚴重殘障人士則可能符合 ADAP 資格。",
+        "自 2026 年 7 月起，AISH 要求永久且完全无法工作的严重残障；仍能工作的严重残障人士则可能符合 ADAP 资格。",
       ),
       missingField: "hasSevereDisability",
     },
@@ -110,7 +125,7 @@ export const aish: Benefit = {
   paymentFrequency: tri("Monthly", "每月", "每月"),
   tags: ["alberta", "disability", "income", "assistance"],
   relatedBenefits: ["dtc", "cdb"],
-  lastUpdated: "2026-09-01",
+  lastUpdated: "2026-09-03",
 };
 
 // Alberta Seniors Benefit -- thresholds and maximum from alberta.ca.
