@@ -510,7 +510,11 @@ export const ei: Benefit = {
   ]),
   estimateAmount: () => ({
     low: 0,
-    high: 3157,
+    // EI's own page states only a weekly cap ("$729 per week"), never a
+    // monthly figure. Derive the displayed monthly max from that anchored
+    // weekly figure (52 weeks/year ÷ 12) instead of a separate hard-coded
+    // number, so a rate change flows through instead of silently going stale.
+    high: Math.round((val(EI_FIGURES.maxWeekly) * 52) / 12),
     period: "month",
     note: tri(
       `About ${fmt(EI_FIGURES.rate)} of your usual pay, capped at ${fmt(EI_FIGURES.maxWeekly)}/week, and temporary.`,
