@@ -1,7 +1,7 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, atMostOf, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const SK = oneOf((c: { province?: string }) => c.province, ["SK"]);
 const skFail = tri(
@@ -156,8 +156,89 @@ export const said: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// SIS -- benefit scales with household, not a flat ceiling.
+// Source (fetched 2026-09-02): .../financial-help/saskatchewan-income-support-sis
+// The app capped everyone at $900/month, which a single person in
+// Saskatoon already exceeds ($375 basic + $675 shelter = $1,050).
+const SIS_URL =
+  "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis";
+const SIS_RATES =
+  "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287";
+
+const SIS_FIGURES = figures({
+  adultBasic: {
+    current: { value: 375, from: "2026-05-01", source: SIS_URL, quote: SIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Adult basic benefit, monthly",
+  },
+  childBasic: {
+    current: { value: 65, from: "2026-05-01", source: SIS_URL, quote: SIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Children's basic benefit, per child, monthly",
+  },
+  shelterSingle: {
+    current: { value: 675, from: "2026-05-01", source: SIS_URL, quote: SIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Shelter benefit, single (Saskatoon/Regina)",
+  },
+  shelterCouple: {
+    current: { value: 865, from: "2026-05-01", source: SIS_URL, quote: SIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Shelter benefit, couple without children (Saskatoon/Regina)",
+  },
+  shelterFamilySmall: {
+    current: { value: 1105, from: "2026-05-01", source: SIS_URL, quote: SIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Shelter benefit, family with 1-2 children (Saskatoon/Regina)",
+  },
+  shelterFamilyLarge: {
+    current: { value: 1287, from: "2026-05-01", source: SIS_URL, quote: SIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Shelter benefit, family with 3+ children (Saskatoon/Regina)",
+  },
+});
+
+/**
+ * Monthly SIS ceiling for this household.
+ *
+ * Uses the Saskatoon/Regina shelter rates, which are the higher of the two
+ * bands the province publishes, so this is an upper bound rather than a
+ * promise. Rates outside those cities are lower.
+ */
+const sisMonthly = (ctx: {
+  maritalStatus?: string;
+  hasChildren?: boolean;
+  numberOfChildren?: number;
+}): number => {
+  const couple = ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+  const kids = ctx.hasChildren === true ? Math.max(0, ctx.numberOfChildren ?? 0) : 0;
+  const basic = val(SIS_FIGURES.adultBasic) * (couple ? 2 : 1) + val(SIS_FIGURES.childBasic) * kids;
+  const shelter =
+    kids >= 3
+      ? val(SIS_FIGURES.shelterFamilyLarge)
+      : kids >= 1
+        ? val(SIS_FIGURES.shelterFamilySmall)
+        : couple
+          ? val(SIS_FIGURES.shelterCouple)
+          : val(SIS_FIGURES.shelterSingle);
+  return basic + shelter;
+};
+
 export const sis: Benefit = {
   id: "sis",
+  figures: SIS_FIGURES,
   name: tri(
     "Saskatchewan Income Support (SIS)",
     "薩斯喀徹溫收入援助 (SIS)",
@@ -176,7 +257,7 @@ export const sis: Benefit = {
     "為有經濟需要人士涵蓋基本需要及住屋",
     "为有经济需要人士涵盖基本需要及住房",
   ),
-  contextFields: ["province", "annualIncome"],
+  contextFields: ["province", "annualIncome", "maritalStatus", "hasChildren", "numberOfChildren"],
   check: buildCheck([
     { test: SK, hard: true, passReason: skPass, failReason: skFail, missingField: "province" },
     {
@@ -205,7 +286,16 @@ export const sis: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 900, period: "month" }),
+  estimateAmount: (ctx) => ({
+    low: 0,
+    high: sisMonthly(ctx),
+    period: "month",
+    note: tri(
+      "Upper bound using the Saskatoon/Regina shelter rates; rates elsewhere are lower.",
+      "以薩斯卡通／里賈納的住屋津貼計算的上限；其他地區較低。",
+      "以萨斯卡通／里贾纳的住屋津贴计算的上限；其他地区较低。",
+    ),
+  }),
   applicationSteps: [
     {
       order: 1,
@@ -273,7 +363,7 @@ export const slitc: Benefit = {
       missingField: "filedTaxes",
     },
     {
-      test: atMost((c) => c.familyIncome, 80058),
+      test: atMost((c) => c.familyIncome, 81668),
       hard: false,
       passReason: tri(
         "Your income is within the range that receives the credit.",
@@ -306,8 +396,59 @@ export const slitc: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Seniors Income Plan -- Saskatchewan's own income cutoffs, not the federal
+// GIS figure. Source (fetched 2026-09-02): .../seniors-services/seniors-income-plan
+//
+// The app gated SIP on $22,488, which is the federal GIS eligibility number
+// and has nothing to do with SIP. Saskatchewan's own table shows the benefit
+// reaching $0 at $4,560 for a single recipient — a fifth of what the app used.
+// This OVER-promised: seniors well past the cutoff were told they qualified.
+const SIP_URL =
+  "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan";
+const SIP_TABLE =
+  "Single OAS/GIS Recipient $360 $4,560 Married - Both OAS/GIS Recipients $325 $7,440 Married - Spouse less than 60 years of age $360 $11,568";
+
+const SIP = figures({
+  maxMonthlySingle: {
+    current: { value: 360, from: "2023-07-01", source: SIP_URL, quote: SIP_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum monthly benefit, single recipient",
+  },
+  zeroAtIncomeSingle: {
+    current: { value: 4560, from: "2026-04-01", source: SIP_URL, quote: SIP_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Annual taxable income at which SIP reaches $0, single",
+  },
+  zeroAtIncomeCoupleWidest: {
+    current: { value: 11568, from: "2026-04-01", source: SIP_URL, quote: SIP_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Widest couple income cutoff (spouse under 60)",
+  },
+});
+
+/**
+ * Income at which SIP reaches zero for this household.
+ *
+ * Saskatchewan publishes three separate couple cutoffs depending on whether
+ * the spouse receives OAS/GIS, is under 60, or is 60-64 on the Allowance. The
+ * intake does not ask about a spouse's age or pension status, so couples are
+ * measured against the WIDEST of the three. That can suggest checking a
+ * benefit someone turns out not to get; the alternative wrongly excludes them.
+ */
+const sipIncomeCeiling = (c: { maritalStatus?: string }): number =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law"
+    ? val(SIP.zeroAtIncomeCoupleWidest)
+    : val(SIP.zeroAtIncomeSingle);
+
 export const sip: Benefit = {
   id: "sip",
+  figures: SIP,
   name: tri("Seniors Income Plan (SIP)", "長者收入計劃 (SIP)", "长者收入计划 (SIP)"),
   shortName: "SIP",
   category: "seniors",
@@ -338,7 +479,7 @@ export const sip: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 22488),
+      test: atMostOf((c) => c.annualIncome, sipIncomeCeiling),
       hard: true,
       passReason: tri(
         "Your income is low enough to receive GIS, which triggers SIP.",
@@ -357,11 +498,11 @@ export const sip: Benefit = {
   applicationSteps: [
     {
       order: 1,
-      title: tri("Apply through the Province", "向省政府申請", "向省政府申请"),
+      title: tri("No application needed", "無需申請", "无需申请"),
       description: tri(
-        "Apply for SIP through Seniors Services. Your GIS eligibility determines the amount.",
-        "透過長者服務申請 SIP。你的 GIS 資格決定金額。",
-        "通过长者服务申请 SIP。你的 GIS 资格决定金额。",
+        "Saskatchewan states no application is required. Eligibility and the amount are worked out from your tax return and your OAS/GIS application with Service Canada.",
+        "薩斯喀徹溫省表明無需申請。資格及金額會根據你的稅表及向 Service Canada 申請的 OAS/GIS 自動釐定。",
+        "萨斯喀彻温省表明无需申请。资格及金额会根据你的税表及向 Service Canada 申请的 OAS/GIS 自动厘定。",
       ),
       actionUrl:
         "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan",
