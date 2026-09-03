@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { extractFigures, stripComments, stripFigureBlocks, stripUrls } from "../../scripts/crawl/audit";
+import {
+  extractFigures,
+  statedIn,
+  stripComments,
+  stripFigureBlocks,
+  stripUrls,
+} from "../../scripts/crawl/audit";
 
 const values = (src: string) => extractFigures(src).map((f) => f.value).sort((a, b) => a - b);
 
@@ -45,6 +51,26 @@ describe("extractFigures", () => {
 
   it("keeps decimal amounts", () => {
     expect(values('max: "$1,673.24 per month"')).toEqual([1673.24]);
+  });
+});
+
+describe("statedIn", () => {
+  // Callers always pass text already run through comparable(), which collapses
+  // digit-grouping separators -- so these fixtures are comma-free, as the real
+  // page text would be by the time it reaches statedIn.
+  it("matches a value against a page's two-decimal cent formatting", () => {
+    // Manitoba's 55 PLUS page states "$9,746.40"; the app stores the shortest
+    // float form, 9746.4. A prior string-match implementation missed this.
+    expect(statedIn(9746.4, "income up to $9746.40 for a single person")).toBe(true);
+    expect(statedIn(192.5, "$192.50 per month for each additional child")).toBe(true);
+  });
+
+  it("still matches a plain integer exactly", () => {
+    expect(statedIn(45000, "net income of $45000 or less")).toBe(true);
+  });
+
+  it("does not match a genuinely different number", () => {
+    expect(statedIn(9746.4, "income up to $9999.40 for a single person")).toBe(false);
   });
 });
 

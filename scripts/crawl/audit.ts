@@ -239,10 +239,21 @@ function closestPageNumber(
   return best;
 }
 
-/** Is this number stated anywhere in the page text? */
-function statedIn(value: number, text: string): boolean {
-  const re = new RegExp(`(?<![\\d.,])${String(value).replace(".", "\\.")}(?![\\d])`);
-  return re.test(text);
+/**
+ * Is this number stated anywhere in the page text?
+ *
+ * Compares numerically rather than by string equality: canada.ca writes cent
+ * amounts with two decimals ("$9,746.40", "$192.50") while the app stores the
+ * shortest form of the same float (9746.4, 192.5). A literal-text match on
+ * "9746.4" never finds "9746.40" -- the trailing zero makes the next character
+ * a digit, which fails the no-more-digits lookahead -- so a correctly quoted
+ * figure was reported unconfirmed forever.
+ */
+export function statedIn(value: number, text: string): boolean {
+  for (const m of text.matchAll(/(?<![\d.,])\d+(?:\.\d+)?(?![\d])/g)) {
+    if (Number(m[0]) === value) return true;
+  }
+  return false;
 }
 
 export async function auditBenefit(b: Benefit, source: string): Promise<BenefitAudit> {
