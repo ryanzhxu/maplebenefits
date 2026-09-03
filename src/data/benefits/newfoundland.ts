@@ -23,6 +23,8 @@ const NLCB_URL =
   "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html";
 const NLCB_RATES =
   "For July 2026 to June 2027, you may be entitled to: $157.33 per month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each additional child.";
+const NLCB_REDUCTION =
+  "If your adjusted family net income is more than $20,397, you may get part of the benefit.";
 
 const NLCB = figures({
   firstChildMonthly: {
@@ -53,6 +55,13 @@ const NLCB = figures({
     format: "currency-cents",
     label: "Monthly amount, each additional child",
   },
+  reductionStartsAt: {
+    current: { value: 20397, from: "2026-07-01", source: NLCB_URL, quote: NLCB_REDUCTION },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income where the benefit starts to reduce",
+  },
 });
 
 /** Annual total for this many children, using the escalating monthly rates. */
@@ -80,7 +89,7 @@ const n = ctx.numberOfChildren ?? 1;
   const income = ctx.familyIncome;
   const max = nlcbAnnual(n);
   if (income === undefined) return { low: 0, high: max, period: "year" };
-  if (income < 28990) return { low: max, high: max, period: "year" };
+  if (income < val(NLCB.reductionStartsAt)) return { low: max, high: max, period: "year" };
   return { low: 0, high: max, period: "year" };
 };
 
@@ -101,9 +110,9 @@ export const nlChildBenefit: Benefit = {
     "为纽芬兰与拉布拉多低收入、有 18 岁以下子女家庭提供的免税每月款项，与加拿大儿童福利一并发放。金额于 2025 年大幅增加。",
   ),
   estimatedValue: tri(
-    "About $1,868/year for one child, more for additional children (income under $28,990)",
-    "一名子女約每年 $1,868，子女越多越高（收入低於 $28,990）",
-    "一名子女约每年 $1,868，子女越多越高（收入低于 $28,990）",
+    `About $${nlcbAnnual(1).toLocaleString("en-CA")}/year for one child, more for additional children (income under ${fmt(NLCB.reductionStartsAt)})`,
+    `一名子女約每年 $${nlcbAnnual(1).toLocaleString("en-CA")}，子女越多越高（收入低於 ${fmt(NLCB.reductionStartsAt)}）`,
+    `一名子女约每年 $${nlcbAnnual(1).toLocaleString("en-CA")}，子女越多越高（收入低于 ${fmt(NLCB.reductionStartsAt)}）`,
   ),
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   prerequisites: ["ccb"],
@@ -121,17 +130,12 @@ export const nlChildBenefit: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 28990),
-      hard: true,
+      test: atMost((c) => c.familyIncome, val(NLCB.reductionStartsAt)),
+      hard: false,
       passReason: tri(
-        "Your income is within the range for this benefit.",
-        "你的收入在此福利的範圍內。",
-        "你的收入在此福利的范围内。",
-      ),
-      failReason: tri(
-        "The NL Child Benefit is for families with income under about $28,990.",
-        "紐芬蘭與拉布拉多兒童福利適用於收入約 $28,990 以下的家庭。",
-        "纽芬兰与拉布拉多儿童福利适用于收入约 $28,990 以下的家庭。",
+        "Your income is in the low range this benefit is for.",
+        "你的收入屬此福利針對的低收入範圍。",
+        "你的收入属此福利针对的低收入范围。",
       ),
       missingField: "familyIncome",
     },
@@ -156,7 +160,7 @@ export const nlChildBenefit: Benefit = {
   paymentFrequency: tri("Monthly", "每月", "每月"),
   tags: ["newfoundland", "family", "children", "low-income"],
   relatedBenefits: ["ccb"],
-  lastUpdated: "2026-09-01",
+  lastUpdated: "2026-09-03",
 };
 
 export const nlIncomeSupport: Benefit = {
