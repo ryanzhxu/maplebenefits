@@ -679,6 +679,9 @@ export const allowance: Benefit = {
 const SURVIVOR_URL =
   "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor/eligibility.html";
 
+const SURVIVOR_PAYMENTS_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html";
+
 const SURVIVOR = figures({
   incomeLimit: {
     current: {
@@ -691,6 +694,18 @@ const SURVIVOR = figures({
     verifiedAt: "2026-09-02",
     format: "currency",
     label: "Annual net income limit",
+  },
+  maxMonthly: {
+    current: {
+      value: 1702.34,
+      from: "2026-07-01",
+      source: SURVIVOR_PAYMENTS_URL,
+      quote: "Surviving spouse/common-law partner: up to $1702.34/month",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Maximum monthly Allowance for the Survivor",
   },
 });
 
@@ -711,9 +726,9 @@ export const allowanceSurvivor: Benefit = {
     "为 60 至 64 岁、配偶或伴侣已离世且未再婚的低收入人士提供的每月款项。",
   ),
   estimatedValue: tri(
-    "Up to about $1,702/month",
-    "最多約每月 $1,702",
-    "最多约每月 $1,702",
+    `Up to about ${fmt(SURVIVOR.maxMonthly)}/month`,
+    `最多約每月 ${fmt(SURVIVOR.maxMonthly)}`,
+    `最多约每月 ${fmt(SURVIVOR.maxMonthly)}`,
   ),
   contextFields: ["age", "maritalStatus", "annualIncome"],
   check: buildCheck([
@@ -763,7 +778,7 @@ export const allowanceSurvivor: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1702, period: "month" }),
+  estimateAmount: () => ({ low: 0, high: val(SURVIVOR.maxMonthly), period: "month" }),
   applicationSteps: [
     {
       order: 1,
