@@ -6,10 +6,12 @@ wrong number is not a cosmetic bug.
 
 ## Goal
 
-Finish anchoring every benefit's figures to the official page that states them,
-so the freshness lane can re-verify them automatically; add broad, high-reach
-provincial benefits that pass validation; and once the data is sound, refine the
-app and its user experience. Never invent a figure.
+50 of 80 active benefits are now anchored (sourced `figures`, re-verified live
+each run). From here: keep closing that gap, but weight EQUALLY toward
+re-verifying benefits already marked anchored or "clean" against a fresh fetch
+(a source page can change after the fact) and toward user-experience
+refinement — accessibility, mobile layout, result clarity, empty/error states,
+performance. Never invent a figure.
 
 ## Value ranking (what "highest-value" means here)
 
@@ -17,17 +19,24 @@ app and its user experience. Never invent a figure.
    quote from the benefit's own official source. Prefer the ones that wrongly
    tell someone they do NOT qualify — under-promising stops people applying, so
    it costs more than over-promising.
-2. **Anchor an unanchored benefit**: add a `figures` block whose every entry
-   quotes the page that states it, so `run.ts freshness` re-checks it each run.
-   36 of 80 benefits still have no `figures` block.
-3. **Re-point a benefit that cites a page stating no dollar amounts** at the page
+2. **Re-verify a previously anchored benefit against a fresh fetch of its own
+   cited source.** `npx tsx scripts/crawl/run.ts freshness` reports drift
+   automatically — do not re-derive this by hand, run it and act on what it
+   finds. A figure that was right when anchored can go stale like any other.
+3. **Anchor an unanchored benefit**: add a `figures` block whose every entry
+   quotes the page that states it. Run
+   `npx tsx scripts/crawl/run.ts audit` first to see which unanchored benefits
+   have the most user-facing figures at stake.
+4. **Re-point a benefit that cites a page stating no dollar amounts** at the page
    that actually states them. Those figures are unfalsifiable until you do.
-4. **Add a broad provincial benefit** a typical household could qualify for,
+5. **Improve the user experience**: accessibility (labels, contrast, focus
+   order, keyboard nav), mobile layout, clarity of eligibility results, empty
+   and error states, page performance. Verify visually — run the dev server and
+   look, don't just read the JSX.
+6. **Add a broad provincial benefit** a typical household could qualify for,
    researched to a spec that passes `scripts/crawl/validate-spec.ts` clean.
    Narrow categorical programs are out of scope.
-5. **Refine the app and user experience**: accessibility, clarity of results,
-   mobile layout, empty and error states, page performance.
-6. **Remove duplication or dead code** your own earlier passes created.
+7. **Remove duplication or dead code** your own earlier passes created.
 
 ## Protected paths — NEVER modify
 
@@ -74,7 +83,6 @@ app and its user experience. Never invent a figure.
 ```autobuild
 verify = npm test && npx tsc --noEmit && npm run build
 gate = direct
-model = sonnet
 notify = gh issue create --title "{title}" --body "{body}"
 branch_prefix = autobuild
 email_to = ryan.xu282@gmail.com
@@ -82,13 +90,6 @@ email_cmd =
 ```
 
 <!--
-model   sonnet. Each pass is mechanical — read a benefit file, fetch the page
-        that states its figures, make a scoped edit, run verify. Sonnet does
-        that well (it produced 34 clean figures across four researched specs
-        earlier, zero validation errors), at a fraction of Opus's cost, which
-        is what makes a full-day budget realistic. Planning and review stay
-        with the operator's session; the loop only implements.
-
 verify  Deliberately NOT `npm run lint` — the repo has two pre-existing lint
         errors unrelated to this work, so a repo-wide lint gate would reject
         every pass. Tests, typecheck and a real static build are the gate.
