@@ -295,6 +295,24 @@ const busPassCheck = (ctx: AssessmentContext): CheckResult => {
   };
 };
 
+const BC_BUS_PASS_SENIORS_URL =
+  "https://www2.gov.bc.ca/gov/content/transportation/passenger-travel/buses-taxis-limos/bus-pass/seniors";
+
+const BC_BUS_PASS = figures({
+  annualFee: {
+    current: {
+      value: 45,
+      from: "2026-06-08",
+      source: BC_BUS_PASS_SENIORS_URL,
+      quote: "There is a $45 yearly cost for the pass.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Annual pass fee",
+  },
+});
+
 export const bcBusPass: Benefit = {
   id: "bc-bus-pass",
   name: tri("BC Bus Pass Program", "卑詩省巴士證計劃", "不列颠哥伦比亚省巴士证计划"),
@@ -302,15 +320,16 @@ export const bcBusPass: Benefit = {
   category: "seniors",
   level: "provincial-bc",
   description: tri(
-    "A low-cost annual bus pass for people on disability or income assistance, and for low-income seniors. The pass costs $45 for the year.",
-    "為領取殘障或收入援助人士及低收入長者提供的低價全年巴士證，全年費用為 $45。",
-    "为领取残障或收入援助人士及低收入长者提供的低价全年巴士证，全年费用为 $45。",
+    `A low-cost annual bus pass for people on disability or income assistance, and for low-income seniors. The pass costs ${fmt(BC_BUS_PASS.annualFee)} for the year.`,
+    `為領取殘障或收入援助人士及低收入長者提供的低價全年巴士證，全年費用為 ${fmt(BC_BUS_PASS.annualFee)}。`,
+    `为领取残障或收入援助人士及低收入长者提供的低价全年巴士证，全年费用为 ${fmt(BC_BUS_PASS.annualFee)}。`,
   ),
   estimatedValue: tri(
-    "A full year of transit for a $45 annual fee",
-    "全年公共交通，只需 $45 年費",
-    "全年公共交通，只需 $45 年费",
+    `A full year of transit for a ${fmt(BC_BUS_PASS.annualFee)} annual fee`,
+    `全年公共交通，只需 ${fmt(BC_BUS_PASS.annualFee)} 年費`,
+    `全年公共交通，只需 ${fmt(BC_BUS_PASS.annualFee)} 年费`,
   ),
+  figures: BC_BUS_PASS,
   contextFields: ["province", "age", "annualIncome", "receivesProvincialAssistance"],
   check: busPassCheck,
   applicationSteps: [
@@ -318,9 +337,9 @@ export const bcBusPass: Benefit = {
       order: 1,
       title: tri("Apply for the bus pass", "申請巴士證", "申请巴士证"),
       description: tri(
-        "If you are on PWD, ask your worker. Low-income seniors apply to the BC Bus Pass Program and pay the $45 annual fee.",
-        "如你領取 PWD，請聯絡你的個案工作員。低收入長者可向巴士證計劃申請並繳付 $45 年費。",
-        "如你领取 PWD，请联系你的个案工作员。低收入长者可向巴士证计划申请并缴付 $45 年费。",
+        `If you are on PWD, ask your worker. Low-income seniors apply to the BC Bus Pass Program and pay the ${fmt(BC_BUS_PASS.annualFee)} annual fee.`,
+        `如你領取 PWD，請聯絡你的個案工作員。低收入長者可向巴士證計劃申請並繳付 ${fmt(BC_BUS_PASS.annualFee)} 年費。`,
+        `如你领取 PWD，请联系你的个案工作员。低收入长者可向巴士证计划申请并缴付 ${fmt(BC_BUS_PASS.annualFee)} 年费。`,
       ),
       actionUrl:
         "https://www2.gov.bc.ca/gov/content/transportation/passenger-travel/buses-taxis-limos/bus-pass",
@@ -328,7 +347,11 @@ export const bcBusPass: Benefit = {
   ],
   requiredDocuments: [
     tri("Proof of age or assistance", "年齡或援助證明", "年龄或援助证明"),
-    tri("$45 annual fee", "$45 年費", "$45 年费"),
+    tri(
+      `${fmt(BC_BUS_PASS.annualFee)} annual fee`,
+      `${fmt(BC_BUS_PASS.annualFee)} 年費`,
+      `${fmt(BC_BUS_PASS.annualFee)} 年费`,
+    ),
   ],
   applicationUrl:
     "https://www2.gov.bc.ca/gov/content/transportation/passenger-travel/buses-taxis-limos/bus-pass",
