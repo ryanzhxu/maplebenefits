@@ -164,7 +164,26 @@ export const ontarioTrillium: Benefit = {
       missingField: "familyIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1421, period: "year" }),
+  // 1421 appeared on no source page and matched none of this benefit's own
+  // figures, so the card and the detail page disagreed. Derived now: the
+  // energy and property tax component at the applicant's age band, plus the
+  // sales tax credit for one adult.
+  estimateAmount: (ctx) => {
+    const senior = ctx.age !== undefined && ctx.age >= 65;
+    const energyProperty = senior
+      ? val(OTB.energyPropertyMax65Plus)
+      : val(OTB.energyPropertyMax18to64);
+    return {
+      low: 0,
+      high: energyProperty + val(OTB.salesTaxCreditPerAdult),
+      period: "year",
+      note: tri(
+        "Combines three credits; the exact amount depends on your rent or property tax and energy costs.",
+        "合併三項抵免；實際金額視乎你的租金或物業稅及能源開支。",
+        "合并三项抵免；实际金额视乎你的租金或物业税及能源开支。",
+      ),
+    };
+  },
   applicationSteps: [
     {
       order: 1,
@@ -521,6 +540,37 @@ export const ontarioDrugBenefit: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Ontario Senior Homeowners' Property Tax Grant -- income limits differ by
+// marital status. Source (fetched 2026-09-02):
+// https://www.ontario.ca/page/senior-homeowners-property-tax-grant
+// The app applied the SINGLE limit ($50,000) to everyone, so a married couple
+// earning between $50,000 and $60,000 was told they did not qualify when
+// Ontario says they do.
+const SHG_URL = "https://www.ontario.ca/page/senior-homeowners-property-tax-grant";
+const SHG_SENTENCE =
+  "you were single, divorced or widowed and earned less than $50,000 you were married or living common-law and you and your spouse/common-law partner earned a combined income of less than $60,000";
+
+const SHG = figures({
+  incomeLimitSingle: {
+    current: { value: 50000, from: "2026-01-01", source: SHG_URL, quote: SHG_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income limit, single/divorced/widowed",
+  },
+  incomeLimitCouple: {
+    current: { value: 60000, from: "2026-01-01", source: SHG_URL, quote: SHG_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Combined income limit, married or common-law",
+  },
+});
+
+/** A couple is measured on combined income against the higher limit. */
+const shgIsCouple = (c: { maritalStatus?: string }) =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law";
+
 export const ontarioSeniorHomeownerGrant: Benefit = {
   id: "ontario-senior-homeowner-grant",
   name: tri(
@@ -541,7 +591,15 @@ export const ontarioSeniorHomeownerGrant: Benefit = {
     "每年最多 $500",
     "每年最多 $500",
   ),
-  contextFields: ["province", "isHomeowner", "age", "annualIncome"],
+  figures: SHG,
+  contextFields: [
+    "province",
+    "isHomeowner",
+    "age",
+    "annualIncome",
+    "familyIncome",
+    "maritalStatus",
+  ],
   check: buildCheck([
     { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
     {
@@ -567,7 +625,10 @@ export const ontarioSeniorHomeownerGrant: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 50000),
+      test: atMostOf(
+        (c) => (shgIsCouple(c) ? c.familyIncome ?? c.annualIncome : c.annualIncome),
+        (c) => (shgIsCouple(c) ? val(SHG.incomeLimitCouple) : val(SHG.incomeLimitSingle)),
+      ),
       hard: false,
       passReason: tri(
         "Your income is within the range for the grant.",
@@ -621,6 +682,19 @@ const LIFT = figures({
     verifiedAt: "2026-09-02",
     format: "currency",
     label: "Maximum credit",
+  },
+  rateOfEmploymentIncome: {
+    current: {
+      value: 5.05,
+      from: "2022-01-01",
+      source: LIFT_URL,
+      quote:
+        "The maximum credit you can receive is $875 or 5.05% of your employment income, whichever is lower.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Share of employment income the credit cannot exceed",
   },
   individualIncomeLimit: {
     current: {
@@ -680,8 +754,13 @@ const LIFT = figures({
 const liftEstimate = (ctx: AssessmentContext): AmountEstimate | undefined => {
   const individual = ctx.annualIncome;
   const family = ctx.familyIncome ?? individual;
-  const max = val(LIFT.maxCredit);
-  if (individual === undefined) return { low: 0, high: max, period: "year" };
+  // Ontario states the maximum as "$875 or 5.05% of your employment income,
+  // whichever is lower". Ignoring the second half overstates the credit for
+  // part-time and low-wage workers, who are exactly who this credit is for:
+  // at $10,000 of employment income the real cap is $505, not $875.
+  const ceiling = val(LIFT.maxCredit);
+  if (individual === undefined) return { low: 0, high: ceiling, period: "year" };
+  const max = Math.min(ceiling, (val(LIFT.rateOfEmploymentIncome) / 100) * individual);
 
   const overIndividual = Math.max(0, individual - val(LIFT.individualReductionFrom));
   const overFamily = Math.max(0, (family ?? individual) - val(LIFT.familyReductionFrom));
