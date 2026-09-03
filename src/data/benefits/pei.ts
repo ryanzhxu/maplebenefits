@@ -47,6 +47,63 @@ const pePass = tri(
   "你居住在爱德华王子岛省。",
 );
 
+const PEICB = figures({
+  lowerBandMonthly: {
+    current: {
+      value: 34.16,
+      from: "2026-07-01",
+      source: PEI_CRA_URL,
+      quote:
+        "$34.16 per month for each child under 18 years of age if your adjusted family net income is less than $45000",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Monthly amount per child, income under $45,000",
+  },
+  higherBandMonthly: {
+    current: {
+      value: 24.16,
+      from: "2026-07-01",
+      source: PEI_CRA_URL,
+      quote:
+        "$24.16 per month for each child under 18 years of age if your adjusted family net income is between $45000 and $80000",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Monthly amount per child, income $45,000-$80,000",
+  },
+  lowerBandCeiling: {
+    current: {
+      value: 45000,
+      from: "2026-07-01",
+      source: PEI_CRA_URL,
+      quote: "if your adjusted family net income is less than $45000",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income under which the higher monthly rate applies",
+  },
+  phaseOutCeiling: {
+    current: {
+      value: 80000,
+      from: "2026-07-01",
+      source: PEI_CRA_URL,
+      quote:
+        "If your adjusted family net income is greater than $80000, the amount is reduced to zero.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income above which the benefit is zero",
+  },
+});
+
+const PEICB_LOW_ANNUAL = Math.round(val(PEICB.higherBandMonthly) * 12);
+const PEICB_HIGH_ANNUAL = Math.round(val(PEICB.lowerBandMonthly) * 12);
+
 const peiChildEstimate = (ctx: {
   hasChildren?: boolean;
   numberOfChildren?: number;
@@ -55,14 +112,12 @@ const peiChildEstimate = (ctx: {
   if (ctx.hasChildren !== true) return undefined;
   const n = ctx.numberOfChildren ?? 1;
   const income = ctx.familyIncome;
-  const perChildLow = 290; // ~$24.16/mo
-  const perChildHigh = 410; // ~$34.16/mo
   if (income === undefined)
-    return { low: 0, high: perChildHigh * n, period: "year" };
-  if (income < 45000)
-    return { low: perChildHigh * n, high: perChildHigh * n, period: "year" };
-  if (income < 80000)
-    return { low: perChildLow * n, high: perChildLow * n, period: "year" };
+    return { low: 0, high: PEICB_HIGH_ANNUAL * n, period: "year" };
+  if (income < val(PEICB.lowerBandCeiling))
+    return { low: PEICB_HIGH_ANNUAL * n, high: PEICB_HIGH_ANNUAL * n, period: "year" };
+  if (income < val(PEICB.phaseOutCeiling))
+    return { low: PEICB_LOW_ANNUAL * n, high: PEICB_LOW_ANNUAL * n, period: "year" };
   return { low: 0, high: 0, period: "year" };
 };
 
@@ -157,9 +212,9 @@ export const peiChildBenefit: Benefit = {
     "为爱德华王子岛低及中等收入、有 18 岁以下子女家庭提供的免税每月款项，与加拿大儿童福利一并发放。2025 年起实施。",
   ),
   estimatedValue: tri(
-    "Up to about $410/year per child (income under $45,000); less up to $80,000",
-    "每名子女最多約每年 $410（收入低於 $45,000）；至 $80,000 較少",
-    "每名子女最多约每年 $410（收入低于 $45,000）；至 $80,000 较少",
+    `Up to about $${PEICB_HIGH_ANNUAL}/year per child (income under ${fmt(PEICB.lowerBandCeiling)}); less up to ${fmt(PEICB.phaseOutCeiling)}`,
+    `每名子女最多約每年 $${PEICB_HIGH_ANNUAL}（收入低於 ${fmt(PEICB.lowerBandCeiling)}）；至 ${fmt(PEICB.phaseOutCeiling)} 較少`,
+    `每名子女最多约每年 $${PEICB_HIGH_ANNUAL}（收入低于 ${fmt(PEICB.lowerBandCeiling)}）；至 ${fmt(PEICB.phaseOutCeiling)} 较少`,
   ),
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   prerequisites: ["ccb"],
@@ -177,7 +232,7 @@ export const peiChildBenefit: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 80000),
+      test: atMost((c) => c.familyIncome, val(PEICB.phaseOutCeiling)),
       hard: true,
       passReason: tri(
         "Your income is within the range for this benefit.",
@@ -185,9 +240,9 @@ export const peiChildBenefit: Benefit = {
         "你的收入在此福利的范围内。",
       ),
       failReason: tri(
-        "The PEI Child Benefit phases out above $80,000 of family income.",
-        "愛德華王子島兒童福利在家庭收入 $80,000 以上逐步取消。",
-        "爱德华王子岛儿童福利在家庭收入 $80,000 以上逐步取消。",
+        `The PEI Child Benefit phases out above ${fmt(PEICB.phaseOutCeiling)} of family income.`,
+        `愛德華王子島兒童福利在家庭收入 ${fmt(PEICB.phaseOutCeiling)} 以上逐步取消。`,
+        `爱德华王子岛儿童福利在家庭收入 ${fmt(PEICB.phaseOutCeiling)} 以上逐步取消。`,
       ),
       missingField: "familyIncome",
     },
@@ -212,7 +267,8 @@ export const peiChildBenefit: Benefit = {
   paymentFrequency: tri("Monthly", "每月", "每月"),
   tags: ["pei", "family", "children", "low-income"],
   relatedBenefits: ["ccb"],
-  lastUpdated: "2026-09-01",
+  figures: PEICB,
+  lastUpdated: "2026-09-03",
 };
 
 export const peiSocialAssistance: Benefit = {
