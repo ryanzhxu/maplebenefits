@@ -422,6 +422,57 @@ export const ontarioChildBenefit: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// GAINS -- payment maximum and income limits from the ontario.ca program page.
+// Source (fetched 2026-09-03):
+// https://www.ontario.ca/page/guaranteed-annual-income-system-payments-seniors
+//
+// The income gate hard-coded a flat $22,488 for everyone -- the federal GIS
+// threshold, not GAINS's own. GAINS publishes much lower, tiered private-income
+// limits ($4,416 single / $8,832 couple, which exclude OAS and GIS itself), so
+// a senior with income between those numbers and $22,488 was wrongly told they
+// qualified. Fixed with atMostOf, following the GIS/OAS pattern above.
+const GAINS_URL =
+  "https://www.ontario.ca/page/guaranteed-annual-income-system-payments-seniors";
+const GAINS_INCOME_SENTENCE =
+  "have an annual private income of up to $4,416 if you are a single senior or up to $8,832 if you are a senior couple";
+
+const GAINS_FIGURES = figures({
+  maxMonthlySingle: {
+    current: {
+      value: 92,
+      from: "2026-07-01",
+      source: GAINS_URL,
+      quote:
+        "Eligible seniors can receive up to $92 per month through GAINS for the 2026 benefit year",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum monthly GAINS payment, single senior",
+  },
+  incomeMaxSingle: {
+    current: { value: 4416, from: "2026-07-01", source: GAINS_URL, quote: GAINS_INCOME_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Private income limit, single senior",
+  },
+  incomeMaxCouple: {
+    current: { value: 8832, from: "2026-07-01", source: GAINS_URL, quote: GAINS_INCOME_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Private income limit, senior couple",
+  },
+});
+
+/** A couple's COMBINED private income is measured against the couple limit. */
+const gainsIsCouple = (c: { maritalStatus?: string }) =>
+  c.maritalStatus === "married" || c.maritalStatus === "common-law";
+
+const gainsIncomeCeiling = (c: { maritalStatus?: string }) =>
+  gainsIsCouple(c) ? val(GAINS_FIGURES.incomeMaxCouple) : val(GAINS_FIGURES.incomeMaxSingle);
+
 export const ontarioGains: Benefit = {
   id: "ontario-gains",
   name: tri(
@@ -438,11 +489,12 @@ export const ontarioGains: Benefit = {
     "为领取联邦保证收入补助金的安大略低收入长者提供的每月免税补助。对大多数人而言是自动的。",
   ),
   estimatedValue: tri(
-    "Up to about $92/month for a single senior",
-    "單身長者最多約每月 $92",
-    "单身长者最多约每月 $92",
+    `Up to about ${fmt(GAINS_FIGURES.maxMonthlySingle)}/month for a single senior`,
+    `單身長者最多約每月 ${fmt(GAINS_FIGURES.maxMonthlySingle)}`,
+    `单身长者最多约每月 ${fmt(GAINS_FIGURES.maxMonthlySingle)}`,
   ),
-  contextFields: ["province", "age", "annualIncome"],
+  figures: GAINS_FIGURES,
+  contextFields: ["province", "age", "annualIncome", "familyIncome", "maritalStatus"],
   prerequisites: ["gis"],
   check: buildCheck([
     { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
@@ -458,22 +510,25 @@ export const ontarioGains: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.annualIncome, 22488),
+      test: atMostOf(
+        (c) => (gainsIsCouple(c) ? c.familyIncome : c.annualIncome),
+        gainsIncomeCeiling,
+      ),
       hard: true,
       passReason: tri(
-        "Your income is low enough to receive GIS, which triggers GAINS.",
-        "你的收入足夠低以領取 GIS，並會觸發 GAINS。",
-        "你的收入足够低以领取 GIS，并会触发 GAINS。",
+        "Your private income is low enough for GAINS.",
+        "你的私人收入足夠低，符合 GAINS 資格。",
+        "你的私人收入足够低，符合 GAINS 资格。",
       ),
       failReason: tri(
-        "You must receive the federal Guaranteed Income Supplement.",
-        "你必須領取聯邦保證收入補助金。",
-        "你必须领取联邦保证收入补助金。",
+        `GAINS is for seniors with annual private income (not counting OAS or GIS) up to ${fmt(GAINS_FIGURES.incomeMaxSingle)} if single, or ${fmt(GAINS_FIGURES.incomeMaxCouple)} combined for a couple.`,
+        `GAINS 適用於私人年收入（不含 OAS 或 GIS）單身不超過 ${fmt(GAINS_FIGURES.incomeMaxSingle)}、夫婦合計不超過 ${fmt(GAINS_FIGURES.incomeMaxCouple)} 的長者。`,
+        `GAINS 适用于私人年收入（不含 OAS 或 GIS）单身不超过 ${fmt(GAINS_FIGURES.incomeMaxSingle)}、夫妇合计不超过 ${fmt(GAINS_FIGURES.incomeMaxCouple)} 的长者。`,
       ),
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 92, period: "month" }),
+  estimateAmount: () => ({ low: 0, high: val(GAINS_FIGURES.maxMonthlySingle), period: "month" }),
   applicationSteps: [
     {
       order: 1,

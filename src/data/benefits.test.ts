@@ -234,12 +234,21 @@ describe("real scenario: Ontario low-income senior (age 70)", () => {
     filedTaxes: true,
   };
 
-  it("qualifies for federal seniors + Ontario Trillium, GAINS, drug coverage", () => {
+  it("qualifies for federal seniors + Ontario Trillium, drug coverage; not GAINS at this income", () => {
     expect(statusFor("oas", ctx)).toBe("eligible");
     expect(statusFor("gis", ctx)).toBe("eligible");
     expect(statusFor("ontario-trillium", ctx)).toBe("eligible");
-    expect(statusFor("ontario-gains", ctx)).toBe("eligible");
+    // GAINS's own income limit ($4,416 single) is far below the $22,488 flat
+    // number this check used to use, so $17,000 no longer clears it -- see
+    // ontario.ts's GAINS_FIGURES comment.
+    expect(statusFor("ontario-gains", ctx)).toBe("ineligible");
     expect(statusFor("ontario-drug-benefit", ctx)).toBe("eligible");
+  });
+
+  it("qualifies for GAINS when private income is under its own limit", () => {
+    expect(statusFor("ontario-gains", { ...ctx, annualIncome: 4000, familyIncome: 4000 })).toBe(
+      "eligible",
+    );
   });
 
   it("does not surface BC-only benefits for an Ontario resident", () => {
