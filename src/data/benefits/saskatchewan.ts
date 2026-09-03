@@ -78,6 +78,16 @@ const slitcEstimate = (ctx: {
   return { low: reduced, high: reduced, period: "year" };
 };
 
+// SAID -- Saskatchewan restructured this program effective September 1, 2026.
+// Source (fetched 2026-09-03): saskatchewan.ca/.../income-support-for-people-with-disabilities
+// The app showed a flat "$1,229/month" cap, but the program's own page now
+// states verbatim: "SAID benefits vary depending on an individual's specific
+// situation and needs, and has different payment tiers with no set maximum
+// monthly benefit." The only dollar figures left on that page are annual
+// earned-income exemptions ($7,500/$8,700/$9,500), not the benefit itself; a
+// current rate table exists only as a PDF the crawler cannot extract a
+// verifiable quote from, so the stale number was removed rather than
+// replaced with an unsourced one.
 export const said: Benefit = {
   id: "said",
   name: tri(
@@ -94,9 +104,9 @@ export const said: Benefit = {
     "为有重大且持久残障的萨斯喀彻温省居民提供每月收入及福利，较一般援助更稳定、限制更少。",
   ),
   estimatedValue: tri(
-    "Up to about $1,229/month for a single adult, plus benefits",
-    "單身成人最多約每月 $1,229，另加福利",
-    "单身成人最多约每月 $1,229，另加福利",
+    "Pays in tiers based on your individual needs, plus benefits — Saskatchewan sets no fixed monthly maximum",
+    "按個人需要分級發放，另加福利 — 薩斯喀徹溫省並未設定固定每月上限",
+    "按个人需要分级发放，另加福利 — 萨斯喀彻温省并未设定固定每月上限",
   ),
   contextFields: ["province", "age", "hasSevereDisability"],
   check: buildCheck([
@@ -128,7 +138,11 @@ export const said: Benefit = {
       missingField: "hasSevereDisability",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1229, period: "month" }),
+  // No estimateAmount: as of the Sept 1, 2026 SAID restructuring, the
+  // program's own page states it "has different payment tiers with no set
+  // maximum monthly benefit" -- the prior flat $1,229/month figure no longer
+  // matches the source and no replacement ceiling is published in HTML (only
+  // a PDF rate card, which this codebase cannot verify a quote from).
   applicationSteps: [
     {
       order: 1,
