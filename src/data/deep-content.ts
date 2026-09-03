@@ -1036,9 +1036,9 @@ export const DEEP: Record<string, DeepContent> = {
   aish: {
     eligibilityDetails: [
       tri(
-        "You must be 18-64, an Alberta resident, not yet eligible for OAS, and have a permanent medical condition that substantially limits your ability to earn a living.",
-        "你須為 18 至 64 歲的亞伯達居民、尚未符合 OAS 資格，並有永久且嚴重限制謀生能力的醫療狀況。",
-        "你须为 18 至 64 岁的阿尔伯塔居民、尚未符合 OAS 资格，并有永久且严重限制谋生能力的医疗状况。",
+        "You must be 18-64, an Alberta resident, not yet eligible for OAS, and have a severe disability that permanently prevents you from working.",
+        "你須為 18 至 64 歲的亞伯達居民、尚未符合 OAS 資格，並有永久且完全無法工作的嚴重殘障。",
+        "你须为 18 至 64 岁的阿尔伯塔居民、尚未符合 OAS 资格，并有永久且完全无法工作的严重残障。",
       ),
       tri(
         "Your income and assets (generally under $100,000, with exemptions) are assessed, including a partner's.",
