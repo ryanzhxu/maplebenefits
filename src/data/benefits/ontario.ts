@@ -1,7 +1,7 @@
 import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, isTrue, lessThan, oneOf } from "@/lib/checks";
+import { atLeast, atMost, atMostOf, buildCheck, isTrue, lessThan, oneOf } from "@/lib/checks";
 
 const ON = oneOf((c: { province?: string }) => c.province, ["ON"]);
 const onFail = tri(
@@ -783,6 +783,460 @@ export const ontarioLift: Benefit = {
   lastUpdated: "2026-09-02",
 };
 
+// ---------------------------------------------------------------------------
+// Added 2026-09-02 from the discovery lane's Ontario sweep. Every figure below
+// was researched against ontario.ca and re-verified by
+// scripts/crawl/validate-spec.ts, which re-fetches each cited page and
+// confirms the quote is actually on it.
+// ---------------------------------------------------------------------------
+
+const CARE_URL = "https://www.ontario.ca/page/ontario-child-care-tax-credit";
+
+const CARE = figures({
+  maxExpensePerChildUnder7: {
+    current: {
+      value: 6000,
+      from: "2022-01-01",
+      source: CARE_URL,
+      quote: "$6,000 per child under the age of seven (plus a top-up of up to $1,200 for 2021)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum claimable child care expense, child under 7",
+  },
+  maxExpensePerChild7to16: {
+    current: {
+      value: 3750,
+      from: "2022-01-01",
+      source: CARE_URL,
+      quote: "$3,750 per child between the ages of seven and 16 (plus a top-up of up to $750 for 2021)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum claimable child care expense, child aged 7 to 16",
+  },
+  familyIncomeCeiling: {
+    current: {
+      value: 150000,
+      from: "2022-01-01",
+      source: CARE_URL,
+      quote: "have a family income less than or equal to $150,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Family income ceiling",
+  },
+  maxRate: {
+    current: {
+      value: 75,
+      from: "2022-01-01",
+      source: CARE_URL,
+      quote:
+        "Eligible families can claim up to 75% of their eligible child care expenses, including services provided by child care centres, homes and camps.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Maximum credit rate",
+  },
+});
+
+/**
+ * Best case only. The real credit is a sliding percentage of child care
+ * expenses ACTUALLY PAID, and the intake never asks what a family spends, so
+ * an exact figure is not computable. The range runs from 0 to the maximum a
+ * family of this shape could claim, and the note says why.
+ *
+ * Ontario's bands are "under 7" and "7 to 16"; the app records childrenUnder6.
+ * Six-year-olds are therefore counted in the lower-value band, which
+ * understates rather than overstates.
+ */
+const careEstimate = (ctx: AssessmentContext): AmountEstimate | undefined => {
+  if (ctx.hasChildren !== true) return undefined;
+  const total = Math.max(1, ctx.numberOfChildren ?? 1);
+  const younger = Math.min(total, ctx.childrenUnder6 ?? 0);
+  const older = total - younger;
+  const expenses =
+    val(CARE.maxExpensePerChildUnder7) * younger + val(CARE.maxExpensePerChild7to16) * older;
+  const high = Math.round((val(CARE.maxRate) / 100) * expenses);
+  return {
+    low: 0,
+    high,
+    period: "year",
+    note: tri(
+      "Depends on what you actually spend on child care. This is the most a family your size could claim.",
+      "視乎你實際支付的托兒費用。此為你家庭人數可申領的上限。",
+      "视乎你实际支付的托儿费用。此为你家庭人数可申领的上限。",
+    ),
+  };
+};
+
+export const ontarioChildCareTaxCredit: Benefit = {
+  id: "ontario-child-care-tax-credit",
+  name: tri(
+    "Ontario Child Care Tax Credit (CARE)",
+    "安大略兒童托育稅務抵免 (CARE)",
+    "安大略儿童托育税务抵免 (CARE)",
+  ),
+  shortName: "CARE",
+  category: "tax-credits",
+  level: "provincial-on",
+  description: tri(
+    "A refundable tax credit that gives back up to 75% of what you spend on child care, with the largest share going to lower-income families. You claim it on your tax return.",
+    "可退還的稅務抵免，最多退回你托兒開支的 75%，收入越低退回比例越高。報稅時申領。",
+    "可退还的税务抵免，最多退回你托儿开支的 75%，收入越低退回比例越高。报税时申领。",
+  ),
+  estimatedValue: tri(
+    `Up to ${fmt(CARE.maxRate)} of child care costs, on expenses up to ${fmt(CARE.maxExpensePerChildUnder7)} per child under 7`,
+    `最多退回托兒開支的 ${fmt(CARE.maxRate)}，未滿 7 歲子女每人開支上限 ${fmt(CARE.maxExpensePerChildUnder7)}`,
+    `最多退回托儿开支的 ${fmt(CARE.maxRate)}，未满 7 岁子女每人开支上限 ${fmt(CARE.maxExpensePerChildUnder7)}`,
+  ),
+  figures: CARE,
+  contextFields: ["province", "hasChildren", "numberOfChildren", "childrenUnder6", "familyIncome"],
+  check: buildCheck([
+    { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
+    {
+      test: isTrue((c) => c.hasChildren),
+      hard: true,
+      passReason: tri("You have children in your care.", "你有子女需要照顧。", "你有子女需要照顾。"),
+      failReason: tri(
+        "This credit is for families paying for child care.",
+        "此抵免適用於支付托兒費用的家庭。",
+        "此抵免适用于支付托儿费用的家庭。",
+      ),
+      missingField: "hasChildren",
+    },
+    {
+      test: atMost((c) => c.familyIncome, val(CARE.familyIncomeCeiling)),
+      hard: true,
+      passReason: tri(
+        "Your family income is within the limit for this credit.",
+        "你的家庭收入在此抵免的上限之內。",
+        "你的家庭收入在此抵免的上限之内。",
+      ),
+      failReason: tri(
+        `Family income must be ${fmt(CARE.familyIncomeCeiling)} or less.`,
+        `家庭收入須為 ${fmt(CARE.familyIncomeCeiling)} 或以下。`,
+        `家庭收入须为 ${fmt(CARE.familyIncomeCeiling)} 或以下。`,
+      ),
+      missingField: "familyIncome",
+    },
+  ]),
+  estimateAmount: careEstimate,
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Claim it on your tax return", "報稅時申領", "报税时申领"),
+      description: tri(
+        "You must also be eligible for the federal Child Care Expense Deduction. Keep your child care receipts.",
+        "你亦須符合聯邦托兒開支扣除的資格。請保留托兒收據。",
+        "你亦须符合联邦托儿开支扣除的资格。请保留托儿收据。",
+      ),
+      actionUrl: CARE_URL,
+    },
+  ],
+  requiredDocuments: [
+    tri("Child care receipts", "托兒收據", "托儿收据"),
+    tri("Filed tax return", "已報稅表", "已报税表"),
+  ],
+  officialInfoUrl: CARE_URL,
+  paymentFrequency: tri("Yearly, at tax time", "每年報稅時", "每年报税时"),
+  tags: ["ontario", "tax-credit", "child-care", "family", "children"],
+  relatedBenefits: ["ontario-child-benefit", "ccb"],
+  lastUpdated: "2026-09-02",
+};
+
+const HSO_URL = "https://www.ontario.ca/page/get-dental-care";
+
+const HSO = figures({
+  maxAge: {
+    current: {
+      value: 17,
+      from: "2026-07-01",
+      source: HSO_URL,
+      quote: "You can apply for your children if they: are 17 years of age and under",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "number",
+    label: "Oldest age a child can be",
+  },
+  incomeThresholdOneChild: {
+    current: {
+      value: 29065,
+      from: "2026-07-01",
+      source: HSO_URL,
+      quote: "1 child $29,065 or lower",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Household income limit with one child",
+  },
+  incomeThresholdPerAdditionalChild: {
+    current: {
+      value: 2200,
+      from: "2026-07-01",
+      source: HSO_URL,
+      quote:
+        "10 or more children $48,865 or lower. Add $2,200 for each additional dependent child to determine the income level at which your family would qualify for Healthy Smiles Ontario.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Added to the income limit for each additional child",
+  },
+});
+
+/**
+ * Household income limit for a family with this many children.
+ *
+ * Ontario publishes a ten-row table, but it is an arithmetic series: $29,065
+ * for one child, rising $2,200 per additional child, which reproduces every
+ * published row up to "10 or more children $48,865" and continues beyond it
+ * exactly as the page instructs. Two anchored figures instead of ten, and a
+ * test checks the formula against the published table.
+ */
+export const hsoIncomeLimit = (children: number | undefined): number | undefined => {
+  if (children === undefined || Number.isNaN(children) || children < 1) return undefined;
+  return (
+    val(HSO.incomeThresholdOneChild) +
+    val(HSO.incomeThresholdPerAdditionalChild) * (children - 1)
+  );
+};
+
+export const ontarioHealthySmiles: Benefit = {
+  id: "ontario-healthy-smiles",
+  name: tri(
+    "Healthy Smiles Ontario",
+    "安大略健康笑容牙科計劃",
+    "安大略健康笑容牙科计划",
+  ),
+  shortName: "HSO",
+  category: "health",
+  level: "provincial-on",
+  description: tri(
+    "Free dental care for children and teenagers 17 and under in lower-income households, including check-ups, cleaning, fillings and urgent care.",
+    "為低收入家庭 17 歲或以下兒童及青少年提供免費牙科護理，包括檢查、洗牙、補牙及緊急治療。",
+    "为低收入家庭 17 岁或以下儿童及青少年提供免费牙科护理，包括检查、洗牙、补牙及紧急治疗。",
+  ),
+  estimatedValue: tri(
+    "Free dental care for each eligible child",
+    "每名合資格子女可獲免費牙科護理",
+    "每名合资格子女可获免费牙科护理",
+  ),
+  figures: HSO,
+  contextFields: ["province", "hasChildren", "numberOfChildren", "youngestChildAge", "familyIncome"],
+  check: buildCheck([
+    { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
+    {
+      test: isTrue((c) => c.hasChildren),
+      hard: true,
+      passReason: tri("You have children in your care.", "你有子女需要照顧。", "你有子女需要照顾。"),
+      failReason: tri(
+        "This program covers children 17 and under.",
+        "此計劃保障 17 歲或以下兒童。",
+        "此计划保障 17 岁或以下儿童。",
+      ),
+      missingField: "hasChildren",
+    },
+    {
+      test: atMost((c) => c.youngestChildAge, val(HSO.maxAge)),
+      hard: true,
+      passReason: tri(
+        "You have a child 17 or under.",
+        "你有 17 歲或以下的子女。",
+        "你有 17 岁或以下的子女。",
+      ),
+      failReason: tri(
+        `Children must be ${fmt(HSO.maxAge)} or under.`,
+        `子女須為 ${fmt(HSO.maxAge)} 歲或以下。`,
+        `子女须为 ${fmt(HSO.maxAge)} 岁或以下。`,
+      ),
+      missingField: "youngestChildAge",
+    },
+    {
+      // The limit rises with each child, so a fixed ceiling would wrongly
+      // exclude larger families.
+      test: atMostOf((c) => c.familyIncome, (c) => hsoIncomeLimit(c.numberOfChildren)),
+      hard: true,
+      passReason: tri(
+        "Your household income is within the limit for your family size.",
+        "你的家庭收入在你家庭人數對應的上限之內。",
+        "你的家庭收入在你家庭人数对应的上限之内。",
+      ),
+      failReason: tri(
+        `The income limit depends on how many children you have — ${fmt(HSO.incomeThresholdOneChild)} for one child, rising ${fmt(HSO.incomeThresholdPerAdditionalChild)} for each additional child.`,
+        `收入上限視子女人數而定——一名子女為 ${fmt(HSO.incomeThresholdOneChild)}，每多一名子女增加 ${fmt(HSO.incomeThresholdPerAdditionalChild)}。`,
+        `收入上限视子女人数而定——一名子女为 ${fmt(HSO.incomeThresholdOneChild)}，每多一名子女增加 ${fmt(HSO.incomeThresholdPerAdditionalChild)}。`,
+      ),
+      missingField: "familyIncome",
+    },
+  ]),
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Apply online or through your public health unit", "網上或透過公共衞生單位申請", "网上或通过公共卫生单位申请"),
+      description: tri(
+        "Apply once for all eligible children in the household. Coverage continues while you qualify.",
+        "一次過為家中所有合資格子女申請。合資格期間持續獲得保障。",
+        "一次过为家中所有合资格子女申请。合资格期间持续获得保障。",
+      ),
+      actionUrl: HSO_URL,
+    },
+  ],
+  requiredDocuments: [
+    tri("Proof of income (notice of assessment)", "收入證明（評稅通知書）", "收入证明（评税通知书）"),
+    tri("Ontario address and child's details", "安大略地址及子女資料", "安大略地址及子女资料"),
+  ],
+  officialInfoUrl: HSO_URL,
+  paymentFrequency: tri("Ongoing coverage", "持續保障", "持续保障"),
+  tags: ["ontario", "dental", "children", "health", "low-income"],
+  relatedBenefits: ["cdcp", "ontario-child-benefit"],
+  lastUpdated: "2026-09-02",
+};
+
+const SCAH_URL = "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit";
+const SCAH_SENTENCE =
+  "The credit provides up to 25% of claimable medical expenses up to $6,000, for a maximum credit of $1,500. This amount is reduced by 5% of family net income over $35,000 and fully phased out by at most $65,000.";
+
+const SCAH = figures({
+  maxCredit: {
+    current: { value: 1500, from: "2022-01-01", source: SCAH_URL, quote: SCAH_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum credit",
+  },
+  reductionStartsAt: {
+    current: { value: 35000, from: "2022-01-01", source: SCAH_URL, quote: SCAH_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Family net income where the credit starts to be reduced",
+  },
+  fullyPhasedOutAt: {
+    current: { value: 65000, from: "2022-01-01", source: SCAH_URL, quote: SCAH_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Family net income at which the credit reaches zero",
+  },
+  minAge: {
+    current: {
+      value: 70,
+      from: "2022-01-01",
+      source: SCAH_URL,
+      quote:
+        "turned 70 years of age or older in the year, or have a spouse or common-law partner who turned 70 years of age or older in the year",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "number",
+    label: "Minimum age",
+  },
+});
+
+/**
+ * Upper bound only. The credit is 25% of medical expenses actually claimed,
+ * which the intake does not collect, so the low end stays at zero.
+ */
+const scahEstimate = (ctx: AssessmentContext): AmountEstimate | undefined => {
+  const max = val(SCAH.maxCredit);
+  const income = ctx.familyIncome;
+  if (income === undefined) return { low: 0, high: max, period: "year" };
+  const over = Math.max(0, income - val(SCAH.reductionStartsAt));
+  const high = Math.max(0, Math.round(max - 0.05 * over));
+  return {
+    low: 0,
+    high,
+    period: "year",
+    note: tri(
+      "Depends on the medical expenses you claim. This is the most you could receive at your income.",
+      "視乎你申報的醫療開支。此為你收入水平下可獲的上限。",
+      "视乎你申报的医疗开支。此为你收入水平下可获的上限。",
+    ),
+  };
+};
+
+export const ontarioSeniorsCareAtHome: Benefit = {
+  id: "ontario-seniors-care-at-home",
+  name: tri(
+    "Ontario Seniors Care at Home Tax Credit",
+    "安大略長者居家照護稅務抵免",
+    "安大略长者居家照护税务抵免",
+  ),
+  shortName: "SCAH",
+  category: "seniors",
+  level: "provincial-on",
+  description: tri(
+    "A refundable tax credit for lower-income seniors that gives back a quarter of eligible medical expenses, such as attendant care, walkers and hearing aids.",
+    "為低收入長者提供的可退還稅務抵免，退回四分之一的合資格醫療開支，例如看護服務、助行器及助聽器。",
+    "为低收入长者提供的可退还税务抵免，退回四分之一的合资格医疗开支，例如看护服务、助行器及助听器。",
+  ),
+  estimatedValue: tri(
+    `Up to ${fmt(SCAH.maxCredit)}/year back on medical expenses`,
+    `醫療開支每年最多退回 ${fmt(SCAH.maxCredit)}`,
+    `医疗开支每年最多退回 ${fmt(SCAH.maxCredit)}`,
+  ),
+  figures: SCAH,
+  contextFields: ["province", "age", "familyIncome"],
+  check: buildCheck([
+    { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
+    {
+      test: atLeast((c) => c.age, val(SCAH.minAge)),
+      hard: true,
+      passReason: tri("You are 70 or older.", "你已年滿 70 歲。", "你已年满 70 岁。"),
+      failReason: tri(
+        `You, or your spouse, must turn ${fmt(SCAH.minAge)} or older during the year.`,
+        `你或你的配偶須於年內年滿 ${fmt(SCAH.minAge)} 歲。`,
+        `你或你的配偶须于年内年满 ${fmt(SCAH.minAge)} 岁。`,
+      ),
+      missingField: "age",
+    },
+    {
+      test: atMost((c) => c.familyIncome, val(SCAH.fullyPhasedOutAt)),
+      hard: true,
+      passReason: tri(
+        "Your family income is low enough to receive some of this credit.",
+        "你的家庭收入足夠低，可獲部分此抵免。",
+        "你的家庭收入足够低，可获部分此抵免。",
+      ),
+      failReason: tri(
+        `The credit is fully phased out at ${fmt(SCAH.fullyPhasedOutAt)} family net income.`,
+        `家庭淨收入達 ${fmt(SCAH.fullyPhasedOutAt)} 時此抵免會完全取消。`,
+        `家庭净收入达 ${fmt(SCAH.fullyPhasedOutAt)} 时此抵免会完全取消。`,
+      ),
+      missingField: "familyIncome",
+    },
+  ]),
+  estimateAmount: scahEstimate,
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Claim it on your tax return", "報稅時申領", "报税时申领"),
+      description: tri(
+        "Keep receipts for eligible medical expenses. This credit is on top of the federal and Ontario medical expense credits, not instead of them.",
+        "保留合資格醫療開支收據。此抵免可與聯邦及安大略醫療開支抵免同時申領，並非二擇其一。",
+        "保留合资格医疗开支收据。此抵免可与联邦及安大略医疗开支抵免同时申领，并非二择其一。",
+      ),
+      actionUrl: SCAH_URL,
+    },
+  ],
+  requiredDocuments: [
+    tri("Receipts for medical expenses", "醫療開支收據", "医疗开支收据"),
+    tri("Filed tax return", "已報稅表", "已报税表"),
+  ],
+  officialInfoUrl: SCAH_URL,
+  paymentFrequency: tri("Yearly, at tax time", "每年報稅時", "每年报税时"),
+  tags: ["ontario", "seniors", "medical", "tax-credit", "home-care"],
+  relatedBenefits: ["medical-expense", "ontario-trillium"],
+  lastUpdated: "2026-09-02",
+};
+
 export const ontarioBenefits: Benefit[] = [
   ontarioTrillium,
   ontarioWorks,
@@ -792,4 +1246,7 @@ export const ontarioBenefits: Benefit[] = [
   ontarioDrugBenefit,
   ontarioSeniorHomeownerGrant,
   ontarioLift,
+  ontarioChildCareTaxCredit,
+  ontarioHealthySmiles,
+  ontarioSeniorsCareAtHome,
 ];
