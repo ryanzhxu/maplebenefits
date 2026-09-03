@@ -1,6 +1,6 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { figures, val } from "@/lib/figures";
+import { figures, fmt, val } from "@/lib/figures";
 import { atMost, atMostOf, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
 // Canada Learning Bond -- the income limit rises with family size.
@@ -99,9 +99,9 @@ export const canadaLearningBond: Benefit = {
         "你的家庭收入在债券的范围内。",
       ),
       failReason: tri(
-        "Income must be roughly under $57,000 (higher for larger families).",
-        "收入須大約低於 $57,000（家庭人數較多則較高）。",
-        "收入须大约低于 $57,000（家庭人数较多则较高）。",
+        `Income must be roughly under ${fmt(CLB.incomeLimitUpTo3Children)} (higher for larger families).`,
+        `收入須大約低於 ${fmt(CLB.incomeLimitUpTo3Children)}（家庭人數較多則較高）。`,
+        `收入须大约低于 ${fmt(CLB.incomeLimitUpTo3Children)}（家庭人数较多则较高）。`,
       ),
       missingField: "familyIncome",
     },
