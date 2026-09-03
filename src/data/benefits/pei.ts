@@ -1,6 +1,39 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { figures, fmt, val } from "@/lib/figures";
+
+const PEI_CRA_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-prince-edward-island.html";
+
+const PEI_STC = figures({
+  individualMax: {
+    current: {
+      value: 310,
+      from: "2026-07-01",
+      source: PEI_CRA_URL,
+      quote:
+        "The program provides an annual credit of up to $310 for an individual or up to $365 for couples and single parents.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum annual credit, individual",
+  },
+  coupleMax: {
+    current: {
+      value: 365,
+      from: "2026-07-01",
+      source: PEI_CRA_URL,
+      quote:
+        "The program provides an annual credit of up to $310 for an individual or up to $365 for couples and single parents.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum annual credit, couples and single parents",
+  },
+});
 
 const PE = oneOf((c: { province?: string }) => c.province, ["PE"]);
 const peFail = tri(
@@ -49,9 +82,9 @@ export const peiSalesTaxCredit: Benefit = {
     "帮助爱德华王子岛低及中等收入居民应付销售税的免税款项。报税即自动获得。",
   ),
   estimatedValue: tri(
-    "Up to $310/year (individual) or $365/year (couples and single parents)",
-    "個人最多每年 $310，夫婦及單親家庭最多 $365",
-    "个人最多每年 $310，夫妇及单亲家庭最多 $365",
+    `Up to ${fmt(PEI_STC.individualMax)}/year (individual) or ${fmt(PEI_STC.coupleMax)}/year (couples and single parents)`,
+    `個人最多每年 ${fmt(PEI_STC.individualMax)}，夫婦及單親家庭最多 ${fmt(PEI_STC.coupleMax)}`,
+    `个人最多每年 ${fmt(PEI_STC.individualMax)}，夫妇及单亲家庭最多 ${fmt(PEI_STC.coupleMax)}`,
   ),
   contextFields: ["province", "filedTaxes", "maritalStatus", "hasChildren", "familyIncome"],
   check: buildCheck([
@@ -83,7 +116,11 @@ export const peiSalesTaxCredit: Benefit = {
       ctx.maritalStatus === "married" ||
       ctx.maritalStatus === "common-law" ||
       ctx.hasChildren === true;
-    return { low: 0, high: higher ? 365 : 310, period: "year" };
+    return {
+      low: 0,
+      high: higher ? val(PEI_STC.coupleMax) : val(PEI_STC.individualMax),
+      period: "year",
+    };
   },
   applicationSteps: [
     {
@@ -104,7 +141,8 @@ export const peiSalesTaxCredit: Benefit = {
   paymentFrequency: tri("Quarterly", "每季", "每季"),
   tags: ["pei", "tax", "low-income", "quarterly"],
   relatedBenefits: ["cgeb"],
-  lastUpdated: "2026-09-01",
+  figures: PEI_STC,
+  lastUpdated: "2026-09-03",
 };
 
 export const peiChildBenefit: Benefit = {
