@@ -95,3 +95,34 @@ describe("Manitoba Rent Assist estimateAmount", () => {
     expect(est).toMatchObject({ low: 968, high: 968, period: "month" });
   });
 });
+
+// The hard eligibility gate used to hard-code a flat $40,000 cutoff for
+// every household, while the real, published cutoffs (used correctly above
+// in estimateAmount) range from $29,120 (single, under 55) to $60,768 (5+
+// people with children). These two cases were wrong under the flat number.
+describe("Manitoba Rent Assist eligibility check", () => {
+  const renter = {
+    province: "MB",
+    isHomeowner: false,
+    filedTaxes: true,
+  };
+
+  it("passes a large family above the old flat $40,000 but within their real $60,768 tier", () => {
+    const result = manitobaRentAssist.check({
+      ...renter,
+      maritalStatus: "married",
+      numberOfChildren: 3,
+      familyIncome: 45000,
+    });
+    expect(result.status).toBe("eligible");
+  });
+
+  it("fails a single, non-senior renter above their real $29,120 cutoff, below the old flat $40,000", () => {
+    const result = manitobaRentAssist.check({
+      ...renter,
+      maritalStatus: "single",
+      annualIncome: 35000,
+    });
+    expect(result.status).toBe("ineligible");
+  });
+});

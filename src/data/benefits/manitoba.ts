@@ -238,7 +238,7 @@ const MB_RENT_ASSIST_TIERS: { maxHouseholdSize: number; cutoffAnnual: number }[]
 ];
 const MB_RENT_ASSIST_SINGLE_55_OR_DTC_CUTOFF = 33920; // single, 55+ or claims DTC/CPPD
 
-const rentAssistEstimate = (ctx: {
+interface MbRentAssistCtx {
   maritalStatus?: string;
   numberOfChildren?: number;
   hasChildren?: boolean;
@@ -246,33 +246,52 @@ const rentAssistEstimate = (ctx: {
   familyIncome?: number;
   age?: number;
   hasDTC?: boolean;
-}): AmountEstimate | undefined => {
-  const hasSpouse =
-    ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+}
+
+/**
+ * Annual net-income cutoff for this household, per the official tiers above.
+ *
+ * Shared by the eligibility check and the amount estimate so the two cannot
+ * disagree -- the check used to hard-code a flat $40,000 for every household
+ * while this logic (built from the same source) ranged from $29,120 to
+ * $60,768, over-promising to single non-seniors above $29,120 and
+ * under-promising to larger families up to $60,768.
+ */
+const mbRentAssistCutoff = (ctx: MbRentAssistCtx): number => {
+  const hasSpouse = ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
   const children = ctx.numberOfChildren ?? (ctx.hasChildren ? 1 : 0);
   const householdSize = 1 + (hasSpouse ? 1 : 0) + children;
 
   const isSeniorOrDtc = (ctx.age !== undefined && ctx.age >= 55) || ctx.hasDTC === true;
-  const cutoffAnnual =
-    householdSize === 1 && isSeniorOrDtc
-      ? MB_RENT_ASSIST_SINGLE_55_OR_DTC_CUTOFF
-      : children > 0
-        ? // Manitoba states a separate, higher cutoff for households WITH
-          // dependent children: "have dependent children in your home and have
-          // a net annual income of less than $50,240 for two to four people, or
-          // $60,768 for five or more people". Using the childless table meant a
-          // single parent with one child was measured against $38,720 instead
-          // of $50,240 -- wrongly excluded at incomes in between.
-          householdSize >= 5
-          ? 60768
-          : 50240
-        : (MB_RENT_ASSIST_TIERS.find((t) => householdSize <= t.maxHouseholdSize) ??
-            MB_RENT_ASSIST_TIERS[MB_RENT_ASSIST_TIERS.length - 1]).cutoffAnnual;
+  return householdSize === 1 && isSeniorOrDtc
+    ? MB_RENT_ASSIST_SINGLE_55_OR_DTC_CUTOFF
+    : children > 0
+      ? // Manitoba states a separate, higher cutoff for households WITH
+        // dependent children: "have dependent children in your home and have
+        // a net annual income of less than $50,240 for two to four people, or
+        // $60,768 for five or more people". Using the childless table meant a
+        // single parent with one child was measured against $38,720 instead
+        // of $50,240 -- wrongly excluded at incomes in between.
+        householdSize >= 5
+        ? 60768
+        : 50240
+      : (MB_RENT_ASSIST_TIERS.find((t) => householdSize <= t.maxHouseholdSize) ??
+          MB_RENT_ASSIST_TIERS[MB_RENT_ASSIST_TIERS.length - 1]).cutoffAnnual;
+};
+
+/** Net household income as approximated by pre-tax annual/family income. */
+const mbRentAssistIncome = (ctx: MbRentAssistCtx): number | undefined => {
+  const hasSpouse = ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+  return hasSpouse ? (ctx.familyIncome ?? ctx.annualIncome) : ctx.annualIncome;
+};
+
+const rentAssistEstimate = (ctx: MbRentAssistCtx): AmountEstimate | undefined => {
+  const cutoffAnnual = mbRentAssistCutoff(ctx);
   const maxBenefit = Math.round((0.3 * cutoffAnnual) / 12);
 
   // The estimator asks for "net annual income"; AssessmentContext only has
   // pre-tax income, so this is used as the closest available approximation.
-  const income = hasSpouse ? (ctx.familyIncome ?? ctx.annualIncome) : ctx.annualIncome;
+  const income = mbRentAssistIncome(ctx);
   if (income === undefined) return { low: 0, high: maxBenefit, period: "month" };
 
   const monthly = Math.max(0, Math.round(maxBenefit - (0.3 * income) / 12));
@@ -304,7 +323,17 @@ export const manitobaRentAssist: Benefit = {
     "以市場租金中位數的 80% 減去你收入的 30% 計算",
     "以市场租金中位数的 80% 减去你收入的 30% 计算",
   ),
-  contextFields: ["province", "isHomeowner", "annualIncome"],
+  contextFields: [
+    "province",
+    "isHomeowner",
+    "annualIncome",
+    "familyIncome",
+    "maritalStatus",
+    "hasChildren",
+    "numberOfChildren",
+    "age",
+    "hasDTC",
+  ],
   check: buildCheck([
     { test: MB, hard: true, passReason: mbPass, failReason: mbFail, missingField: "province" },
     {
@@ -315,7 +344,11 @@ export const manitobaRentAssist: Benefit = {
       missingField: "isHomeowner",
     },
     {
-      test: atMost((c) => c.annualIncome, 40000),
+      // The ceiling depends on household size and, for a single person,
+      // whether they are 55+ or claim the Disability Tax Credit -- it ranges
+      // from $29,120 to $60,768, so it is read from context rather than one
+      // tier's flat number applied to every household.
+      test: atMostOf(mbRentAssistIncome, mbRentAssistCutoff),
       hard: true,
       passReason: tri(
         "Your income is in the low range Rent Assist is for.",
@@ -323,9 +356,9 @@ export const manitobaRentAssist: Benefit = {
         "你的收入属租金援助针对的低收入范围。",
       ),
       failReason: tri(
-        "Rent Assist is for lower-income renters.",
-        "租金援助適用於較低收入的租客。",
-        "租金援助适用于较低收入的租客。",
+        "Rent Assist's income limit depends on your household size -- from $29,120 for a single person up to $60,768 for five or more people. Your income is above the limit for your household.",
+        "租金援助的收入上限視家庭人數而定——單身人士為 $29,120，五人或以上家庭最多 $60,768。你的收入超出你家庭的上限。",
+        "租金援助的收入上限视家庭人数而定——单身人士为 $29,120，五人或以上家庭最多 $60,768。你的收入超出你家庭的上限。",
       ),
       missingField: "annualIncome",
     },
