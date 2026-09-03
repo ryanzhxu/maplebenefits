@@ -11,29 +11,126 @@ const abFail = tri(
 );
 const abPass = tri("You live in Alberta.", "你居住在亞伯達省。", "你居住在阿尔伯塔省。");
 
+// Alberta Child and Family Benefit -- maximum amounts and income thresholds.
+// Source (fetched 2026-09-03): https://www.alberta.ca/alberta-child-and-family-benefit
+//
+// The app hard-coded these numbers with no figures block, and its estimatedValue
+// text still quoted the 2025-26 first-child rate ($1,499) after the calculation
+// code had already moved to the 2026-27 rate ($1,529) -- a stale displayed
+// figure next to a current one on the same benefit. It also reduced the base
+// amount using an invented 8%-per-dollar rate: Alberta states that amounts
+// above $28,116/$47,115 are "reduced" but does not publish a reduction rate
+// anywhere on this page, the CRA's provincial-programs page, or its own ACFB
+// factsheet (checked all three), so that rate could not be quoted and has been
+// dropped rather than kept as an unsourced number.
+const ACFB_URL = "https://www.alberta.ca/alberta-child-and-family-benefit";
+const ACFB_TABLE =
+  "Table 1 . ACFB maximum benefit amounts Number of children July 2025 - June 2026 July 2026 - June 2027 Base component (max.) Working component (max.) Base component (max.) Working component (max.) 1 child $1,499 $767 $1,529 $782 2 children $2,248 $1,465 $2,293 $1,494 3 children $2,997 $1,883 $3,057 $1,920 4 or more children $3,746 $2,021 $3,821 $2,061";
+const ACFB_THRESHOLD_SENTENCE =
+  "In the 2026-27 benefit year, benefit amounts for the base component and working component are reduced once family net income exceeds $28,116 or $47,115.";
+
+const ACFB = figures({
+  baseChild1: {
+    current: { value: 1529, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Base component (max.), 1 child",
+  },
+  baseChild2: {
+    current: { value: 2293, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Base component (max.), 2 children",
+  },
+  baseChild3: {
+    current: { value: 3057, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Base component (max.), 3 children",
+  },
+  baseChild4Plus: {
+    current: { value: 3821, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Base component (max.), 4 or more children",
+  },
+  workingChild1: {
+    current: { value: 782, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Working component (max.), 1 child",
+  },
+  workingChild2: {
+    current: { value: 1494, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Working component (max.), 2 children",
+  },
+  workingChild3: {
+    current: { value: 1920, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Working component (max.), 3 children",
+  },
+  workingChild4Plus: {
+    current: { value: 2061, from: "2026-07-01", source: ACFB_URL, quote: ACFB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Working component (max.), 4 or more children",
+  },
+  reductionStartsAt: {
+    current: { value: 28116, from: "2026-07-01", source: ACFB_URL, quote: ACFB_THRESHOLD_SENTENCE },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Family net income where the base component starts being reduced",
+  },
+});
+
 const acfbEstimate = (ctx: {
   hasChildren?: boolean;
   numberOfChildren?: number;
   familyIncome?: number;
 }): AmountEstimate | undefined => {
   if (ctx.hasChildren !== true) return undefined;
-  const n = Math.min(ctx.numberOfChildren ?? 1, 4);
-  // July 2026 - June 2027 amounts. Alberta publishes per-child-count totals
-  // rather than a base plus increment; these match rows 1-4 of its table.
-  const BASE_BY_CHILDREN = [1529, 2293, 3057, 3821];
-  const base = BASE_BY_CHILDREN[Math.min(n, 4) - 1];
+  const n = Math.min(Math.max(ctx.numberOfChildren ?? 1, 1), 4);
+  const BASE = [ACFB.baseChild1, ACFB.baseChild2, ACFB.baseChild3, ACFB.baseChild4Plus];
+  const WORKING = [ACFB.workingChild1, ACFB.workingChild2, ACFB.workingChild3, ACFB.workingChild4Plus];
+  const base = val(BASE[n - 1]);
+  const maxTotal = base + val(WORKING[n - 1]);
   const income = ctx.familyIncome;
-  if (income === undefined) return { low: 0, high: base, period: "year" };
-  const over = Math.max(0, income - 28116);
-  const amount = Math.max(0, Math.round(base - over * 0.08));
+  // Below the threshold, Alberta pays the base component in full. Above it,
+  // Alberta does not publish the reduction rate, so the true amount could be
+  // anywhere from zero up to the maximum -- shown as a range rather than a
+  // precise but invented number.
+  if (income === undefined || income <= val(ACFB.reductionStartsAt)) {
+    return {
+      low: base,
+      high: maxTotal,
+      period: "year",
+      note: tri(
+        "The working-income component depends on employment income, which this assessment does not collect.",
+        "工作收入部分視乎工作收入而定，此評估並未收集該資料。",
+        "工作收入部分视乎工作收入而定，此评估并未收集该资料。",
+      ),
+    };
+  }
   return {
-    low: amount,
-    high: amount,
+    low: 0,
+    high: maxTotal,
     period: "year",
     note: tri(
-      "Base component estimate; a working-income component may add more.",
-      "基本部分估算；工作收入部分或會增加金額。",
-      "基本部分估算；工作收入部分或会增加金额。",
+      "Your family income is above the level where amounts start being reduced; Alberta does not publish the exact reduction rate.",
+      "你的家庭收入高於開始減額的水平；亞伯達並未公布確實的減額比率。",
+      "你的家庭收入高于开始减额的水平；阿尔伯塔并未公布确实的减额比率。",
     ),
   };
 };
@@ -273,6 +370,7 @@ export const albertaSeniorsBenefit: Benefit = {
 
 export const acfb: Benefit = {
   id: "acfb",
+  figures: ACFB,
   name: tri(
     "Alberta Child and Family Benefit",
     "亞伯達兒童及家庭福利",
@@ -287,9 +385,9 @@ export const acfb: Benefit = {
     "为阿尔伯塔低至中等收入、有 18 岁以下子女家庭提供的免税款项。包括基本金额及额外工作收入部分。",
   ),
   estimatedValue: tri(
-    "Up to about $1,499/year for the first child, plus more for others and for working income",
-    "首名子女最多約每年 $1,499，其他子女及工作收入另有增加",
-    "首名子女最多约每年 $1,499，其他子女及工作收入另有增加",
+    `Up to about ${fmt(ACFB.baseChild1)}/year for the first child, plus more for others and for working income`,
+    `首名子女最多約每年 ${fmt(ACFB.baseChild1)}，其他子女及工作收入另有增加`,
+    `首名子女最多约每年 ${fmt(ACFB.baseChild1)}，其他子女及工作收入另有增加`,
   ),
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   check: buildCheck([
