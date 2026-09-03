@@ -1,6 +1,7 @@
-name: Deploy to Cloudflare Pages
+name: CI
 
 on:
+  pull_request:
   push:
     branches: [main]
   workflow_dispatch:
@@ -10,7 +11,23 @@ permissions:
   deployments: write
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
   deploy:
+    # Deploy only lands on a push to main, and only if verify (tests + build)
+    # passed. A PR runs verify only. A red build never reaches Cloudflare.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
