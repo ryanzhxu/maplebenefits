@@ -498,6 +498,35 @@ export const rap: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+const HOUSING_REGISTRY_URL =
+  "https://www.bchousing.org/housing-assistance/rental-housing/subsidized-housing";
+
+const HOUSING_REGISTRY = figures({
+  assetLimit: {
+    current: {
+      value: 100000,
+      from: "2026-09-01",
+      source: HOUSING_REGISTRY_URL,
+      quote: "your household assets must be less than $100,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum assets (BC Housing-managed buildings)",
+  },
+});
+
+/**
+ * The Housing Registry spans many independent housing providers with no
+ * single published income cutoff -- the actual Housing Income Limits (HILs)
+ * vary by unit size and region and live in a PDF table the crawler's text
+ * extractor cannot reliably parse (confirmed: probe.ts returns garbled dollar
+ * figures from Housing-Income-Limits-Dec-2025.pdf). The page's own worked
+ * examples (Senior's Rental Housing: $47,000-$58,000 depending on region) sit
+ * below this flat figure, and general family units run higher, so $70,000
+ * stays an unsourced approximation rather than a figures() entry, matching
+ * the aish/said/rap precedent for unparseable PDF-only figures.
+ */
 export const bcHousingRegistry: Benefit = {
   id: "bc-housing-registry",
   name: tri(
@@ -559,13 +588,20 @@ export const bcHousingRegistry: Benefit = {
           "輪候名單可能很長。即使尚未急需，也請盡早登記。",
           "轮候名单可能很长。即使尚未急需，也请尽早登记。",
         ),
+        tri(
+          `For buildings managed by BC Housing, your household must also have less than ${fmt(HOUSING_REGISTRY.assetLimit)} in assets. Other non-profit and co-op housing providers set their own asset limits.`,
+          `由 BC Housing 管理的樓宇，家庭資產亦須少於 ${fmt(HOUSING_REGISTRY.assetLimit)}。其他非牟利及合作社房屋機構有各自的資產上限。`,
+          `由 BC Housing 管理的楼宇，家庭资产亦须少于 ${fmt(HOUSING_REGISTRY.assetLimit)}。其他非牟利及合作社房屋机构有各自的资产上限。`,
+        ),
       ],
     },
   ],
   requiredDocuments: [
     tri("Proof of income", "收入證明", "收入证明"),
     tri("Identification", "身份證明", "身份证明"),
+    tri("Proof of assets", "資產證明", "资产证明"),
   ],
+  figures: HOUSING_REGISTRY,
   applicationUrl:
     "https://www.bchousing.org/housing-assistance/rental-housing/subsidized-housing",
   officialInfoUrl:
