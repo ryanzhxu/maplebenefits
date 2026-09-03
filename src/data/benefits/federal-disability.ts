@@ -3,12 +3,116 @@ import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, inRange, isTrue } from "@/lib/checks";
 
+// Canada Disability Benefit -- 2026-27 figures from Service Canada's amount page.
+// Source (fetched 2026-09-02): .../canada-disability-benefit/amount.html
+// The benefit previously cited only the CDB landing page, which states no
+// amounts, so none of its numbers could be checked.
+//
+// Note when re-reading that page: it states the 2026-27 RATES but its worked
+// examples still use the 2025-26 numbers ($200/month, $2,400/year). Only the
+// figures it states unambiguously for 2026-27 are anchored here. The couple
+// income threshold the estimator uses (32500) is NOT stated on that page and
+// stays unanchored -- flagged, not invented.
+const CDB_AMOUNT_URL =
+  "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html";
+
+const CDB = figures({
+  maxMonthly: {
+    current: {
+      value: 204.2,
+      from: "2026-07-01",
+      source: CDB_AMOUNT_URL,
+      quote:
+        "For the period of July 2026 to June 2027 the maximum monthly benefit you could receive is $204.20",
+    },
+    history: [
+      {
+        value: 200,
+        from: "2025-07-01",
+        to: "2026-06-30",
+        source: CDB_AMOUNT_URL,
+        quote:
+          "For the period of July 2025 to June 2026 the maximum monthly benefit you could receive is $200",
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly benefit",
+  },
+  supplementalPayment: {
+    current: {
+      value: 150,
+      from: "2026-07-01",
+      source: CDB_AMOUNT_URL,
+      quote: "This supplemental amount is fixed at $150 and you receive it as a lump-sum payment",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Supplemental lump-sum payment",
+  },
+  workingIncomeExemptSingle: {
+    current: {
+      value: 10210,
+      from: "2026-07-01",
+      source: CDB_AMOUNT_URL,
+      quote: "If you are single, up to $10,210 of working income will be exempt",
+    },
+    history: [
+      {
+        value: 10000,
+        from: "2025-07-01",
+        to: "2026-06-30",
+        source: CDB_AMOUNT_URL,
+        quote: "If you are single, up to $10,000 of working income will be exempt",
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Working income exempted, single",
+  },
+  workingIncomeExemptCouple: {
+    current: {
+      value: 14294,
+      from: "2026-07-01",
+      source: CDB_AMOUNT_URL,
+      quote:
+        "If you have a spouse or common-law partner, up to $14,294 of combined working income will be exempt",
+    },
+    history: [
+      {
+        value: 14000,
+        from: "2025-07-01",
+        to: "2026-06-30",
+        source: CDB_AMOUNT_URL,
+        quote:
+          "If you have a spouse or common-law partner, up to $14,000 of combined working income will be exempt",
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Working income exempted, couple",
+  },
+  singleIncomeThreshold: {
+    current: {
+      value: 23000,
+      from: "2025-07-01",
+      source: CDB_AMOUNT_URL,
+      quote: "Because Jane's income is below the singles threshold of $23,000, she receives the full benefit",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income at or below which a single person receives the full benefit",
+  },
+});
+
 const cdbEstimate = (ctx: {
   familyIncome?: number;
   annualIncome?: number;
   maritalStatus?: string;
 }): AmountEstimate | undefined => {
-  const max = 2450; // $204.20/mo, July 2026
+  const max = val(CDB.maxMonthly) * 12;
   const couple =
     ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
   const income = couple
@@ -17,7 +121,8 @@ const cdbEstimate = (ctx: {
   if (income === undefined) {
     return { low: 0, high: max, period: "year" };
   }
-  const threshold = couple ? 32500 : 23000;
+  // 32500 is NOT stated on the CDB amount page; only the single threshold is.
+  const threshold = couple ? 32500 : val(CDB.singleIncomeThreshold);
   const reduction = Math.max(0, income - threshold) * 0.2;
   const amount = Math.max(0, Math.round(max - reduction));
   return {
@@ -32,6 +137,49 @@ const cdbEstimate = (ctx: {
   };
 };
 
+// Disability tax credit -- the amounts the CRA actually publishes.
+// Source (fetched 2026-09-02): .../disability-tax-credit/claiming-dtc.html
+//
+// The app previously showed "about $1,900/year in combined federal + BC tax
+// savings". Two problems. That figure appears on no CRA page -- it was derived
+// from a federal rate times the disability amount, plus a BC portion. And it
+// says BC to every user, including the eight other provinces the app covers.
+//
+// A single dollar saving is not honestly computable here: the CRA publishes
+// the AMOUNT you claim, not what it saves you, and the saving depends on the
+// federal rate (reduced from 15% to 14.5% for 2025, with a top-up credit above
+// the first bracket) plus a provincial credit that differs by province. So the
+// app now states what the CRA states and explains what it depends on.
+const DTC_AMOUNTS_URL =
+  "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/claiming-dtc.html";
+
+const DTC = figures({
+  disabilityAmount: {
+    current: {
+      value: 10138,
+      from: "2025-01-01",
+      source: DTC_AMOUNTS_URL,
+      quote: "Disability amounts for the 2025 tax year: 18 and older : Option 1 of 2 $10,138",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Disability amount claimable",
+  },
+  childSupplement: {
+    current: {
+      value: 5914,
+      from: "2025-01-01",
+      source: DTC_AMOUNTS_URL,
+      quote: "$10,138 (disability amount) + $5,914 (supplement for children)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Supplement for a child under 18",
+  },
+});
+
 export const dtc: Benefit = {
   id: "dtc",
   name: tri("Disability Tax Credit", "殘疾稅務抵免", "残疾税务抵免"),
@@ -44,10 +192,11 @@ export const dtc: Benefit = {
     "为严重长期残障人士（或供养他们的家人）减少应缴所得税的税务抵免。它也是解锁多项其他福利的关键。",
   ),
   estimatedValue: tri(
-    "About $1,900/year in combined federal + BC tax savings (more with the child supplement)",
-    "聯邦加卑詩省合計約每年 $1,900 稅務減免（有子女補助則更多）",
-    "联邦加不列颠哥伦比亚省合计约每年 $1,900 税务减免（有子女补助则更多）",
+    `Reduces your taxable income by ${fmt(DTC.disabilityAmount)} (2025), plus ${fmt(DTC.childSupplement)} for a child under 18. What you save depends on your federal and provincial tax rates.`,
+    `可減少應課稅收入 ${fmt(DTC.disabilityAmount)}（2025），未滿 18 歲子女另加 ${fmt(DTC.childSupplement)}。實際節省視乎你的聯邦及省級稅率。`,
+    `可减少应课税收入 ${fmt(DTC.disabilityAmount)}（2025），未满 18 岁子女另加 ${fmt(DTC.childSupplement)}。实际节省视乎你的联邦及省级税率。`,
   ),
+  figures: DTC,
   contextFields: ["hasDisability", "hasSevereDisability", "filedTaxes"],
   check: buildCheck([
     {
@@ -76,7 +225,6 @@ export const dtc: Benefit = {
       missingField: "filedTaxes",
     },
   ]),
-  estimateAmount: () => ({ low: 1900, high: 1900, period: "year" }),
   applicationSteps: [
     {
       order: 1,
@@ -162,10 +310,11 @@ export const cdb: Benefit = {
     "为低收入的在职年龄残障成人提供的每月款项。你必须先获批残疾税务抵免。",
   ),
   estimatedValue: tri(
-    "Up to $204.20/month (about $2,450/year)",
-    "最多每月 $204.20（約每年 $2,450）",
-    "最多每月 $204.20（约每年 $2,450）",
+    `Up to ${fmt(CDB.maxMonthly)}/month, plus a ${fmt(CDB.supplementalPayment)} lump sum`,
+    `最多每月 ${fmt(CDB.maxMonthly)}，另加 ${fmt(CDB.supplementalPayment)} 一次性款項`,
+    `最多每月 ${fmt(CDB.maxMonthly)}，另加 ${fmt(CDB.supplementalPayment)} 一次性款项`,
   ),
+  figures: CDB,
   contextFields: ["age", "hasDTC", "familyIncome", "annualIncome", "maritalStatus", "filedTaxes"],
   prerequisites: ["dtc"],
   check: buildCheck([
