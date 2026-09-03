@@ -38,7 +38,7 @@ export const SITE = {
    * derived, because importing the registry here would pull all benefit data
    * into every page's bundle via the layout.
    */
-  benefitCount: 73,
+  benefitCount: 74,
   /** Contact / project links (optional). */
   githubUrl: "",
 } as const;

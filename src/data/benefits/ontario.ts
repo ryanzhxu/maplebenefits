@@ -1,7 +1,7 @@
-import type { AmountEstimate, Benefit } from "@/types/benefit";
+import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, buildCheck, isTrue, lessThan, oneOf } from "@/lib/checks";
 
 const ON = oneOf((c: { province?: string }) => c.province, ["ON"]);
 const onFail = tri(
@@ -601,6 +601,188 @@ export const ontarioSeniorHomeownerGrant: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Low-Income Workers Tax Credit (LIFT) -- found by the discovery lane sweeping
+// ontario.ca's own benefits index. Source (fetched 2026-09-02):
+// https://www.ontario.ca/page/low-income-workers-tax-credit
+//
+// Reaches essentially every low-income worker in Ontario, which is why it
+// ranked first in the Ontario queue.
+const LIFT_URL = "https://www.ontario.ca/page/low-income-workers-tax-credit";
+
+const LIFT = figures({
+  maxCredit: {
+    current: {
+      value: 875,
+      from: "2022-01-01",
+      source: LIFT_URL,
+      quote: "The maximum credit you can receive is $875",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum credit",
+  },
+  individualIncomeLimit: {
+    current: {
+      value: 50000,
+      from: "2022-01-01",
+      source: LIFT_URL,
+      quote: "your individual adjusted net income for the year must be below $50,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Individual income limit",
+  },
+  familyIncomeLimit: {
+    current: {
+      value: 82500,
+      from: "2022-01-01",
+      source: LIFT_URL,
+      quote: "must be below $82,500 (previously $68,500 for the years 2019, 2020 and 2021)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Family income limit",
+  },
+  individualReductionFrom: {
+    current: {
+      value: 32500,
+      from: "2022-01-01",
+      source: LIFT_URL,
+      quote: "adjusted individual net income over $32,500",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Individual income where the credit starts to be reduced",
+  },
+  familyReductionFrom: {
+    current: {
+      value: 65000,
+      from: "2022-01-01",
+      source: LIFT_URL,
+      quote: "adjusted family net income over $65,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Family income where the credit starts to be reduced",
+  },
+});
+
+/**
+ * Ontario reduces LIFT by 5% of the GREATER of two overages -- individual
+ * income above $32,500 or family income above $65,000 -- so a modest household
+ * income can reduce the credit even when the individual's own income is low.
+ */
+const liftEstimate = (ctx: AssessmentContext): AmountEstimate | undefined => {
+  const individual = ctx.annualIncome;
+  const family = ctx.familyIncome ?? individual;
+  const max = val(LIFT.maxCredit);
+  if (individual === undefined) return { low: 0, high: max, period: "year" };
+
+  const overIndividual = Math.max(0, individual - val(LIFT.individualReductionFrom));
+  const overFamily = Math.max(0, (family ?? individual) - val(LIFT.familyReductionFrom));
+  const reduction = 0.05 * Math.max(overIndividual, overFamily);
+  const amount = Math.max(0, Math.round(max - reduction));
+  return { low: amount, high: amount, period: "year" };
+};
+
+export const ontarioLift: Benefit = {
+  id: "ontario-lift",
+  name: tri(
+    "Low-Income Workers Tax Credit (LIFT)",
+    "低收入工作者稅務抵免 (LIFT)",
+    "低收入工作者税务抵免 (LIFT)",
+  ),
+  shortName: "LIFT",
+  category: "tax-credits",
+  level: "provincial-on",
+  description: tri(
+    "A tax credit that lowers or removes the Ontario income tax owed by people with employment income and a low income. You get it by filing your tax return.",
+    "為有工作收入的低收入人士減免安大略省入息稅的抵免。報稅即可獲得。",
+    "为有工作收入的低收入人士减免安大略省入息税的抵免。报税即可获得。",
+  ),
+  estimatedValue: tri(
+    `Up to ${fmt(LIFT.maxCredit)}/year off your Ontario income tax`,
+    `安大略省入息稅最多可減 ${fmt(LIFT.maxCredit)}`,
+    `安大略省入息税最多可减 ${fmt(LIFT.maxCredit)}`,
+  ),
+  figures: LIFT,
+  contextFields: ["province", "employmentStatus", "annualIncome", "familyIncome"],
+  check: buildCheck([
+    { test: ON, hard: true, passReason: onPass, failReason: onFail, missingField: "province" },
+    {
+      test: oneOf((c) => c.employmentStatus, ["employed", "self-employed"]),
+      hard: true,
+      passReason: tri(
+        "You have employment income, which this credit is based on.",
+        "你有工作收入，此抵免以此為基礎。",
+        "你有工作收入，此抵免以此为基础。",
+      ),
+      failReason: tri(
+        "LIFT is for people with employment income.",
+        "LIFT 適用於有工作收入的人士。",
+        "LIFT 适用于有工作收入的人士。",
+      ),
+      missingField: "employmentStatus",
+    },
+    {
+      test: lessThan((c) => c.annualIncome, val(LIFT.individualIncomeLimit)),
+      hard: true,
+      passReason: tri(
+        "Your individual income is within the LIFT limit.",
+        "你的個人收入在 LIFT 上限之內。",
+        "你的个人收入在 LIFT 上限之内。",
+      ),
+      failReason: tri(
+        `Your individual adjusted net income must be below ${fmt(LIFT.individualIncomeLimit)}.`,
+        `個人經調整淨收入須低於 ${fmt(LIFT.individualIncomeLimit)}。`,
+        `个人经调整净收入须低于 ${fmt(LIFT.individualIncomeLimit)}。`,
+      ),
+      missingField: "annualIncome",
+    },
+    {
+      test: lessThan((c) => c.familyIncome, val(LIFT.familyIncomeLimit)),
+      hard: false,
+      passReason: tri(
+        "Your family income is within the LIFT limit.",
+        "你的家庭收入在 LIFT 上限之內。",
+        "你的家庭收入在 LIFT 上限之内。",
+      ),
+      failReason: tri(
+        `Family adjusted net income must be below ${fmt(LIFT.familyIncomeLimit)}.`,
+        `家庭經調整淨收入須低於 ${fmt(LIFT.familyIncomeLimit)}。`,
+        `家庭经调整净收入须低于 ${fmt(LIFT.familyIncomeLimit)}。`,
+      ),
+      missingField: "familyIncome",
+    },
+  ]),
+  estimateAmount: liftEstimate,
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("File your Ontario tax return", "報安大略省稅表", "报安大略省税表"),
+      description: tri(
+        "There is no separate application. Complete Schedule ON428-A with your return and the credit is applied automatically.",
+        "無需另行申請。報稅時填寫 ON428-A 附表，抵免會自動計算。",
+        "无需另行申请。报税时填写 ON428-A 附表，抵免会自动计算。",
+      ),
+      actionUrl: LIFT_URL,
+    },
+  ],
+  requiredDocuments: [
+    tri("T4 slips or self-employment records", "T4 表或自僱收入記錄", "T4 表或自雇收入记录"),
+  ],
+  officialInfoUrl: LIFT_URL,
+  paymentFrequency: tri("Yearly, at tax time", "每年報稅時", "每年报税时"),
+  tags: ["ontario", "tax-credit", "workers", "low-income", "employment"],
+  relatedBenefits: ["cwb", "ontario-trillium"],
+  lastUpdated: "2026-09-02",
+};
+
 export const ontarioBenefits: Benefit[] = [
   ontarioTrillium,
   ontarioWorks,
@@ -609,4 +791,5 @@ export const ontarioBenefits: Benefit[] = [
   ontarioGains,
   ontarioDrugBenefit,
   ontarioSeniorHomeownerGrant,
+  ontarioLift,
 ];
