@@ -1,6 +1,25 @@
 import type { AssessmentContext, Benefit, CheckResult } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { figures, fmt, val } from "@/lib/figures";
+
+const PWD_RATE_URL =
+  "https://www2.gov.bc.ca/gov/content/family-social-supports/services-for-people-with-disabilities/disability-assistance/on-disability-assistance";
+
+const PWD_RATES = figures({
+  singleMax: {
+    current: {
+      value: 1483.5,
+      from: "2025-12-01",
+      source: PWD_RATE_URL,
+      quote: "you could get up to: $1,483.50 if you are single",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Maximum monthly disability assistance, single person",
+  },
+});
 
 export const pwd: Benefit = {
   id: "pwd",
@@ -18,9 +37,9 @@ export const pwd: Benefit = {
     "为具有「残障人士」(PWD) 资格的不列颠哥伦比亚省居民提供的每月残障援助，包括生活费与住屋津贴，以及额外补助。",
   ),
   estimatedValue: tri(
-    "Up to $1,483.50/month for a single person, plus supplements",
-    "單身人士最多每月 $1,483.50，另加補助",
-    "单身人士最多每月 $1,483.50，另加补助",
+    `Up to ${fmt(PWD_RATES.singleMax)}/month for a single person, plus supplements`,
+    `單身人士最多每月 ${fmt(PWD_RATES.singleMax)}，另加補助`,
+    `单身人士最多每月 ${fmt(PWD_RATES.singleMax)}，另加补助`,
   ),
   contextFields: ["province", "hasSevereDisability", "age", "annualIncome"],
   check: buildCheck([
@@ -62,7 +81,7 @@ export const pwd: Benefit = {
       missingField: "hasSevereDisability",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1483, period: "month" }),
+  estimateAmount: () => ({ low: 0, high: val(PWD_RATES.singleMax), period: "month" }),
   applicationSteps: [
     {
       order: 1,
@@ -110,6 +129,7 @@ export const pwd: Benefit = {
   paymentFrequency: tri("Monthly", "每月", "每月"),
   tags: ["disability", "bc", "income", "assistance"],
   relatedBenefits: ["dtc", "cdb", "bc-bus-pass", "fair-pharmacare"],
+  figures: PWD_RATES,
   lastUpdated: "2026-09-01",
 };
 
