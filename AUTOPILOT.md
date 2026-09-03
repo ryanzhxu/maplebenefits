@@ -74,6 +74,7 @@ app and its user experience. Never invent a figure.
 ```autobuild
 verify = npm test && npx tsc --noEmit && npm run build
 gate = direct
+model = sonnet
 notify = gh issue create --title "{title}" --body "{body}"
 branch_prefix = autobuild
 email_to = ryan.xu282@gmail.com
@@ -81,6 +82,13 @@ email_cmd =
 ```
 
 <!--
+model   sonnet. Each pass is mechanical — read a benefit file, fetch the page
+        that states its figures, make a scoped edit, run verify. Sonnet does
+        that well (it produced 34 clean figures across four researched specs
+        earlier, zero validation errors), at a fraction of Opus's cost, which
+        is what makes a full-day budget realistic. Planning and review stay
+        with the operator's session; the loop only implements.
+
 verify  Deliberately NOT `npm run lint` — the repo has two pre-existing lint
         errors unrelated to this work, so a repo-wide lint gate would reject
         every pass. Tests, typecheck and a real static build are the gate.
