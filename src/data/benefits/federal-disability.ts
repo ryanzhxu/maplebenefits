@@ -574,6 +574,80 @@ export const cppDisability: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// RDSP -- grant and bond amounts from ESDC's "how much" page.
+// Source (fetched 2026-09-02): .../programs/disability/savings/how-much.html
+// The benefit cited only the RDSP landing page, which states no amounts.
+//
+// Left unanchored and flagged: the bond income threshold the estimator uses
+// (37487). It is not on this page, which publishes the GRANT income threshold
+// ($117,045 for 2026) rather than the bond one. Not invented.
+const RDSP_URL =
+  "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html";
+
+const RDSP = figures({
+  maxYearlyGrant: {
+    current: {
+      value: 3500,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote: "The maximum yearly grant amount is $3,500 , with a limit of $70,000 over your lifetime",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum yearly grant",
+  },
+  grantLifetimeLimit: {
+    current: {
+      value: 70000,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote: "with a limit of $70,000 over your lifetime",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Lifetime grant limit",
+  },
+  maxYearlyBond: {
+    current: {
+      value: 1000,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote: "The maximum yearly bond amount is $1,000 until you reach the limit of $20,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum yearly bond",
+  },
+  bondLifetimeLimit: {
+    current: {
+      value: 20000,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote: "until you reach the limit of $20,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Lifetime bond limit",
+  },
+  contributionForMaxGrant: {
+    current: {
+      value: 1500,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote:
+        "To get the maximum amount of grant you are eligible to receive for the year, you need to contribute $1,500 in the year",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Contribution needed for the maximum grant",
+  },
+});
+
 export const rdsp: Benefit = {
   id: "rdsp",
   name: tri(
@@ -590,10 +664,11 @@ export const rdsp: Benefit = {
     "为已获批残疾税务抵免人士而设的储蓄计划。政府会加入补助金，低收入者更可获债券 — 即使你无法自行供款也有免费款项。",
   ),
   estimatedValue: tri(
-    "Grants up to $3,500/year and bonds up to $1,000/year from the government",
-    "政府補助金最多每年 $3,500，債券最多每年 $1,000",
-    "政府补助金最多每年 $3,500，债券最多每年 $1,000",
+    `Grants up to ${fmt(RDSP.maxYearlyGrant)}/year and bonds up to ${fmt(RDSP.maxYearlyBond)}/year from the government`,
+    `政府補助金最多每年 ${fmt(RDSP.maxYearlyGrant)}，債券最多每年 ${fmt(RDSP.maxYearlyBond)}`,
+    `政府补助金最多每年 ${fmt(RDSP.maxYearlyGrant)}，债券最多每年 ${fmt(RDSP.maxYearlyBond)}`,
   ),
+  figures: RDSP,
   contextFields: ["hasDTC", "age", "familyIncome"],
   prerequisites: ["dtc"],
   check: buildCheck([
@@ -632,8 +707,8 @@ export const rdsp: Benefit = {
     const income = ctx.familyIncome;
     if (income !== undefined && income <= 37487) {
       return {
-        low: 1000,
-        high: 4500,
+        low: val(RDSP.maxYearlyBond),
+        high: val(RDSP.maxYearlyGrant) + val(RDSP.maxYearlyBond),
         period: "year",
         note: tri(
           "At your income, the $1,000 bond needs no contribution from you.",
@@ -642,7 +717,11 @@ export const rdsp: Benefit = {
         ),
       };
     }
-    return { low: 0, high: 4500, period: "year" };
+    return {
+      low: 0,
+      high: val(RDSP.maxYearlyGrant) + val(RDSP.maxYearlyBond),
+      period: "year",
+    };
   },
   applicationSteps: [
     {
