@@ -196,6 +196,35 @@ export const nbSocialAssistance: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// New Brunswick Child Tax Benefit -- previously unanchored: estimatedValue and
+// estimateAmount hard-coded "$250/year per child" with no sourced figure, and
+// the soft income signal used a $25,000 threshold that does not appear on the
+// program's own page. The CRA's NB provincial-programs page states the real
+// basic benefit ($20.83/month per child) and the real income where it starts
+// to reduce ($20,000), both quoted verbatim below.
+const NB_CTB_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html";
+const NB_CTB_BASIC = "You may be entitled to a basic benefit of $20.83 per month for each child.";
+const NB_CTB_REDUCTION =
+  "The amount of the basic benefit is reduced if your adjusted family net income is more than $20,000.";
+
+const NB_CTB = figures({
+  basicMonthlyPerChild: {
+    current: { value: 20.83, from: "2026-07-01", source: NB_CTB_URL, quote: NB_CTB_BASIC },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Basic monthly benefit per child",
+  },
+  reductionStartsAt: {
+    current: { value: 20000, from: "2026-07-01", source: NB_CTB_URL, quote: NB_CTB_REDUCTION },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Family income where the basic benefit starts to be reduced",
+  },
+});
+
 export const nbChildTaxBenefit: Benefit = {
   id: "nb-child-tax-benefit",
   name: tri(
@@ -212,9 +241,9 @@ export const nbChildTaxBenefit: Benefit = {
     "为新不伦瑞克低收入、有 18 岁以下子女家庭提供的免税每月款项，与加拿大儿童福利一并发放。工作收入补助或会增加金额。",
   ),
   estimatedValue: tri(
-    "About $250/year per child, plus a possible working-income supplement",
-    "每名子女約每年 $250，另可能有工作收入補助",
-    "每名子女约每年 $250，另可能有工作收入补助",
+    `About ${fmt(NB_CTB.basicMonthlyPerChild)}/month per child, plus a possible working-income supplement`,
+    `每名子女約每月 ${fmt(NB_CTB.basicMonthlyPerChild)}，另可能有工作收入補助`,
+    `每名子女约每月 ${fmt(NB_CTB.basicMonthlyPerChild)}，另可能有工作收入补助`,
   ),
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   prerequisites: ["ccb"],
@@ -232,7 +261,7 @@ export const nbChildTaxBenefit: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 25000),
+      test: atMost((c) => c.familyIncome, val(NB_CTB.reductionStartsAt)),
       hard: false,
       passReason: tri(
         "Your income is in the low range this benefit is for.",
@@ -244,7 +273,7 @@ export const nbChildTaxBenefit: Benefit = {
   ]),
   estimateAmount: (ctx) => ({
     low: 0,
-    high: 250 * (ctx.numberOfChildren ?? 1),
+    high: Math.round(val(NB_CTB.basicMonthlyPerChild) * 12 * (ctx.numberOfChildren ?? 1)),
     period: "year",
   }),
   applicationSteps: [
@@ -266,7 +295,8 @@ export const nbChildTaxBenefit: Benefit = {
   paymentFrequency: tri("Monthly", "每月", "每月"),
   tags: ["new-brunswick", "family", "children", "low-income"],
   relatedBenefits: ["ccb"],
-  lastUpdated: "2026-09-01",
+  figures: NB_CTB,
+  lastUpdated: "2026-09-03",
 };
 
 // New Brunswick HST Credit, added 2026-09-02. The broadest thing New Brunswick
