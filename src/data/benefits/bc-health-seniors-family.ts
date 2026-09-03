@@ -1,6 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { figures, val } from "@/lib/figures";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, atMostOf, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 export const fairPharmacare: Benefit = {
@@ -160,6 +160,8 @@ export const mspSupplementary: Benefit = {
 // person to $54,624 for a couple whose spouse receives no OAS.
 const BCSS_GIS_URL =
   "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html";
+const BCSS_URL =
+  "https://www2.gov.bc.ca/gov/content/family-social-supports/seniors/financial-legal-matters/income-security-programs/seniors-supplement";
 
 const BCSS = figures({
   gisIncomeLimitSingle: {
@@ -187,6 +189,30 @@ const BCSS = figures({
     format: "currency",
     label: "Widest GIS combined income limit for a couple",
   },
+  maxMonthlySingle: {
+    current: {
+      value: 99.3,
+      from: "2026-07-01",
+      source: BCSS_URL,
+      quote: "you could receive: $1.00 to $99.30 for single seniors",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly supplement, single senior",
+  },
+  maxMonthlyCouple: {
+    current: {
+      value: 220.5,
+      from: "2026-07-01",
+      source: BCSS_URL,
+      quote: "$2.00 to $220.50 for senior couples",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Maximum monthly supplement, senior couple",
+  },
 });
 
 /** Same widest-couple-threshold rule used for GIS itself, for the same reason. */
@@ -212,9 +238,9 @@ export const bcSeniorsSupplement: Benefit = {
     "为领取联邦保证收入补助金的不列颠哥伦比亚省长者提供的自动每月补助。无需申请，自动发放。",
   ),
   estimatedValue: tri(
-    "Up to about $99/month for a single senior (paid automatically)",
-    "單身長者最多約每月 $99（自動發放）",
-    "单身长者最多约每月 $99（自动发放）",
+    `Up to about ${fmt(BCSS.maxMonthlySingle)}/month for a single senior, or ${fmt(BCSS.maxMonthlyCouple)}/month for a couple (paid automatically)`,
+    `單身長者最多約每月 ${fmt(BCSS.maxMonthlySingle)}，夫婦最多約每月 ${fmt(BCSS.maxMonthlyCouple)}（自動發放）`,
+    `单身长者最多约每月 ${fmt(BCSS.maxMonthlySingle)}，夫妇最多约每月 ${fmt(BCSS.maxMonthlyCouple)}（自动发放）`,
   ),
   contextFields: ["province", "age", "annualIncome"],
   prerequisites: ["gis"],
@@ -260,7 +286,13 @@ export const bcSeniorsSupplement: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 99, period: "month" }),
+  estimateAmount: (ctx) => {
+    const high =
+      ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law"
+        ? val(BCSS.maxMonthlyCouple)
+        : val(BCSS.maxMonthlySingle);
+    return { low: 0, high, period: "month" };
+  },
   applicationSteps: [
     {
       order: 1,
