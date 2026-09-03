@@ -18,10 +18,13 @@ const acfbEstimate = (ctx: {
 }): AmountEstimate | undefined => {
   if (ctx.hasChildren !== true) return undefined;
   const n = Math.min(ctx.numberOfChildren ?? 1, 4);
-  const base = 1499 + 749 * (n - 1);
+  // July 2026 - June 2027 amounts. Alberta publishes per-child-count totals
+  // rather than a base plus increment; these match rows 1-4 of its table.
+  const BASE_BY_CHILDREN = [1529, 2293, 3057, 3821];
+  const base = BASE_BY_CHILDREN[Math.min(n, 4) - 1];
   const income = ctx.familyIncome;
   if (income === undefined) return { low: 0, high: base, period: "year" };
-  const over = Math.max(0, income - 27565);
+  const over = Math.max(0, income - 28116);
   const amount = Math.max(0, Math.round(base - over * 0.08));
   return {
     low: amount,
@@ -137,6 +140,18 @@ const ASB = figures({
     format: "currency",
     label: "Income guideline, senior couple",
   },
+  maxAnnualCouple: {
+    current: {
+      value: 5918,
+      from: "2026-07-01",
+      source: ASB_URL,
+      quote: "Homeowner, renter, lodge resident $5,918",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum annual benefit, senior couple (homeowner/renter/lodge)",
+  },
   maxAnnualSingle: {
     current: {
       value: 3946,
@@ -209,7 +224,14 @@ export const albertaSeniorsBenefit: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: val(ASB.maxAnnualSingle), period: "year" }),
+  // The threshold fix earlier corrected eligibility for couples but left the
+  // ESTIMATE at the single-senior maximum, so couples still saw $3,946 when
+  // Alberta pays up to $5,918 for the same accommodation type.
+  estimateAmount: (ctx) => ({
+    low: 0,
+    high: asbIsCouple(ctx) ? val(ASB.maxAnnualCouple) : val(ASB.maxAnnualSingle),
+    period: "year",
+  }),
   applicationSteps: [
     {
       order: 1,
@@ -366,8 +388,118 @@ export const albertaIncomeSupport: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Alberta Adult Health Benefit -- income limits by FAMILY SIZE.
+// Source (fetched 2026-09-02): https://www.alberta.ca/alberta-adult-health-benefit
+//
+// The app used one flat $34,000 for everyone. Alberta publishes a ten-row
+// table from $16,580 for a single adult to $46,932 for a couple with four
+// children. The flat figure both over-promised to single adults (real limit
+// $16,580) and under-promised to larger families (real limit up to $46,932) --
+// wrong in both directions from the same number.
+const AAHB_URL = "https://www.alberta.ca/alberta-adult-health-benefit";
+const AAHB_TABLE =
+  "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973";
+
+const AAHB = figures({
+  singleAdult: {
+    current: { value: 16580, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Single adult",
+  },
+  oneAdult1Child: {
+    current: { value: 26023, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "1 adult + 1 child",
+  },
+  oneAdult2Children: {
+    current: { value: 31010, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "1 adult + 2 children",
+  },
+  oneAdult3Children: {
+    current: { value: 36325, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "1 adult + 3 children",
+  },
+  oneAdult4Children: {
+    current: { value: 41957, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "1 adult + 4 children",
+  },
+  coupleNoChildren: {
+    current: { value: 23212, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Couple, no children",
+  },
+  couple1Child: {
+    current: { value: 31237, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Couple + 1 child",
+  },
+  couple2Children: {
+    current: { value: 36634, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Couple + 2 children",
+  },
+  couple3Children: {
+    current: { value: 41594, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Couple + 3 children",
+  },
+  couple4Children: {
+    current: { value: 46932, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Couple + 4 children",
+  },
+  perAdditionalChild: {
+    current: { value: 4973, from: "2026-01-01", source: AAHB_URL, quote: AAHB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Added for each additional child",
+  },
+});
+
+/** Income limit for this household, from Alberta's published table. */
+const aahbIncomeLimit = (c: {
+  maritalStatus?: string;
+  hasChildren?: boolean;
+  numberOfChildren?: number;
+}): number | undefined => {
+  const couple = c.maritalStatus === "married" || c.maritalStatus === "common-law";
+  const kids = c.hasChildren === true ? Math.max(0, c.numberOfChildren ?? 0) : 0;
+  const table = couple
+    ? [AAHB.coupleNoChildren, AAHB.couple1Child, AAHB.couple2Children, AAHB.couple3Children, AAHB.couple4Children]
+    : [AAHB.singleAdult, AAHB.oneAdult1Child, AAHB.oneAdult2Children, AAHB.oneAdult3Children, AAHB.oneAdult4Children];
+  if (kids < table.length) return val(table[kids]);
+  // The table stops at four children; Alberta says to add a fixed amount for
+  // each additional child, so the series continues as the province instructs.
+  return val(table[table.length - 1]) + val(AAHB.perAdditionalChild) * (kids - (table.length - 1));
+};
+
 export const albertaAdultHealthBenefit: Benefit = {
   id: "alberta-adult-health-benefit",
+  figures: AAHB,
   name: tri(
     "Alberta Adult Health Benefit",
     "亞伯達成人健康福利",
@@ -386,12 +518,16 @@ export const albertaAdultHealthBenefit: Benefit = {
     "處方藥、牙科、視光及緊急健康保障",
     "处方药、牙科、视光及紧急健康保障",
   ),
-  contextFields: ["province", "familyIncome"],
+  contextFields: ["province", "familyIncome", "maritalStatus", "hasChildren", "numberOfChildren"],
   check: buildCheck([
     { test: AB, hard: true, passReason: abPass, failReason: abFail, missingField: "province" },
     {
-      test: atMost((c) => c.familyIncome, 34000),
-      hard: false,
+      // Hard, unlike the social-assistance income signals: Alberta states this
+      // as a requirement -- "Your total net household income must fall below
+      // these maximum income guidelines based on family size" -- and publishes
+      // the actual table, rather than leaving it to a needs assessment.
+      test: atMostOf((c) => c.familyIncome, aahbIncomeLimit),
+      hard: true,
       passReason: tri(
         "Your income is in the low range this coverage is for.",
         "你的收入屬此保障針對的低收入範圍。",
