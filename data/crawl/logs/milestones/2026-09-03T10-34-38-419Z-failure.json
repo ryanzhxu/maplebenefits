@@ -1,0 +1,7 @@
+{
+  "kind": "failure",
+  "title": "nightly run could not rebase on main",
+  "body": "git pull --rebase failed, so no crawl ran.\n\nError: Command failed: git pull --rebase origin main\nerror: cannot pull with rebase: You have unstaged changes.\nerror: Please commit or stash them.\n",
+  "at": "2026-09-03T10:34:38.419Z",
+  "to": "ryan.xu282@gmail.com"
+}
