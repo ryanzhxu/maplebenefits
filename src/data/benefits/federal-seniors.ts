@@ -10,7 +10,7 @@ const OAS_PAYMENTS_URL =
 // monthly payment and the income at which OAS is fully recovered by two age
 // bands: 65-74 and 75-and-over. Both bands are anchored so the freshness lane
 // re-checks each quarter's figures against the payments page.
-const OAS = figures({
+export const OAS = figures({
   maxMonthly65to74: {
     current: {
       value: 751.97,
@@ -187,7 +187,7 @@ const GIS_URL =
 const GIS_ELIGIBILITY_URL =
   "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html";
 
-const GIS = figures({
+export const GIS = figures({
   maxMonthlySingle: {
     current: {
       value: 1123.17,

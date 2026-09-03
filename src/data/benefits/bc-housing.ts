@@ -10,6 +10,7 @@ import {
   oneOf,
   type RuleState,
 } from "@/lib/checks";
+import { OAS, GIS } from "./federal-seniors";
 
 const householdIncome = (ctx: AssessmentContext) =>
   ctx.familyIncome ?? ctx.annualIncome;
@@ -59,20 +60,19 @@ const SAFER_MIN_BENEFIT = 50; // official minimum monthly benefit
  * program-parameter amounts directly, so we approximate Base Income from the
  * current maximums, split by marital status where known (assume single if
  * maritalStatus is unanswered):
- *   OAS (age 65-74): $752/month -- matches the OAS estimator in
- *     src/data/benefits/federal-seniors.ts (source: canada.ca OAS payments)
- *   GIS max: single $1,097/month, couple $660/month each -- same source
+ *   OAS (age 65-74) and GIS max -- read from the OAS/GIS figures anchored in
+ *     src/data/benefits/federal-seniors.ts (source: canada.ca OAS/GIS
+ *     payments pages) instead of duplicating the literals here, so the two
+ *     files cannot drift apart the way they already have once (the couple
+ *     GIS rate sat stale at $60.10 here against the published table).
  *   BC Senior's Supplement: single $99.30/month, couple $110.25/month each --
- *   (the couple rate was $60.10 here, stale against the published table; the
- *   GIS figures below were stale for the same reason and are now the current
- *   ones, matching the corrections made in federal-seniors.ts)
  *     https://www2.gov.bc.ca/gov/content/governments/policies-for-government/bcea-policy-and-procedure-manual/bc-employment-and-assistance-rate-tables/senior-s-supplement-rate-table
  */
 const saferBaseIncomeMonthly = (ctx: AssessmentContext): number => {
   const couple =
     ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
-  const oas = 751.97;
-  const gis = couple ? 676.09 : 1123.17;
+  const oas = val(OAS.maxMonthly65to74);
+  const gis = couple ? val(GIS.maxMonthlyWithSpouseOnOas) : val(GIS.maxMonthlySingle);
   const supplement = couple ? 110.25 : 99.3;
   const perPerson = oas + gis + supplement;
   return couple ? perPerson * 2 : perPerson;
