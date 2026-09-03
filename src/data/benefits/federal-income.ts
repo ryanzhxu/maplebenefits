@@ -16,6 +16,16 @@ const CGEB_URL =
 const CGEB_SENTENCE =
   "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19";
 
+// The reduction formula and eligibility cutoff were bare, unsourced literals
+// (45521 in the code, 65000/56000 in copy) that appear on neither cited page --
+// confirmed via probe.ts, both state no amounts beyond the three above. The
+// real, current-year phase-out threshold lives in this benefit's own linked
+// "payment amounts" table (2025 base year row, the period this app is in).
+const CGEB_PAYMENT_AMOUNTS_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much/payment-amounts.html";
+const CGEB_PHASE_OUT_QUOTE =
+  "2025 ( July 2026 - June 2027) $445 $445 $234 $445 $234 $11,564 $46,432";
+
 const CGEB = figures({
   maxSingle: {
     current: { value: 679, from: "2026-07-01", source: CGEB_URL, quote: CGEB_SENTENCE },
@@ -38,6 +48,18 @@ const CGEB = figures({
     format: "currency",
     label: "Maximum per year, per child under 19",
   },
+  phaseOutThreshold: {
+    current: {
+      value: 46432,
+      from: "2026-07-01",
+      source: CGEB_PAYMENT_AMOUNTS_URL,
+      quote: CGEB_PHASE_OUT_QUOTE,
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Adjusted family net income where the 5% reduction begins",
+  },
 });
 
 const cgebEstimate = (ctx: {
@@ -52,7 +74,7 @@ const cgebEstimate = (ctx: {
   if (ctx.hasChildren) base += val(CGEB.perChild) * (ctx.numberOfChildren ?? 1);
   const income = ctx.familyIncome;
   if (income === undefined) return { low: 0, high: base, period: "year" };
-  const reduce = Math.max(0, income - 45521) * 0.05;
+  const reduce = Math.max(0, income - val(CGEB.phaseOutThreshold)) * 0.05;
   const amount = Math.max(0, Math.round(base - reduce));
   return {
     low: amount,
@@ -96,17 +118,22 @@ export const cgeb: Benefit = {
       missingField: "age",
     },
     {
-      test: atMost((c) => c.familyIncome, 65000),
-      hard: true,
+      // Soft, not hard: the 5% reduction's zero-point depends on marital
+      // status and number of children (the source publishes one shared
+      // starting threshold, not one flat cutoff for every household), so a
+      // hard gate at any single income number would wrongly turn away larger
+      // families still owed a reduced amount above this threshold.
+      test: atMost((c) => c.familyIncome, val(CGEB.phaseOutThreshold)),
+      hard: false,
       passReason: tri(
         "Your income is in the low-to-modest range this benefit is for.",
         "你的收入屬於此福利針對的低至中等範圍。",
         "你的收入属于此福利针对的低至中等范围。",
       ),
       failReason: tri(
-        "This benefit phases out at higher incomes (roughly above $56,000 for a single person).",
-        "此福利在較高收入時逐步取消（單身約 $56,000 以上）。",
-        "此福利在较高收入时逐步取消（单身约 $56,000 以上）。",
+        `This benefit is reduced 5% for income above ${fmt(CGEB.phaseOutThreshold)}, and may reach $0 depending on your household.`,
+        `此福利在收入超過 ${fmt(CGEB.phaseOutThreshold)} 時會按 5% 遞減，視乎家庭狀況可能減至 $0。`,
+        `此福利在收入超过 ${fmt(CGEB.phaseOutThreshold)} 时会按 5% 递减，视乎家庭状况可能减至 $0。`,
       ),
       missingField: "familyIncome",
     },
