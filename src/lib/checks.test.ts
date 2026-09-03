@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { AssessmentContext } from "@/types/benefit";
-import { atLeast, atMost, atMostOf, buildCheck, isFalse, isTrue, oneOf } from "./checks";
+import { atLeast, atMost, atMostOf, buildCheck, isFalse, isTrue, lessThan, oneOf } from "./checks";
 
 describe("check DSL", () => {
   it("returns eligible when all hard rules pass", () => {
@@ -89,5 +89,18 @@ describe("atMostOf", () => {
     );
     expect(p({ numberOfChildren: 3 })).toBe("unknown");
     expect(p({ familyIncome: 100 })).toBe("unknown");
+  });
+});
+
+describe("lessThan", () => {
+  it("is strict at the boundary, unlike atMost", () => {
+    const p = lessThan((c) => c.familyIncome as number | undefined, 90000);
+    expect(p({ familyIncome: 89999 })).toBe("pass");
+    expect(p({ familyIncome: 90000 })).toBe("fail");
+    expect(atMost((c) => c.familyIncome as number | undefined, 90000)({ familyIncome: 90000 })).toBe("pass");
+  });
+
+  it("is unknown when the value is missing", () => {
+    expect(lessThan((c) => c.familyIncome as number | undefined, 90000)({})).toBe("unknown");
   });
 });

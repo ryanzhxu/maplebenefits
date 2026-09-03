@@ -87,6 +87,25 @@ export function atMostOf(
   };
 }
 
+/**
+ * Strictly below a ceiling.
+ *
+ * Distinct from `atMost` because sources often state a strict limit -- the
+ * CDCP requires income "less than $90,000". Expressing that as
+ * `atMost(89999)` works but hides the real figure, so the source number can no
+ * longer be matched against the page that states it.
+ */
+export function lessThan(
+  get: (ctx: AssessmentContext) => number | undefined,
+  limit: number,
+): Predicate {
+  return (ctx) => {
+    const v = get(ctx);
+    if (v === undefined || v === null || Number.isNaN(v)) return "unknown";
+    return v < limit ? "pass" : "fail";
+  };
+}
+
 export function inRange(
   get: (ctx: AssessmentContext) => number | undefined,
   min: number,

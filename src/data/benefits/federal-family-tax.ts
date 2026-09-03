@@ -1,7 +1,7 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { figures, val } from "@/lib/figures";
-import { atMost, buildCheck, isFalse, isTrue, oneOf } from "@/lib/checks";
+import { figures, fmt, val } from "@/lib/figures";
+import { buildCheck, isFalse, isTrue, lessThan, oneOf } from "@/lib/checks";
 
 // Canada Child Benefit -- 2026-27 two-tier calculation.
 // Source (fetched 2026-09-02):
@@ -436,6 +436,57 @@ export const eligibleDependant: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Canada Dental Care Plan -- income limit and coverage bands.
+// Sources (fetched 2026-09-02):
+//   .../dental-care-plan/qualify.html   income limit
+//   .../dental-care-plan/coverage.html  coverage tiers
+// The benefit cited only the CDCP landing page and its apply page, neither of
+// which states an amount, so its income limit could not be checked.
+const CDCP_QUALIFY_URL =
+  "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/qualify.html";
+const CDCP_COVERAGE_URL =
+  "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/coverage.html";
+
+const CDCP = figures({
+  incomeLimit: {
+    current: {
+      value: 90000,
+      from: "2026-01-01",
+      source: CDCP_QUALIFY_URL,
+      quote:
+        "To be eligible for the CDCP, your adjusted family net income must be less than $90,000",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Adjusted family net income limit",
+  },
+  fullCoverageBelow: {
+    current: {
+      value: 70000,
+      from: "2026-01-01",
+      source: CDCP_COVERAGE_URL,
+      quote: "Lower than $70,000 100% of eligible oral health care service costs will be",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income below which the plan covers 100%",
+  },
+  partialCoverageFrom: {
+    current: {
+      value: 79999,
+      from: "2026-01-01",
+      source: CDCP_COVERAGE_URL,
+      quote: "Between $70,000 and $79,999 60% of eligible oral health care service costs",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Top of the 60%-coverage band",
+  },
+});
+
 export const cdcp: Benefit = {
   id: "cdcp",
   name: tri("Canadian Dental Care Plan", "加拿大牙科保健計劃", "加拿大牙科保健计划"),
@@ -448,10 +499,11 @@ export const cdcp: Benefit = {
     "帮助支付牙科费用，适用于没有私人牙科保险、家庭收入低于 $90,000 的居民。2025 年起开放予所有年龄。",
   ),
   estimatedValue: tri(
-    "Covers a share of dental care costs (more coverage at lower incomes)",
-    "承擔部分牙科費用（收入越低，承擔越多）",
-    "承担部分牙科费用（收入越低，承担越多）",
+    `Covers 100% of eligible dental costs under ${fmt(CDCP.fullCoverageBelow)} family income, less above that`,
+    `家庭收入低於 ${fmt(CDCP.fullCoverageBelow)} 可獲全額牙科費用保障，收入較高則按比例遞減`,
+    `家庭收入低于 ${fmt(CDCP.fullCoverageBelow)} 可获全额牙科费用保障，收入较高则按比例递减`,
   ),
+  figures: CDCP,
   contextFields: ["hasPrivateDentalInsurance", "familyIncome", "filedTaxes"],
   check: buildCheck([
     {
@@ -470,11 +522,11 @@ export const cdcp: Benefit = {
       missingField: "hasPrivateDentalInsurance",
     },
     {
-      test: atMost((c) => c.familyIncome, 89999),
+      test: lessThan((c) => c.familyIncome, val(CDCP.incomeLimit)),
       hard: true,
       passReason: tri(
-        "Your family income is under $90,000.",
-        "你的家庭收入低於 $90,000。",
+        `Your family income is under ${fmt(CDCP.incomeLimit)}.`,
+        `你的家庭收入低於 ${fmt(CDCP.incomeLimit)}。`,
         "你的家庭收入低于 $90,000。",
       ),
       failReason: tri(
