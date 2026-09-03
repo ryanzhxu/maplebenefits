@@ -397,6 +397,27 @@ const MB55 = figures({
 const mb55IsCouple = (c: { maritalStatus?: string }) =>
   c.maritalStatus === "married" || c.maritalStatus === "common-law";
 
+/**
+ * Income limit for 55 PLUS, or undefined when Manitoba publishes none.
+ *
+ * The province runs TWO components. The Junior Component states figures
+ * ($9,746.40 single, $16,255.20 couple). The Senior Component states none at
+ * all — benefits there are "based on family composition, net family income and
+ * the type and level of benefits you receive under the federal Old Age
+ * Security program". Applying the Junior figures to someone on OAS was wrong,
+ * and produced a false "ineligible" for a 67-year-old on $16,000.
+ *
+ * So: the published limits apply below 65, and above it there is no figure to
+ * apply rather than a figure to invent.
+ */
+const mb55IncomeCeiling = (c: {
+  age?: number;
+  maritalStatus?: string;
+}): number | undefined => {
+  if (c.age !== undefined && c.age >= 65) return undefined;
+  return mb55IsCouple(c) ? val(MB55.incomeLimitCouple) : val(MB55.incomeLimitSingle);
+};
+
 export const manitoba55Plus: Benefit = {
   id: "manitoba-55-plus",
   figures: MB55,
@@ -429,11 +450,15 @@ export const manitoba55Plus: Benefit = {
       missingField: "age",
     },
     {
+      // Soft, on Manitoba's own advice: "If your income is slightly above the
+      // maximum, you are encouraged to apply anyway as there are some
+      // allowable deductions from gross income." A hard gate would turn away
+      // people the province is actively inviting to apply.
       test: atMostOf(
         (c) => (mb55IsCouple(c) ? c.familyIncome ?? c.annualIncome : c.annualIncome),
-        (c) => (mb55IsCouple(c) ? val(MB55.incomeLimitCouple) : val(MB55.incomeLimitSingle)),
+        mb55IncomeCeiling,
       ),
-      hard: true,
+      hard: false,
       passReason: tri(
         "Your income is within the program limit.",
         "你的收入在計劃上限之內。",
