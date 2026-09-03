@@ -451,6 +451,9 @@ const mb55IncomeCeiling = (c: {
   return mb55IsCouple(c) ? val(MB55.incomeLimitCouple) : val(MB55.incomeLimitSingle);
 };
 
+/** Four quarterly payments a year, derived so it cannot drift from the source rate. */
+const mb55AnnualSingle = Math.round(val(MB55.quarterlySingle) * 4);
+
 export const manitoba55Plus: Benefit = {
   id: "manitoba-55-plus",
   figures: MB55,
@@ -464,9 +467,9 @@ export const manitoba55Plus: Benefit = {
     "为 55 岁或以上、收入在计划上限内的曼尼托巴低收入居民提供的季度款项。",
   ),
   estimatedValue: tri(
-    "Up to about $647/year for a single person (paid quarterly)",
-    "單身人士最多約每年 $647（每季發放）",
-    "单身人士最多约每年 $647（每季发放）",
+    `Up to about $${mb55AnnualSingle.toLocaleString("en-CA")}/year for a single person (paid quarterly)`,
+    `單身人士最多約每年 $${mb55AnnualSingle.toLocaleString("en-CA")}（每季發放）`,
+    `单身人士最多约每年 $${mb55AnnualSingle.toLocaleString("en-CA")}（每季发放）`,
   ),
   contextFields: ["province", "age", "annualIncome"],
   check: buildCheck([
@@ -505,10 +508,9 @@ export const manitoba55Plus: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  // Four quarterly payments a year.
   estimateAmount: () => ({
     low: 0,
-    high: Math.round(val(MB55.quarterlySingle) * 4),
+    high: mb55AnnualSingle,
     period: "year",
   }),
   applicationSteps: [
