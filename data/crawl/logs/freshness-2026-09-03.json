@@ -1,0 +1,542 @@
+[
+  {
+    "benefitId": "cpp-d",
+    "key": "basicMonthly",
+    "label": "Basic monthly amount",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Basic monthly amount (2026): $610.46"
+    }
+  },
+  {
+    "benefitId": "cpp-d",
+    "key": "maxMonthly",
+    "label": "Maximum monthly payment",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Maximum monthly payment amount (2026) $1,741.20"
+    }
+  },
+  {
+    "benefitId": "cpp-d",
+    "key": "averageMonthly",
+    "label": "Average monthly amount for new beneficiaries",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/cpp-disability-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Average monthly amount for new beneficiaries (as of October 2025) $1,234.68"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "maxMonthlySingle",
+    "label": "Maximum monthly GIS, single",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Single, widowed, or divorced: up to $1,123.17/month"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "maxMonthlyWithSpouseOnOas",
+    "label": "Maximum monthly GIS, spouse receives full OAS",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Spouse/common-law partner receives full OAS: up to $676.09/month"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSingle",
+    "label": "Income limit, single",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I am single, divorced, or widowed. Less than $22,800"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSpouseOnFullOas",
+    "label": "Combined income limit, spouse receives full OAS",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who receives the full OAS pension. Less than $30,096 (combined annual income of couple)"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSpouseOnAllowance",
+    "label": "Combined income limit, spouse receives the Allowance",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who receives the Allowance. Less than $42,144 (combined annual income of couple)"
+    }
+  },
+  {
+    "benefitId": "gis",
+    "key": "incomeMaxSpouseWithoutOas",
+    "label": "Combined income limit, spouse does not receive OAS",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who does not receive OAS. Less than $54,624 (combined annual income of couple)"
+    }
+  },
+  {
+    "benefitId": "cpp-retirement",
+    "key": "maxMonthlyAt65",
+    "label": "Maximum monthly pension at 65",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Maximum CPP retirement pension at age 65 (January 2026): $1,507.65/month"
+    }
+  },
+  {
+    "benefitId": "cpp-retirement",
+    "key": "averageMonthlyAt65",
+    "label": "Average monthly pension at 65 for new beneficiaries",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Average CPP retirement pension at age 65 for new beneficiaries (July to September 2026): $877.01/month"
+    }
+  },
+  {
+    "benefitId": "oas-allowance",
+    "key": "maxMonthly",
+    "label": "Maximum monthly Allowance",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Spouse/common-law partner receives GIS and full OAS: up to $1,428.06/month"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "maxUnder6",
+    "label": "Maximum per year, child under 6",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "under 6 years of age: $8,157 per year"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "max6to17",
+    "label": "Maximum per year, child aged 6 to 17",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "6 to 17 years of age: $6,883 per year"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "reductionStartsAt",
+    "label": "AFNI below which the maximum is paid",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your AFNI is under $38,237, you get the maximum amount for each child"
+    }
+  },
+  {
+    "benefitId": "ccb",
+    "key": "secondTierStartsAt",
+    "label": "AFNI where the second reduction tier begins",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Greater than $82,847 Your benefit is reduced by a fixed amount plus an additional percentage of your income greater than $82,847"
+    }
+  },
+  {
+    "benefitId": "cgeb",
+    "key": "maxSingle",
+    "label": "Maximum per year, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19"
+    }
+  },
+  {
+    "benefitId": "cgeb",
+    "key": "maxCouple",
+    "label": "Maximum per year, married or common-law",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19"
+    }
+  },
+  {
+    "benefitId": "cgeb",
+    "key": "perChild",
+    "label": "Maximum per year, per child under 19",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-groceries-essentials-benefit/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could get up to: $679 if you are a single individual $890 if you are married or have a common-law partner $234 for each eligible child under the age of 19"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicMaxSingle",
+    "label": "Maximum basic amount, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum basic amount for the CWB for 2025 is: $1,633 for single individuals"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicMaxFamily",
+    "label": "Maximum basic amount, family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$2,813 for families"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "disabilitySupplement",
+    "label": "Maximum disability supplement",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum amount for the disability supplement is: $843 for single individuals"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicReductionSingle",
+    "label": "Income where the basic amount starts to be reduced, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The amount is gradually reduced if your adjusted net income is more than $26,855"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicReductionFamily",
+    "label": "Income where the basic amount starts to be reduced, family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The amount is gradually reduced if your adjusted family net income is more than $30,639"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "basicZeroSingle",
+    "label": "Income at which the basic amount reaches zero, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "No basic amount is paid if your adjusted net income is more than $37,742"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "disabilityReductionSingle",
+    "label": "Income where the disability supplement starts to be reduced, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The CWB disability supplement is gradually reduced if your adjusted net income is more than $37,740"
+    }
+  },
+  {
+    "benefitId": "cwb",
+    "key": "disabilityReductionFamily",
+    "label": "Income where the disability supplement starts to be reduced, family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45300-canada-workers-benefit-cwb/how-much-you-can-get.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The CWB disability supplement is gradually reduced if your adjusted family net income is more than $49,389"
+    }
+  },
+  {
+    "benefitId": "ei",
+    "key": "maxWeekly",
+    "label": "Maximum weekly benefit",
+    "source": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "As of January 1, 2026, the maximum yearly insurable earnings amount is $68,900. This means that you can receive a maximum amount of $729 per week"
+    }
+  },
+  {
+    "benefitId": "ei",
+    "key": "maxInsurableEarnings",
+    "label": "Maximum yearly insurable earnings",
+    "source": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "the maximum yearly insurable earnings amount is $68,900"
+    }
+  },
+  {
+    "benefitId": "ei",
+    "key": "rate",
+    "label": "Benefit rate",
+    "source": "https://www.canada.ca/en/services/benefits/ei/ei-regular-benefit/benefit-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "to 55% of your earnings"
+    }
+  },
+  {
+    "benefitId": "multigen-reno",
+    "key": "expenditureCap",
+    "label": "Maximum qualifying expenditures",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You can claim up to $50,000 in qualifying expenditures for each qualifying renovation that is completed"
+    }
+  },
+  {
+    "benefitId": "multigen-reno",
+    "key": "rate",
+    "label": "Credit rate",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "14.5% of your costs, up to a maximum of $7,250"
+    }
+  },
+  {
+    "benefitId": "multigen-reno",
+    "key": "maxCredit",
+    "label": "Maximum credit",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-45355-mhrtc.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "up to a maximum of $7,250, for each claim you are eligible to make"
+    }
+  },
+  {
+    "benefitId": "bc-homeowner-grant",
+    "key": "regularGrant",
+    "label": "Regular grant",
+    "source": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Effective January 1, 2027, the regular grant amount is $570 for properties located in B.C., including properties located in northern and rural areas."
+    }
+  },
+  {
+    "benefitId": "bc-homeowner-grant",
+    "key": "seniorGrant",
+    "label": "Grant for seniors and people with disabilities",
+    "source": "https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant/senior",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "the total grant amount for seniors aged 65 or older is $845"
+    }
+  },
+  {
+    "benefitId": "ontario-trillium",
+    "key": "energyPropertyMax18to64",
+    "label": "Energy and property tax credit maximum, ages 18-64",
+    "source": "https://www.ontario.ca/page/ontario-trillium-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$1,307 if you are between 18 and 64 years old"
+    }
+  },
+  {
+    "benefitId": "ontario-trillium",
+    "key": "energyPropertyMax65Plus",
+    "label": "Energy and property tax credit maximum, 65 and over",
+    "source": "https://www.ontario.ca/page/ontario-trillium-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$1,488 if you are 65 or older"
+    }
+  },
+  {
+    "benefitId": "ontario-trillium",
+    "key": "salesTaxCreditPerAdult",
+    "label": "Sales tax credit per adult",
+    "source": "https://www.ontario.ca/page/ontario-trillium-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You can receive up to $378"
+    }
+  },
+  {
+    "benefitId": "odsp",
+    "key": "maxMonthlySingle",
+    "label": "Maximum monthly amount, single",
+    "source": "https://www.ontario.ca/page/ontario-disability-support-program",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You could receive up to $1,436 a month for basic needs and shelter if you are single"
+    }
+  },
+  {
+    "benefitId": "ontario-child-benefit",
+    "key": "maxPerChildPerYear",
+    "label": "Maximum per child per year",
+    "source": "https://www.ontario.ca/page/ontario-child-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Low-income to moderate-income families can get up to $1,760 per child each year through the Ontario Child Benefit"
+    }
+  },
+  {
+    "benefitId": "alberta-seniors-benefit",
+    "key": "incomeThresholdSingle",
+    "label": "Income guideline, single senior",
+    "source": "https://www.alberta.ca/alberta-seniors-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "a single senior with an annual income of $32,690 or less, and senior couples with a combined annual income of $53,800 or less, may be eligible for a benefit"
+    }
+  },
+  {
+    "benefitId": "alberta-seniors-benefit",
+    "key": "incomeThresholdCouple",
+    "label": "Income guideline, senior couple",
+    "source": "https://www.alberta.ca/alberta-seniors-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "a single senior with an annual income of $32,690 or less, and senior couples with a combined annual income of $53,800 or less, may be eligible for a benefit"
+    }
+  },
+  {
+    "benefitId": "alberta-seniors-benefit",
+    "key": "maxAnnualSingle",
+    "label": "Maximum annual benefit, single homeowner/renter/lodge resident",
+    "source": "https://www.alberta.ca/alberta-seniors-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Homeowner, renter, lodge resident $3,946"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "perChild",
+    "label": "Maximum per child per year",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Low-income families may be eligible for up to $420 tax free each year for every child."
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "fullBenefitIncome",
+    "label": "Income at or below which the full benefit is paid",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "earning $15,000 or less, this totals $1,260"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff1to3",
+    "label": "Partial-benefit income ceiling, 1-3 children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "1 $420 $15,000 $15,001 to $20,435"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff4",
+    "label": "Partial-benefit income ceiling, 4 children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "4 $1,680 $15,000 $15,001 to $22,242"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff5",
+    "label": "Partial-benefit income ceiling, 5 children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "5 $2,100 $15,000 $15,001 to $24,052"
+    }
+  },
+  {
+    "benefitId": "manitoba-child-benefit",
+    "key": "cutoff6",
+    "label": "Partial-benefit income ceiling, 6 or more children",
+    "source": "https://www.gov.mb.ca/fs/eia/mcb_table.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "6 $2,520 $15,000 $15,001 to $25,864"
+    }
+  },
+  {
+    "benefitId": "slitc",
+    "key": "perAdult",
+    "label": "Amount per adult",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, this program provides $460 for an individual, $460 for a spouse or common-law partner (or for an eligible dependant), and $181 per child (maximum of two children), or an annual credit of up to $1,282 per family."
+    }
+  },
+  {
+    "benefitId": "slitc",
+    "key": "perChild",
+    "label": "Amount per child (maximum two)",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, this program provides $460 for an individual, $460 for a spouse or common-law partner (or for an eligible dependant), and $181 per child (maximum of two children), or an annual credit of up to $1,282 per family."
+    }
+  },
+  {
+    "benefitId": "slitc",
+    "key": "familyMax",
+    "label": "Maximum per family",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, this program provides $460 for an individual, $460 for a spouse or common-law partner (or for an eligible dependant), and $181 per child (maximum of two children), or an annual credit of up to $1,282 per family."
+    }
+  },
+  {
+    "benefitId": "slitc",
+    "key": "reductionStartsAt",
+    "label": "Income where the credit starts to be reduced",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The credit starts to be reduced when the adjusted family net income is more than $39,345"
+    }
+  },
+  {
+    "benefitId": "nb-seniors-benefit",
+    "key": "annualBenefit",
+    "label": "Annual benefit",
+    "source": "https://www2.gnb.ca/content/gnb/en/corporate/promo/new-brunswick-low-income-seniors-benefit.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "To qualify for the 2026 annual benefit of $629"
+    }
+  }
+]
