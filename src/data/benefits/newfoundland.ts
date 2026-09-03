@@ -15,16 +15,70 @@ const nlPass = tri(
   "你居住在纽芬兰与拉布拉多省。",
 );
 
+// NL Child Benefit -- the monthly amount RISES with each child.
+// Source (fetched 2026-09-02): CRA provincial programs, Newfoundland and Labrador.
+// The app paid a flat $1,868/year per child, which understates every family
+// with more than one child and widens with each additional one.
+const NLCB_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html";
+const NLCB_RATES =
+  "For July 2026 to June 2027, you may be entitled to: $157.33 per month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each additional child.";
+
+const NLCB = figures({
+  firstChildMonthly: {
+    current: { value: 157.33, from: "2026-07-01", source: NLCB_URL, quote: NLCB_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Monthly amount, first child",
+  },
+  secondChildMonthly: {
+    current: { value: 166.83, from: "2026-07-01", source: NLCB_URL, quote: NLCB_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Monthly amount, second child",
+  },
+  thirdChildMonthly: {
+    current: { value: 179.16, from: "2026-07-01", source: NLCB_URL, quote: NLCB_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Monthly amount, third child",
+  },
+  additionalChildMonthly: {
+    current: { value: 192.5, from: "2026-07-01", source: NLCB_URL, quote: NLCB_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency-cents",
+    label: "Monthly amount, each additional child",
+  },
+});
+
+/** Annual total for this many children, using the escalating monthly rates. */
+const nlcbAnnual = (children: number): number => {
+  const monthly = [
+    val(NLCB.firstChildMonthly),
+    val(NLCB.secondChildMonthly),
+    val(NLCB.thirdChildMonthly),
+  ];
+  let total = 0;
+  for (let i = 0; i < children; i++) {
+    total += i < monthly.length ? monthly[i] : val(NLCB.additionalChildMonthly);
+  }
+  return Math.round(total * 12);
+};
+
 const nlcbEstimate = (ctx: {
   hasChildren?: boolean;
   numberOfChildren?: number;
   familyIncome?: number;
 }): AmountEstimate | undefined => {
   if (ctx.hasChildren !== true) return undefined;
-  const n = ctx.numberOfChildren ?? 1;
-  const perChild = 1868; // ~$155.66/mo first child; higher for additional
+
+const n = ctx.numberOfChildren ?? 1;
   const income = ctx.familyIncome;
-  const max = perChild * n;
+  const max = nlcbAnnual(n);
   if (income === undefined) return { low: 0, high: max, period: "year" };
   if (income < 28990) return { low: max, high: max, period: "year" };
   return { low: 0, high: max, period: "year" };
@@ -32,6 +86,7 @@ const nlcbEstimate = (ctx: {
 
 export const nlChildBenefit: Benefit = {
   id: "nl-child-benefit",
+  figures: NLCB,
   name: tri(
     "Newfoundland and Labrador Child Benefit",
     "紐芬蘭與拉布拉多兒童福利",
@@ -323,9 +378,9 @@ export const nlSeniorsBenefit: Benefit = {
       hard: true,
       passReason: tri("You are a senior.", "你是長者。", "你是长者。"),
       failReason: tri(
-        "The Seniors' Benefit is for people 65 and older (couples where one is 65+).",
-        "長者福利適用於 65 歲或以上人士（夫婦中一人 65 歲以上）。",
-        "长者福利适用于 65 岁或以上人士（夫妇中一人 65 岁以上）。",
+        "The Seniors' Benefit is for people 64 and older (couples where one is 65+).",
+        "長者福利適用於 64 歲或以上人士（夫婦中一人 65 歲以上）。",
+        "长者福利适用于 64 岁或以上人士（夫妇中一人 65 岁以上）。",
       ),
       missingField: "age",
     },
@@ -366,8 +421,41 @@ export const nlSeniorsBenefit: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// NL Income Supplement -- the amount depends on household, not a flat figure.
+// The app's own copy already listed the tiers ($520 single, $589 with a
+// spouse, plus $231 per child) while the estimator returned $589 to everyone.
+const NLIS_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html";
+const NLIS_RATES =
+  "The maximum annual payment amount is: $520 if you are a single individual $589 if you have a spouse or common-law partner plus $231 per child under 19 years of age";
+
+const NLIS = figures({
+  maxSingle: {
+    current: { value: 520, from: "2026-07-01", source: NLIS_URL, quote: NLIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum annual amount, single",
+  },
+  maxCouple: {
+    current: { value: 589, from: "2026-07-01", source: NLIS_URL, quote: NLIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum annual amount, with a spouse",
+  },
+  perChild: {
+    current: { value: 231, from: "2026-07-01", source: NLIS_URL, quote: NLIS_RATES },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Additional amount per child under 19",
+  },
+});
+
 export const nlIncomeSupplement: Benefit = {
   id: "nl-income-supplement",
+  figures: NLIS,
   name: tri(
     "NL Income Supplement",
     "紐芬蘭與拉布拉多收入補助",
@@ -411,7 +499,13 @@ export const nlIncomeSupplement: Benefit = {
       missingField: "familyIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 589, period: "year" }),
+  estimateAmount: (ctx) => {
+    const couple =
+      ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+    const kids = ctx.hasChildren === true ? Math.max(0, ctx.numberOfChildren ?? 0) : 0;
+    const base = couple ? val(NLIS.maxCouple) : val(NLIS.maxSingle);
+    return { low: 0, high: base + val(NLIS.perChild) * kids, period: "year" };
+  },
   applicationSteps: [
     {
       order: 1,
