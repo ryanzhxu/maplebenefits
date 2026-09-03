@@ -3,6 +3,71 @@ import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, atMostOf, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
+const OAS_PAYMENTS_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/payments.html";
+
+// Old Age Security is indexed quarterly. Service Canada publishes the maximum
+// monthly payment and the income at which OAS is fully recovered by two age
+// bands: 65-74 and 75-and-over. Both bands are anchored so the freshness lane
+// re-checks each quarter's figures against the payments page.
+const OAS = figures({
+  maxMonthly65to74: {
+    current: {
+      value: 751.97,
+      from: "2026-07-01",
+      source: OAS_PAYMENTS_URL,
+      quote: "I am age 65 to 74 less than $152,062 up to $751.97",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Maximum monthly OAS, age 65 to 74",
+  },
+  maxMonthly75plus: {
+    current: {
+      value: 827.17,
+      from: "2026-07-01",
+      source: OAS_PAYMENTS_URL,
+      quote: "I am age 75 and over less than $157,923 up to $827.17",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Maximum monthly OAS, age 75 and over",
+  },
+  clawbackFull65to74: {
+    current: {
+      value: 152062,
+      from: "2026-07-01",
+      source: OAS_PAYMENTS_URL,
+      quote: "I am age 65 to 74 less than $152,062 up to $751.97",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income where OAS is fully recovered, age 65 to 74",
+  },
+  clawbackFull75plus: {
+    current: {
+      value: 157923,
+      from: "2026-07-01",
+      source: OAS_PAYMENTS_URL,
+      quote: "I am age 75 and over less than $157,923 up to $827.17",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income where OAS is fully recovered, age 75 and over",
+  },
+});
+
+// Income above which OAS is fully clawed back, by age band. Defaults to the
+// 65-74 threshold when age is unknown.
+const oasClawbackCeiling = (c: { age?: number }) =>
+  c.age !== undefined && c.age >= 75
+    ? val(OAS.clawbackFull75plus)
+    : val(OAS.clawbackFull65to74);
+
 export const oas: Benefit = {
   id: "oas",
   name: tri("Old Age Security", "老年保障金", "老年保障金"),
@@ -15,10 +80,11 @@ export const oas: Benefit = {
     "为大部分 65 岁或以上、在加拿大居住满 10 年人士提供的每月退休金。以居住年期计算，与工作纪录无关。",
   ),
   estimatedValue: tri(
-    "Up to $751.97/month (age 65-74) or $827.17/month (75+)",
-    "最多每月 $751.97（65-74 歲）或 $827.17（75 歲以上）",
-    "最多每月 $751.97（65-74 岁）或 $827.17（75 岁以上）",
+    `Up to ${fmt(OAS.maxMonthly65to74)}/month (age 65-74) or ${fmt(OAS.maxMonthly75plus)}/month (75+)`,
+    `最多每月 ${fmt(OAS.maxMonthly65to74)}（65-74 歲）或 ${fmt(OAS.maxMonthly75plus)}（75 歲以上）`,
+    `最多每月 ${fmt(OAS.maxMonthly65to74)}（65-74 岁）或 ${fmt(OAS.maxMonthly75plus)}（75 岁以上）`,
   ),
+  figures: OAS,
   contextFields: ["age", "residency", "annualIncome"],
   check: buildCheck([
     {
@@ -47,7 +113,7 @@ export const oas: Benefit = {
       missingField: "residency",
     },
     {
-      test: atMost((c) => c.annualIncome, 148451),
+      test: atMostOf((c) => c.annualIncome, oasClawbackCeiling),
       hard: false,
       passReason: tri(
         "Your income is below the level where OAS is fully clawed back.",
@@ -58,7 +124,10 @@ export const oas: Benefit = {
     },
   ]),
   estimateAmount: (ctx) => {
-    const high = ctx.age !== undefined && ctx.age >= 75 ? 827 : 752;
+    const high =
+      ctx.age !== undefined && ctx.age >= 75
+        ? val(OAS.maxMonthly75plus)
+        : val(OAS.maxMonthly65to74);
     return { low: 0, high, period: "month" };
   },
   applicationSteps: [
