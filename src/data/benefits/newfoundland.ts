@@ -1,7 +1,7 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
-import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
+import { atLeast, atMost, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
 
 const NL = oneOf((c: { province?: string }) => c.province, ["NL"]);
 const nlFail = tri(
@@ -253,9 +253,26 @@ export const nlDisabilityBenefit: Benefit = {
     "最多每月 $400（可與聯邦加拿大殘障福利疊加）",
     "最多每月 $400（可与联邦加拿大残障福利叠加）",
   ),
-  contextFields: ["province", "hasDTC", "annualIncome"],
+  contextFields: ["province", "hasDTC", "annualIncome", "age"],
   prerequisites: ["dtc"],
   check: buildCheck([
+    {
+      // The source states an explicit age window that the check was missing:
+      // "You are at least 18 years old and less than 65 years old".
+      test: inRange((c) => c.age, 18, 64),
+      hard: true,
+      passReason: tri(
+        "You are between 18 and 64.",
+        "你介乎 18 至 64 歲。",
+        "你介乎 18 至 64 岁。",
+      ),
+      failReason: tri(
+        "This benefit is for people aged 18 to 64. At 65 the federal seniors benefits take over.",
+        "此福利適用於 18 至 64 歲人士。65 歲後由聯邦長者福利接續。",
+        "此福利适用于 18 至 64 岁人士。65 岁后由联邦长者福利接续。",
+      ),
+      missingField: "age",
+    },
     { test: NL, hard: true, passReason: nlPass, failReason: nlFail, missingField: "province" },
     {
       test: isTrue((c) => c.hasDTC),

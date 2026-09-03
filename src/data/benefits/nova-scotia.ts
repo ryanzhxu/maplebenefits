@@ -263,8 +263,26 @@ export const nsIncomeAssistance: Benefit = {
     "涵蓋基本需要及住屋的標準家庭標準，另加補助",
     "涵盖基本需要及住房的标准家庭标准，另加补助",
   ),
-  contextFields: ["province", "annualIncome", "maritalStatus", "hasChildren", "numberOfChildren"],
+  contextFields: ["province", "annualIncome", "maritalStatus", "hasChildren", "numberOfChildren", "age"],
   check: buildCheck([
+    {
+      // Nova Scotia states "are 19 years old or over ( sometimes 16 to 18 )".
+      // Soft, because the exception is real and a 17-year-old in the listed
+      // circumstances can still apply.
+      test: atLeast((c) => c.age, 19),
+      hard: false,
+      passReason: tri(
+        "You are 19 or older.",
+        "你已年滿 19 歲。",
+        "你已年满 19 岁。",
+      ),
+      failReason: tri(
+        "Income Assistance is normally for people 19 and over, though 16 to 18 year olds can apply in some circumstances.",
+        "收入援助一般適用於 19 歲或以上人士，惟 16 至 18 歲在特定情況下亦可申請。",
+        "收入援助一般适用于 19 岁或以上人士，惟 16 至 18 岁在特定情况下亦可申请。",
+      ),
+      missingField: "age",
+    },
     { test: NS, hard: true, passReason: nsPass, failReason: nsFail, missingField: "province" },
     {
       // Needs-tested, not income-capped. No province publishes a flat annual
