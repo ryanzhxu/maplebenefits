@@ -1,0 +1,303 @@
+{
+  "provincial-on": [
+    {
+      "level": "provincial-on",
+      "label": "Low-Income Workers Tax Credit",
+      "url": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+      "topAmount": 82500,
+      "reachScore": 1320000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Child Care Tax Credit",
+      "url": "https://www.ontario.ca/page/ontario-child-care-tax-credit",
+      "topAmount": 60000,
+      "reachScore": 960000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Healthy Smiles Ontario",
+      "url": "https://www.ontario.ca/page/get-dental-care",
+      "topAmount": 48865,
+      "reachScore": 781840
+    },
+    {
+      "level": "provincial-on",
+      "label": "Dental care for low-income seniors",
+      "url": "https://www.ontario.ca/page/dental-care-low-income-seniors",
+      "topAmount": 42290,
+      "reachScore": 676640
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Fertility Treatment Tax Credit",
+      "url": "https://www.ontario.ca/page/ontario-fertility-treatment-tax-credit",
+      "topAmount": 20000,
+      "reachScore": 320000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Subsidies for adoption and legal custody",
+      "url": "https://www.ontario.ca/page/adoption-services-and-supports",
+      "topAmount": 6000,
+      "reachScore": 96000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Seniors Care at Home Tax Credit",
+      "url": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit",
+      "topAmount": 6000,
+      "reachScore": 96000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Political Contribution Tax Credit",
+      "url": "https://www.ontario.ca/page/political-contribution-tax-credit-individuals",
+      "topAmount": 3863.33,
+      "reachScore": 61813
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Seniors’ Public Transit Tax Credit",
+      "url": "https://www.ontario.ca/page/ontario-seniors-public-transit-tax-credit",
+      "topAmount": 3000,
+      "reachScore": 48000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Focused Flow-Through Share Tax Credit",
+      "url": "https://www.ontario.ca/document/ontario-focused-flow-through-share-tax-credit",
+      "topAmount": 2000,
+      "reachScore": 32000
+    },
+    {
+      "level": "provincial-on",
+      "label": "Community food program donation tax credit for farmers",
+      "url": "https://www.ontario.ca/page/community-food-program-donation-tax-credit-farmers",
+      "topAmount": 1000,
+      "reachScore": 16000
+    },
+    {
+      "level": "provincial-on",
+      "label": "log in",
+      "url": "https://www.ontario.ca/user",
+      "rejected": "fetch failed (http-error)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "ServiceOntario Account Driver’s licence renewal, health card renewal, notifications",
+      "url": "https://signin.ontario.ca/home/oidc_client/0oabsjb64z2vGeNIO5d7/aln177a159h7Zf52X0g8",
+      "rejected": "fetch failed (robots-denied)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Business Account Ontario Business Registry",
+      "url": "https://signin.ontario.ca/home/oidc_client/0oasm6fgfjEnjsxZf5d7/aln177a159h7Zf52X0g8",
+      "rejected": "fetch failed (robots-denied)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Skilled Trades Ontario Skilled trades and apprenticeships",
+      "url": "https://signin.ontario.ca/home/oidc_client/0oa4bfxus7xnuGptT5d7/aln177a159h7Zf52X0g8",
+      "rejected": "fetch failed (robots-denied)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Find out about Ontario benefit programs",
+      "url": "https://www.ontario.ca/page/find-benefits-and-programs",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "calculate your tax credits",
+      "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/child-family-benefits-calculator.html",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Learn more",
+      "url": "https://www.canada.ca/en/revenue-agency/campaigns/fraud-scams.html",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "webinars",
+      "url": "https://www.ontario.ca/page/ministry-finance-tax-talk-information-sessions",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Affordable Housing and Homelessness Prevention Programs",
+      "url": "https://www.ontario.ca/page/addressing-homelessness",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Dividend Tax Credit",
+      "url": "https://www.ontario.ca/page/ontario-dividend-tax-credit",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Electricity Support Program ( OESP )",
+      "url": "https://ontarioelectricitysupport.ca/FAQ",
+      "rejected": "fetch failed (not-official)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Opportunities Fund",
+      "url": "https://www.ontario.ca/page/ontario-opportunities-fund",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Tax Reduction",
+      "url": "https://www.ontario.ca/page/ontario-tax-reduction",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Child Care Fee Subsidy",
+      "url": "https://www.ontario.ca/page/child-care-subsidies",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Temporary Care Assistance",
+      "url": "https://www.ontario.ca/page/social-assistance",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Assistance for Children with Severe Disabilities",
+      "url": "https://www.ontario.ca/page/children-special-needs",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Assistive Devices Program",
+      "url": "https://www.ontario.ca/page/assistive-devices-program",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "OSAP : Ontario Student Assistance Program",
+      "url": "https://www.ontario.ca/osap",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Women’s economic opportunities",
+      "url": "https://www.ontario.ca/page/womens-economic-opportunities",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "View the current Personal Income Tax rates and credits chart",
+      "url": "https://data.ontario.ca/en/dataset/personal-income-tax-rates-and-credits",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "View the CRA Benefit Payment Dates",
+      "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/benefit-payment-dates.html",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Income Ranges and Phase-out Rates",
+      "url": "https://data.ontario.ca/dataset/tax-credits-and-benefits-inflation-adjustment",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Federal Programs and Benefits for Individuals and Families",
+      "url": "https://www.canada.ca/en/services/taxes.html",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Accessibility",
+      "url": "https://www.ontario.ca/page/accessibility",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Privacy",
+      "url": "https://www.ontario.ca/page/privacy-statement",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Terms of use",
+      "url": "https://www.ontario.ca/page/terms-use",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "&copy; King’s Printer for Ontario, 2012 &#8211; to 26",
+      "url": "https://www.ontario.ca/page/copyright-information",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "log in",
+      "url": "https://www.ontario.ca/user",
+      "rejected": "fetch failed (http-error)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "ServiceOntario Account Driver’s licence renewal, health card renewal, notifications",
+      "url": "https://signin.ontario.ca/home/oidc_client/0oabsjb64z2vGeNIO5d7/aln177a159h7Zf52X0g8",
+      "rejected": "fetch failed (robots-denied)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Ontario Business Account Ontario Business Registry",
+      "url": "https://signin.ontario.ca/home/oidc_client/0oasm6fgfjEnjsxZf5d7/aln177a159h7Zf52X0g8",
+      "rejected": "fetch failed (robots-denied)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Skilled Trades Ontario Skilled trades and apprenticeships",
+      "url": "https://signin.ontario.ca/home/oidc_client/0oa4bfxus7xnuGptT5d7/aln177a159h7Zf52X0g8",
+      "rejected": "fetch failed (robots-denied)"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Taxes and benefits in Ontario",
+      "url": "https://www.ontario.ca/page/benefits-and-taxes",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "CRA child and family benefits calculator",
+      "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/child-family-benefits-calculator.html",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Accessibility",
+      "url": "https://www.ontario.ca/page/accessibility",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Privacy",
+      "url": "https://www.ontario.ca/page/privacy-statement",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "Terms of use",
+      "url": "https://www.ontario.ca/page/terms-use",
+      "rejected": "page states no dollar amount"
+    },
+    {
+      "level": "provincial-on",
+      "label": "&copy; King’s Printer for Ontario, 2012 &#8211; to 26",
+      "url": "https://www.ontario.ca/page/copyright-information",
+      "rejected": "page states no dollar amount"
+    }
+  ]
+}

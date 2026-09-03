@@ -15,6 +15,8 @@ import path from "node:path";
 import { ACTIVE_BENEFITS, BENEFITS } from "../../src/data/benefits";
 import { checkAllFigures, summarize, type FigureCheck } from "./freshness";
 import { auditBenefit, benefitSourceBlocks, type BenefitAudit } from "./audit";
+import { sweep, type Candidate } from "./discover";
+import type { BenefitLevel } from "../../src/types/benefit";
 import { DATA_DIR } from "./config";
 
 function figureLine(c: FigureCheck): string {
@@ -90,11 +92,41 @@ async function auditLane(): Promise<void> {
   console.log(`report: ${out}`);
 }
 
+async function discoverLane(): Promise<void> {
+  const level = (arg("level") ?? "provincial-on") as BenefitLevel;
+  console.log(`discovery: sweeping official program indexes for ${level}`);
+
+  const candidates = await sweep(level, ACTIVE_BENEFITS);
+  const ranked = candidates.filter((c) => !c.rejected);
+  const dropped = candidates.filter((c) => c.rejected);
+
+  console.log(`\nRANKED (${ranked.length}) — reach = population(M) x top amount on page`);
+  for (const c of ranked) {
+    console.log(
+      `  ${String(c.reachScore).padStart(9)}  $${String(c.topAmount).padEnd(8)} ${c.label.slice(0, 52)}`,
+    );
+  }
+  console.log(`\nDROPPED (${dropped.length})`);
+  const byReason: Record<string, number> = {};
+  for (const c of dropped) byReason[c.rejected!] = (byReason[c.rejected!] ?? 0) + 1;
+  for (const [reason, n] of Object.entries(byReason)) console.log(`  ${n} — ${reason}`);
+
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  const out = path.join(DATA_DIR, "queue.json");
+  const existing: Record<string, Candidate[]> = fs.existsSync(out)
+    ? JSON.parse(fs.readFileSync(out, "utf-8"))
+    : {};
+  existing[level] = candidates;
+  fs.writeFileSync(out, `${JSON.stringify(existing, null, 2)}\n`);
+  console.log(`\nqueue: ${out}`);
+}
+
 async function main(): Promise<void> {
   const lane = process.argv[2] ?? "freshness";
   if (lane === "freshness") return freshnessLane();
   if (lane === "audit") return auditLane();
-  console.error(`unknown lane: ${lane} (expected "freshness" or "audit")`);
+  if (lane === "discover") return discoverLane();
+  console.error(`unknown lane: ${lane} (expected "freshness", "audit" or "discover")`);
   process.exit(2);
 }
 
