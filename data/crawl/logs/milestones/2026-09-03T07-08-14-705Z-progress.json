@@ -1,0 +1,7 @@
+{
+  "kind": "progress",
+  "title": "8 benefit(s) changed provenance status",
+  "body": "Figures these benefits show are not stated on the source they cite:\n\n  dtc: 1 unconfirmed\n  canada-learning-bond: 1 unconfirmed\n  ontario-trillium: 2 unconfirmed\n  aish: 6 unconfirmed\n  manitoba-55-plus: 3 unconfirmed\n  sis: 1 unconfirmed\n  ns-income-assistance: 1 unconfirmed\n  nl-child-benefit: 3 unconfirmed\n\nFull report: data/crawl/audit.json",
+  "at": "2026-09-03T07:08:14.705Z",
+  "to": "ryan.xu282@gmail.com"
+}
