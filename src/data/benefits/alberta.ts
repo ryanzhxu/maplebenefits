@@ -26,6 +26,24 @@ const abPass = tri("You live in Alberta.", "你居住在亞伯達省。", "你�
 // domain allowlist (humanservices.alberta.ca) and no longer shows a rate
 // table, so this pass could not find a verbatim, in-allowlist quote for a
 // replacement figure.
+const AISH_URL = "https://www.alberta.ca/aish-eligibility";
+
+const AISH_FIGURES = figures({
+  assetLimit: {
+    current: {
+      value: 100000,
+      from: "2026-09-03",
+      source: AISH_URL,
+      quote:
+        "Non-exempt assets cannot be worth more than $100,000 when they are added together",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum non-exempt assets",
+  },
+});
+
 export const aish: Benefit = {
   id: "aish",
   name: tri(
@@ -77,6 +95,7 @@ export const aish: Benefit = {
     },
   ]),
   estimateAmount: () => ({ low: 0, high: 1863, period: "month" }),
+  figures: AISH_FIGURES,
   applicationSteps: [
     {
       order: 1,
@@ -87,6 +106,13 @@ export const aish: Benefit = {
         "填写 AISH 申请，包括医生有关你状况的医疗报告。",
       ),
       actionUrl: "https://www.alberta.ca/aish",
+      tips: [
+        tri(
+          `Your non-exempt assets (cash, savings, TFSAs, RRSPs) must also stay under ${fmt(AISH_FIGURES.assetLimit)}; your home, one vehicle, and RDSPs don't count.`,
+          `你的非豁免資產（現金、儲蓄、TFSA、RRSP）亦須低於 ${fmt(AISH_FIGURES.assetLimit)}；自住物業、一輛車及 RDSP 不計算在內。`,
+          `你的非豁免资产（现金、储蓄、TFSA、RRSP）亦须低于 ${fmt(AISH_FIGURES.assetLimit)}；自住物业、一辆车及 RDSP 不计算在内。`,
+        ),
+      ],
     },
   ],
   requiredDocuments: [
