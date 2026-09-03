@@ -104,3 +104,28 @@ describe("lessThan", () => {
     expect(lessThan((c) => c.familyIncome as number | undefined, 90000)({})).toBe("unknown");
   });
 });
+
+describe("soft rules that fail", () => {
+  it("do not disqualify, but do surface their reason", () => {
+    const check = buildCheck([
+      { test: atLeast((c) => c.age, 18), hard: true, passReason: "You are an adult." },
+      {
+        test: atMost((c) => c.annualIncome, 12000),
+        hard: false,
+        failReason: "This program is aimed at people with very little income.",
+      },
+    ]);
+    const r = check({ age: 40, annualIncome: 50000 });
+    expect(r.status).toBe("eligible");
+    expect(r.confidence).toBe("likely");
+    // The caution must reach the user, not vanish.
+    expect(r.reasons).toContain("This program is aimed at people with very little income.");
+  });
+
+  it("stays definite when every soft rule passes", () => {
+    const check = buildCheck([
+      { test: atMost((c) => c.annualIncome, 12000), hard: false, failReason: "too much income" },
+    ]);
+    expect(check({ annualIncome: 5000 }).confidence).toBe("definite");
+  });
+});

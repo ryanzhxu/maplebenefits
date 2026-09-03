@@ -201,8 +201,18 @@ export const peiSocialAssistance: Benefit = {
   check: buildCheck([
     { test: PE, hard: true, passReason: pePass, failReason: peFail, missingField: "province" },
     {
+      // Needs-tested, not income-capped. No province publishes a flat annual
+      // income cutoff for social assistance -- eligibility is a household needs
+      // and asset assessment, and benefits reduce against other income rather
+      // than stopping at a line. This app carried an invented $12,000 cutoff on
+      // EVERY province's program (verified absent from the NS, PEI and NL
+      // sources by three separate reviews), as a HARD rule, which returned
+      // "ineligible" to the people these programs exist for.
+      //
+      // Kept as a SOFT signal: it still tells someone their income looks high
+      // for a last-resort program, but it no longer shuts the door on them.
       test: atMost((c) => c.annualIncome, 12000),
-      hard: true,
+      hard: false,
       passReason: tri(
         "Your income is very low, which is the main test.",
         "你的收入極低，這是主要條件。",

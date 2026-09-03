@@ -15,6 +15,9 @@
  *   - eligible + every rule resolved       -> definite
  *   - eligible + some soft unknown/fail    -> likely
  *   - need-more-info                        -> possible
+ *
+ * A soft rule that FAILS still contributes its reason, so a "likely" result
+ * carries the caution that made it likely rather than looking unqualified.
  */
 
 import type {
@@ -172,6 +175,10 @@ export function buildCheck(
             hardFailReason = rule.failReason;
         } else {
           softIncomplete = true;
+          // A soft rule that fails is a caution, not a disqualification, and
+          // the user should see it. Dropping it silently produced results
+          // marked "eligible" with nothing explaining the doubt.
+          if (rule.failReason) reasons.push(rule.failReason);
         }
       } else if (state === "unknown") {
         if (rule.missingField) missing.push(rule.missingField);
