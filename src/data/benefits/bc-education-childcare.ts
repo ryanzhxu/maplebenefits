@@ -116,6 +116,39 @@ export const bcAccessGrant: Benefit = {
   lastUpdated: "2026-09-03",
 };
 
+const ACCB_ELIGIBILITY_URL =
+  "https://www2.gov.bc.ca/gov/content/family-social-supports/caring-for-young-children/childcarebc-programs/child-care-benefit/information-for-families/eligibility-estimate-funding";
+const ACCB_RATES_URL =
+  "https://www2.gov.bc.ca/gov/content/family-social-supports/caring-for-young-children/childcarebc-programs/child-care-benefit/information-for-families/rates-payments";
+
+const ACCB_FIGURES = figures({
+  incomeThreshold: {
+    current: {
+      value: 111000,
+      from: "2026-04-24",
+      source: ACCB_ELIGIBILITY_URL,
+      quote: "Generally speaking, families that earn up to $111000 may qualify for funding.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income generally needed to qualify for funding",
+  },
+  maxMonthly: {
+    current: {
+      value: 1250,
+      from: "2026-03-25",
+      source: ACCB_RATES_URL,
+      quote:
+        "Group Child Care, Multi-Age Child Care, or School Age Care on School Grounds child under 19 months G1 $1250",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum monthly benefit (infant, licensed group care)",
+  },
+});
+
 export const bcAffordableChildCare: Benefit = {
   id: "bc-affordable-child-care",
   name: tri(
@@ -132,10 +165,11 @@ export const bcAffordableChildCare: Benefit = {
     "为不列颠哥伦比亚省托儿（日托、幼儿园、课前课后托管或持牌家庭托管）提供的每月费用援助。金额视乎收入、家庭人数及托管类型。",
   ),
   estimatedValue: tri(
-    "Up to $1,250 per child per month",
-    "每名子女最多每月 $1,250",
-    "每名子女最多每月 $1,250",
+    `Up to ${fmt(ACCB_FIGURES.maxMonthly)} per child per month`,
+    `每名子女最多每月 ${fmt(ACCB_FIGURES.maxMonthly)}`,
+    `每名子女最多每月 ${fmt(ACCB_FIGURES.maxMonthly)}`,
   ),
+  figures: ACCB_FIGURES,
   contextFields: ["province", "hasChildren", "familyIncome"],
   check: buildCheck([
     {
@@ -165,7 +199,7 @@ export const bcAffordableChildCare: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 111000),
+      test: atMost((c) => c.familyIncome, val(ACCB_FIGURES.incomeThreshold)),
       hard: true,
       passReason: tri(
         "Your family income is within the range that receives funding.",
@@ -173,16 +207,16 @@ export const bcAffordableChildCare: Benefit = {
         "你的家庭收入在可获资助的范围内。",
       ),
       failReason: tri(
-        "Funding generally phases out above about $111,000 of family income (higher for larger families).",
-        "資助一般在家庭收入約 $111,000 以上逐步取消（家庭人數較多則較高）。",
-        "资助一般在家庭收入约 $111,000 以上逐步取消（家庭人数较多则较高）。",
+        `Funding generally phases out above about ${fmt(ACCB_FIGURES.incomeThreshold)} of family income (higher for larger families).`,
+        `資助一般在家庭收入約 ${fmt(ACCB_FIGURES.incomeThreshold)} 以上逐步取消（家庭人數較多則較高）。`,
+        `资助一般在家庭收入约 ${fmt(ACCB_FIGURES.incomeThreshold)} 以上逐步取消（家庭人数较多则较高）。`,
       ),
       missingField: "familyIncome",
     },
   ]),
   estimateAmount: () => ({
     low: 0,
-    high: 1250,
+    high: val(ACCB_FIGURES.maxMonthly),
     period: "month",
     note: tri(
       "Per child. The exact amount depends on income, age, and type of care.",
