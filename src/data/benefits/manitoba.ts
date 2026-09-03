@@ -256,8 +256,18 @@ const rentAssistEstimate = (ctx: {
   const cutoffAnnual =
     householdSize === 1 && isSeniorOrDtc
       ? MB_RENT_ASSIST_SINGLE_55_OR_DTC_CUTOFF
-      : (MB_RENT_ASSIST_TIERS.find((t) => householdSize <= t.maxHouseholdSize) ??
-          MB_RENT_ASSIST_TIERS[MB_RENT_ASSIST_TIERS.length - 1]).cutoffAnnual;
+      : children > 0
+        ? // Manitoba states a separate, higher cutoff for households WITH
+          // dependent children: "have dependent children in your home and have
+          // a net annual income of less than $50,240 for two to four people, or
+          // $60,768 for five or more people". Using the childless table meant a
+          // single parent with one child was measured against $38,720 instead
+          // of $50,240 -- wrongly excluded at incomes in between.
+          householdSize >= 5
+          ? 60768
+          : 50240
+        : (MB_RENT_ASSIST_TIERS.find((t) => householdSize <= t.maxHouseholdSize) ??
+            MB_RENT_ASSIST_TIERS[MB_RENT_ASSIST_TIERS.length - 1]).cutoffAnnual;
   const maxBenefit = Math.round((0.3 * cutoffAnnual) / 12);
 
   // The estimator asks for "net annual income"; AssessmentContext only has
