@@ -10,9 +10,7 @@ import { atLeast, atMost, buildCheck, inRange, isTrue } from "@/lib/checks";
 //
 // Note when re-reading that page: it states the 2026-27 RATES but its worked
 // examples still use the 2025-26 numbers ($200/month, $2,400/year). Only the
-// figures it states unambiguously for 2026-27 are anchored here. The couple
-// income threshold the estimator uses (32500) is NOT stated on that page and
-// stays unanchored -- flagged, not invented.
+// figures it states unambiguously for 2026-27 are anchored here.
 const CDB_AMOUNT_URL =
   "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html";
 
@@ -105,6 +103,19 @@ const CDB = figures({
     format: "currency",
     label: "Income at or below which a single person receives the full benefit",
   },
+  coupleIncomeThreshold: {
+    current: {
+      value: 32500,
+      from: "2025-07-01",
+      source: CDB_AMOUNT_URL,
+      quote:
+        "You will receive the maximum benefit amount if, after subtracting up to $14,000 of combined working income (if applicable), your adjusted family net income is $32,500 or less",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income at or below which a couple receives the full benefit",
+  },
 });
 
 const cdbEstimate = (ctx: {
@@ -121,8 +132,9 @@ const cdbEstimate = (ctx: {
   if (income === undefined) {
     return { low: 0, high: max, period: "year" };
   }
-  // 32500 is NOT stated on the CDB amount page; only the single threshold is.
-  const threshold = couple ? 32500 : val(CDB.singleIncomeThreshold);
+  const threshold = couple
+    ? val(CDB.coupleIncomeThreshold)
+    : val(CDB.singleIncomeThreshold);
   const reduction = Math.max(0, income - threshold) * 0.2;
   const amount = Math.max(0, Math.round(max - reduction));
   return {
