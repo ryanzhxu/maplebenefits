@@ -1,4 +1,4 @@
-import type { Benefit } from "@/types/benefit";
+import type { AmountEstimate, AssessmentContext, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
@@ -259,8 +259,141 @@ export const nbChildTaxBenefit: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// New Brunswick HST Credit, added 2026-09-02. The broadest thing New Brunswick
+// was missing: no age, employment, disability or homeownership gate — anyone
+// with low-to-modest income gets it just by filing a return. Structurally the
+// provincial twin of the federal CGEB.
+//
+// Source (fetched 2026-09-02): the CRA's provincial-programs page for NB, which
+// is where the amounts are actually stated.
+const NB_HST_URL =
+  "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html";
+const NB_HST_AMOUNTS =
+  "The program provides for a maximum annual amount of $300 for an individual, $300 for a spouse or common-law partner, and $100 per child under 19 years of age ($300 for the first child in a single parent family).";
+const NB_HST_PHASEOUT = "The credit is reduced by 2% of the adjusted family net income over $35,000.";
+
+const NB_HST = figures({
+  perAdult: {
+    current: { value: 300, from: "2026-07-01", source: NB_HST_URL, quote: NB_HST_AMOUNTS },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per adult",
+  },
+  perChild: {
+    current: { value: 100, from: "2026-07-01", source: NB_HST_URL, quote: NB_HST_AMOUNTS },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum per child under 19",
+  },
+  reductionStartsAt: {
+    current: { value: 35000, from: "2026-07-01", source: NB_HST_URL, quote: NB_HST_PHASEOUT },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income where the credit starts to be reduced",
+  },
+  reductionRate: {
+    current: { value: 2, from: "2026-07-01", source: NB_HST_URL, quote: NB_HST_PHASEOUT },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Reduction rate above the threshold",
+  },
+});
+
+const nbHstEstimate = (ctx: AssessmentContext): AmountEstimate => {
+  const couple = ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+  const children = ctx.hasChildren === true ? Math.max(0, ctx.numberOfChildren ?? 0) : 0;
+
+  let base = val(NB_HST.perAdult);
+  if (couple) base += val(NB_HST.perAdult);
+  if (children > 0) {
+    // A single parent's FIRST child counts at the adult rate, not the child rate.
+    const firstChildAtAdultRate = !couple;
+    base += firstChildAtAdultRate ? val(NB_HST.perAdult) : val(NB_HST.perChild);
+    base += val(NB_HST.perChild) * (children - 1);
+  }
+
+  const income = ctx.familyIncome ?? ctx.annualIncome;
+  if (income === undefined) return { low: 0, high: base, period: "year" };
+  const over = Math.max(0, income - val(NB_HST.reductionStartsAt));
+  const amount = Math.max(0, Math.round(base - (val(NB_HST.reductionRate) / 100) * over));
+  return { low: amount, high: amount, period: "year" };
+};
+
+export const nbHstCredit: Benefit = {
+  id: "nb-hst-credit",
+  name: tri(
+    "New Brunswick Harmonized Sales Tax Credit",
+    "新不倫瑞克統一銷售稅抵免",
+    "新不伦瑞克统一销售税抵免",
+  ),
+  shortName: "NB HST Credit",
+  category: "tax-credits",
+  level: "provincial-nb",
+  description: tri(
+    "A tax-free quarterly payment that offsets sales tax for New Brunswick residents with low or modest income. You get it automatically by filing your tax return.",
+    "為低至中等收入的新不倫瑞克居民抵銷銷售稅的免稅季度款項。報稅後自動發放。",
+    "为低至中等收入的新不伦瑞克居民抵销销售税的免税季度款项。报税后自动发放。",
+  ),
+  estimatedValue: tri(
+    `Up to ${fmt(NB_HST.perAdult)}/year per adult, plus ${fmt(NB_HST.perChild)} per child`,
+    `每名成人每年最多 ${fmt(NB_HST.perAdult)}，每名子女另加 ${fmt(NB_HST.perChild)}`,
+    `每名成人每年最多 ${fmt(NB_HST.perAdult)}，每名子女另加 ${fmt(NB_HST.perChild)}`,
+  ),
+  figures: NB_HST,
+  contextFields: [
+    "province",
+    "maritalStatus",
+    "hasChildren",
+    "numberOfChildren",
+    "familyIncome",
+    "filedTaxes",
+  ],
+  check: buildCheck([
+    { test: NB, hard: true, passReason: nbPass, failReason: nbFail, missingField: "province" },
+    {
+      test: isTrue((c) => c.filedTaxes),
+      hard: true,
+      passReason: tri(
+        "You filed a tax return, which is all that is needed.",
+        "你已報稅，這是唯一需要做的事。",
+        "你已报税，这是唯一需要做的事。",
+      ),
+      failReason: tri(
+        "You must file a tax return to receive this credit, even with no income.",
+        "即使沒有收入，也必須報稅才能獲得此抵免。",
+        "即使没有收入，也必须报税才能获得此抵免。",
+      ),
+      missingField: "filedTaxes",
+    },
+  ]),
+  estimateAmount: nbHstEstimate,
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("File your tax return", "報稅", "报税"),
+      description: tri(
+        "There is no application. The CRA works out the credit from your return and pays it with the federal credit.",
+        "無需申請。加拿大稅務局會根據你的稅表計算，並與聯邦抵免一併發放。",
+        "无需申请。加拿大税务局会根据你的税表计算，并与联邦抵免一并发放。",
+      ),
+      actionUrl: NB_HST_URL,
+    },
+  ],
+  requiredDocuments: [tri("Filed tax return", "已報稅表", "已报税表")],
+  officialInfoUrl: NB_HST_URL,
+  paymentFrequency: tri("Quarterly", "每季", "每季"),
+  tags: ["new-brunswick", "tax-credit", "sales-tax", "low-income", "broad"],
+  relatedBenefits: ["cgeb"],
+  lastUpdated: "2026-09-02",
+};
+
 export const newBrunswickBenefits: Benefit[] = [
   nbSeniorsBenefit,
   nbSocialAssistance,
   nbChildTaxBenefit,
+  nbHstCredit,
 ];

@@ -519,10 +519,231 @@ export const manitobaPharmacare: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// ---------------------------------------------------------------------------
+// Manitoba's two affordability tax credits, added 2026-09-02. Between them they
+// reach essentially every Manitoba household: one for owners, one for renters,
+// with NO income test on either base credit. That breadth is why they were
+// picked ahead of narrower programs like the Seniors' School Tax Rebate.
+// ---------------------------------------------------------------------------
+
+const MB_HATC_URL = "https://www.gov.mb.ca/finance/tao/hatc.html";
+
+const MB_HATC = figures({
+  maxCredit: {
+    current: {
+      value: 1600,
+      from: "2026-01-01",
+      source: MB_HATC_URL,
+      quote:
+        "For 2026, the amount of the HATC is the lesser of $1,600 and the gross school taxes on your principal residence.",
+    },
+    history: [
+      {
+        value: 1500,
+        from: "2025-01-01",
+        to: "2025-12-31",
+        source: "https://www.gov.mb.ca/finance/personal/pcredits.html",
+        quote: "Claims made for the 2025 tax year may receive up to $1,500.",
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum credit",
+  },
+});
+
+export const manitobaHomeownersAffordability: Benefit = {
+  id: "manitoba-homeowners-affordability",
+  name: tri(
+    "Homeowners Affordability Tax Credit",
+    "屋主可負擔稅務抵免",
+    "房主可负担税务抵免",
+  ),
+  shortName: "HATC",
+  category: "tax-credits",
+  level: "provincial-mb",
+  description: tri(
+    "Takes up to $1,600 off the school taxes on your principal residence. There is no income test — almost every Manitoba homeowner qualifies.",
+    "為主要居所的教育稅提供最多 $1,600 減免。不設收入審查，幾乎所有緬尼托巴業主均符合資格。",
+    "为主要居所的教育税提供最多 $1,600 减免。不设收入审查，几乎所有曼尼托巴业主均符合资格。",
+  ),
+  estimatedValue: tri(
+    `Up to ${fmt(MB_HATC.maxCredit)}/year off your school taxes`,
+    `教育稅每年最多減免 ${fmt(MB_HATC.maxCredit)}`,
+    `教育税每年最多减免 ${fmt(MB_HATC.maxCredit)}`,
+  ),
+  figures: MB_HATC,
+  contextFields: ["province", "isHomeowner"],
+  check: buildCheck([
+    { test: MB, hard: true, passReason: mbPass, failReason: mbFail, missingField: "province" },
+    {
+      test: isTrue((c) => c.isHomeowner),
+      hard: true,
+      passReason: tri(
+        "You own your home, and there is no income test for this credit.",
+        "你擁有自住物業，此抵免不設收入審查。",
+        "你拥有自住物业，此抵免不设收入审查。",
+      ),
+      failReason: tri(
+        "This credit is for homeowners. Renters get the Renters Affordability Tax Credit instead.",
+        "此抵免適用於業主。租戶可申請「租戶可負擔稅務抵免」。",
+        "此抵免适用于业主。租户可申请「租户可负担税务抵免」。",
+      ),
+      missingField: "isHomeowner",
+    },
+  ]),
+  // The credit is the LESSER of the maximum and your actual school taxes, and
+  // the app does not know a household's school taxes, so this is a ceiling.
+  estimateAmount: () => ({
+    low: 0,
+    high: val(MB_HATC.maxCredit),
+    period: "year",
+    note: tri(
+      "You get the lesser of this and your actual school taxes.",
+      "實際金額為此上限與你實付教育稅兩者中的較低者。",
+      "实际金额为此上限与你实付教育税两者中的较低者。",
+    ),
+  }),
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Claim it on your property tax bill or tax return", "在物業稅單或報稅表上申領", "在物业税单或报税表上申领"),
+      description: tri(
+        "Most homeowners receive it automatically as a reduction on the municipal property tax bill for their principal residence.",
+        "大多數業主會在主要居所的市政物業稅單上自動獲得減免。",
+        "大多数业主会在主要居所的市政物业税单上自动获得减免。",
+      ),
+      actionUrl: MB_HATC_URL,
+    },
+  ],
+  requiredDocuments: [tri("Property tax statement", "物業稅單", "物业税单")],
+  officialInfoUrl: MB_HATC_URL,
+  paymentFrequency: tri("Yearly", "每年", "每年"),
+  tags: ["manitoba", "tax-credit", "homeowner", "property-tax", "broad"],
+  relatedBenefits: ["manitoba-renters-affordability"],
+  lastUpdated: "2026-09-02",
+};
+
+const MB_RENTERS_URL = "https://www.gov.mb.ca/finance/personal/pcredits.html";
+
+const MB_RENTERS = figures({
+  maxCredit: {
+    current: {
+      value: 625,
+      from: "2026-01-01",
+      source: MB_RENTERS_URL,
+      quote:
+        "For the 2026 tax year, an increased Renters Affordability Tax Credit of up to $625 will be provided, and the seniors top-up will be increased to a maximum of $357.",
+    },
+    history: [
+      {
+        value: 525,
+        from: "2024-01-01",
+        to: "2025-12-31",
+        source: MB_RENTERS_URL,
+        quote:
+          "The Renters Affordability Tax Credit provides savings of up to $525 a year to Manitobans who rent their principal residence.",
+      },
+    ],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum base credit",
+  },
+  seniorTopUp: {
+    current: {
+      value: 357,
+      from: "2026-01-01",
+      source: MB_RENTERS_URL,
+      quote:
+        "For the 2026 tax year, an increased Renters Affordability Tax Credit of up to $625 will be provided, and the seniors top-up will be increased to a maximum of $357.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum senior top-up",
+  },
+});
+
+export const manitobaRentersAffordability: Benefit = {
+  id: "manitoba-renters-affordability",
+  name: tri(
+    "Renters Affordability Tax Credit",
+    "租戶可負擔稅務抵免",
+    "租户可负担税务抵免",
+  ),
+  shortName: "RATC",
+  category: "tax-credits",
+  level: "provincial-mb",
+  description: tri(
+    "A yearly tax credit for anyone who rents their principal residence in Manitoba, with an extra top-up for seniors. There is no income test on the base credit.",
+    "為在緬尼托巴租住主要居所的人士提供的年度稅務抵免，長者另有額外補助。基本抵免不設收入審查。",
+    "为在曼尼托巴租住主要居所的人士提供的年度税务抵免，长者另有额外补助。基本抵免不设收入审查。",
+  ),
+  estimatedValue: tri(
+    `Up to ${fmt(MB_RENTERS.maxCredit)}/year, plus up to ${fmt(MB_RENTERS.seniorTopUp)} more for seniors`,
+    `每年最多 ${fmt(MB_RENTERS.maxCredit)}，長者另加最多 ${fmt(MB_RENTERS.seniorTopUp)}`,
+    `每年最多 ${fmt(MB_RENTERS.maxCredit)}，长者另加最多 ${fmt(MB_RENTERS.seniorTopUp)}`,
+  ),
+  figures: MB_RENTERS,
+  contextFields: ["province", "isHomeowner", "age"],
+  check: buildCheck([
+    { test: MB, hard: true, passReason: mbPass, failReason: mbFail, missingField: "province" },
+    {
+      test: isFalse((c) => c.isHomeowner),
+      hard: true,
+      passReason: tri(
+        "You rent your home, and there is no income test for the base credit.",
+        "你租住居所，基本抵免不設收入審查。",
+        "你租住居所，基本抵免不设收入审查。",
+      ),
+      failReason: tri(
+        "This credit is for renters. Homeowners get the Homeowners Affordability Tax Credit instead.",
+        "此抵免適用於租戶。業主可申請「屋主可負擔稅務抵免」。",
+        "此抵免适用于租户。业主可申请「屋主可负担税务抵免」。",
+      ),
+      missingField: "isHomeowner",
+    },
+  ]),
+  estimateAmount: (ctx) => {
+    const senior = ctx.age !== undefined && ctx.age >= 65;
+    const high = val(MB_RENTERS.maxCredit) + (senior ? val(MB_RENTERS.seniorTopUp) : 0);
+    return {
+      low: 0,
+      high,
+      period: "year",
+      note: tri(
+        "Prorated by how many months you rented during the year.",
+        "按你年內租住的月數按比例計算。",
+        "按你年内租住的月数按比例计算。",
+      ),
+    };
+  },
+  applicationSteps: [
+    {
+      order: 1,
+      title: tri("Claim it on your Manitoba tax return", "報緬尼托巴稅表時申領", "报曼尼托巴税表时申领"),
+      description: tri(
+        "Enter the months you rented your principal residence on your provincial return.",
+        "在省級報稅表上填報你租住主要居所的月數。",
+        "在省级报税表上填报你租住主要居所的月数。",
+      ),
+      actionUrl: MB_RENTERS_URL,
+    },
+  ],
+  requiredDocuments: [tri("Rent receipts or lease", "租金收據或租約", "租金收据或租约")],
+  officialInfoUrl: MB_RENTERS_URL,
+  paymentFrequency: tri("Yearly, at tax time", "每年報稅時", "每年报税时"),
+  tags: ["manitoba", "tax-credit", "renter", "housing", "broad"],
+  relatedBenefits: ["manitoba-homeowners-affordability", "manitoba-rent-assist"],
+  lastUpdated: "2026-09-02",
+};
+
 export const manitobaBenefits: Benefit[] = [
   manitobaChildBenefit,
   manitobaRentAssist,
   manitoba55Plus,
   manitobaEia,
   manitobaPharmacare,
+  manitobaHomeownersAffordability,
+  manitobaRentersAffordability,
 ];
