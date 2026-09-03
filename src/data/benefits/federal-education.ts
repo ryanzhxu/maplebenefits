@@ -1,9 +1,64 @@
 import type { Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { atMost, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
+import { figures, val } from "@/lib/figures";
+import { atMost, atMostOf, buildCheck, inRange, isTrue, oneOf } from "@/lib/checks";
+
+// Canada Learning Bond -- the income limit rises with family size.
+// Source (fetched 2026-09-02): .../education-savings/estimating-amounts.html
+//
+// The app applied one flat $57,375 to every family. ESDC publishes three tiers
+// by number of children, and the benefit's OWN failReason text already said
+// "higher for larger families" while the check ignored it. A family of five
+// children on $70,000 was told they did not qualify when their limit is
+// $73,577.
+const CLB_URL =
+  "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html";
+const CLB_TABLE =
+  "Number of children Adjusted income level 1 to 3 Less than or equal to $58,523 4 Less than $66,036 5 Less than $73,577";
+
+const CLB = figures({
+  incomeLimitUpTo3Children: {
+    current: { value: 58523, from: "2026-07-01", source: CLB_URL, quote: CLB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Adjusted family income limit, 1 to 3 children",
+  },
+  incomeLimit4Children: {
+    current: { value: 66036, from: "2026-07-01", source: CLB_URL, quote: CLB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Adjusted family income limit, 4 children",
+  },
+  incomeLimit5Children: {
+    current: { value: 73577, from: "2026-07-01", source: CLB_URL, quote: CLB_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Adjusted family income limit, 5 children",
+  },
+});
+
+/**
+ * Income limit for a family of this size.
+ *
+ * ESDC publishes tiers only to five children and tells larger families to
+ * phone, so the five-child limit is used above that -- the highest figure the
+ * government actually states, rather than an extrapolation.
+ */
+const clbIncomeLimit = (children: number | undefined): number | undefined => {
+  if (children === undefined || Number.isNaN(children) || children < 1) {
+    return val(CLB.incomeLimitUpTo3Children);
+  }
+  if (children <= 3) return val(CLB.incomeLimitUpTo3Children);
+  if (children === 4) return val(CLB.incomeLimit4Children);
+  return val(CLB.incomeLimit5Children);
+};
 
 export const canadaLearningBond: Benefit = {
   id: "canada-learning-bond",
+  figures: CLB,
   name: tri("Canada Learning Bond", "加拿大學習債券", "加拿大学习债券"),
   shortName: "CLB",
   category: "education",
@@ -18,7 +73,7 @@ export const canadaLearningBond: Benefit = {
     "每名子女最多 $2,000（首年 $500，其後每年 $100），無需供款",
     "每名子女最多 $2,000（首年 $500，其后每年 $100），无需供款",
   ),
-  contextFields: ["hasChildren", "familyIncome"],
+  contextFields: ["hasChildren", "familyIncome", "numberOfChildren"],
   check: buildCheck([
     {
       test: isTrue((c) => c.hasChildren),
@@ -36,7 +91,7 @@ export const canadaLearningBond: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 57375),
+      test: atMostOf((c) => c.familyIncome, (c) => clbIncomeLimit(c.numberOfChildren)),
       hard: true,
       passReason: tri(
         "Your family income is within the range for the bond.",

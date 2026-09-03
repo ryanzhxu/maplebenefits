@@ -483,7 +483,23 @@ export const cppRetirement: Benefit = {
 const ALLOWANCE_URL =
   "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html";
 
+const ALLOWANCE_ELIGIBILITY_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance/eligibility.html";
+
 const ALLOWANCE = figures({
+  incomeLimit: {
+    current: {
+      value: 42144,
+      from: "2026-07-01",
+      source: ALLOWANCE_ELIGIBILITY_URL,
+      quote:
+        "I have a spouse/common-law partner who receives the GIS and the full OAS pension less than $42,144 (combined income of couple)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Combined income limit",
+  },
   maxMonthly: {
     current: {
       value: 1428.06,
@@ -548,7 +564,7 @@ export const allowance: Benefit = {
       missingField: "maritalStatus",
     },
     {
-      test: atMost((c) => c.familyIncome, 41616),
+      test: atMost((c) => c.familyIncome, val(ALLOWANCE.incomeLimit)),
       hard: true,
       passReason: tri(
         "Your combined income is within the limit.",
@@ -556,9 +572,9 @@ export const allowance: Benefit = {
         "你的合计收入在上限之内。",
       ),
       failReason: tri(
-        "Combined income must be under about $41,616.",
-        "合計收入須低於約 $41,616。",
-        "合计收入须低于约 $41,616。",
+        `Combined income must be under ${fmt(ALLOWANCE.incomeLimit)}.`,
+        `合計收入須低於約 ${fmt(ALLOWANCE.incomeLimit)}。`,
+        `合计收入须低于约 ${fmt(ALLOWANCE.incomeLimit)}。`,
       ),
       missingField: "familyIncome",
     },
@@ -591,8 +607,27 @@ export const allowance: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+const SURVIVOR_URL =
+  "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor/eligibility.html";
+
+const SURVIVOR = figures({
+  incomeLimit: {
+    current: {
+      value: 30696,
+      from: "2026-07-01",
+      source: SURVIVOR_URL,
+      quote: "I am a surviving spouse or common-law partner less than $30,696",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Annual net income limit",
+  },
+});
+
 export const allowanceSurvivor: Benefit = {
   id: "allowance-survivor",
+  figures: SURVIVOR,
   name: tri(
     "Allowance for the Survivor",
     "遺屬津貼",
@@ -644,7 +679,7 @@ export const allowanceSurvivor: Benefit = {
       missingField: "maritalStatus",
     },
     {
-      test: atMost((c) => c.annualIncome, 28944),
+      test: atMost((c) => c.annualIncome, val(SURVIVOR.incomeLimit)),
       hard: true,
       passReason: tri(
         "Your income is within the limit.",
@@ -652,9 +687,9 @@ export const allowanceSurvivor: Benefit = {
         "你的收入在上限之内。",
       ),
       failReason: tri(
-        "Income must be under about $28,944.",
-        "收入須低於約 $28,944。",
-        "收入须低于约 $28,944。",
+        `Income must be under about ${fmt(SURVIVOR.incomeLimit)}.`,
+        `收入須低於約 ${fmt(SURVIVOR.incomeLimit)}。`,
+        `收入须低于约 ${fmt(SURVIVOR.incomeLimit)}。`,
       ),
       missingField: "annualIncome",
     },

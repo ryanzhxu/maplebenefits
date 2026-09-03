@@ -633,6 +633,31 @@ const RDSP = figures({
     format: "currency",
     label: "Lifetime bond limit",
   },
+  bondFullAmountUpTo: {
+    current: {
+      value: 38237,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote: "less than or equal to $38,237 The government deposits $1,000 each year to the RDSP",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income at or below which the full bond is paid",
+  },
+  bondPhasesOutAt: {
+    current: {
+      value: 58523,
+      from: "2026-01-01",
+      source: RDSP_URL,
+      quote:
+        "between $38,237 and $58,523 The government deposits a portion of the $1,000 to an RDSP each year.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Income at which the bond reaches zero",
+  },
   contributionForMaxGrant: {
     current: {
       value: 1500,
@@ -705,7 +730,7 @@ export const rdsp: Benefit = {
   ]),
   estimateAmount: (ctx) => {
     const income = ctx.familyIncome;
-    if (income !== undefined && income <= 37487) {
+    if (income !== undefined && income <= val(RDSP.bondFullAmountUpTo)) {
       return {
         low: val(RDSP.maxYearlyBond),
         high: val(RDSP.maxYearlyGrant) + val(RDSP.maxYearlyBond),
