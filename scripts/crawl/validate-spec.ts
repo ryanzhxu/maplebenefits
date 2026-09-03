@@ -30,6 +30,8 @@ interface SpecFigure {
 
 interface Spec {
   benefitId: string;
+  level?: string;
+  whyBroad?: string;
   name: { en: string; "zh-Hant"?: string; "zh-Hans"?: string };
   shortName: string;
   category: string;
@@ -42,6 +44,11 @@ interface Spec {
   cannotRepresent?: string | null;
   notes?: string;
 }
+
+const LEVELS = [
+  "federal", "provincial-bc", "provincial-on", "provincial-ab", "provincial-mb",
+  "provincial-sk", "provincial-ns", "provincial-nb", "provincial-pe", "provincial-nl",
+];
 
 const CATEGORIES = [
   "disability",
@@ -81,6 +88,13 @@ export function validateShape(spec: Spec): Finding[] {
   }
   if (!CATEGORIES.includes(spec.category)) {
     err("category", `${spec.category} is not one of ${CATEGORIES.join(", ")}`);
+  }
+  if (spec.level !== undefined && !LEVELS.includes(spec.level)) {
+    err("level", `${spec.level} is not a BenefitLevel the app has`);
+  }
+  // A spec gathered under a "broad reach only" brief should say who it reaches.
+  if (spec.level && !spec.whyBroad) {
+    warn("whyBroad", "no statement of who this reaches — confirm it clears the breadth bar");
   }
   for (const field of ["name", "description"] as const) {
     const v = spec[field];
@@ -172,6 +186,7 @@ async function main(): Promise<void> {
       `\n${path.basename(file)} — ${spec.benefitId}: ${figures} figure(s), ` +
         `${bad} error(s), ${findings.length - bad} warning(s)`,
     );
+    if (spec.whyBroad) console.log(`  REACH: ${spec.whyBroad}`);
     if (spec.cannotRepresent) console.log(`  CANNOT REPRESENT: ${spec.cannotRepresent}`);
     for (const f of findings) {
       console.log(`  ${f.level === "error" ? "ERROR" : "warn "} ${f.where}: ${f.message}`);
