@@ -210,8 +210,73 @@ export const ccb: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Two non-refundable credits whose stated "tax reduction" reconciled at no
+// current rate: the app claimed $1,700 on an $8,601 credit and $3,200 on a
+// $16,129 one. A non-refundable credit is worth its amount times the lowest
+// federal personal rate, which fell to 14% for 2026. Both inputs are now
+// sourced and the saving is derived, the same correction already applied to
+// the DTC and the Home Buyers' Amount.
+const FED_RATE_URL =
+  "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html";
+const FED_RATE_QUOTE =
+  "is legislatively based on the lowest personal income tax rate (14 per cent in 2026)";
+
+const CCC = figures({
+  creditAmount: {
+    current: {
+      value: 8601,
+      from: "2025-01-01",
+      source:
+        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html",
+      quote:
+        "You may be able to claim up to $8,601 on line 30450 for each dependant 18 years of age or older",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum claimable amount",
+  },
+  federalCreditRate: {
+    current: { value: 14, from: "2026-01-01", source: FED_RATE_URL, quote: FED_RATE_QUOTE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Federal rate applied to non-refundable credits",
+  },
+});
+
+const ELIGIBLE_DEP = figures({
+  creditAmount: {
+    current: {
+      value: 16129,
+      from: "2025-01-01",
+      source:
+        "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30000-basic-personal-amount.html",
+      quote: "$177,882 or less , claim $16,129",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Maximum claimable amount",
+  },
+  federalCreditRate: {
+    current: { value: 14, from: "2026-01-01", source: FED_RATE_URL, quote: FED_RATE_QUOTE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Federal rate applied to non-refundable credits",
+  },
+});
+
+/** What a non-refundable credit of this size is worth federally. */
+const fedCreditValue = (amount: number, ratePercent: number) =>
+  Math.round((ratePercent / 100) * amount);
+const fedCreditText = (amount: number, ratePercent: number) =>
+  `$${fedCreditValue(amount, ratePercent).toLocaleString("en-CA")}`;
+
 export const ccc: Benefit = {
   id: "ccc",
+  figures: CCC,
   name: tri("Canada Caregiver Credit", "加拿大照顧者抵免", "加拿大照顾者抵免"),
   shortName: "CCC",
   category: "tax-credits",
@@ -222,9 +287,9 @@ export const ccc: Benefit = {
     "为供养有身体或精神障碍的配偶、伴侣或家人的人士提供的税务抵免。在「帮助他人」模式下，这是帮助者可申索的抵免。",
   ),
   estimatedValue: tri(
-    "Up to about $1,700/year in tax reduction (credit up to $8,601 for 2025)",
-    "最多約每年 $1,700 稅務減免（2025 年抵免額最多 $8,601）",
-    "最多约每年 $1,700 税务减免（2025 年抵免额最多 $8,601）",
+    `Claim up to ${fmt(CCC.creditAmount)} — about ${fedCreditText(val(CCC.creditAmount), val(CCC.federalCreditRate))}/year off your federal tax`,
+    `最多可申報 ${fmt(CCC.creditAmount)}——聯邦稅每年約可減 ${fedCreditText(val(CCC.creditAmount), val(CCC.federalCreditRate))}`,
+    `最多可申报 ${fmt(CCC.creditAmount)}——联邦税每年约可减 ${fedCreditText(val(CCC.creditAmount), val(CCC.federalCreditRate))}`,
   ),
   contextFields: ["hasDisability", "helpingSomeoneElse"],
   check: buildCheck([
@@ -244,7 +309,11 @@ export const ccc: Benefit = {
       missingField: "hasDisability",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1700, period: "year" }),
+  estimateAmount: () => ({
+    low: 0,
+    high: fedCreditValue(val(CCC.creditAmount), val(CCC.federalCreditRate)),
+    period: "year",
+  }),
   applicationSteps: [
     {
       order: 1,
@@ -360,6 +429,7 @@ export const medicalExpense: Benefit = {
 
 export const eligibleDependant: Benefit = {
   id: "eligible-dependant",
+  figures: ELIGIBLE_DEP,
   name: tri(
     "Amount for an Eligible Dependant",
     "合資格受養人金額",
@@ -374,9 +444,9 @@ export const eligibleDependant: Benefit = {
     "为供养受养人的单身人士提供的税务抵免 — 常见于单亲父母为子女申索。作用类似第二份基本个人免税额。",
   ),
   estimatedValue: tri(
-    "Up to about $3,200/year in tax reduction (credit up to $16,129 for 2025)",
-    "最多約每年 $3,200 稅務減免（2025 年抵免額最多 $16,129）",
-    "最多约每年 $3,200 税务减免（2025 年抵免额最多 $16,129）",
+    `Claim up to ${fmt(ELIGIBLE_DEP.creditAmount)} — about ${fedCreditText(val(ELIGIBLE_DEP.creditAmount), val(ELIGIBLE_DEP.federalCreditRate))}/year off your federal tax`,
+    `最多可申報 ${fmt(ELIGIBLE_DEP.creditAmount)}——聯邦稅每年約可減 ${fedCreditText(val(ELIGIBLE_DEP.creditAmount), val(ELIGIBLE_DEP.federalCreditRate))}`,
+    `最多可申报 ${fmt(ELIGIBLE_DEP.creditAmount)}——联邦税每年约可减 ${fedCreditText(val(ELIGIBLE_DEP.creditAmount), val(ELIGIBLE_DEP.federalCreditRate))}`,
   ),
   contextFields: ["maritalStatus", "hasChildren"],
   check: buildCheck([
@@ -411,7 +481,11 @@ export const eligibleDependant: Benefit = {
       missingField: "hasChildren",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 3200, period: "year" }),
+  estimateAmount: () => ({
+    low: 0,
+    high: fedCreditValue(val(ELIGIBLE_DEP.creditAmount), val(ELIGIBLE_DEP.federalCreditRate)),
+    period: "year",
+  }),
   applicationSteps: [
     {
       order: 1,

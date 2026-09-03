@@ -91,8 +91,54 @@ export const fhsa: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// Home Buyers' Amount -- the credit AMOUNT is $10,000; what it saves you is
+// that amount times the federal non-refundable credit rate, which fell to 14%
+// for 2026. The app asserted "$1,500", which is $10,000 at the OLD 15% rate
+// and now overstates the benefit. Both inputs are sourced, so the saving is
+// derived rather than claimed.
+const HBA_URL =
+  "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html";
+
+const HBA = figures({
+  creditAmount: {
+    current: {
+      value: 10000,
+      from: "2025-01-01",
+      source: HBA_URL,
+      quote: "You can claim up to $10,000 for the purchase of a qualifying home in 2025.",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Amount you can claim",
+  },
+  federalCreditRate: {
+    current: {
+      value: 14,
+      from: "2026-01-01",
+      source:
+        "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html",
+      quote:
+        "is legislatively based on the lowest personal income tax rate (14 per cent in 2026)",
+    },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "percent",
+    label: "Federal rate applied to non-refundable credits",
+  },
+});
+
+/** What a non-refundable credit of this size is actually worth federally. */
+const federalCreditValue = (amount: number, ratePercent: number) =>
+  Math.round((ratePercent / 100) * amount);
+
+/** The same value, formatted with digit grouping for user-facing copy. */
+const federalCreditValueText = (amount: number, ratePercent: number) =>
+  `$${federalCreditValue(amount, ratePercent).toLocaleString("en-CA")}`;
+
 export const homeBuyersAmount: Benefit = {
   id: "home-buyers-amount",
+  figures: HBA,
   name: tri("Home Buyers' Amount", "置業人士金額", "置业人士金额"),
   shortName: "HBA",
   category: "housing",
@@ -103,9 +149,9 @@ export const homeBuyersAmount: Benefit = {
     "为首次置业者（及部分残障买家）在购买合资格住所当年提供的一次性税务抵免。",
   ),
   estimatedValue: tri(
-    "About $1,500 in tax relief (a $10,000 credit)",
-    "約 $1,500 稅務減免（$10,000 抵免額）",
-    "约 $1,500 税务减免（$10,000 抵免额）",
+    `Claim ${fmt(HBA.creditAmount)} — about ${federalCreditValueText(val(HBA.creditAmount), val(HBA.federalCreditRate))} off your federal tax`,
+    `可申報 ${fmt(HBA.creditAmount)}——聯邦稅約可減 ${federalCreditValueText(val(HBA.creditAmount), val(HBA.federalCreditRate))}`,
+    `可申报 ${fmt(HBA.creditAmount)}——联邦税约可减 ${federalCreditValueText(val(HBA.creditAmount), val(HBA.federalCreditRate))}`,
   ),
   contextFields: ["isHomeowner"],
   check: buildCheck([
@@ -125,7 +171,11 @@ export const homeBuyersAmount: Benefit = {
       missingField: "isHomeowner",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 1500, period: "one-time" }),
+  estimateAmount: () => ({
+    low: 0,
+    high: federalCreditValue(val(HBA.creditAmount), val(HBA.federalCreditRate)),
+    period: "one-time",
+  }),
   applicationSteps: [
     {
       order: 1,
