@@ -1,5 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
+import { figures, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const NS = oneOf((c: { province?: string }) => c.province, ["NS"]);
@@ -175,8 +176,75 @@ export const nsAffordableLiving: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
+// NS Income Assistance -- the Standard Household Rate scales with household.
+// Source (fetched 2026-09-02):
+// https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html
+// The app showed a flat $950/month ceiling to everyone. Nova Scotia's own
+// table runs from $738 for a single recipient to $1,497 for two recipients
+// with a dependent — so a couple with children was shown a ceiling about a
+// third below what they can actually receive.
+const NSIA_URL =
+  "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html";
+const NSIA_TABLE =
+  "Household Composition Standard Household Rate (Monthly) Recipient Dependent Child/Student Family Member Rent/Own Board 1 0 $738 $655 1 1 $1,035 $674 1 2 or more $1,090 $719 2 0 $1,442 $1,085 2 1 or more $1,497 $1,128";
+
+const NSIA = figures({
+  oneAdultNoChildren: {
+    current: { value: 738, from: "2026-01-01", source: NSIA_URL, quote: NSIA_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Monthly rate, one recipient, no dependents (rent/own)",
+  },
+  oneAdultOneChild: {
+    current: { value: 1035, from: "2026-01-01", source: NSIA_URL, quote: NSIA_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Monthly rate, one recipient, one dependent (rent/own)",
+  },
+  oneAdultTwoPlusChildren: {
+    current: { value: 1090, from: "2026-01-01", source: NSIA_URL, quote: NSIA_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Monthly rate, one recipient, two or more dependents (rent/own)",
+  },
+  twoAdultsNoChildren: {
+    current: { value: 1442, from: "2026-01-01", source: NSIA_URL, quote: NSIA_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Monthly rate, two recipients, no dependents (rent/own)",
+  },
+  twoAdultsWithChildren: {
+    current: { value: 1497, from: "2026-01-01", source: NSIA_URL, quote: NSIA_TABLE },
+    history: [],
+    verifiedAt: "2026-09-02",
+    format: "currency",
+    label: "Monthly rate, two recipients, one or more dependents (rent/own)",
+  },
+});
+
+/** Standard Household Rate for this household, at the rent/own rate. */
+const nsiaMonthly = (ctx: {
+  maritalStatus?: string;
+  hasChildren?: boolean;
+  numberOfChildren?: number;
+}): number => {
+  const couple = ctx.maritalStatus === "married" || ctx.maritalStatus === "common-law";
+  const kids = ctx.hasChildren === true ? Math.max(0, ctx.numberOfChildren ?? 1) : 0;
+  if (couple) {
+    return kids >= 1 ? val(NSIA.twoAdultsWithChildren) : val(NSIA.twoAdultsNoChildren);
+  }
+  if (kids >= 2) return val(NSIA.oneAdultTwoPlusChildren);
+  if (kids === 1) return val(NSIA.oneAdultOneChild);
+  return val(NSIA.oneAdultNoChildren);
+};
+
 export const nsIncomeAssistance: Benefit = {
   id: "ns-income-assistance",
+  figures: NSIA,
   name: tri(
     "Nova Scotia Income Assistance (ESIA)",
     "新斯科舍收入援助 (ESIA)",
@@ -195,7 +263,7 @@ export const nsIncomeAssistance: Benefit = {
     "涵蓋基本需要及住屋的標準家庭標準，另加補助",
     "涵盖基本需要及住房的标准家庭标准，另加补助",
   ),
-  contextFields: ["province", "annualIncome"],
+  contextFields: ["province", "annualIncome", "maritalStatus", "hasChildren", "numberOfChildren"],
   check: buildCheck([
     { test: NS, hard: true, passReason: nsPass, failReason: nsFail, missingField: "province" },
     {
@@ -224,7 +292,16 @@ export const nsIncomeAssistance: Benefit = {
       missingField: "annualIncome",
     },
   ]),
-  estimateAmount: () => ({ low: 0, high: 950, period: "month" }),
+  estimateAmount: (ctx) => ({
+    low: 0,
+    high: nsiaMonthly(ctx),
+    period: "month",
+    note: tri(
+      "The rent/own rate for your household. Boarding rates are lower, and special-needs help may be added.",
+      "此為你家庭情況的租住／自有住屋標準金額。寄宿金額較低，另可能有特殊需要補助。",
+      "此为你家庭情况的租住／自有住屋标准金额。寄宿金额较低，另可能有特殊需要补助。",
+    ),
+  }),
   applicationSteps: [
     {
       order: 1,
