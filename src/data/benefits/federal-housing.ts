@@ -3,8 +3,45 @@ import { tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, buildCheck, inRange, isFalse, isTrue } from "@/lib/checks";
 
+// The overview page states only the $8,000 annual room; the app also showed
+// a $40,000 lifetime cap that page never states. The lifetime cap is on a
+// different CRA sub-page (as part of the participation-room formula).
+const FHSA_OVERVIEW_URL =
+  "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/first-home-savings-account.html";
+const FHSA_PARTICIPATING_URL =
+  "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/first-home-savings-account/contributing-your-fhsa.html";
+
+const FHSA_FIGURES = figures({
+  annualLimit: {
+    current: {
+      value: 8000,
+      from: "2023-01-01",
+      source: FHSA_OVERVIEW_URL,
+      quote: "Your FHSA participation room in the first year you open your FHSA is $8,000.",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Annual contribution room",
+  },
+  lifetimeLimit: {
+    current: {
+      value: 40000,
+      from: "2023-01-01",
+      source: FHSA_PARTICIPATING_URL,
+      quote:
+        "Or b) $40,000 minus all of your contributions to your FHSAs and transfers from your RRSPs to your FHSAs for all prior years up to the end of the prior year",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Lifetime contribution limit",
+  },
+});
+
 export const fhsa: Benefit = {
   id: "fhsa",
+  figures: FHSA_FIGURES,
   name: tri(
     "First Home Savings Account",
     "首次置業儲蓄戶口",
@@ -19,9 +56,9 @@ export const fhsa: Benefit = {
     "为首次置业者而设的注册账户。供款如 RRSP 可扣税，提取用作首次置业如 TFSA 般免税。",
   ),
   estimatedValue: tri(
-    "Contribute up to $8,000/year ($40,000 lifetime), tax-deductible",
-    "每年可供款最多 $8,000（終身 $40,000），可扣稅",
-    "每年可供款最多 $8,000（终身 $40,000），可扣税",
+    `Contribute up to ${fmt(FHSA_FIGURES.annualLimit)}/year (${fmt(FHSA_FIGURES.lifetimeLimit)} lifetime), tax-deductible`,
+    `每年可供款最多 ${fmt(FHSA_FIGURES.annualLimit)}（終身 ${fmt(FHSA_FIGURES.lifetimeLimit)}），可扣稅`,
+    `每年可供款最多 ${fmt(FHSA_FIGURES.annualLimit)}（终身 ${fmt(FHSA_FIGURES.lifetimeLimit)}），可扣税`,
   ),
   contextFields: ["isHomeowner", "age", "residency"],
   check: buildCheck([
@@ -72,9 +109,9 @@ export const fhsa: Benefit = {
       order: 2,
       title: tri("Contribute and deduct on your taxes", "供款並於報稅時扣減", "供款并于报税时扣减"),
       description: tri(
-        "Contribute up to $8,000 a year. Claim the deduction on your tax return, now or in a future higher-income year.",
-        "每年供款最多 $8,000。可於本年或日後較高收入年度申報扣減。",
-        "每年供款最多 $8,000。可于本年或日后较高收入年度申报扣减。",
+        `Contribute up to ${fmt(FHSA_FIGURES.annualLimit)} a year. Claim the deduction on your tax return, now or in a future higher-income year.`,
+        `每年供款最多 ${fmt(FHSA_FIGURES.annualLimit)}。可於本年或日後較高收入年度申報扣減。`,
+        `每年供款最多 ${fmt(FHSA_FIGURES.annualLimit)}。可于本年或日后较高收入年度申报扣减。`,
       ),
     },
   ],
