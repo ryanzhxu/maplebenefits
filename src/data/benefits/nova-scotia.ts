@@ -1,6 +1,6 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
 import { tri } from "@/data/tri";
-import { figures, val } from "@/lib/figures";
+import { figures, fmt, val } from "@/lib/figures";
 import { atLeast, atMost, buildCheck, isTrue, oneOf } from "@/lib/checks";
 
 const NS = oneOf((c: { province?: string }) => c.province, ["NS"]);
@@ -11,6 +11,63 @@ const nsFail = tri(
 );
 const nsPass = tri("You live in Nova Scotia.", "你居住在新斯科舍省。", "你居住在新斯科舍省。");
 
+const NS_CHILD_BENEFIT_URL = "https://novascotia.ca/coms/families/ChildBenefit.html";
+
+const NSCB = figures({
+  baseAnnualPerChild: {
+    current: {
+      value: 1525,
+      from: "2023-07-01",
+      source: NS_CHILD_BENEFIT_URL,
+      quote:
+        "Families whose adjusted family net income is below $26000 will receive $1525 annually for each child they have",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Annual amount per child when income is below $26,000",
+  },
+  additionalChildAnnual: {
+    current: {
+      value: 762.5,
+      from: "2023-07-01",
+      source: NS_CHILD_BENEFIT_URL,
+      quote:
+        "families whose net income is above $26000, and below $34000, will receive $1525 annually for the first child and half the rate ($762.50) for the second and subsequent children",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency-cents",
+    label: "Annual amount per additional child when income is $26,000-$34,000",
+  },
+  fullRateCeiling: {
+    current: {
+      value: 26000,
+      from: "2023-07-01",
+      source: NS_CHILD_BENEFIT_URL,
+      quote:
+        "Families whose adjusted family net income is below $26000 will receive $1525 annually for each child they have",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income below which every child receives the full rate",
+  },
+  reducedRateCeiling: {
+    current: {
+      value: 34000,
+      from: "2023-07-01",
+      source: NS_CHILD_BENEFIT_URL,
+      quote:
+        "families whose net income is above $26000, and below $34000, will receive $1525 annually for the first child and half the rate ($762.50) for the second and subsequent children",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Income above which the benefit reduces to zero",
+  },
+});
+
 const nscbEstimate = (ctx: {
   hasChildren?: boolean;
   numberOfChildren?: number;
@@ -19,10 +76,11 @@ const nscbEstimate = (ctx: {
   if (ctx.hasChildren !== true) return undefined;
   const n = ctx.numberOfChildren ?? 1;
   const income = ctx.familyIncome;
-  if (income === undefined) return { low: 0, high: 1525 * n, period: "year" };
-  if (income < 26000) return { low: 1525 * n, high: 1525 * n, period: "year" };
-  if (income < 34000) {
-    const amt = 1525 + 762.5 * (n - 1);
+  const base = val(NSCB.baseAnnualPerChild);
+  if (income === undefined) return { low: 0, high: base * n, period: "year" };
+  if (income < val(NSCB.fullRateCeiling)) return { low: base * n, high: base * n, period: "year" };
+  if (income < val(NSCB.reducedRateCeiling)) {
+    const amt = base + val(NSCB.additionalChildAnnual) * (n - 1);
     return { low: Math.round(amt), high: Math.round(amt), period: "year" };
   }
   return { low: 0, high: 0, period: "year" };
@@ -40,9 +98,9 @@ export const nsChildBenefit: Benefit = {
     "为新斯科舍低收入、有 18 岁以下子女家庭提供的免税每月款项，与加拿大儿童福利一并发放。",
   ),
   estimatedValue: tri(
-    "Up to $1,525/year per child",
-    "每名子女最多每年 $1,525",
-    "每名子女最多每年 $1,525",
+    `Up to ${fmt(NSCB.baseAnnualPerChild)}/year per child`,
+    `每名子女最多每年 ${fmt(NSCB.baseAnnualPerChild)}`,
+    `每名子女最多每年 ${fmt(NSCB.baseAnnualPerChild)}`,
   ),
   contextFields: ["province", "hasChildren", "numberOfChildren", "familyIncome"],
   prerequisites: ["ccb"],
@@ -60,7 +118,7 @@ export const nsChildBenefit: Benefit = {
       missingField: "hasChildren",
     },
     {
-      test: atMost((c) => c.familyIncome, 34000),
+      test: atMost((c) => c.familyIncome, val(NSCB.reducedRateCeiling)),
       hard: true,
       passReason: tri(
         "Your income is within the range for this benefit.",
@@ -68,9 +126,9 @@ export const nsChildBenefit: Benefit = {
         "你的收入在此福利的范围内。",
       ),
       failReason: tri(
-        "The Nova Scotia Child Benefit is for families with income under $34,000.",
-        "新斯科舍兒童福利適用於收入低於 $34,000 的家庭。",
-        "新斯科舍儿童福利适用于收入低于 $34,000 的家庭。",
+        `The Nova Scotia Child Benefit is for families with income under ${fmt(NSCB.reducedRateCeiling)}.`,
+        `新斯科舍兒童福利適用於收入低於 ${fmt(NSCB.reducedRateCeiling)} 的家庭。`,
+        `新斯科舍儿童福利适用于收入低于 ${fmt(NSCB.reducedRateCeiling)} 的家庭。`,
       ),
       missingField: "familyIncome",
     },
@@ -94,6 +152,7 @@ export const nsChildBenefit: Benefit = {
   tags: ["nova-scotia", "family", "children", "low-income"],
   relatedBenefits: ["ccb"],
   lastUpdated: "2026-09-01",
+  figures: NSCB,
 };
 
 export const nsAffordableLiving: Benefit = {
