@@ -251,18 +251,69 @@ export const safer: Benefit = {
   lastUpdated: "2026-09-01",
 };
 
-/**
- * RAP rent ceilings and income limit, effective April 2025 --
- * https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP
- * "Family of 3 or less": $1,950/month. "Family of 4 or more": $2,200/month.
- */
-const RAP_MAX_RENT_SMALL = 1950; // core household of 3 or fewer
-const RAP_MAX_RENT_LARGE = 2200; // core household of 4 or more
-const RAP_MAX_INCOME_MONTHLY = 5000; // $60,000/year
+const RAP_URL =
+  "https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP";
+
+const RAP = figures({
+  incomeLimit: {
+    current: {
+      value: 60000,
+      from: "2025-04-01",
+      source: RAP_URL,
+      quote: "You have a total before-tax annual household income of $60,000 or less",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum household income",
+  },
+  rentCeilingSmall: {
+    current: {
+      value: 1950,
+      from: "2025-04-01",
+      source: RAP_URL,
+      quote: "Family of 3 or less $1,950, province wide",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Rent ceiling, family of 3 or less",
+  },
+  rentCeilingLarge: {
+    current: {
+      value: 2200,
+      from: "2025-04-01",
+      source: RAP_URL,
+      quote: "Family of 4 or more $2,200, province wide",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Rent ceiling, family of 4 or more",
+  },
+  assetLimit: {
+    current: {
+      value: 100000,
+      from: "2025-04-01",
+      source: RAP_URL,
+      quote: "You have less than $100,000 in assets",
+    },
+    history: [],
+    verifiedAt: "2026-09-03",
+    format: "currency",
+    label: "Maximum assets",
+  },
+});
+
+const RAP_MAX_INCOME_MONTHLY = val(RAP.incomeLimit) / 12;
 
 /**
  * RAP's Base Income is fixed at $1,800/month ($21,600/year), effective April
  * 2025 -- Rental Assistance Program Framework, April 2025 (see source above).
+ * That framework is a PDF the crawler's text extractor cannot reliably parse
+ * (confirmed: probe.ts returns garbled dollar figures from it), so this one
+ * stays a plain literal rather than a figures() entry with an unverifiable
+ * quote.
  */
 const RAP_BASE_INCOME_MONTHLY = 1800;
 
@@ -279,7 +330,9 @@ const rapMaxRent = (ctx: AssessmentContext): number => {
       : 1;
   const children = ctx.numberOfChildren ?? 1;
   const coreHouseholdSize = adults + children;
-  return coreHouseholdSize >= 4 ? RAP_MAX_RENT_LARGE : RAP_MAX_RENT_SMALL;
+  return coreHouseholdSize >= 4
+    ? val(RAP.rentCeilingLarge)
+    : val(RAP.rentCeilingSmall);
 };
 
 const rapEstimate = (ctx: AssessmentContext): AmountEstimate => {
@@ -365,7 +418,7 @@ export const rap: Benefit = {
       missingField: "isHomeowner",
     },
     {
-      test: atMost(householdIncome, 60000),
+      test: atMost(householdIncome, val(RAP.incomeLimit)),
       hard: true,
       passReason: tri(
         "Your household income is within the RAP limit.",
@@ -373,9 +426,9 @@ export const rap: Benefit = {
         "你的家庭收入在 RAP 上限之内。",
       ),
       failReason: tri(
-        "RAP is for households with income of $60,000 or less.",
-        "RAP 適用於收入 $60,000 或以下的家庭。",
-        "RAP 适用于收入 $60,000 或以下的家庭。",
+        `RAP is for households with income of ${fmt(RAP.incomeLimit)} or less.`,
+        `RAP 適用於收入 ${fmt(RAP.incomeLimit)} 或以下的家庭。`,
+        `RAP 适用于收入 ${fmt(RAP.incomeLimit)} 或以下的家庭。`,
       ),
       missingField: "familyIncome",
     },
@@ -406,6 +459,7 @@ export const rap: Benefit = {
     },
   ]),
   estimateAmount: (ctx) => rapEstimate(ctx),
+  figures: RAP,
   applicationSteps: [
     {
       order: 1,
@@ -417,12 +471,20 @@ export const rap: Benefit = {
       ),
       actionUrl:
         "https://www.bchousing.org/housing-assistance/rental-assistance-programs/RAP",
+      tips: [
+        tri(
+          `You also need less than ${fmt(RAP.assetLimit)} in assets (savings, investments, and property; RRSPs and vehicles don't count).`,
+          `你亦須擁有少於 ${fmt(RAP.assetLimit)} 的資產（儲蓄、投資及物業；RRSP 及車輛不計算在內）。`,
+          `你亦须拥有少于 ${fmt(RAP.assetLimit)} 的资产（储蓄、投资及物业；RRSP 及车辆不计算在内）。`,
+        ),
+      ],
     },
   ],
   requiredDocuments: [
     tri("Proof of income", "收入證明", "收入证明"),
     tri("Proof of rent", "租金證明", "租金证明"),
     tri("Proof of your children", "子女證明", "子女证明"),
+    tri("Proof of assets", "資產證明", "资产证明"),
     tri("Direct deposit info", "直接存款資料", "直接存款资料"),
   ],
   applicationUrl:
