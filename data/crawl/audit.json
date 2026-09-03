@@ -4,57 +4,33 @@
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit.html",
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply-dtc.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/how-apply-dtc.html",
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/claiming-dtc.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1900,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 2450,
-        "where": "code",
-        "found": false
-      },
-      {
         "value": 32500,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 23000,
         "where": "code",
         "found": false
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4,
-    "citesPageWithoutAmounts": true
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "cdb",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit.html"
+      "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit.html",
+      "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 204.2,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 2450,
-        "where": "copy",
-        "found": false
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 2,
-    "citesPageWithoutAmounts": true
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "cpp-d",
@@ -74,34 +50,21 @@
     "benefitId": "rdsp",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/employment-social-development/programs/disability/savings.html"
+      "https://www.canada.ca/en/employment-social-development/programs/disability/savings.html",
+      "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
-        "value": 3500,
-        "where": "copy",
-        "found": false
-      },
-      {
         "value": 1000,
         "where": "copy",
-        "found": false
-      },
-      {
-        "value": 37487,
-        "where": "code",
-        "found": false
-      },
-      {
-        "value": 4500,
-        "where": "code",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 4,
-    "citesPageWithoutAmounts": true
+    "confirmed": 1,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "oas",
@@ -182,25 +145,21 @@
     "benefitId": "oas-allowance",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html"
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance/eligibility.html"
     ],
     "fetchErrors": [],
-    "figures": [
-      {
-        "value": 41616,
-        "where": "copy",
-        "found": false
-      }
-    ],
+    "figures": [],
     "confirmed": 0,
-    "unconfirmed": 1,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "allowance-survivor",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html"
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html",
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor/eligibility.html"
     ],
     "fetchErrors": [],
     "figures": [
@@ -209,15 +168,10 @@
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor.html"
-      },
-      {
-        "value": 28944,
-        "where": "copy",
-        "found": false
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -251,21 +205,11 @@
     "benefitId": "ccc",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html",
+      "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html"
     ],
     "fetchErrors": [],
     "figures": [
-      {
-        "value": 1700,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 8601,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
-      },
       {
         "value": 30425,
         "where": "code",
@@ -279,8 +223,8 @@
         "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html"
       }
     ],
-    "confirmed": 3,
-    "unconfirmed": 1,
+    "confirmed": 2,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -312,26 +256,12 @@
     "benefitId": "eligible-dependant",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30400-amount-eligible-dependant.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30400-amount-eligible-dependant.html",
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30000-basic-personal-amount.html",
+      "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html"
     ],
     "fetchErrors": [],
     "figures": [
-      {
-        "value": 3200,
-        "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 2687,
-          "relative": 0.1603125,
-          "sentence": "less than : your basic personal amount your basic person amount plus $2687 if the eligible dependant was dependent on you due to a mental o",
-          "url": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30400-amount-eligible-dependant.html"
-        }
-      },
-      {
-        "value": 16129,
-        "where": "copy",
-        "found": false
-      },
       {
         "value": 30400,
         "where": "code",
@@ -340,7 +270,7 @@
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 2,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -348,24 +278,22 @@
     "level": "federal",
     "urls": [
       "https://www.canada.ca/en/services/benefits/dental/dental-care-plan.html",
-      "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/apply.html"
+      "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/apply.html",
+      "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/qualify.html",
+      "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/coverage.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
         "value": 90000,
         "where": "copy",
-        "found": false
-      },
-      {
-        "value": 89999,
-        "where": "code",
-        "found": false
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/qualify.html"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 2,
-    "citesPageWithoutAmounts": true
+    "confirmed": 1,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "cgeb",
@@ -486,21 +414,11 @@
     "benefitId": "home-buyers-amount",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html",
+      "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html"
     ],
     "fetchErrors": [],
     "figures": [
-      {
-        "value": 1500,
-        "where": "copy",
-        "found": false
-      },
-      {
-        "value": 10000,
-        "where": "copy",
-        "found": true,
-        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html"
-      },
       {
         "value": 31270,
         "where": "code",
@@ -508,8 +426,8 @@
         "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html"
       }
     ],
-    "confirmed": 2,
-    "unconfirmed": 1,
+    "confirmed": 1,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -528,10 +446,29 @@
     "benefitId": "canada-learning-bond",
     "level": "federal",
     "urls": [
-      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
+      "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html",
+      "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html"
     ],
     "fetchErrors": [],
     "figures": [
+      {
+        "value": 58523,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html"
+      },
+      {
+        "value": 66036,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html"
+      },
+      {
+        "value": 73577,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html"
+      },
       {
         "value": 2000,
         "where": "copy",
@@ -553,22 +490,23 @@
       {
         "value": 57000,
         "where": "copy",
-        "found": false
+        "found": false,
+        "drift": {
+          "pageValue": 58523,
+          "relative": 0.026719298245614035,
+          "sentence": "Number of children Adjusted income level 1 to 3 Less than or equal to $58523 4 Less than $66036 5 Less than $73577 For families with more th",
+          "url": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html"
+        }
       },
       {
         "value": 2004,
         "where": "code",
         "found": true,
         "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html"
-      },
-      {
-        "value": 57375,
-        "where": "code",
-        "found": false
       }
     ],
-    "confirmed": 4,
-    "unconfirmed": 2,
+    "confirmed": 7,
+    "unconfirmed": 1,
     "citesPageWithoutAmounts": false
   },
   {
@@ -700,28 +638,28 @@
         "confirmedBy": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
       },
       {
-        "value": 752,
+        "value": 751.97,
         "where": "code",
         "found": false
       },
       {
-        "value": 660,
+        "value": 676.09,
         "where": "code",
         "found": false,
         "drift": {
           "pageValue": 500,
-          "relative": 0.24242424242424243,
+          "relative": 0.26045348991998113,
           "sentence": "t benefit but must be declared on your taxes if you receive more than $500 in a tax year. BC Housing will issue a T5007 - Statement of Benef",
           "url": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
         }
       },
       {
-        "value": 1097,
+        "value": 1123.17,
         "where": "code",
         "found": false,
         "drift": {
           "pageValue": 1150,
-          "relative": 0.04831358249772106,
+          "relative": 0.023887746289519774,
           "sentence": "he Maximum Rent Ceiling? The maximum rent ceiling as of April 2025 is $1150.00 for both singles and couples in all communities across BC. Pr",
           "url": "https://www.bchousing.org/housing-assistance/rental-assistance-programs/SAFER"
         }
@@ -863,7 +801,8 @@
     "benefitId": "bc-seniors-supplement",
     "level": "provincial-bc",
     "urls": [
-      "https://www2.gov.bc.ca/gov/content/family-social-supports/seniors/financial-legal-matters/income-security-programs/seniors-supplement"
+      "https://www2.gov.bc.ca/gov/content/family-social-supports/seniors/financial-legal-matters/income-security-programs/seniors-supplement",
+      "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html"
     ],
     "fetchErrors": [],
     "figures": [
@@ -872,15 +811,10 @@
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/seniors/financial-legal-matters/income-security-programs/seniors-supplement"
-      },
-      {
-        "value": 22488,
-        "where": "code",
-        "found": false
       }
     ],
     "confirmed": 1,
-    "unconfirmed": 1,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -891,6 +825,36 @@
     ],
     "fetchErrors": [],
     "figures": [
+      {
+        "value": 30176,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 96562,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 775,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 750,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
+      {
+        "value": 725,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
+      },
       {
         "value": 1750,
         "where": "copy",
@@ -914,15 +878,9 @@
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
-      },
-      {
-        "value": 30176,
-        "where": "code",
-        "found": true,
-        "confirmedBy": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit"
       }
     ],
-    "confirmed": 5,
+    "confirmed": 9,
     "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
@@ -1002,21 +960,10 @@
         "value": 55000,
         "where": "code",
         "found": false
-      },
-      {
-        "value": 1421,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 1488,
-          "relative": 0.047149894440534836,
-          "sentence": "could get a maximum of: $1307 if you are between 18 and 64 years old $1488 if you are 65 or older $290 if you live on a reserve or in a pub",
-          "url": "https://www.ontario.ca/page/ontario-trillium-benefit"
-        }
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 3,
+    "unconfirmed": 2,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1113,19 +1060,98 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 500,
+        "value": 50000,
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant"
       },
       {
-        "value": 50000,
-        "where": "code",
+        "value": 60000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant"
+      },
+      {
+        "value": 500,
+        "where": "copy",
         "found": true,
         "confirmedBy": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant"
       }
     ],
-    "confirmed": 2,
+    "confirmed": 3,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "ontario-lift",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/low-income-workers-tax-credit"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "ontario-child-care-tax-credit",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-child-care-tax-credit"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "ontario-healthy-smiles",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/get-dental-care"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "ontario-seniors-care-at-home",
+    "level": "provincial-on",
+    "urls": [
+      "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 6000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit"
+      },
+      {
+        "value": 1500,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit"
+      },
+      {
+        "value": 35000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit"
+      },
+      {
+        "value": 65000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit"
+      }
+    ],
+    "confirmed": 4,
     "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
@@ -1143,23 +1169,33 @@
         "found": false
       },
       {
-        "value": 1499,
+        "value": 1529,
         "where": "code",
         "found": false
       },
       {
-        "value": 749,
+        "value": 2293,
         "where": "code",
         "found": false
       },
       {
-        "value": 27565,
+        "value": 3057,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 3821,
+        "where": "code",
+        "found": false
+      },
+      {
+        "value": 28116,
         "where": "code",
         "found": false
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 4,
+    "unconfirmed": 6,
     "citesPageWithoutAmounts": true
   },
   {
@@ -1243,19 +1279,74 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 34000,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 36325,
-          "relative": 0.06838235294117648,
-          "sentence": "ult + 1 child $26023 1 adult + 2 children $31010 1 adult + 3 children $36325 1 adult + 4 children* $41957 Couple, no children $23212 Couple",
-          "url": "https://www.alberta.ca/alberta-adult-health-benefit"
-        }
+        "value": 16580,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 26023,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 31010,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 36325,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 41957,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 23212,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 31237,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 36634,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 41594,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 46932,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
+      },
+      {
+        "value": 4973,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.alberta.ca/alberta-adult-health-benefit"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 1,
+    "confirmed": 11,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1334,24 +1425,23 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 647,
+        "value": 9746.4,
         "where": "copy",
         "found": false
       },
       {
-        "value": 20000,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 16255.2,
-          "relative": 0.18723999999999996,
-          "sentence": "income up to $9746.40 and couples with an annual family income up to $16255.20. 55 PLUS Senior Component - Benefits are based on family com",
-          "url": "https://www.gov.mb.ca/fs/eia/55plus.html"
-        }
+        "value": 16255.2,
+        "where": "copy",
+        "found": false
+      },
+      {
+        "value": 647,
+        "where": "copy",
+        "found": false
       }
     ],
     "confirmed": 0,
-    "unconfirmed": 2,
+    "unconfirmed": 3,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1382,6 +1472,37 @@
     "level": "provincial-mb",
     "urls": [
       "https://www.gov.mb.ca/health/pharmacare/"
+    ],
+    "fetchErrors": [],
+    "figures": [],
+    "confirmed": 0,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "manitoba-homeowners-affordability",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/finance/tao/hatc.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 1600,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.mb.ca/finance/tao/hatc.html"
+      }
+    ],
+    "confirmed": 1,
+    "unconfirmed": 0,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "manitoba-renters-affordability",
+    "level": "provincial-mb",
+    "urls": [
+      "https://www.gov.mb.ca/finance/personal/pcredits.html"
     ],
     "fetchErrors": [],
     "figures": [],
@@ -1437,24 +1558,55 @@
     "fetchErrors": [],
     "figures": [
       {
+        "value": 375,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
+        "value": 445,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
+        "value": 65,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
+        "value": 675,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
+        "value": 865,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
+        "value": 1105,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
+        "value": 1287,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
+      },
+      {
         "value": 12000,
         "where": "code",
         "found": false
-      },
-      {
-        "value": 900,
-        "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 865,
-          "relative": 0.03888888888888889,
-          "sentence": "Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1105 $1287 Remainder of the province $615 $750 $860 $965 Health",
-          "url": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis"
-        }
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 2,
+    "confirmed": 7,
+    "unconfirmed": 1,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1466,19 +1618,14 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 80058,
+        "value": 81668,
         "where": "code",
-        "found": false,
-        "drift": {
-          "pageValue": 81668,
-          "relative": 0.020110419945539484,
-          "sentence": "n $39345. Families with adjusted family net income between $39345 and $81668 may get part of the credit. The payments are combined with the",
-          "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html"
-        }
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-saskatchewan.html"
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 1,
+    "confirmed": 1,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1496,13 +1643,32 @@
         "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
       },
       {
-        "value": 22488,
-        "where": "code",
-        "found": false
+        "value": 4560,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
+      },
+      {
+        "value": 325,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
+      },
+      {
+        "value": 7440,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
+      },
+      {
+        "value": 11568,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan"
       }
     ],
-    "confirmed": 1,
-    "unconfirmed": 1,
+    "confirmed": 5,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1587,24 +1753,80 @@
     "benefitId": "ns-income-assistance",
     "level": "provincial-ns",
     "urls": [
-      "https://novascotia.ca/coms/employment/income_assistance/index.html"
+      "https://novascotia.ca/coms/employment/income_assistance/index.html",
+      "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
     ],
     "fetchErrors": [],
     "figures": [
       {
-        "value": 12000,
-        "where": "code",
-        "found": false
+        "value": 738,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
       },
       {
-        "value": 950,
+        "value": 655,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 1035,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 674,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 1090,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 719,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 1442,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 1085,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 1497,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 1128,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html"
+      },
+      {
+        "value": 12000,
         "where": "code",
         "found": false
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 2,
-    "citesPageWithoutAmounts": true
+    "confirmed": 10,
+    "unconfirmed": 1,
+    "citesPageWithoutAmounts": false
   },
   {
     "benefitId": "ns-disability-support",
@@ -1692,6 +1914,37 @@
     ],
     "confirmed": 0,
     "unconfirmed": 2,
+    "citesPageWithoutAmounts": false
+  },
+  {
+    "benefitId": "nb-hst-credit",
+    "level": "provincial-nb",
+    "urls": [
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html"
+    ],
+    "fetchErrors": [],
+    "figures": [
+      {
+        "value": 300,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html"
+      },
+      {
+        "value": 100,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html"
+      },
+      {
+        "value": 35000,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html"
+      }
+    ],
+    "confirmed": 3,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1822,6 +2075,35 @@
     "fetchErrors": [],
     "figures": [
       {
+        "value": 157.33,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
+      },
+      {
+        "value": 166.83,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
+      },
+      {
+        "value": 179.16,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
+      },
+      {
+        "value": 192.5,
+        "where": "copy",
+        "found": false,
+        "drift": {
+          "pageValue": 179.16,
+          "relative": 0.06929870129870132,
+          "sentence": "er month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each",
+          "url": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
+        }
+      },
+      {
         "value": 1868,
         "where": "copy",
         "found": false,
@@ -1844,8 +2126,8 @@
         }
       }
     ],
-    "confirmed": 0,
-    "unconfirmed": 2,
+    "confirmed": 3,
+    "unconfirmed": 3,
     "citesPageWithoutAmounts": false
   },
   {
@@ -1905,7 +2187,7 @@
     "fetchErrors": [],
     "figures": [
       {
-        "value": 1551,
+        "value": 30409,
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
@@ -1915,9 +2197,21 @@
         "where": "copy",
         "found": true,
         "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      },
+      {
+        "value": 1882,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      },
+      {
+        "value": 1551,
+        "where": "copy",
+        "found": true,
+        "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
       }
     ],
-    "confirmed": 2,
+    "confirmed": 4,
     "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   },
@@ -1925,7 +2219,8 @@
     "benefitId": "nl-income-supplement",
     "level": "provincial-nl",
     "urls": [
-      "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
+      "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/",
+      "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
     ],
     "fetchErrors": [],
     "figures": [
@@ -1938,13 +2233,8 @@
       {
         "value": 589,
         "where": "copy",
-        "found": false,
-        "drift": {
-          "pageValue": 520,
-          "relative": 0.11714770797962648,
-          "sentence": "mount for Eligible Individuals Basic credit of $254 Maximum credit of $520 (1) Amount for Spouse $69 Amount for Eligible Children $231 Amoun",
-          "url": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
-        }
+        "found": true,
+        "confirmedBy": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html"
       },
       {
         "value": 231,
@@ -1959,8 +2249,8 @@
         "confirmedBy": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/"
       }
     ],
-    "confirmed": 3,
-    "unconfirmed": 1,
+    "confirmed": 4,
+    "unconfirmed": 0,
     "citesPageWithoutAmounts": false
   }
 ]

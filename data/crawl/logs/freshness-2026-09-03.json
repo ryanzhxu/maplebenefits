@@ -1,5 +1,75 @@
 [
   {
+    "benefitId": "dtc",
+    "key": "disabilityAmount",
+    "label": "Disability amount claimable",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/claiming-dtc.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Disability amounts for the 2025 tax year: 18 and older : Option 1 of 2 $10,138"
+    }
+  },
+  {
+    "benefitId": "dtc",
+    "key": "childSupplement",
+    "label": "Supplement for a child under 18",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/segments/tax-credits-deductions-persons-disabilities/disability-tax-credit/claiming-dtc.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$10,138 (disability amount) + $5,914 (supplement for children)"
+    }
+  },
+  {
+    "benefitId": "cdb",
+    "key": "maxMonthly",
+    "label": "Maximum monthly benefit",
+    "source": "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For the period of July 2026 to June 2027 the maximum monthly benefit you could receive is $204.20"
+    }
+  },
+  {
+    "benefitId": "cdb",
+    "key": "supplementalPayment",
+    "label": "Supplemental lump-sum payment",
+    "source": "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "This supplemental amount is fixed at $150 and you receive it as a lump-sum payment"
+    }
+  },
+  {
+    "benefitId": "cdb",
+    "key": "workingIncomeExemptSingle",
+    "label": "Working income exempted, single",
+    "source": "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If you are single, up to $10,210 of working income will be exempt"
+    }
+  },
+  {
+    "benefitId": "cdb",
+    "key": "workingIncomeExemptCouple",
+    "label": "Working income exempted, couple",
+    "source": "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If you have a spouse or common-law partner, up to $14,294 of combined working income will be exempt"
+    }
+  },
+  {
+    "benefitId": "cdb",
+    "key": "singleIncomeThreshold",
+    "label": "Income at or below which a single person receives the full benefit",
+    "source": "https://www.canada.ca/en/services/benefits/disability/canada-disability-benefit/amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Because Jane's income is below the singles threshold of $23,000, she receives the full benefit"
+    }
+  },
+  {
     "benefitId": "cpp-d",
     "key": "basicMonthly",
     "label": "Basic monthly amount",
@@ -27,6 +97,76 @@
     "verdict": {
       "kind": "unchanged",
       "quote": "Average monthly amount for new beneficiaries (as of October 2025) $1,234.68"
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "maxYearlyGrant",
+    "label": "Maximum yearly grant",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum yearly grant amount is $3,500 , with a limit of $70,000 over your lifetime"
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "grantLifetimeLimit",
+    "label": "Lifetime grant limit",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "with a limit of $70,000 over your lifetime"
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "maxYearlyBond",
+    "label": "Maximum yearly bond",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum yearly bond amount is $1,000 until you reach the limit of $20,000"
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "bondLifetimeLimit",
+    "label": "Lifetime bond limit",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "until you reach the limit of $20,000"
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "bondFullAmountUpTo",
+    "label": "Income at or below which the full bond is paid",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "less than or equal to $38,237 The government deposits $1,000 each year to the RDSP"
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "bondPhasesOutAt",
+    "label": "Income at which the bond reaches zero",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "between $38,237 and $58,523 The government deposits a portion of the $1,000 to an RDSP each year."
+    }
+  },
+  {
+    "benefitId": "rdsp",
+    "key": "contributionForMaxGrant",
+    "label": "Contribution needed for the maximum grant",
+    "source": "https://www.canada.ca/en/employment-social-development/programs/disability/savings/how-much.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "To get the maximum amount of grant you are eligible to receive for the year, you need to contribute $1,500 in the year"
     }
   },
   {
@@ -111,12 +251,32 @@
   },
   {
     "benefitId": "oas-allowance",
+    "key": "incomeLimit",
+    "label": "Combined income limit",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse/common-law partner who receives the GIS and the full OAS pension less than $42,144 (combined income of couple)"
+    }
+  },
+  {
+    "benefitId": "oas-allowance",
     "key": "maxMonthly",
     "label": "Maximum monthly Allowance",
     "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance.html",
     "verdict": {
       "kind": "unchanged",
       "quote": "Spouse/common-law partner receives GIS and full OAS: up to $1,428.06/month"
+    }
+  },
+  {
+    "benefitId": "allowance-survivor",
+    "key": "incomeLimit",
+    "label": "Annual net income limit",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/allowance-survivor/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I am a surviving spouse or common-law partner less than $30,696"
     }
   },
   {
@@ -157,6 +317,76 @@
     "verdict": {
       "kind": "unchanged",
       "quote": "Greater than $82,847 Your benefit is reduced by a fixed amount plus an additional percentage of your income greater than $82,847"
+    }
+  },
+  {
+    "benefitId": "ccc",
+    "key": "creditAmount",
+    "label": "Maximum claimable amount",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/canada-caregiver-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You may be able to claim up to $8,601 on line 30450 for each dependant 18 years of age or older"
+    }
+  },
+  {
+    "benefitId": "ccc",
+    "key": "federalCreditRate",
+    "label": "Federal rate applied to non-refundable credits",
+    "source": "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "is legislatively based on the lowest personal income tax rate (14 per cent in 2026)"
+    }
+  },
+  {
+    "benefitId": "eligible-dependant",
+    "key": "creditAmount",
+    "label": "Maximum claimable amount",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-30000-basic-personal-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$177,882 or less , claim $16,129"
+    }
+  },
+  {
+    "benefitId": "eligible-dependant",
+    "key": "federalCreditRate",
+    "label": "Federal rate applied to non-refundable credits",
+    "source": "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "is legislatively based on the lowest personal income tax rate (14 per cent in 2026)"
+    }
+  },
+  {
+    "benefitId": "cdcp",
+    "key": "incomeLimit",
+    "label": "Adjusted family net income limit",
+    "source": "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/qualify.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "To be eligible for the CDCP, your adjusted family net income must be less than $90,000"
+    }
+  },
+  {
+    "benefitId": "cdcp",
+    "key": "fullCoverageBelow",
+    "label": "Income below which the plan covers 100%",
+    "source": "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/coverage.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Lower than $70,000 100% of eligible oral health care service costs will be"
+    }
+  },
+  {
+    "benefitId": "cdcp",
+    "key": "partialCoverageFrom",
+    "label": "Top of the 60%-coverage band",
+    "source": "https://www.canada.ca/en/services/benefits/dental/dental-care-plan/coverage.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Between $70,000 and $79,999 60% of eligible oral health care service costs"
     }
   },
   {
@@ -300,6 +530,26 @@
     }
   },
   {
+    "benefitId": "home-buyers-amount",
+    "key": "creditAmount",
+    "label": "Amount you can claim",
+    "source": "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/deductions-credits-expenses/line-31270-home-buyers-amount.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You can claim up to $10,000 for the purchase of a qualifying home in 2025."
+    }
+  },
+  {
+    "benefitId": "home-buyers-amount",
+    "key": "federalCreditRate",
+    "label": "Federal rate applied to non-refundable credits",
+    "source": "https://www.canada.ca/en/department-finance/services/publications/report-impact-reducing-lowest-marginal-personal-income-tax-rate-non-refundable-tax-credits.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "is legislatively based on the lowest personal income tax rate (14 per cent in 2026)"
+    }
+  },
+  {
     "benefitId": "multigen-reno",
     "key": "expenditureCap",
     "label": "Maximum qualifying expenditures",
@@ -330,6 +580,36 @@
     }
   },
   {
+    "benefitId": "canada-learning-bond",
+    "key": "incomeLimitUpTo3Children",
+    "label": "Adjusted family income limit, 1 to 3 children",
+    "source": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Number of children Adjusted income level 1 to 3 Less than or equal to $58,523 4 Less than $66,036 5 Less than $73,577"
+    }
+  },
+  {
+    "benefitId": "canada-learning-bond",
+    "key": "incomeLimit4Children",
+    "label": "Adjusted family income limit, 4 children",
+    "source": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Number of children Adjusted income level 1 to 3 Less than or equal to $58,523 4 Less than $66,036 5 Less than $73,577"
+    }
+  },
+  {
+    "benefitId": "canada-learning-bond",
+    "key": "incomeLimit5Children",
+    "label": "Adjusted family income limit, 5 children",
+    "source": "https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Number of children Adjusted income level 1 to 3 Less than or equal to $58,523 4 Less than $66,036 5 Less than $73,577"
+    }
+  },
+  {
     "benefitId": "bc-homeowner-grant",
     "key": "regularGrant",
     "label": "Regular grant",
@@ -347,6 +627,76 @@
     "verdict": {
       "kind": "unchanged",
       "quote": "the total grant amount for seniors aged 65 or older is $845"
+    }
+  },
+  {
+    "benefitId": "bc-seniors-supplement",
+    "key": "gisIncomeLimitSingle",
+    "label": "GIS income limit, single",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I am single, divorced, or widowed. Less than $22,800"
+    }
+  },
+  {
+    "benefitId": "bc-seniors-supplement",
+    "key": "gisIncomeLimitCoupleWidest",
+    "label": "Widest GIS combined income limit for a couple",
+    "source": "https://www.canada.ca/en/services/benefits/publicpensions/old-age-security/guaranteed-income-supplement/eligibility.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "I have a spouse or common-law partner who does not receive OAS. Less than $54,624 (combined annual income of couple)"
+    }
+  },
+  {
+    "benefitId": "bc-family-benefit",
+    "key": "reductionStartsAt",
+    "label": "Income where the reduction begins",
+    "source": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your adjusted family net income for the 2025 tax year is between $30,176 and $96,562, you'll receive a reduced amount of at least: $775 for your first child $750 for your second child $725 for each additional child"
+    }
+  },
+  {
+    "benefitId": "bc-family-benefit",
+    "key": "floorResumesTaperAt",
+    "label": "Income above which the guaranteed minimum starts tapering",
+    "source": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your adjusted family net income for the 2025 tax year is between $30,176 and $96,562, you'll receive a reduced amount of at least: $775 for your first child $750 for your second child $725 for each additional child"
+    }
+  },
+  {
+    "benefitId": "bc-family-benefit",
+    "key": "floorFirstChild",
+    "label": "Guaranteed minimum, first child",
+    "source": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your adjusted family net income for the 2025 tax year is between $30,176 and $96,562, you'll receive a reduced amount of at least: $775 for your first child $750 for your second child $725 for each additional child"
+    }
+  },
+  {
+    "benefitId": "bc-family-benefit",
+    "key": "floorSecondChild",
+    "label": "Guaranteed minimum, second child",
+    "source": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your adjusted family net income for the 2025 tax year is between $30,176 and $96,562, you'll receive a reduced amount of at least: $775 for your first child $750 for your second child $725 for each additional child"
+    }
+  },
+  {
+    "benefitId": "bc-family-benefit",
+    "key": "floorAdditionalChild",
+    "label": "Guaranteed minimum, each additional child",
+    "source": "https://www2.gov.bc.ca/gov/content/family-social-supports/affordability/family-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "If your adjusted family net income for the 2025 tax year is between $30,176 and $96,562, you'll receive a reduced amount of at least: $775 for your first child $750 for your second child $725 for each additional child"
     }
   },
   {
@@ -400,6 +750,196 @@
     }
   },
   {
+    "benefitId": "ontario-senior-homeowner-grant",
+    "key": "incomeLimitSingle",
+    "label": "Income limit, single/divorced/widowed",
+    "source": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "you were single, divorced or widowed and earned less than $50,000 you were married or living common-law and you and your spouse/common-law partner earned a combined income of less than $60,000"
+    }
+  },
+  {
+    "benefitId": "ontario-senior-homeowner-grant",
+    "key": "incomeLimitCouple",
+    "label": "Combined income limit, married or common-law",
+    "source": "https://www.ontario.ca/page/senior-homeowners-property-tax-grant",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "you were single, divorced or widowed and earned less than $50,000 you were married or living common-law and you and your spouse/common-law partner earned a combined income of less than $60,000"
+    }
+  },
+  {
+    "benefitId": "ontario-lift",
+    "key": "maxCredit",
+    "label": "Maximum credit",
+    "source": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum credit you can receive is $875"
+    }
+  },
+  {
+    "benefitId": "ontario-lift",
+    "key": "rateOfEmploymentIncome",
+    "label": "Share of employment income the credit cannot exceed",
+    "source": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum credit you can receive is $875 or 5.05% of your employment income, whichever is lower."
+    }
+  },
+  {
+    "benefitId": "ontario-lift",
+    "key": "individualIncomeLimit",
+    "label": "Individual income limit",
+    "source": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "your individual adjusted net income for the year must be below $50,000"
+    }
+  },
+  {
+    "benefitId": "ontario-lift",
+    "key": "familyIncomeLimit",
+    "label": "Family income limit",
+    "source": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "must be below $82,500 (previously $68,500 for the years 2019, 2020 and 2021)"
+    }
+  },
+  {
+    "benefitId": "ontario-lift",
+    "key": "individualReductionFrom",
+    "label": "Individual income where the credit starts to be reduced",
+    "source": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "adjusted individual net income over $32,500"
+    }
+  },
+  {
+    "benefitId": "ontario-lift",
+    "key": "familyReductionFrom",
+    "label": "Family income where the credit starts to be reduced",
+    "source": "https://www.ontario.ca/page/low-income-workers-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "adjusted family net income over $65,000"
+    }
+  },
+  {
+    "benefitId": "ontario-child-care-tax-credit",
+    "key": "maxExpensePerChildUnder7",
+    "label": "Maximum claimable child care expense, child under 7",
+    "source": "https://www.ontario.ca/page/ontario-child-care-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$6,000 per child under the age of seven (plus a top-up of up to $1,200 for 2021)"
+    }
+  },
+  {
+    "benefitId": "ontario-child-care-tax-credit",
+    "key": "maxExpensePerChild7to16",
+    "label": "Maximum claimable child care expense, child aged 7 to 16",
+    "source": "https://www.ontario.ca/page/ontario-child-care-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "$3,750 per child between the ages of seven and 16 (plus a top-up of up to $750 for 2021)"
+    }
+  },
+  {
+    "benefitId": "ontario-child-care-tax-credit",
+    "key": "familyIncomeCeiling",
+    "label": "Family income ceiling",
+    "source": "https://www.ontario.ca/page/ontario-child-care-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "have a family income less than or equal to $150,000"
+    }
+  },
+  {
+    "benefitId": "ontario-child-care-tax-credit",
+    "key": "maxRate",
+    "label": "Maximum credit rate",
+    "source": "https://www.ontario.ca/page/ontario-child-care-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Eligible families can claim up to 75% of their eligible child care expenses, including services provided by child care centres, homes and camps."
+    }
+  },
+  {
+    "benefitId": "ontario-healthy-smiles",
+    "key": "maxAge",
+    "label": "Oldest age a child can be",
+    "source": "https://www.ontario.ca/page/get-dental-care",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "You can apply for your children if they: are 17 years of age and under"
+    }
+  },
+  {
+    "benefitId": "ontario-healthy-smiles",
+    "key": "incomeThresholdOneChild",
+    "label": "Household income limit with one child",
+    "source": "https://www.ontario.ca/page/get-dental-care",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "1 child $29,065 or lower"
+    }
+  },
+  {
+    "benefitId": "ontario-healthy-smiles",
+    "key": "incomeThresholdPerAdditionalChild",
+    "label": "Added to the income limit for each additional child",
+    "source": "https://www.ontario.ca/page/get-dental-care",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "10 or more children $48,865 or lower. Add $2,200 for each additional dependent child to determine the income level at which your family would qualify for Healthy Smiles Ontario."
+    }
+  },
+  {
+    "benefitId": "ontario-seniors-care-at-home",
+    "key": "maxCredit",
+    "label": "Maximum credit",
+    "source": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The credit provides up to 25% of claimable medical expenses up to $6,000, for a maximum credit of $1,500. This amount is reduced by 5% of family net income over $35,000 and fully phased out by at most $65,000."
+    }
+  },
+  {
+    "benefitId": "ontario-seniors-care-at-home",
+    "key": "reductionStartsAt",
+    "label": "Family net income where the credit starts to be reduced",
+    "source": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The credit provides up to 25% of claimable medical expenses up to $6,000, for a maximum credit of $1,500. This amount is reduced by 5% of family net income over $35,000 and fully phased out by at most $65,000."
+    }
+  },
+  {
+    "benefitId": "ontario-seniors-care-at-home",
+    "key": "fullyPhasedOutAt",
+    "label": "Family net income at which the credit reaches zero",
+    "source": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The credit provides up to 25% of claimable medical expenses up to $6,000, for a maximum credit of $1,500. This amount is reduced by 5% of family net income over $35,000 and fully phased out by at most $65,000."
+    }
+  },
+  {
+    "benefitId": "ontario-seniors-care-at-home",
+    "key": "minAge",
+    "label": "Minimum age",
+    "source": "https://www.ontario.ca/page/ontario-seniors-care-home-tax-credit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "turned 70 years of age or older in the year, or have a spouse or common-law partner who turned 70 years of age or older in the year"
+    }
+  },
+  {
     "benefitId": "alberta-seniors-benefit",
     "key": "incomeThresholdSingle",
     "label": "Income guideline, single senior",
@@ -421,12 +961,132 @@
   },
   {
     "benefitId": "alberta-seniors-benefit",
+    "key": "maxAnnualCouple",
+    "label": "Maximum annual benefit, senior couple (homeowner/renter/lodge)",
+    "source": "https://www.alberta.ca/alberta-seniors-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Homeowner, renter, lodge resident $5,918"
+    }
+  },
+  {
+    "benefitId": "alberta-seniors-benefit",
     "key": "maxAnnualSingle",
     "label": "Maximum annual benefit, single homeowner/renter/lodge resident",
     "source": "https://www.alberta.ca/alberta-seniors-benefit",
     "verdict": {
       "kind": "unchanged",
       "quote": "Homeowner, renter, lodge resident $3,946"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "singleAdult",
+    "label": "Single adult",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "oneAdult1Child",
+    "label": "1 adult + 1 child",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "oneAdult2Children",
+    "label": "1 adult + 2 children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "oneAdult3Children",
+    "label": "1 adult + 3 children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "oneAdult4Children",
+    "label": "1 adult + 4 children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "coupleNoChildren",
+    "label": "Couple, no children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "couple1Child",
+    "label": "Couple + 1 child",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "couple2Children",
+    "label": "Couple + 2 children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "couple3Children",
+    "label": "Couple + 3 children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "couple4Children",
+    "label": "Couple + 4 children",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
+    }
+  },
+  {
+    "benefitId": "alberta-adult-health-benefit",
+    "key": "perAdditionalChild",
+    "label": "Added for each additional child",
+    "source": "https://www.alberta.ca/alberta-adult-health-benefit",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Table 1. Maximum income guidelines based on family size Family Maximum income Single adult $16,580 1 adult + 1 child $26,023 1 adult + 2 children $31,010 1 adult + 3 children $36,325 1 adult + 4 children* $41,957 Couple, no children $23,212 Couple + 1 child $31,237 Couple + 2 children $36,634 Couple + 3 children $41,594 Couple + 4 children* $46,932 *For each additional child, add $4,973"
     }
   },
   {
@@ -490,6 +1150,126 @@
     }
   },
   {
+    "benefitId": "manitoba-55-plus",
+    "key": "incomeLimitSingle",
+    "label": "Income limit, single person",
+    "source": "https://www.gov.mb.ca/fs/eia/55plus.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Partial benefits are available to single people with an annual income up to $9,746.40 and couples with an annual family income up to $16,255.20."
+    }
+  },
+  {
+    "benefitId": "manitoba-55-plus",
+    "key": "incomeLimitCouple",
+    "label": "Combined income limit, couple",
+    "source": "https://www.gov.mb.ca/fs/eia/55plus.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Partial benefits are available to single people with an annual income up to $9,746.40 and couples with an annual family income up to $16,255.20."
+    }
+  },
+  {
+    "benefitId": "manitoba-55-plus",
+    "key": "quarterlySingle",
+    "label": "Maximum quarterly benefit, single person",
+    "source": "https://www.gov.mb.ca/fs/eia/55plus.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Maximum quarterly benefits (every three months) have increased to $161.80 for a single person and $173.90 to each eligible person in a married or common law relationship."
+    }
+  },
+  {
+    "benefitId": "manitoba-homeowners-affordability",
+    "key": "maxCredit",
+    "label": "Maximum credit",
+    "source": "https://www.gov.mb.ca/finance/tao/hatc.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For 2026, the amount of the HATC is the lesser of $1,600 and the gross school taxes on your principal residence."
+    }
+  },
+  {
+    "benefitId": "manitoba-renters-affordability",
+    "key": "maxCredit",
+    "label": "Maximum base credit",
+    "source": "https://www.gov.mb.ca/finance/personal/pcredits.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For the 2026 tax year, an increased Renters Affordability Tax Credit of up to $625 will be provided, and the seniors top-up will be increased to a maximum of $357."
+    }
+  },
+  {
+    "benefitId": "manitoba-renters-affordability",
+    "key": "seniorTopUp",
+    "label": "Maximum senior top-up",
+    "source": "https://www.gov.mb.ca/finance/personal/pcredits.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For the 2026 tax year, an increased Renters Affordability Tax Credit of up to $625 will be provided, and the seniors top-up will be increased to a maximum of $357."
+    }
+  },
+  {
+    "benefitId": "sis",
+    "key": "adultBasic",
+    "label": "Adult basic benefit, monthly",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287"
+    }
+  },
+  {
+    "benefitId": "sis",
+    "key": "childBasic",
+    "label": "Children's basic benefit, per child, monthly",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287"
+    }
+  },
+  {
+    "benefitId": "sis",
+    "key": "shelterSingle",
+    "label": "Shelter benefit, single (Saskatoon/Regina)",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287"
+    }
+  },
+  {
+    "benefitId": "sis",
+    "key": "shelterCouple",
+    "label": "Shelter benefit, couple without children (Saskatoon/Regina)",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287"
+    }
+  },
+  {
+    "benefitId": "sis",
+    "key": "shelterFamilySmall",
+    "label": "Shelter benefit, family with 1-2 children (Saskatoon/Regina)",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287"
+    }
+  },
+  {
+    "benefitId": "sis",
+    "key": "shelterFamilyLarge",
+    "label": "Shelter benefit, family with 3+ children (Saskatoon/Regina)",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/financial-help/saskatchewan-income-support-sis",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Adult Basic Benefit $375 Adult Basic Benefit $445 Children's Basic Benefit $65/child Shelter Benefit - includes rent, mortgage payments, utilities, taxes and all other shelter-related costs (monthly rate) Singles Couples (without dependent children) Families (1-2 children) Families (3+ children) Saskatoon/Regina $675 $865 $1,105 $1,287"
+    }
+  },
+  {
     "benefitId": "slitc",
     "key": "perAdult",
     "label": "Amount per adult",
@@ -530,6 +1310,86 @@
     }
   },
   {
+    "benefitId": "sip",
+    "key": "maxMonthlySingle",
+    "label": "Maximum monthly benefit, single recipient",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Single OAS/GIS Recipient $360 $4,560 Married - Both OAS/GIS Recipients $325 $7,440 Married - Spouse less than 60 years of age $360 $11,568"
+    }
+  },
+  {
+    "benefitId": "sip",
+    "key": "zeroAtIncomeSingle",
+    "label": "Annual taxable income at which SIP reaches $0, single",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Single OAS/GIS Recipient $360 $4,560 Married - Both OAS/GIS Recipients $325 $7,440 Married - Spouse less than 60 years of age $360 $11,568"
+    }
+  },
+  {
+    "benefitId": "sip",
+    "key": "zeroAtIncomeCoupleWidest",
+    "label": "Widest couple income cutoff (spouse under 60)",
+    "source": "https://www.saskatchewan.ca/residents/family-and-social-support/seniors-services/seniors-income-plan",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Single OAS/GIS Recipient $360 $4,560 Married - Both OAS/GIS Recipients $325 $7,440 Married - Spouse less than 60 years of age $360 $11,568"
+    }
+  },
+  {
+    "benefitId": "ns-income-assistance",
+    "key": "oneAdultNoChildren",
+    "label": "Monthly rate, one recipient, no dependents (rent/own)",
+    "source": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Household Composition Standard Household Rate (Monthly) Recipient Dependent Child/Student Family Member Rent/Own Board 1 0 $738 $655 1 1 $1,035 $674 1 2 or more $1,090 $719 2 0 $1,442 $1,085 2 1 or more $1,497 $1,128"
+    }
+  },
+  {
+    "benefitId": "ns-income-assistance",
+    "key": "oneAdultOneChild",
+    "label": "Monthly rate, one recipient, one dependent (rent/own)",
+    "source": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Household Composition Standard Household Rate (Monthly) Recipient Dependent Child/Student Family Member Rent/Own Board 1 0 $738 $655 1 1 $1,035 $674 1 2 or more $1,090 $719 2 0 $1,442 $1,085 2 1 or more $1,497 $1,128"
+    }
+  },
+  {
+    "benefitId": "ns-income-assistance",
+    "key": "oneAdultTwoPlusChildren",
+    "label": "Monthly rate, one recipient, two or more dependents (rent/own)",
+    "source": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Household Composition Standard Household Rate (Monthly) Recipient Dependent Child/Student Family Member Rent/Own Board 1 0 $738 $655 1 1 $1,035 $674 1 2 or more $1,090 $719 2 0 $1,442 $1,085 2 1 or more $1,497 $1,128"
+    }
+  },
+  {
+    "benefitId": "ns-income-assistance",
+    "key": "twoAdultsNoChildren",
+    "label": "Monthly rate, two recipients, no dependents (rent/own)",
+    "source": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Household Composition Standard Household Rate (Monthly) Recipient Dependent Child/Student Family Member Rent/Own Board 1 0 $738 $655 1 1 $1,035 $674 1 2 or more $1,090 $719 2 0 $1,442 $1,085 2 1 or more $1,497 $1,128"
+    }
+  },
+  {
+    "benefitId": "ns-income-assistance",
+    "key": "twoAdultsWithChildren",
+    "label": "Monthly rate, two recipients, one or more dependents (rent/own)",
+    "source": "https://novascotia.ca/coms/employment/income_assistance/what-you-receive.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "Household Composition Standard Household Rate (Monthly) Recipient Dependent Child/Student Family Member Rent/Own Board 1 0 $738 $655 1 1 $1,035 $674 1 2 or more $1,090 $719 2 0 $1,442 $1,085 2 1 or more $1,497 $1,128"
+    }
+  },
+  {
     "benefitId": "nb-seniors-benefit",
     "key": "annualBenefit",
     "label": "Annual benefit",
@@ -537,6 +1397,136 @@
     "verdict": {
       "kind": "unchanged",
       "quote": "To qualify for the 2026 annual benefit of $629"
+    }
+  },
+  {
+    "benefitId": "nb-hst-credit",
+    "key": "perAdult",
+    "label": "Maximum per adult",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The program provides for a maximum annual amount of $300 for an individual, $300 for a spouse or common-law partner, and $100 per child under 19 years of age ($300 for the first child in a single parent family)."
+    }
+  },
+  {
+    "benefitId": "nb-hst-credit",
+    "key": "perChild",
+    "label": "Maximum per child under 19",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The program provides for a maximum annual amount of $300 for an individual, $300 for a spouse or common-law partner, and $100 per child under 19 years of age ($300 for the first child in a single parent family)."
+    }
+  },
+  {
+    "benefitId": "nb-hst-credit",
+    "key": "reductionStartsAt",
+    "label": "Income where the credit starts to be reduced",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The credit is reduced by 2% of the adjusted family net income over $35,000."
+    }
+  },
+  {
+    "benefitId": "nb-hst-credit",
+    "key": "reductionRate",
+    "label": "Reduction rate above the threshold",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-new-brunswick.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The credit is reduced by 2% of the adjusted family net income over $35,000."
+    }
+  },
+  {
+    "benefitId": "nl-child-benefit",
+    "key": "firstChildMonthly",
+    "label": "Monthly amount, first child",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, you may be entitled to: $157.33 per month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each additional child."
+    }
+  },
+  {
+    "benefitId": "nl-child-benefit",
+    "key": "secondChildMonthly",
+    "label": "Monthly amount, second child",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, you may be entitled to: $157.33 per month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each additional child."
+    }
+  },
+  {
+    "benefitId": "nl-child-benefit",
+    "key": "thirdChildMonthly",
+    "label": "Monthly amount, third child",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, you may be entitled to: $157.33 per month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each additional child."
+    }
+  },
+  {
+    "benefitId": "nl-child-benefit",
+    "key": "additionalChildMonthly",
+    "label": "Monthly amount, each additional child",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "For July 2026 to June 2027, you may be entitled to: $157.33 per month for the first child; $166.83 per month for the second child; $179.16 per month for the third child; and $192.50 per month for each additional child."
+    }
+  },
+  {
+    "benefitId": "nl-seniors-benefit",
+    "key": "maxBenefit",
+    "label": "Maximum annual benefit",
+    "source": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "seniors with family net income of up to $30,409 (previously $30,078) are eligible to receive the maximum benefit of $1,882 (increased from $1,551)."
+    }
+  },
+  {
+    "benefitId": "nl-seniors-benefit",
+    "key": "incomeLimit",
+    "label": "Family net income for the maximum benefit",
+    "source": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/income-supplement/",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "seniors with family net income of up to $30,409 (previously $30,078) are eligible to receive the maximum benefit of $1,882 (increased from $1,551)."
+    }
+  },
+  {
+    "benefitId": "nl-income-supplement",
+    "key": "maxSingle",
+    "label": "Maximum annual amount, single",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum annual payment amount is: $520 if you are a single individual $589 if you have a spouse or common-law partner plus $231 per child under 19 years of age"
+    }
+  },
+  {
+    "benefitId": "nl-income-supplement",
+    "key": "maxCouple",
+    "label": "Maximum annual amount, with a spouse",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum annual payment amount is: $520 if you are a single individual $589 if you have a spouse or common-law partner plus $231 per child under 19 years of age"
+    }
+  },
+  {
+    "benefitId": "nl-income-supplement",
+    "key": "perChild",
+    "label": "Additional amount per child under 19",
+    "source": "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/province-newfoundland-labrador.html",
+    "verdict": {
+      "kind": "unchanged",
+      "quote": "The maximum annual payment amount is: $520 if you are a single individual $589 if you have a spouse or common-law partner plus $231 per child under 19 years of age"
     }
   }
 ]
