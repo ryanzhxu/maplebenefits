@@ -18,27 +18,54 @@ export function QuestionInput({
   const { t, r } = useI18n();
   const [showHelp, setShowHelp] = useState(false);
 
+  const currentYear = new Date().getFullYear();
+  const isBirthYearSlider =
+    question.inputType === "slider" && question.birthYearSlider === true;
+
   // Seed a slider's defaultValue as the actual answer the first time this
-  // question is shown unanswered, so it opens pre-filled instead of at 0.
+  // question is shown unanswered, so it opens pre-filled instead of at 0. A
+  // birth-year slider's defaultValue is a birth year; the stored answer is
+  // always the derived age.
   useEffect(() => {
     if (
       question.inputType === "slider" &&
       question.defaultValue !== undefined &&
       value === undefined
     ) {
-      onChange(question.defaultValue);
+      onChange(
+        isBirthYearSlider
+          ? currentYear - question.defaultValue
+          : question.defaultValue,
+      );
     }
-  }, [question.inputType, question.defaultValue, value, onChange]);
+  }, [
+    question.inputType,
+    isBirthYearSlider,
+    question.defaultValue,
+    value,
+    onChange,
+    currentYear,
+  ]);
 
   const label =
     helping && question.questionHelping
       ? r(question.questionHelping)
       : r(question.question);
 
-  const sliderValue =
+  // The value actually stored in context -- an age, even for the
+  // birth-year slider.
+  const storedValue =
     value === undefined || value === null
-      ? question.defaultValue ?? question.min ?? 0
+      ? isBirthYearSlider
+        ? currentYear - (question.defaultValue ?? currentYear)
+        : question.defaultValue ?? question.min ?? 0
       : Number(value);
+
+  // What the slider itself displays: a birth year for the age question, the
+  // stored value directly for any other slider.
+  const sliderValue = isBirthYearSlider
+    ? currentYear - storedValue
+    : storedValue;
 
   return (
     <div>
@@ -108,12 +135,19 @@ export function QuestionInput({
 
         {question.inputType === "slider" && (
           <div>
-            <div className="mb-3 text-2xl font-semibold text-ink">
-              {sliderValue}
-              {question.unit && (
-                <span className="ml-2 text-base font-normal text-muted">
-                  {r(question.unit)}
-                </span>
+            <div className="mb-3">
+              <div className="text-2xl font-semibold text-ink">
+                {sliderValue}
+                {!isBirthYearSlider && question.unit && (
+                  <span className="ml-2 text-base font-normal text-muted">
+                    {r(question.unit)}
+                  </span>
+                )}
+              </div>
+              {isBirthYearSlider && question.unit && (
+                <div className="text-sm text-muted">
+                  {storedValue} {r(question.unit)}
+                </div>
               )}
             </div>
             <input
@@ -122,7 +156,13 @@ export function QuestionInput({
               max={question.max}
               step={1}
               value={sliderValue}
-              onChange={(e) => onChange(Number(e.target.value))}
+              onChange={(e) =>
+                onChange(
+                  isBirthYearSlider
+                    ? currentYear - Number(e.target.value)
+                    : Number(e.target.value),
+                )
+              }
               aria-label={label}
               className="w-full accent-brand"
             />
