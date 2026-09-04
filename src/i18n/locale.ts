@@ -2,7 +2,7 @@ import type { Locale, LocalizedString } from "@/types/benefit";
 
 export type { Locale };
 
-export const LOCALES: Locale[] = ["en", "zh-Hant", "zh-Hans"];
+export const LOCALES: Locale[] = ["en", "zh-Hant", "zh-Hans", "fr", "pa"];
 
 export const DEFAULT_LOCALE: Locale = "en";
 
@@ -11,6 +11,8 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   en: "English",
   "zh-Hant": "繁體中文",
   "zh-Hans": "简体中文",
+  fr: "Français",
+  pa: "ਪੰਜਾਬੀ",
 };
 
 /** Short code shown in the compact switcher. */
@@ -18,6 +20,8 @@ export const LOCALE_SHORT: Record<Locale, string> = {
   en: "EN",
   "zh-Hant": "繁",
   "zh-Hans": "简",
+  fr: "FR",
+  pa: "ਪੰ",
 };
 
 /** BCP-47 lang attribute for <html>. */
@@ -25,6 +29,8 @@ export const LOCALE_HTML_LANG: Record<Locale, string> = {
   en: "en-CA",
   "zh-Hant": "zh-Hant",
   "zh-Hans": "zh-Hans",
+  fr: "fr-CA",
+  pa: "pa",
 };
 
 export function isLocale(value: unknown): value is Locale {
