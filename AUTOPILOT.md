@@ -82,7 +82,7 @@ performance. Never invent a figure.
 
 ```autobuild
 verify = npm test && npx tsc --noEmit && npm run build
-gate = direct
+gate = pr
 notify = gh issue create --title "{title}" --body "{body}"
 branch_prefix = autobuild
 email_to = ryan.xu282@gmail.com
@@ -94,10 +94,13 @@ verify  Deliberately NOT `npm run lint` — the repo has two pre-existing lint
         errors unrelated to this work, so a repo-wide lint gate would reject
         every pass. Tests, typecheck and a real static build are the gate.
 
-gate    direct. `.github/workflows/ci.yml` runs tests + build on push to main
-        and deploys to Cloudflare ONLY if that passes, so a broken build cannot
-        reach the live site. PR mode is wrong here: this repo runs no separate
-        PR-only checks.
+gate    pr (as of 2026-09-04). `main` now has branch protection requiring a PR
+        with a green `verify` check, `enforce_admins` on — a direct push,
+        including from the account autobuild pushes as, is rejected outright.
+        `.github/workflows/ci.yml` already runs `verify` on `pull_request` too,
+        so the `pr` gate's CI-wait has real checks to watch. `gate = direct`
+        will fail every pass here now; do not switch back without first
+        removing branch protection on `main`.
 
 email_cmd is EMPTY on purpose. This Mac has no MTA, no msmtp, and no
 RESEND_API_KEY, and headless `claude -p` has no Gmail tool. Milestones therefore
