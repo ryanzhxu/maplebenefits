@@ -137,11 +137,11 @@ export const ccb: Benefit = {
     pa: "18 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਬੱਚਿਆਂ ਦੀ ਪਰਵਰਿਸ਼ ਦੇ ਖਰਚੇ ਵਿੱਚ ਮਦਦ ਲਈ ਇੱਕ ਟੈਕਸ-ਮੁਕਤ ਮਹੀਨਾਵਾਰ ਭੁਗਤਾਨ। ਘੱਟ ਆਮਦਨ ਵਾਲੇ ਪਰਿਵਾਰਾਂ ਨੂੰ ਵੱਧ ਰਕਮ ਮਿਲਦੀ ਹੈ। ਅਪਾਹਜਤਾ ਵਾਲੇ ਬੱਚਿਆਂ ਲਈ ਵਾਧੂ ਰਕਮ ਮਿਲ ਸਕਦੀ ਹੈ।",
   }),
   estimatedValue: L({
-    en: "Up to $8,157/year per child under 6, $6,883/year per child 6-17",
-    "zh-Hant": "每名 6 歲以下子女最多每年 $8,157，6-17 歲每年 $6,883",
-    "zh-Hans": "每名 6 岁以下子女最多每年 $8,157，6-17 岁每年 $6,883",
-    fr: "Jusqu'à $8,157/année par enfant de moins de 6 ans, $6,883/année par enfant de 6 à 17 ans",
-    pa: "6 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਹਰ ਬੱਚੇ ਲਈ ਵੱਧ ਤੋਂ ਵੱਧ $8,157/ਸਾਲ, 6-17 ਸਾਲ ਦੇ ਬੱਚੇ ਲਈ $6,883/ਸਾਲ",
+    en: `Up to ${fmt(CCB_FIGURES.maxUnder6)}/year per child under 6, ${fmt(CCB_FIGURES.max6to17)}/year per child 6-17`,
+    "zh-Hant": `每名 6 歲以下子女最多每年 ${fmt(CCB_FIGURES.maxUnder6)}，6-17 歲每年 ${fmt(CCB_FIGURES.max6to17)}`,
+    "zh-Hans": `每名 6 岁以下子女最多每年 ${fmt(CCB_FIGURES.maxUnder6)}，6-17 岁每年 ${fmt(CCB_FIGURES.max6to17)}`,
+    fr: `Jusqu'à ${fmt(CCB_FIGURES.maxUnder6)}/année par enfant de moins de 6 ans, ${fmt(CCB_FIGURES.max6to17)}/année par enfant de 6 à 17 ans`,
+    pa: `6 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਹਰ ਬੱਚੇ ਲਈ ਵੱਧ ਤੋਂ ਵੱਧ ${fmt(CCB_FIGURES.maxUnder6)}/ਸਾਲ, 6-17 ਸਾਲ ਦੇ ਬੱਚੇ ਲਈ ${fmt(CCB_FIGURES.max6to17)}/ਸਾਲ`,
   }),
   contextFields: ["hasChildren", "numberOfChildren", "childrenUnder6", "youngestChildAge", "familyIncome", "filedTaxes"],
   check: buildCheck([

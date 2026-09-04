@@ -18,7 +18,9 @@ Live: https://maplebenefits.pages.dev
 - **Browse** — search and filter all 29 benefits by category and level.
 - **Check a single benefit** — a focused eligibility check on any benefit page.
 - **Three languages** — English, Traditional Chinese, Simplified Chinese, with
-  a language switcher. Any untranslated string falls back to English.
+  a language switcher. French and Punjabi are rolling out benefit by benefit
+  (the Canada Child Benefit is translated so far); other content and the
+  app's own interface fall back to English until translated.
 - **Private by design** — no sign-up, no cookies, no tracking of answers. All
   assessment data stays in the browser session.
 

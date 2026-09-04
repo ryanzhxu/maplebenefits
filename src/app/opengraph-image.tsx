@@ -48,7 +48,7 @@ export default function OpengraphImage() {
               maxWidth: 960,
             }}
           >
-            Free and private. Federal and provincial benefits, in three languages.
+            Free and private. Federal and provincial benefits, in your language.
           </div>
         </div>
 
