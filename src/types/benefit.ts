@@ -13,16 +13,12 @@
  * declares in `contextFields`. No black boxes — every result lists its reasons.
  */
 
-export type Locale = "en" | "zh-Hant" | "zh-Hans";
+export type Locale = "en" | "zh-Hant" | "zh-Hans" | "fr" | "pa";
 
 /** A string that may carry translations. Plain strings are treated as English. */
 export type LocalizedString =
   | string
-  | {
-      en: string;
-      "zh-Hant"?: string;
-      "zh-Hans"?: string;
-    };
+  | ({ en: string } & Partial<Record<Exclude<Locale, "en">, string>>);
 
 export type BenefitCategory =
   | "disability"
