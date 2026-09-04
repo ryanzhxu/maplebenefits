@@ -1,5 +1,5 @@
 import type { DeepContent } from "@/types/benefit";
-import { tri } from "@/data/tri";
+import { L, tri } from "@/data/tri";
 
 /**
  * Richer, plain-language detail per benefit, keyed by benefit id. Rendered as
@@ -92,38 +92,50 @@ export const DEEP: Record<string, DeepContent> = {
 
   ccb: {
     eligibilityDetails: [
-      tri(
-        "You must live with a child under 18 and be primarily responsible for their care.",
-        "你須與 18 歲以下子女同住，並主要負責照顧。",
-        "你须与 18 岁以下子女同住，并主要负责照顾。",
-      ),
-      tri(
-        "You must be a resident of Canada for tax purposes; at least one parent must meet a status requirement (citizen, PR, protected person, or certain temporary residents).",
-        "你須為加拿大稅務居民；至少一名家長須符合身份要求（公民、永久居民、受保護人士或某些臨時居民）。",
-        "你须为加拿大税务居民；至少一名家长须符合身份要求（公民、永久居民、受保护人士或某些临时居民）。",
-      ),
-      tri(
-        "The amount is based on adjusted family net income, number of children, and their ages.",
-        "金額按經調整家庭淨收入、子女數目及年齡計算。",
-        "金额按经调整家庭净收入、子女数目及年龄计算。",
-      ),
+      L({
+        en: "You must live with a child under 18 and be primarily responsible for their care.",
+        "zh-Hant": "你須與 18 歲以下子女同住，並主要負責照顧。",
+        "zh-Hans": "你须与 18 岁以下子女同住，并主要负责照顾。",
+        fr: "Vous devez habiter avec un enfant de moins de 18 ans et être la personne principalement responsable de ses soins.",
+        pa: "ਤੁਹਾਨੂੰ 18 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਬੱਚੇ ਨਾਲ ਰਹਿਣਾ ਚਾਹੀਦਾ ਹੈ ਅਤੇ ਉਸਦੀ ਦੇਖਭਾਲ ਲਈ ਮੁੱਖ ਤੌਰ 'ਤੇ ਜ਼ਿੰਮੇਵਾਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
+      }),
+      L({
+        en: "You must be a resident of Canada for tax purposes; at least one parent must meet a status requirement (citizen, PR, protected person, or certain temporary residents).",
+        "zh-Hant": "你須為加拿大稅務居民；至少一名家長須符合身份要求（公民、永久居民、受保護人士或某些臨時居民）。",
+        "zh-Hans": "你须为加拿大税务居民；至少一名家长须符合身份要求（公民、永久居民、受保护人士或某些临时居民）。",
+        fr: "Vous devez être résident du Canada aux fins de l'impôt; au moins un parent doit répondre à une exigence de statut (citoyen, résident permanent, personne protégée ou certains résidents temporaires).",
+        pa: "ਤੁਹਾਨੂੰ ਟੈਕਸ ਦੇ ਮੰਤਵ ਲਈ ਕੈਨੇਡਾ ਦਾ ਨਿਵਾਸੀ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ; ਘੱਟੋ-ਘੱਟ ਇੱਕ ਮਾਪੇ ਨੂੰ ਸਟੇਟਸ ਦੀ ਸ਼ਰਤ ਪੂਰੀ ਕਰਨੀ ਚਾਹੀਦੀ ਹੈ (ਨਾਗਰਿਕ, ਪੀ.ਆਰ., ਸੁਰੱਖਿਅਤ ਵਿਅਕਤੀ, ਜਾਂ ਕੁਝ ਅਸਥਾਈ ਨਿਵਾਸੀ)।",
+      }),
+      L({
+        en: "The amount is based on adjusted family net income, number of children, and their ages.",
+        "zh-Hant": "金額按經調整家庭淨收入、子女數目及年齡計算。",
+        "zh-Hans": "金额按经调整家庭净收入、子女数目及年龄计算。",
+        fr: "Le montant est calculé selon le revenu net rajusté de la famille, le nombre d'enfants et leur âge.",
+        pa: "ਰਕਮ ਪਰਿਵਾਰ ਦੀ ਸੋਧੀ ਹੋਈ ਸ਼ੁੱਧ ਆਮਦਨ, ਬੱਚਿਆਂ ਦੀ ਗਿਣਤੀ ਅਤੇ ਉਹਨਾਂ ਦੀ ਉਮਰ 'ਤੇ ਆਧਾਰਿਤ ਹੁੰਦੀ ਹੈ।",
+      }),
     ],
     goodToKnow: [
-      tri(
-        "If your child is approved for the Disability Tax Credit, the Child Disability Benefit (up to about $3,400/year) is added automatically.",
-        "如子女獲批殘疾稅務抵免，兒童殘障福利（最多約每年 $3,400）會自動加入。",
-        "如子女获批残疾税务抵免，儿童残障福利（最多约每年 $3,400）会自动加入。",
-      ),
-      tri(
-        "Both parents must file taxes every year — even with no income — or payments can stop.",
-        "父母雙方每年都必須報稅（即使沒有收入），否則款項可能停止。",
-        "父母双方每年都必须报税（即使没有收入），否则款项可能停止。",
-      ),
-      tri(
-        "In shared custody, each parent can receive 50% of the amount.",
-        "共同撫養下，每名家長可獲一半金額。",
-        "共同抚养下，每名家长可获一半金额。",
-      ),
+      L({
+        en: "If your child is approved for the Disability Tax Credit, the Child Disability Benefit (up to about $3,400/year) is added automatically.",
+        "zh-Hant": "如子女獲批殘疾稅務抵免，兒童殘障福利（最多約每年 $3,400）會自動加入。",
+        "zh-Hans": "如子女获批残疾税务抵免，儿童残障福利（最多约每年 $3,400）会自动加入。",
+        fr: "Si votre enfant est approuvé pour le crédit d'impôt pour personnes handicapées, la prestation pour enfants handicapés (jusqu'à environ $3,400/année) s'ajoute automatiquement.",
+        pa: "ਜੇ ਤੁਹਾਡੇ ਬੱਚੇ ਨੂੰ ਡਿਸਏਬਿਲਿਟੀ ਟੈਕਸ ਕ੍ਰੈਡਿਟ ਲਈ ਮਨਜ਼ੂਰੀ ਮਿਲਦੀ ਹੈ, ਤਾਂ ਚਾਈਲਡ ਡਿਸਏਬਿਲਿਟੀ ਬੈਨੀਫ਼ਿਟ (ਲਗਭਗ $3,400/ਸਾਲ ਤੱਕ) ਆਪਣੇ ਆਪ ਜੁੜ ਜਾਂਦਾ ਹੈ।",
+      }),
+      L({
+        en: "Both parents must file taxes every year — even with no income — or payments can stop.",
+        "zh-Hant": "父母雙方每年都必須報稅（即使沒有收入），否則款項可能停止。",
+        "zh-Hans": "父母双方每年都必须报税（即使没有收入），否则款项可能停止。",
+        fr: "Les deux parents doivent produire une déclaration de revenus chaque année — même sans revenu — sinon les paiements peuvent cesser.",
+        pa: "ਦੋਵਾਂ ਮਾਪਿਆਂ ਨੂੰ ਹਰ ਸਾਲ ਟੈਕਸ ਭਰਨਾ ਜ਼ਰੂਰੀ ਹੈ — ਭਾਵੇਂ ਆਮਦਨ ਨਾ ਵੀ ਹੋਵੇ — ਨਹੀਂ ਤਾਂ ਭੁਗਤਾਨ ਰੁਕ ਸਕਦੇ ਹਨ।",
+      }),
+      L({
+        en: "In shared custody, each parent can receive 50% of the amount.",
+        "zh-Hant": "共同撫養下，每名家長可獲一半金額。",
+        "zh-Hans": "共同抚养下，每名家长可获一半金额。",
+        fr: "En cas de garde partagée, chaque parent peut recevoir 50 % du montant.",
+        pa: "ਸਾਂਝੀ ਕਸਟਡੀ ਵਿੱਚ, ਹਰੇਕ ਮਾਪੇ ਨੂੰ ਰਕਮ ਦਾ 50% ਮਿਲ ਸਕਦਾ ਹੈ।",
+      }),
     ],
   },
 
