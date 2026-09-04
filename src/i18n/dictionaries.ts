@@ -528,7 +528,7 @@ const zhHans: Loose<Dict> = {
   },
 };
 
-export const DICTIONARIES: Record<Locale, Loose<Dict>> = {
+export const DICTIONARIES: Partial<Record<Locale, Loose<Dict>>> = {
   en,
   "zh-Hant": zhHant,
   "zh-Hans": zhHans,
