@@ -45,6 +45,7 @@ export type BenefitLevel =
 export type InputType =
   | "yes-no"
   | "number"
+  | "slider"
   | "select"
   | "multi-select"
   | "date"
@@ -267,11 +268,13 @@ export interface IntakeQuestion {
   group: LocalizedString;
   /** Skip this question if the context makes it irrelevant. */
   skipIf?: (ctx: AssessmentContext) => boolean;
-  /** Optional min/max for number inputs. */
+  /** Optional min/max for number and slider inputs. */
   min?: number;
   max?: number;
-  /** Placeholder / unit hint for number inputs. */
+  /** Placeholder / unit hint for number and slider inputs. */
   unit?: LocalizedString;
+  /** Slider inputs only: value it opens at when the field is unanswered. */
+  defaultValue?: number;
   /** If false, the user may proceed without answering. Default true. */
   required?: boolean;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { IntakeQuestion } from "@/types/benefit";
 import { useI18n } from "@/i18n/LocaleProvider";
 
@@ -18,10 +18,27 @@ export function QuestionInput({
   const { t, r } = useI18n();
   const [showHelp, setShowHelp] = useState(false);
 
+  // Seed a slider's defaultValue as the actual answer the first time this
+  // question is shown unanswered, so it opens pre-filled instead of at 0.
+  useEffect(() => {
+    if (
+      question.inputType === "slider" &&
+      question.defaultValue !== undefined &&
+      value === undefined
+    ) {
+      onChange(question.defaultValue);
+    }
+  }, [question.inputType, question.defaultValue, value, onChange]);
+
   const label =
     helping && question.questionHelping
       ? r(question.questionHelping)
       : r(question.question);
+
+  const sliderValue =
+    value === undefined || value === null
+      ? question.defaultValue ?? question.min ?? 0
+      : Number(value);
 
   return (
     <div>
@@ -86,6 +103,33 @@ export function QuestionInput({
             {question.unit && (
               <span className="text-muted">{r(question.unit)}</span>
             )}
+          </div>
+        )}
+
+        {question.inputType === "slider" && (
+          <div>
+            <div className="mb-3 text-2xl font-semibold text-ink">
+              {sliderValue}
+              {question.unit && (
+                <span className="ml-2 text-base font-normal text-muted">
+                  {r(question.unit)}
+                </span>
+              )}
+            </div>
+            <input
+              type="range"
+              min={question.min}
+              max={question.max}
+              step={1}
+              value={sliderValue}
+              onChange={(e) => onChange(Number(e.target.value))}
+              aria-label={label}
+              className="w-full accent-brand"
+            />
+            <div className="mt-1 flex justify-between text-xs text-muted">
+              <span>{question.min}</span>
+              <span>{question.max}</span>
+            </div>
           </div>
         )}
 
