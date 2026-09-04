@@ -38,7 +38,7 @@ export const INTAKE: IntakeQuestion[] = [
   {
     field: "age",
     group: G.about,
-    inputType: "number",
+    inputType: "slider",
     question: { en: "How old are you?", "zh-Hant": "你的年齡是？", "zh-Hans": "你的年龄是？" },
     questionHelping: {
       en: "How old is the person you are helping?",
@@ -48,6 +48,7 @@ export const INTAKE: IntakeQuestion[] = [
     unit: { en: "years", "zh-Hant": "歲", "zh-Hans": "岁" },
     min: 0,
     max: 120,
+    defaultValue: 40,
   },
   {
     field: "residency",
