@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { stripLevelPrefix } from "@/lib/format";
+import { formatDate, formatEstimate, formatMoney, stripLevelPrefix } from "@/lib/format";
 import { BENEFITS } from "@/data/benefits";
 import { resolve } from "@/i18n/locale";
 import type { Locale } from "@/types/benefit";
@@ -92,5 +92,38 @@ describe("stripLevelPrefix over the live registry", () => {
         expect(shown.startsWith(word), `${b.id} still starts with "${word}"`).toBe(false);
       }
     }
+  });
+});
+
+describe("formatMoney for fr and pa", () => {
+  it("uses a real Intl locale tag, not the zh-Hant-HK fallback", () => {
+    expect(formatMoney(1234, "fr")).toMatch(/1[\s ]234/);
+    expect(formatMoney(1234, "pa")).toContain("1,234");
+  });
+});
+
+describe("formatDate for fr", () => {
+  it("renders French month names", () => {
+    expect(formatDate("2026-09-03", "fr")).toContain("septembre");
+  });
+});
+
+describe("formatEstimate for fr and pa", () => {
+  it("renders the period and up-to labels in each language", () => {
+    expect(formatEstimate({ low: 100, high: 100, period: "year" }, "fr")).toContain("/année");
+    expect(formatEstimate({ low: 0, high: 100, period: "year" }, "fr")).toContain("jusqu'à");
+    expect(formatEstimate({ low: 100, high: 100, period: "year" }, "pa")).toContain("/ਸਾਲ");
+    expect(formatEstimate({ low: 0, high: 100, period: "year" }, "pa")).toContain("ਵੱਧ ਤੋਂ ਵੱਧ");
+  });
+});
+
+describe("stripLevelPrefix for a locale with no prefix data yet", () => {
+  it("returns the name unchanged for fr and pa (documented safe no-op)", () => {
+    expect(stripLevelPrefix("Ontario Child Benefit", "provincial-on", "fr")).toBe(
+      "Ontario Child Benefit",
+    );
+    expect(stripLevelPrefix("Ontario Child Benefit", "provincial-on", "pa")).toBe(
+      "Ontario Child Benefit",
+    );
   });
 });

@@ -4,9 +4,16 @@
 
 import type { AmountEstimate, BenefitLevel, Locale } from "@/types/benefit";
 
+const MONEY_LOCALE: Record<Locale, string> = {
+  en: "en-CA",
+  "zh-Hant": "zh-Hant-HK",
+  "zh-Hans": "zh-Hant-HK",
+  fr: "fr-CA",
+  pa: "pa",
+};
+
 export function formatMoney(amount: number, locale: Locale): string {
-  const loc = locale === "en" ? "en-CA" : "zh-Hant-HK";
-  return new Intl.NumberFormat(loc, {
+  return new Intl.NumberFormat(MONEY_LOCALE[locale], {
     style: "currency",
     currency: "CAD",
     maximumFractionDigits: 0,
@@ -17,12 +24,14 @@ const PERIOD_LABEL: Record<
   AmountEstimate["period"],
   Record<Locale, string>
 > = {
-  year: { en: "/year", "zh-Hant": "／年", "zh-Hans": "／年" },
-  month: { en: "/month", "zh-Hant": "／月", "zh-Hans": "／月" },
+  year: { en: "/year", "zh-Hant": "／年", "zh-Hans": "／年", fr: "/année", pa: "/ਸਾਲ" },
+  month: { en: "/month", "zh-Hant": "／月", "zh-Hans": "／月", fr: "/mois", pa: "/ਮਹੀਨਾ" },
   "one-time": {
     en: "one-time",
     "zh-Hant": "一次性",
     "zh-Hans": "一次性",
+    fr: "unique",
+    pa: "ਇੱਕ ਵਾਰ",
   },
 };
 
@@ -30,6 +39,8 @@ const UP_TO: Record<Locale, string> = {
   en: "up to ",
   "zh-Hant": "最多 ",
   "zh-Hans": "最多 ",
+  fr: "jusqu'à ",
+  pa: "ਵੱਧ ਤੋਂ ਵੱਧ ",
 };
 
 /** Render an estimate as a human string, e.g. "$1,200–$2,400/year". */
@@ -69,11 +80,18 @@ export function isStale(isoDate: string, maxMonths = 6): boolean {
   return monthsSince(isoDate) > maxMonths;
 }
 
+const DATE_LOCALE: Record<Locale, string> = {
+  en: "en-CA",
+  "zh-Hant": "zh-Hant",
+  "zh-Hans": "zh-Hant",
+  fr: "fr-CA",
+  pa: "pa",
+};
+
 export function formatDate(isoDate: string, locale: Locale): string {
   const d = new Date(isoDate);
   if (Number.isNaN(d.getTime())) return isoDate;
-  const loc = locale === "en" ? "en-CA" : "zh-Hant";
-  return new Intl.DateTimeFormat(loc, {
+  return new Intl.DateTimeFormat(DATE_LOCALE[locale], {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -99,7 +117,7 @@ export function formatDate(isoDate: string, locale: Locale): string {
  * Labrador" is tried before "Newfoundland" and "British Columbia" before "BC".
  */
 const LEVEL_NAME_PREFIXES: Partial<
-  Record<BenefitLevel, Record<Locale, string[]>>
+  Record<BenefitLevel, Partial<Record<Locale, string[]>>>
 > = {
   "provincial-bc": {
     en: ["British Columbia", "BC"],
@@ -155,7 +173,7 @@ const LEVEL_NAME_PREFIXES: Partial<
  * needs a few characters to stay meaningful; Chinese carries far more per
  * character, so "安大略工作援助" shortens to "工作援助" and reads correctly.
  */
-const MIN_REMAINDER: Record<Locale, number> = { en: 6, "zh-Hant": 2, "zh-Hans": 2 };
+const MIN_REMAINDER: Partial<Record<Locale, number>> = { en: 6, "zh-Hant": 2, "zh-Hans": 2 };
 
 /**
  * Drop a leading province name from an already-resolved benefit name.
@@ -173,7 +191,7 @@ export function stripLevelPrefix(
     if (!name.startsWith(prefix)) continue;
     // English separates the prefix with a space; Chinese runs it together.
     const rest = name.slice(prefix.length).replace(/^[\s :-]+/, "");
-    if (rest.length >= MIN_REMAINDER[locale]) return rest;
+    if (rest.length >= (MIN_REMAINDER[locale] ?? 6)) return rest;
     return name;
   }
   return name;
