@@ -273,8 +273,18 @@ export interface IntakeQuestion {
   max?: number;
   /** Placeholder / unit hint for number and slider inputs. */
   unit?: LocalizedString;
-  /** Slider inputs only: value it opens at when the field is unanswered. */
+  /**
+   * Slider inputs only: value it opens at when the field is unanswered. For
+   * a `birthYearSlider`, this is a birth year (same unit as min/max), not
+   * the derived age.
+   */
   defaultValue?: number;
+  /**
+   * Slider inputs only: the slider's min/max/defaultValue and displayed
+   * position are a birth year, but the stored answer is always the derived
+   * age (current year minus the selected birth year).
+   */
+  birthYearSlider?: boolean;
   /** If false, the user may proceed without answering. Default true. */
   required?: boolean;
 }

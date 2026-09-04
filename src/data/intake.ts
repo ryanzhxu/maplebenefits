@@ -39,16 +39,24 @@ export const INTAKE: IntakeQuestion[] = [
     field: "age",
     group: G.about,
     inputType: "slider",
-    question: { en: "How old are you?", "zh-Hant": "你的年齡是？", "zh-Hans": "你的年龄是？" },
+    // The slider picks a birth year (more natural than dialing in a raw age);
+    // QuestionInput derives and stores the age. min/max/defaultValue are all
+    // birth years, not ages -- see IntakeQuestion.birthYearSlider.
+    birthYearSlider: true,
+    question: {
+      en: "What year were you born?",
+      "zh-Hant": "你出生於哪一年？",
+      "zh-Hans": "你出生于哪一年？",
+    },
     questionHelping: {
-      en: "How old is the person you are helping?",
-      "zh-Hant": "你正在協助的人年齡是？",
-      "zh-Hans": "你正在帮助的人年龄是？",
+      en: "What year was the person you are helping born?",
+      "zh-Hant": "你正在協助的人出生於哪一年？",
+      "zh-Hans": "你正在帮助的人出生于哪一年？",
     },
     unit: { en: "years", "zh-Hant": "歲", "zh-Hans": "岁" },
-    min: 0,
-    max: 120,
-    defaultValue: 40,
+    min: 1900,
+    max: new Date().getFullYear(),
+    defaultValue: new Date().getFullYear() - 40,
   },
   {
     field: "residency",
