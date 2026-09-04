@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/i18n/LocaleProvider";
-import { LOCALES, LOCALE_LABELS, LOCALE_SHORT } from "@/i18n/locale";
+import { SWITCHER_LOCALES, LOCALE_LABELS, LOCALE_SHORT } from "@/i18n/locale";
 
 export function LanguageSwitcher() {
   const { locale, setLocale, t } = useI18n();
@@ -11,7 +11,7 @@ export function LanguageSwitcher() {
       role="group"
       aria-label={t("common.language")}
     >
-      {LOCALES.map((l) => {
+      {SWITCHER_LOCALES.map((l) => {
         const active = l === locale;
         return (
           <button

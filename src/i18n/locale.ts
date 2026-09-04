@@ -4,6 +4,15 @@ export type { Locale };
 
 export const LOCALES: Locale[] = ["en", "zh-Hant", "zh-Hans", "fr", "pa"];
 
+/**
+ * Locales offered in the language switcher. French and Punjabi have the
+ * formatting/resolution infrastructure in place but only one benefit's
+ * content is translated so far, so they stay hidden from the UI until
+ * translation coverage is broad enough to not fall back to English on
+ * nearly every page.
+ */
+export const SWITCHER_LOCALES: Locale[] = ["en", "zh-Hant", "zh-Hans"];
+
 export const DEFAULT_LOCALE: Locale = "en";
 
 /** Native label for each locale, shown in the language picker. */

@@ -1,10 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { LOCALES, LOCALE_LABELS, LOCALE_SHORT, LOCALE_HTML_LANG } from "@/i18n/locale";
+import {
+  LOCALES,
+  SWITCHER_LOCALES,
+  LOCALE_LABELS,
+  LOCALE_SHORT,
+  LOCALE_HTML_LANG,
+} from "@/i18n/locale";
 
 describe("locale metadata", () => {
-  it("includes French and Punjabi in the switchable locale list", () => {
+  it("includes French and Punjabi in the known locale list", () => {
     expect(LOCALES).toContain("fr");
     expect(LOCALES).toContain("pa");
+  });
+
+  it("keeps French and Punjabi out of the switcher until content coverage exists", () => {
+    expect(SWITCHER_LOCALES).not.toContain("fr");
+    expect(SWITCHER_LOCALES).not.toContain("pa");
   });
 
   it("has a label, short code, and html-lang tag for every locale", () => {
