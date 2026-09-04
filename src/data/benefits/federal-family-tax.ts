@@ -1,5 +1,5 @@
 import type { AmountEstimate, Benefit } from "@/types/benefit";
-import { tri } from "@/data/tri";
+import { L, tri } from "@/data/tri";
 import { figures, fmt, val } from "@/lib/figures";
 import { buildCheck, isFalse, isTrue, lessThan, oneOf } from "@/lib/checks";
 
@@ -119,45 +119,61 @@ const ccbEstimate = (ctx: {
 export const ccb: Benefit = {
   id: "ccb",
   figures: CCB_FIGURES,
-  name: tri("Canada Child Benefit", "加拿大兒童福利", "加拿大儿童福利"),
+  name: L({
+    en: "Canada Child Benefit",
+    "zh-Hant": "加拿大兒童福利",
+    "zh-Hans": "加拿大儿童福利",
+    fr: "Allocation canadienne pour enfants",
+    pa: "ਕੈਨੇਡਾ ਬਾਲ ਭੱਤਾ",
+  }),
   shortName: "CCB",
   category: "family",
   level: "federal",
-  description: tri(
-    "A tax-free monthly payment to help families with the cost of raising children under 18. Lower-income families receive more. Children with a disability can get an extra amount.",
-    "免稅的每月款項，協助家庭負擔養育 18 歲以下子女的開支。低收入家庭獲得較多。有殘障的子女可獲額外款項。",
-    "免税的每月款项，帮助家庭负担养育 18 岁以下子女的开支。低收入家庭获得较多。有残障的子女可获额外款项。",
-  ),
-  estimatedValue: tri(
-    "Up to $8,157/year per child under 6, $6,883/year per child 6-17",
-    "每名 6 歲以下子女最多每年 $8,157，6-17 歲每年 $6,883",
-    "每名 6 岁以下子女最多每年 $8,157，6-17 岁每年 $6,883",
-  ),
+  description: L({
+    en: "A tax-free monthly payment to help families with the cost of raising children under 18. Lower-income families receive more. Children with a disability can get an extra amount.",
+    "zh-Hant": "免稅的每月款項，協助家庭負擔養育 18 歲以下子女的開支。低收入家庭獲得較多。有殘障的子女可獲額外款項。",
+    "zh-Hans": "免税的每月款项，帮助家庭负担养育 18 岁以下子女的开支。低收入家庭获得较多。有残障的子女可获额外款项。",
+    fr: "Un montant mensuel non imposable pour aider les familles à subvenir aux besoins de leurs enfants de moins de 18 ans. Les familles à faible revenu reçoivent davantage. Un enfant handicapé peut donner droit à un montant supplémentaire.",
+    pa: "18 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਬੱਚਿਆਂ ਦੀ ਪਰਵਰਿਸ਼ ਦੇ ਖਰਚੇ ਵਿੱਚ ਮਦਦ ਲਈ ਇੱਕ ਟੈਕਸ-ਮੁਕਤ ਮਹੀਨਾਵਾਰ ਭੁਗਤਾਨ। ਘੱਟ ਆਮਦਨ ਵਾਲੇ ਪਰਿਵਾਰਾਂ ਨੂੰ ਵੱਧ ਰਕਮ ਮਿਲਦੀ ਹੈ। ਅਪਾਹਜਤਾ ਵਾਲੇ ਬੱਚਿਆਂ ਲਈ ਵਾਧੂ ਰਕਮ ਮਿਲ ਸਕਦੀ ਹੈ।",
+  }),
+  estimatedValue: L({
+    en: "Up to $8,157/year per child under 6, $6,883/year per child 6-17",
+    "zh-Hant": "每名 6 歲以下子女最多每年 $8,157，6-17 歲每年 $6,883",
+    "zh-Hans": "每名 6 岁以下子女最多每年 $8,157，6-17 岁每年 $6,883",
+    fr: "Jusqu'à $8,157/année par enfant de moins de 6 ans, $6,883/année par enfant de 6 à 17 ans",
+    pa: "6 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਹਰ ਬੱਚੇ ਲਈ ਵੱਧ ਤੋਂ ਵੱਧ $8,157/ਸਾਲ, 6-17 ਸਾਲ ਦੇ ਬੱਚੇ ਲਈ $6,883/ਸਾਲ",
+  }),
   contextFields: ["hasChildren", "numberOfChildren", "childrenUnder6", "youngestChildAge", "familyIncome", "filedTaxes"],
   check: buildCheck([
     {
       test: isTrue((c) => c.hasChildren),
       hard: true,
-      passReason: tri(
-        "You have children under 18 in your care.",
-        "你有 18 歲以下的子女受你照顧。",
-        "你有 18 岁以下的子女受你照顾。",
-      ),
-      failReason: tri(
-        "The Canada Child Benefit is for people caring for a child under 18.",
-        "加拿大兒童福利適用於照顧 18 歲以下子女的人士。",
-        "加拿大儿童福利适用于照顾 18 岁以下子女的人士。",
-      ),
+      passReason: L({
+        en: "You have children under 18 in your care.",
+        "zh-Hant": "你有 18 歲以下的子女受你照顧。",
+        "zh-Hans": "你有 18 岁以下的子女受你照顾。",
+        fr: "Vous avez des enfants de moins de 18 ans à votre charge.",
+        pa: "ਤੁਹਾਡੀ ਦੇਖਭਾਲ ਵਿੱਚ 18 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਬੱਚੇ ਹਨ।",
+      }),
+      failReason: L({
+        en: "The Canada Child Benefit is for people caring for a child under 18.",
+        "zh-Hant": "加拿大兒童福利適用於照顧 18 歲以下子女的人士。",
+        "zh-Hans": "加拿大儿童福利适用于照顾 18 岁以下子女的人士。",
+        fr: "L'Allocation canadienne pour enfants est destinée aux personnes qui s'occupent d'un enfant de moins de 18 ans.",
+        pa: "ਕੈਨੇਡਾ ਬਾਲ ਭੱਤਾ ਉਹਨਾਂ ਲੋਕਾਂ ਲਈ ਹੈ ਜੋ 18 ਸਾਲ ਤੋਂ ਘੱਟ ਉਮਰ ਦੇ ਬੱਚੇ ਦੀ ਦੇਖਭਾਲ ਕਰਦੇ ਹਨ।",
+      }),
       missingField: "hasChildren",
     },
     {
       test: isTrue((c) => c.filedTaxes),
       hard: false,
-      passReason: tri(
-        "You file taxes, which is how the benefit is calculated.",
-        "你有報稅，這是計算福利的方式。",
-        "你有报税，这是计算福利的方式。",
-      ),
+      passReason: L({
+        en: "You file taxes, which is how the benefit is calculated.",
+        "zh-Hant": "你有報稅，這是計算福利的方式。",
+        "zh-Hans": "你有报税，这是计算福利的方式。",
+        fr: "Vous produisez une déclaration de revenus, ce qui permet de calculer le montant de l'allocation.",
+        pa: "ਤੁਸੀਂ ਟੈਕਸ ਭਰਦੇ ਹੋ, ਜਿਸ ਦੇ ਆਧਾਰ 'ਤੇ ਭੱਤੇ ਦੀ ਗਣਨਾ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।",
+      }),
       missingField: "filedTaxes",
     },
   ]),
@@ -165,46 +181,84 @@ export const ccb: Benefit = {
   applicationSteps: [
     {
       order: 1,
-      title: tri(
-        "Register the birth or apply online",
-        "登記出生或網上申請",
-        "登记出生或网上申请",
-      ),
-      description: tri(
-        "For a newborn, you can apply through the provincial birth registration. Otherwise apply through CRA My Account or Form RC66.",
-        "新生兒可透過省級出生登記申請；其他情況可透過 CRA My Account 或 RC66 表格申請。",
-        "新生儿可通过省级出生登记申请；其他情况可通过 CRA My Account 或 RC66 表格申请。",
-      ),
+      title: L({
+        en: "Register the birth or apply online",
+        "zh-Hant": "登記出生或網上申請",
+        "zh-Hans": "登记出生或网上申请",
+        fr: "Enregistrez la naissance ou faites une demande en ligne",
+        pa: "ਜਨਮ ਦਰਜ ਕਰੋ ਜਾਂ ਆਨਲਾਈਨ ਅਰਜ਼ੀ ਦਿਓ",
+      }),
+      description: L({
+        en: "For a newborn, you can apply through the provincial birth registration. Otherwise apply through CRA My Account or Form RC66.",
+        "zh-Hant": "新生兒可透過省級出生登記申請；其他情況可透過 CRA My Account 或 RC66 表格申請。",
+        "zh-Hans": "新生儿可通过省级出生登记申请；其他情况可通过 CRA My Account 或 RC66 表格申请。",
+        fr: "Pour un nouveau-né, vous pouvez faire la demande lors de l'enregistrement de la naissance auprès de la province. Sinon, faites la demande dans Mon dossier de l'ARC ou avec le formulaire RC66.",
+        pa: "ਨਵਜੰਮੇ ਬੱਚੇ ਲਈ, ਤੁਸੀਂ ਸੂਬਾਈ ਜਨਮ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦੇ ਸਕਦੇ ਹੋ। ਨਹੀਂ ਤਾਂ, CRA My Account ਜਾਂ ਫਾਰਮ RC66 ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।",
+      }),
       actionUrl:
         "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview/canada-child-benefit-apply.html",
     },
     {
       order: 2,
-      title: tri("File taxes every year", "每年報稅", "每年报税"),
-      description: tri(
-        "Both parents must file taxes each year, even with no income, so the CRA can keep paying the benefit.",
-        "父母雙方每年都必須報稅（即使沒有收入），稅務局才能持續發放福利。",
-        "父母双方每年都必须报税（即使没有收入），税务局才能持续发放福利。",
-      ),
+      title: L({
+        en: "File taxes every year",
+        "zh-Hant": "每年報稅",
+        "zh-Hans": "每年报税",
+        fr: "Produisez une déclaration de revenus chaque année",
+        pa: "ਹਰ ਸਾਲ ਟੈਕਸ ਭਰੋ",
+      }),
+      description: L({
+        en: "Both parents must file taxes each year, even with no income, so the CRA can keep paying the benefit.",
+        "zh-Hant": "父母雙方每年都必須報稅（即使沒有收入），稅務局才能持續發放福利。",
+        "zh-Hans": "父母双方每年都必须报税（即使没有收入），税务局才能持续发放福利。",
+        fr: "Les deux parents doivent produire une déclaration de revenus chaque année, même sans revenu, pour que l'ARC puisse continuer à verser l'allocation.",
+        pa: "ਦੋਵਾਂ ਮਾਪਿਆਂ ਨੂੰ ਹਰ ਸਾਲ ਟੈਕਸ ਭਰਨਾ ਜ਼ਰੂਰੀ ਹੈ, ਭਾਵੇਂ ਆਮਦਨ ਨਾ ਵੀ ਹੋਵੇ, ਤਾਂ ਜੋ CRA ਭੱਤਾ ਦੇਣਾ ਜਾਰੀ ਰੱਖ ਸਕੇ।",
+      }),
       tips: [
-        tri(
-          "If your child is approved for the Disability Tax Credit, you also get the Child Disability Benefit automatically.",
-          "如子女獲批殘疾稅務抵免，你亦會自動獲得兒童殘障福利。",
-          "如子女获批残疾税务抵免，你亦会自动获得儿童残障福利。",
-        ),
+        L({
+          en: "If your child is approved for the Disability Tax Credit, you also get the Child Disability Benefit automatically.",
+          "zh-Hant": "如子女獲批殘疾稅務抵免，你亦會自動獲得兒童殘障福利。",
+          "zh-Hans": "如子女获批残疾税务抵免，你亦会自动获得儿童残障福利。",
+          fr: "Si votre enfant est approuvé pour le crédit d'impôt pour personnes handicapées, vous recevez aussi automatiquement la prestation pour enfants handicapés.",
+          pa: "ਜੇ ਤੁਹਾਡੇ ਬੱਚੇ ਨੂੰ ਡਿਸਏਬਿਲਿਟੀ ਟੈਕਸ ਕ੍ਰੈਡਿਟ ਲਈ ਮਨਜ਼ੂਰੀ ਮਿਲਦੀ ਹੈ, ਤਾਂ ਤੁਹਾਨੂੰ ਆਪਣੇ ਆਪ ਚਾਈਲਡ ਡਿਸਏਬਿਲਿਟੀ ਬੈਨੀਫ਼ਿਟ ਵੀ ਮਿਲ ਜਾਂਦਾ ਹੈ।",
+        }),
       ],
     },
   ],
   requiredDocuments: [
-    tri("Social Insurance Number", "社會保險號碼", "社会保险号码"),
-    tri("Proof of birth (if asked)", "出生證明（如需要）", "出生证明（如需要）"),
+    L({
+      en: "Social Insurance Number",
+      "zh-Hant": "社會保險號碼",
+      "zh-Hans": "社会保险号码",
+      fr: "Numéro d'assurance sociale",
+      pa: "ਸੋਸ਼ਲ ਇੰਸ਼ੋਰੈਂਸ ਨੰਬਰ",
+    }),
+    L({
+      en: "Proof of birth (if asked)",
+      "zh-Hant": "出生證明（如需要）",
+      "zh-Hans": "出生证明（如需要）",
+      fr: "Preuve de naissance (si demandée)",
+      pa: "ਜਨਮ ਦਾ ਸਬੂਤ (ਜੇ ਮੰਗਿਆ ਜਾਵੇ)",
+    }),
   ],
   applicationUrl:
     "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview/canada-child-benefit-apply.html",
   officialInfoUrl:
     "https://www.canada.ca/en/revenue-agency/services/child-family-benefits/canada-child-benefit-overview.html",
-  processingTime: tri("Usually 8 weeks", "通常 8 星期", "通常 8 星期"),
-  paymentFrequency: tri("Monthly", "每月", "每月"),
+  processingTime: L({
+    en: "Usually 8 weeks",
+    "zh-Hant": "通常 8 星期",
+    "zh-Hans": "通常 8 星期",
+    fr: "Habituellement 8 semaines",
+    pa: "ਆਮ ਤੌਰ 'ਤੇ 8 ਹਫ਼ਤੇ",
+  }),
+  paymentFrequency: L({
+    en: "Monthly",
+    "zh-Hant": "每月",
+    "zh-Hans": "每月",
+    fr: "Mensuel",
+    pa: "ਮਹੀਨਾਵਾਰ",
+  }),
   tags: ["family", "children", "low-income", "disability"],
   relatedBenefits: ["bc-family-benefit", "cgeb", "dtc"],
   lastUpdated: "2026-09-01",
