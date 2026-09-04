@@ -91,10 +91,16 @@ const DATE_LOCALE: Record<Locale, string> = {
 export function formatDate(isoDate: string, locale: Locale): string {
   const d = new Date(isoDate);
   if (Number.isNaN(d.getTime())) return isoDate;
+  // isoDate is a bare calendar date ("YYYY-MM-DD"), parsed as UTC midnight.
+  // Pinning the formatter to UTC keeps the displayed day fixed regardless of
+  // the viewer's timezone -- otherwise the static-export build (UTC) and a
+  // Canadian browser (west of UTC) render different calendar days for the
+  // same string, which React reports as a hydration mismatch.
   return new Intl.DateTimeFormat(DATE_LOCALE[locale], {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
   }).format(d);
 }
 

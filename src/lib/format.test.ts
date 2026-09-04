@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { formatDate, formatEstimate, formatMoney, stripLevelPrefix } from "@/lib/format";
 import { BENEFITS } from "@/data/benefits";
 import { resolve } from "@/i18n/locale";
@@ -125,5 +125,27 @@ describe("stripLevelPrefix for a locale with no prefix data yet", () => {
     expect(stripLevelPrefix("Ontario Child Benefit", "provincial-on", "pa")).toBe(
       "Ontario Child Benefit",
     );
+  });
+});
+
+describe("formatDate is timezone-independent", () => {
+  // The static export renders this on a UTC build machine; every browser in
+  // Canada is west of UTC. Without an explicit timeZone, the same ISO date
+  // renders as a different calendar day server vs. client, which React
+  // reports as a hydration mismatch (error #418) on every benefit page.
+  const originalTZ = process.env.TZ;
+  afterEach(() => {
+    process.env.TZ = originalTZ;
+  });
+
+  it("renders the same calendar date regardless of the runtime's local timezone", () => {
+    process.env.TZ = "America/Vancouver"; // UTC-7/-8, west of UTC (all of Canada)
+    expect(formatDate("2026-09-01", "en")).toBe("September 1, 2026");
+
+    process.env.TZ = "Pacific/Kiritimati"; // UTC+14, east of UTC
+    expect(formatDate("2026-09-01", "en")).toBe("September 1, 2026");
+
+    process.env.TZ = "UTC";
+    expect(formatDate("2026-09-01", "en")).toBe("September 1, 2026");
   });
 });
