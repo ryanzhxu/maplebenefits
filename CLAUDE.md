@@ -33,6 +33,13 @@ Route Handlers, Server Actions, middleware, or `next/image` optimization. Every
 dynamic route must be statically generatable — `/benefits/[id]` supplies
 `generateStaticParams` over the benefit registry.
 
+The one exception is `functions/` at the repo root: Cloudflare Pages
+Functions (not part of the Next.js app, not built by `next build`) backing
+the anonymous `/stats` traffic page — see `src/lib/stats.ts` for the
+aggregation logic and its test for the event/privacy contract. `wrangler
+pages deploy out` auto-detects `functions/` from the repo root regardless of
+which directory it deploys, so this needs no separate deploy step.
+
 ## Architecture
 
 The core is a **pure, auditable eligibility engine**. Each benefit is a

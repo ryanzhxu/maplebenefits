@@ -40,13 +40,13 @@ export default async function BenefitPage({
         "@type": "ListItem",
         position: 1,
         name: "Browse benefits",
-        item: "https://maplebenefits.pages.dev/benefits",
+        item: "https://getmaplebenefits.ca/benefits",
       },
       {
         "@type": "ListItem",
         position: 2,
         name,
-        item: `https://maplebenefits.pages.dev/benefits/${benefit.id}`,
+        item: `https://getmaplebenefits.ca/benefits/${benefit.id}`,
       },
     ],
   };

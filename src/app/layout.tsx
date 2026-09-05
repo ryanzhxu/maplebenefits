@@ -5,6 +5,7 @@ import { SITE } from "@/config/site";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Analytics } from "@/components/Analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +20,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://maplebenefits.pages.dev"),
+  metadataBase: new URL("https://getmaplebenefits.ca"),
   title: {
     default: `${SITE.name} — ${SITE.tagline.en}`,
     template: `%s · ${SITE.name}`,
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     title: `${SITE.name} — ${SITE.tagline.en}`,
     description: SITE.description.en,
     locale: "en_CA",
-    url: "https://maplebenefits.pages.dev",
+    url: "https://getmaplebenefits.ca",
   },
   twitter: {
     card: "summary_large_image",
@@ -68,6 +69,7 @@ export default function RootLayout({
     <html lang="en-CA" className={`${geistSans.variable} ${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink">
         <LocaleProvider>
+          <Analytics />
           <a
             href="#main"
             className="no-print sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white"

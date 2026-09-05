@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { BENEFITS } from "@/data/benefits";
 
-const BASE = "https://maplebenefits.pages.dev";
+const BASE = "https://getmaplebenefits.ca";
 
 export const dynamic = "force-static";
 
