@@ -8,6 +8,7 @@ import { useAssessment } from "@/store/assessment";
 import { activeQuestions, questionsForFields } from "@/data/intake";
 import { getBenefit } from "@/data/benefits";
 import { evaluate } from "@/lib/engine";
+import { track } from "@/lib/analytics";
 import { QuestionInput } from "@/components/QuestionInput";
 import { ResultCard } from "@/components/ResultCard";
 
@@ -142,6 +143,7 @@ function AssessInner() {
         setStep(total); // show result
       } else {
         setCompleted(true);
+        track("assess_completed");
         router.push("/assess/results");
       }
     } else {
