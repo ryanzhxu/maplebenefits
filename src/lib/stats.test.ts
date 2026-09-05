@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
   completionRate,
+  dateRange,
   emptyBlob,
   geoKey,
   isAssessPath,
   mergeEvent,
   parseBenefitId,
+  scalePoints,
   topEntries,
 } from "./stats";
 
@@ -131,5 +133,55 @@ describe("topEntries", () => {
 
   it("returns everything when n exceeds the record size", () => {
     expect(topEntries({ a: 1 }, 10)).toEqual([["a", 1]]);
+  });
+});
+
+describe("dateRange", () => {
+  it("returns the last n days, oldest first, ending at the given date", () => {
+    expect(dateRange(3, new Date("2026-09-05T12:00:00Z"))).toEqual([
+      "2026-09-03",
+      "2026-09-04",
+      "2026-09-05",
+    ]);
+  });
+
+  it("returns just today for a 1-day range", () => {
+    expect(dateRange(1, new Date("2026-09-05T00:00:00Z"))).toEqual(["2026-09-05"]);
+  });
+
+  it("crosses a month boundary correctly", () => {
+    expect(dateRange(2, new Date("2026-03-01T00:00:00Z"))).toEqual([
+      "2026-02-28",
+      "2026-03-01",
+    ]);
+  });
+});
+
+describe("scalePoints", () => {
+  it("returns an empty array for no values", () => {
+    expect(scalePoints([], 100, 50)).toEqual([]);
+  });
+
+  it("places a single value at the left padding", () => {
+    const [point] = scalePoints([5], 100, 50, 10);
+    expect(point.x).toBe(10);
+  });
+
+  it("scales the max value to the top and 0 to the bottom", () => {
+    const points = scalePoints([0, 10], 100, 50, 10);
+    expect(points[0].y).toBe(40); // bottom: padding(10) + innerHeight(30)
+    expect(points[1].y).toBe(10); // top: padding only
+  });
+
+  it("does not divide by zero when every value is 0", () => {
+    const points = scalePoints([0, 0, 0], 100, 50, 10);
+    expect(points.every((p) => Number.isFinite(p.y))).toBe(true);
+  });
+
+  it("spreads points evenly across the available width", () => {
+    const points = scalePoints([1, 1, 1], 100, 50, 10);
+    expect(points[0].x).toBe(10);
+    expect(points[2].x).toBe(90);
+    expect(points[1].x).toBe(50);
   });
 });

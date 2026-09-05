@@ -98,3 +98,32 @@ export function topEntries(
     .sort((a, b) => b[1] - a[1])
     .slice(0, n);
 }
+
+/** ISO `YYYY-MM-DD` keys for the last `days` days (UTC), oldest first, ending at `end`. */
+export function dateRange(days: number, end: Date = new Date()): string[] {
+  const keys: string[] = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(end);
+    d.setUTCDate(d.getUTCDate() - i);
+    keys.push(d.toISOString().slice(0, 10));
+  }
+  return keys;
+}
+
+/** Maps values onto pixel coordinates for an SVG line chart. */
+export function scalePoints(
+  values: number[],
+  width: number,
+  height: number,
+  padding = 20,
+): Array<{ x: number; y: number }> {
+  if (values.length === 0) return [];
+  const max = Math.max(...values, 1); // avoid divide-by-zero when every value is 0
+  const innerWidth = width - padding * 2;
+  const innerHeight = height - padding * 2;
+  const stepX = values.length > 1 ? innerWidth / (values.length - 1) : 0;
+  return values.map((v, i) => ({
+    x: padding + i * stepX,
+    y: padding + innerHeight - (v / max) * innerHeight,
+  }));
+}
