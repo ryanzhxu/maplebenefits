@@ -14,6 +14,7 @@ import {
   isLocale,
   LOCALE_HTML_LANG,
   resolve as resolveLocalized,
+  SWITCHER_LOCALES,
 } from "./locale";
 import { DICTIONARIES, EN_DICT } from "./dictionaries";
 
@@ -54,9 +55,17 @@ function interpolate(str: string, vars?: TVars): string {
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
 
-  // Hydrate from localStorage after mount (avoids SSR mismatch).
+  // Hydrate from a ?lang= share link, else localStorage, after mount
+  // (avoids SSR mismatch). The URL param wins so a shared link always lands
+  // on the intended locale, and persists it for the visitor's next visit.
   useEffect(() => {
     try {
+      const fromUrl = new URLSearchParams(window.location.search).get("lang");
+      if (isLocale(fromUrl) && SWITCHER_LOCALES.includes(fromUrl)) {
+        setLocaleState(fromUrl);
+        window.localStorage.setItem(STORAGE_KEY, fromUrl);
+        return;
+      }
       const saved = window.localStorage.getItem(STORAGE_KEY);
       if (isLocale(saved)) setLocaleState(saved);
     } catch {
